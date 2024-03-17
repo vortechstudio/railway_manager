@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
         "salahhusa9/laravel-updater": "^1.0",
+        "silviolleite/laravelpwa": "^2.0",
         "vstudio/helpers": "^1.2",
         "vstudio/versionbuildaction": "^1.1"
     },
