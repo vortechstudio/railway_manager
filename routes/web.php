@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::prefix('auth')->as('auth.')->group(function () {
-    Route::get('login', [\App\Http\Controllers\AuthController::class, 'login']);
-    Route::get('{provider}/redirect', [\App\Http\Controllers\AuthController::class, 'redirect']);
-    Route::get('{provider}/callback', [\App\Http\Controllers\AuthController::class, 'callback']);
+    Route::get('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::get('{provider}/redirect', [\App\Http\Controllers\AuthController::class, 'redirect'])->name('redirect');
+    Route::get('{provider}/callback', [\App\Http\Controllers\AuthController::class, 'callback'])->name('callback');
     Route::get('{provider}/setup-account/{email}', [\App\Http\Controllers\AuthController::class, 'setupAccount'])->name('setup-account');
     Route::post('{provider}/setup-account/{email}', [\App\Http\Controllers\AuthController::class, 'setupAccountSubmit'])->name('setup-account.submit');
 
