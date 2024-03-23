@@ -30,6 +30,7 @@ Route::prefix('auth')->as('auth.')->group(function () {
         ->middleware(['auth', 'throttle:6,1']);
 });
 
+
 Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'confirmPasswordForm'])
     ->name('password.confirm')
     ->middleware('auth');
