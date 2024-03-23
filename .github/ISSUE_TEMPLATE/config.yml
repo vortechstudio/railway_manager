@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Vous avez une question
+    url: https://github.com/vortechstudio/api/discussions/categories/q-a
+    about: Demander à notre communauté
+
+  - name: J'ai une idée pour ce package ?
+    url: https://github.com/vortechstudio/api/discussions/categories/ideas
+    about: Proposer une idée pour ce package
+
+  - name: J'ai trouvé une faille de sécurité
+    url: https://github.com/vortechstudio/api/security/policy
+    about: Découvrez comment nous signaler les bugs sensibles

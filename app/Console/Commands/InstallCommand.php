@@ -41,20 +41,20 @@ class InstallCommand extends Command
         $this->generateAppKey();
         $this->updateEnvVariablesFromOptions();
         $this->info('Env file created successfully.');
-        $this->info('Runnning migrations and seeders...');
+        /*$this->info('Runnning migrations and seeders...');
         if (!static::runMigrationsWithSeeders()) {
             $this->error('Your database credentials are wrong!');
             return 0;
-        }
-        $this->installCoreSystem();
-        $this->installOptionnalSystem();
-        if (!static::runMigrationsWithSeeders()) {
+        }*/
+        //$this->installCoreSystem();
+        //$this->installOptionnalSystem();
+        /*if (!static::runMigrationsWithSeeders()) {
             $this->error('Your database credentials are wrong!');
             return 0;
-        }
-        if($this->confirm("Système visuel ?", true)) {
+        }*/
+        /*if($this->confirm("Système visuel ?", true)) {
             $this->installFrontSystem();
-        }
+        }*/
         $this->importGithubWorkflow();
 
         $this->alert('Application is installed successfully.');
@@ -171,7 +171,7 @@ class InstallCommand extends Command
 
         $result = Process::pipe(function (Pipe $pipe) {
             $this->line("-- INSTALLATION DU LOG VIEWER --");
-            $pipe->command('composer install arcanedev/log-viewer');
+            $pipe->command('composer require arcanedev/log-viewer');
             $this->updateEnv([
                 'LOG_CHANNEL' => "daily"
             ]);
@@ -214,17 +214,17 @@ class InstallCommand extends Command
     private function importGithubWorkflow()
     {
         $this->info("Importation du workflow github");
-        $prAgent = file_put_contents(__DIR__ . '/../../.github/workflows/pr_agent.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_agent.yml'), 'w');
-        $prUpdate = file_put_contents(__DIR__ . '/../../.github/workflows/pr_update.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_update.yml'), 'w');
-        $d_staging = file_put_contents(__DIR__ . '/../../.github/workflows/deploy_staging.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_staging.yml'), 'w');
-        $d_production = file_put_contents(__DIR__ . '/../../.github/workflows/deploy_production.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_production.yml'), 'w');
-        $dependabot = file_put_contents(__DIR__ . '/../../.github/dependabot.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/dependabot.yml'), 'w');
-        $issue_bug = file_put_contents(__DIR__ . '/../../.github/ISSUE_TEMPLATE/bug.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/bug.yml'), 'w');
-        $issue_config = file_put_contents(__DIR__ . '/../../.github/ISSUE_TEMPLATE/config.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/config.yml'), 'w');
+        $prAgent = file_put_contents('.github/workflows/pr_agent.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_agent.yml'), FILE_APPEND);
+        $prUpdate = file_put_contents('.github/workflows/pr_update.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_update.yml'), FILE_APPEND);
+        $d_staging = file_put_contents('.github/workflows/deploy_staging.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_staging.yml'), FILE_APPEND);
+        $d_production = file_put_contents('.github/workflows/deploy_production.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_production.yml'), FILE_APPEND);
+        $dependabot = file_put_contents( '.github/dependabot.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/dependabot.yml'), FILE_APPEND);
+        $issue_bug = file_put_contents('.github/ISSUE_TEMPLATE/bug.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/bug.yml'), FILE_APPEND);
+        $issue_config = file_put_contents('.github/ISSUE_TEMPLATE/config.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/config.yml'), FILE_APPEND);
 
-        $issue = file_put_contents(__DIR__ . '/../../.github/workflows/issue.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/issues.yml'), 'w');
-        $pr = file_put_contents(__DIR__ . '/../../.github/workflows/pull-requests.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/pull-requests.yml'), 'w');
-        $tests = file_put_contents(__DIR__ . '/../../.github/workflows/tests.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/tests.yml'), 'w');
+        $issue = file_put_contents('.github/workflows/issue.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/issues.yml'), FILE_APPEND);
+        $pr = file_put_contents('.github/workflows/pull-requests.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/pull-requests.yml'), FILE_APPEND);
+        $tests = file_put_contents('.github/workflows/tests.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/tests.yml'), FILE_APPEND);
     }
 
     private function installFrontSystem()
