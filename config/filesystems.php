@@ -44,6 +44,14 @@ return [
             'throw' => false,
         ],
 
+        'vortech' => [
+            'driver' => 'local',
+            'root' => env('APP_PATH_ROOT'),
+            'throw' => false,
+            'url' => 'https://s3.'.env('APP_DOMAIN').'/',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
