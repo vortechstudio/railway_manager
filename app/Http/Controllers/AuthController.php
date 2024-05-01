@@ -16,16 +16,37 @@ use Vortechstudio\Helpers\Helpers\Generator;
 
 class AuthController extends Controller
 {
+    /**
+     * Display the login form to the user.
+     *
+     * @return \Illuminate\Contracts\View\View The login view
+     */
     public function login()
     {
         return view('auth.login');
     }
 
+    /**
+     * Redirects the user to the authentication page of the specified social media provider.
+     *
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     *
+     * @return \Illuminate\Http\RedirectResponse The redirect response to the authentication page
+     */
     public function redirect(string $provider)
     {
         return Socialite::driver($provider)->redirect();
     }
 
+    /**
+     * Callback method that handles the authentication callback from different social media providers.
+     *
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     *
+     * @return mixed The result of the verification process for the user
+     *
+     * @throws \Exception If the specified provider is not supported
+     */
     public function callback(string $provider)
     {
         $user = Socialite::driver($provider)->stateless()->user();
@@ -37,10 +58,19 @@ class AuthController extends Controller
             'battlenet' => $this->verifyUser($user, 'battlenet'),
             'discord' => $this->verifyUser($user, 'discord'),
             'twitch' => $this->verifyUser($user, 'twitch'),
+            default => throw new \Exception("Unsupported provider: {$provider}"),
         };
     }
 
-    private function verifyUser($user, string $provider)
+    /**
+     * Verify the user and handle the necessary actions based on the authentication process.
+     *
+     * @param object $user The user object returned by the social media provider
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     *
+     * @return \Illuminate\Http\RedirectResponse The response to redirect the user
+     */
+    private function verifyUser(object $user, string $provider)
     {
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
@@ -131,6 +161,15 @@ class AuthController extends Controller
         return view('auth.setupView', compact('provider', 'email'));
     }
 
+    /**
+     * Submit method for setting up an account.
+     *
+     * @param \Illuminate\Http\Request $request The HTTP request object
+     * @param string $provider The social media provider
+     * @param string $email The user's email address
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirects user to the home route
+     */
     public function setupAccountSubmit(Request $request, string $provider, string $email)
     {
         $request->validate([
@@ -162,6 +201,13 @@ class AuthController extends Controller
         return view('auth.password');
     }
 
+    /**
+     * Confirm the user's password before granting access.
+     *
+     * @param \Illuminate\Http\Request $request The HTTP request object
+     *
+     * @return \Illuminate\Http\RedirectResponse The redirect response to the intended page
+     */
     public function confirmPassword(Request $request)
     {
         if (! \Hash::check($request->password, $request->user()->password)) {
@@ -174,6 +220,11 @@ class AuthController extends Controller
         return redirect()->intended();
     }
 
+    /**
+     * Logout method that handles the user logout process.
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirects the user to the home page after logout
+     */
     public function logout()
     {
         $service = (new RailwayService())->getRailwayService();
