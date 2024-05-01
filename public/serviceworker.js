@@ -1,5 +1,5 @@
-var staticCacheName = "pwa-v" + new Date().getTime();
-var filesToCache = [
+let staticCacheName = "pwa-v" + new Date().getTime();
+let filesToCache = [
     '/offline',
     '/css/app.css',
     '/js/app.js',
