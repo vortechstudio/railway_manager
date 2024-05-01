@@ -23,6 +23,7 @@
         "silviolleite/laravelpwa": "^2.0",
         "socialiteproviders/facebook": "^4.1",
         "socialiteproviders/google": "^4.1",
+        "socialiteproviders/steam": "^4.2",
         "vstudio/helpers": "^1.2",
         "vstudio/versionbuildaction": "^1.1"
     },
