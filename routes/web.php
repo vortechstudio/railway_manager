@@ -30,6 +30,10 @@ Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'co
     ->name('password.confirm')
     ->middleware('auth');
 
+Route::get('/test', function () {
+    dd((new \App\Services\RailwayService())->getRailwayService());
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 });

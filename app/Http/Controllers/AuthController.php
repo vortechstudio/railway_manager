@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\User;
+use App\Services\RailwayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +43,7 @@ class AuthController extends Controller
 
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
+        $service = (new RailwayService())->getRailwayService();
         if (! $user) {
             $user = User::query()->create([
                 'name' => $gUser->name ?? $gUser->nickname,
@@ -64,7 +66,27 @@ class AuthController extends Controller
             return redirect()->route('auth.setup-register', [$provider, $user->email]);
         }
 
+        if(!$user->services()->where('service_id', $service->id)->exists()){
+            $user->services()->create([
+                'status' => true,
+                'premium' => false,
+                'user_id' => $user->id,
+                'service_id' => $service->id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            $user->logs()->create([
+                'action' => "Inscription au service: $service->name",
+                'user_id' => $user->id,
+            ]);
+        }
+
         Auth::login($user);
+        $user->logs()->create([
+            'action' => "Connexion au service: $service->name",
+            'user_id' => $user->id,
+        ]);
 
         return redirect()->route('home');
     }
@@ -88,6 +110,12 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $service = (new RailwayService())->getRailwayService();
+        $user = User::find(Auth::user()->id);
+        $user->logs()->create([
+            'action' => "Inscription au service: $service->name",
+            'user_id' => $user->id,
+        ]);
         \Auth::logout();
         \Session::flush();
 
