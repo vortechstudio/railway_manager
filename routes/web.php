@@ -15,4 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::prefix('auth')->as('auth.')->group(function () {
+    Route::get('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::get('{provider}/redirect', [\App\Http\Controllers\AuthController::class, 'redirect'])->name('redirect');
+    Route::get('{provider}/callback', [\App\Http\Controllers\AuthController::class, 'callback'])->name('callback');
+    Route::get('{provider}/setup-account/{email}', [\App\Http\Controllers\AuthController::class, 'setupAccount'])->name('setup-account');
+    Route::post('{provider}/setup-account/{email}', [\App\Http\Controllers\AuthController::class, 'setupAccountSubmit'])->name('setup-account.submit');
+
+    Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+    Route::post('password-confirm', [\App\Http\Controllers\AuthController::class, 'confirmPassword'])
+        ->name('confirm-password')
+        ->middleware(['auth', 'throttle:6,1']);
 });
+
+
+Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'confirmPasswordForm'])
+    ->name('password.confirm')
+    ->middleware('auth');
