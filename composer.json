@@ -21,6 +21,7 @@
         "php-flasher/flasher-toastr-laravel": "^1.15",
         "salahhusa9/laravel-updater": "^1.0",
         "silviolleite/laravelpwa": "^2.0",
+        "socialiteproviders/facebook": "^4.1",
         "socialiteproviders/google": "^4.1",
         "vstudio/helpers": "^1.2",
         "vstudio/versionbuildaction": "^1.1"
