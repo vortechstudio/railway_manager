@@ -23,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\Facebook\FacebookExtendSocialite::class.'@handle',
             \SocialiteProviders\Steam\SteamExtendSocialite::class.'@handle',
             \SocialiteProviders\Battlenet\BattlenetExtendSocialite::class.'@handle',
+            \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
         ],
     ];
 
