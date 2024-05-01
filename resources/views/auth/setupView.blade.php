@@ -20,7 +20,7 @@
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat">
+<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat" style="background: url('{{ Storage::url('services/2/wall_login.png') }}')">
 <!--begin::Theme mode setup on page load-->
 <script>
     let defaultThemeMode = "light";
@@ -43,7 +43,6 @@
 <!--end::Theme mode setup on page load-->
 <!--begin::Root-->
 <div class="d-flex flex-column flex-root" id="kt_app_root">
-    <x-base.background-animated />
     <!--begin::Authentication - Sign-in -->
     <div class="d-flex flex-column flex-column-fluid flex-lg-row">
         <!--begin::Aside-->
@@ -52,7 +51,7 @@
             <div class="d-flex flex-center flex-lg-start flex-column">
                 <!--begin::Logo-->
                 <a href="{{ route('home') }}" class="mb-7">
-                    <img alt="Logo" src="{{ Storage::url('logos/logo_dark.webp') }}" />
+                    <img alt="Logo" src="{{ Storage::url('services/2/logo-long-white.png') }}" />
                 </a>
                 <!--end::Logo-->
                 <!--begin::Title-->
@@ -124,11 +123,10 @@
 <!--begin::Javascript-->
 <script>var hostUrl = "assets/";</script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-<script src="assets/plugins/global/plugins.bundle.js"></script>
-<script src="assets/js/scripts.bundle.js"></script>
+<script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
+<script src="{{ asset('/js/scripts.bundle.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="assets/js/custom/authentication/sign-in/general.js"></script>
 @livewireScripts
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
