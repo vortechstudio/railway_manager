@@ -13,9 +13,8 @@
     @laravelPWA
     @livewireStyles
 </head>
-<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat">
+<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat" style="background: url('{{ Storage::url('services/2/wall_login.png') }}')">
 <div class="d-flex flex-column flex-root" id="kt_app_root">
-    <x-base.background-animated />
     <!--begin::Authentication - Sign-in -->
     <div class="d-flex flex-column flex-column-fluid flex-lg-row">
         <!--begin::Aside-->
@@ -24,7 +23,7 @@
             <div class="d-flex flex-center flex-lg-start flex-column">
                 <!--begin::Logo-->
                 <a href="{{ route('home') }}" class="mb-7">
-                    <img alt="Logo" src="{{ Storage::url('logos/logo_dark.webp') }}" />
+                    <img alt="Logo" src="{{ Storage::url('services/2/logo-long-white.png') }}" />
                 </a>
                 <!--end::Logo-->
                 <!--begin::Title-->
