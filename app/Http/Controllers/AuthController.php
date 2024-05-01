@@ -33,6 +33,7 @@ class AuthController extends Controller
             'steam' => $this->verifyUser($user, 'steam'),
             'battlenet' => $this->verifyUser($user, 'battlenet'),
             'discord' => $this->verifyUser($user, 'discord'),
+            'twitch' => $this->verifyUser($user, 'twitch'),
         };
     }
 

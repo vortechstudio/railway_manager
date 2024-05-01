@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9079e16397eaccd2c9915ab7032037a8",
+    "content-hash": "529af2462d93a312835116ffcdc212ec",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -4781,6 +4781,56 @@
                 "source": "https://github.com/socialiteproviders/providers"
             },
             "time": "2022-03-28T22:38:40+00:00"
+        },
+        {
+            "name": "socialiteproviders/twitch",
+            "version": "5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Twitch.git",
+                "reference": "c8791b9d208195b5f02bea432de89d0e612b955d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Twitch/zipball/c8791b9d208195b5f02bea432de89d0e612b955d",
+                "reference": "c8791b9d208195b5f02bea432de89d0e612b955d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0",
+                "socialiteproviders/manager": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Twitch\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Twitch OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "laravel",
+                "oauth",
+                "provider",
+                "socialite",
+                "twitch"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/twitch",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2024-04-01T01:15:35+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",

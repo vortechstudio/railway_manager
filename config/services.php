@@ -59,6 +59,7 @@ return [
         'client_secret' => env('BATTLENET_CLIENT_SECRET'),
         'redirect' => env('BATTLENET_REDIRECT_URI')
     ],
+
     'discord' => [
         'client_id' => env('DISCORD_CLIENT_ID'),
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
@@ -67,6 +68,12 @@ return [
         // optional
         'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'), // only pick from jpg, png, webp
+    ],
+
+    'twitch' => [
+        'client_id' => env('TWITCH_CLIENT_ID'),
+        'client_secret' => env('TWITCH_CLIENT_SECRET'),
+        'redirect' => env('TWITCH_REDIRECT_URI')
     ],
 
 ];
