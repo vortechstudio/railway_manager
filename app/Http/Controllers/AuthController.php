@@ -69,6 +69,17 @@ class AuthController extends Controller
                 ]);
             }
 
+            $user->services()->create([
+                'status' => true,
+                'premium' => false,
+                'user_id' => $user->id,
+                'service_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $user->logs()->create(['user_id' => $user->id, 'action' => 'Affiliation au service: Accès de base']);
+
             $user->profil()->firstOrCreate(['user_id' => $user->id]);
 
             if(!$user->services()->where('service_id', $service->id)->exists()){
@@ -134,6 +145,11 @@ class AuthController extends Controller
             ]);
 
             Auth::login($user);
+            $service = (new RailwayService())->getRailwayService();
+            $user->logs()->create([
+                'action' => "Connexion au service: $service->name",
+                'user_id' => $user->id,
+            ]);
         } catch (Exception $exception) {
             Log::emergency($exception->getMessage(), [$exception]);
         }
@@ -163,7 +179,7 @@ class AuthController extends Controller
         $service = (new RailwayService())->getRailwayService();
         $user = User::find(Auth::user()->id);
         $user->logs()->create([
-            'action' => "Inscription au service: $service->name",
+            'action' => "Déconnexion du service: $service->name",
             'user_id' => $user->id,
         ]);
         \Auth::logout();
