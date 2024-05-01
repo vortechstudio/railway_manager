@@ -29,6 +29,7 @@ class AuthController extends Controller
 
         return match ($provider) {
             'google' => $this->verifyUser($user, 'google'),
+            'facebook' => $this->verifyUser($user, 'facebook'),
         };
     }
 
