@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User\User;
 use App\Services\RailwayService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Log;
 use Str;
 use Vortechstudio\Helpers\Facades\Helpers;
 use Vortechstudio\Helpers\Helpers\Generator;
@@ -40,7 +42,6 @@ class AuthController extends Controller
 
     private function verifyUser($user, string $provider)
     {
-
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
@@ -54,6 +55,11 @@ class AuthController extends Controller
                 'uuid' => Str::uuid(),
             ]);
 
+            $user->logs()->create([
+                'action' => "Création du compte utilisateur",
+                'user_id' => $user->id
+            ]);
+
             if (! $user->socials()->where('provider', $provider)->exists()) {
                 $user->socials()->create([
                     'provider' => $provider,
@@ -63,7 +69,25 @@ class AuthController extends Controller
                 ]);
             }
 
-            return redirect()->route('auth.setup-register', [$provider, $user->email]);
+            $user->profil()->firstOrCreate(['user_id' => $user->id]);
+
+            if(!$user->services()->where('service_id', $service->id)->exists()){
+                $user->services()->create([
+                    'status' => true,
+                    'premium' => false,
+                    'user_id' => $user->id,
+                    'service_id' => $service->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                $user->logs()->create([
+                    'action' => "Inscription au service: $service->name",
+                    'user_id' => $user->id,
+                ]);
+            }
+
+            return redirect()->route('auth.setup-account', [$provider, $user->email]);
         }
 
         if(!$user->services()->where('service_id', $service->id)->exists()){
@@ -87,6 +111,32 @@ class AuthController extends Controller
             'action' => "Connexion au service: $service->name",
             'user_id' => $user->id,
         ]);
+
+        return redirect()->route('home');
+    }
+
+    public function setupAccount(string $provider, string $email)
+    {
+        return view('auth.setupView', compact('provider', 'email'));
+    }
+
+    public function setupAccountSubmit(Request $request, string $provider, string $email)
+    {
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
+
+        try {
+            $user = User::where('email', $email)->firstOrFail();
+
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+
+            Auth::login($user);
+        } catch (Exception $exception) {
+            Log::emergency($exception->getMessage(), [$exception]);
+        }
 
         return redirect()->route('home');
     }
