@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Actions\ErrorDispatchHandle;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -24,7 +25,9 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            if (config('app.env') === 'testing') {
+                (new ErrorDispatchHandle())->handle($e);
+            }
         });
     }
 }
