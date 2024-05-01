@@ -1,9 +1,7 @@
 on:
   pull_request:
-    types:
-      - opened
-    branch:
-      - 'production'
+    branches:
+      - production
 
   issue_comment:
     types:
