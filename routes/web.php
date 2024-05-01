@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
 Route::prefix('auth')->as('auth.')->group(function () {
     Route::get('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
     Route::get('{provider}/redirect', [\App\Http\Controllers\AuthController::class, 'redirect'])->name('redirect');
@@ -34,3 +29,7 @@ Route::prefix('auth')->as('auth.')->group(function () {
 Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'confirmPasswordForm'])
     ->name('password.confirm')
     ->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+});
