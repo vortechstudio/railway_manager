@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f3aa517e1ef4ee9e8da087e0bb5e6df",
+    "content-hash": "5d56b8da3684aa298f818760ac3d0526",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -4484,6 +4484,47 @@
                 "source": "https://github.com/silviolleite/laravel-pwa/tree/2.0.3"
             },
             "time": "2020-08-20T12:19:16+00:00"
+        },
+        {
+            "name": "socialiteproviders/battlenet",
+            "version": "4.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Battle.net.git",
+                "reference": "d25066c1b061a430a4f289e89599a5c07fa0b463"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Battle.net/zipball/d25066c1b061a430a4f289e89599a5c07fa0b463",
+                "reference": "d25066c1b061a430a4f289e89599a5c07fa0b463",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2 || ^8.0",
+                "socialiteproviders/manager": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Battlenet\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anand Capur",
+                    "email": "github@anand.io"
+                }
+            ],
+            "description": "Battlenet OAuth2 Provider for Laravel Socialite",
+            "support": {
+                "source": "https://github.com/SocialiteProviders/Battle.net/tree/4.1.1"
+            },
+            "time": "2021-03-16T01:16:54+00:00"
         },
         {
             "name": "socialiteproviders/facebook",
