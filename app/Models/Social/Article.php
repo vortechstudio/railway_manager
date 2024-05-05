@@ -5,14 +5,15 @@ namespace App\Models\Social;
 use App\Enums\Social\ArticleTypeEnum;
 use App\Models\User\User;
 use App\Services\Github\Issues;
+use Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Pharaonic\Laravel\Categorizable\Traits\Categorizable;
-use Te7aHoudini\LaravelTrix\Traits\HasTrixRichText;
+use Storage;
 
 class Article extends Model
 {
-    use Categorizable, HasFactory, HasTrixRichText;
+    use Categorizable, HasFactory;
 
     protected $guarded = [];
 
@@ -40,20 +41,16 @@ class Article extends Model
 
     public function getImageHeadAttribute()
     {
-        if (\Storage::disk('vortech')->exists('blog/'.$this->id.'/header.webp')) {
-            return \Storage::disk('vortech')->url('blog/'.$this->id.'/header.webp');
-        } else {
-            return \Storage::disk('vortech')->url('blog/header_default.png');
-        }
+        return Cache::remember('getBlogImageHeadAttribute:'.$this->title, 1440, function () {
+            return Storage::exists("blog/$this->id/header.webp") ? Storage::url("blog/$this->id/header.webp") : Storage::url('blog/header_default.png');
+        });
     }
 
     public function getImageAttribute()
     {
-        if (\Storage::disk('vortech')->exists('blog/'.$this->id.'/default.webp')) {
-            return \Storage::disk('vortech')->url('blog/'.$this->id.'/default.webp');
-        } else {
-            return \Storage::disk('vortech')->url('blog/default.png');
-        }
+        return Cache::remember('getBlogImageAttribute:'.$this->title, 1440, function () {
+            return Storage::exists("blog/$this->id/default.webp") ? Storage::url("blog/$this->id/default.webp") : Storage::url('blog/default.png');
+        });
     }
 
     public static function publish(int $id)

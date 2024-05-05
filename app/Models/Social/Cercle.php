@@ -2,9 +2,12 @@
 
 namespace App\Models\Social;
 
+use App\Models\Config\Service;
 use App\Models\Social\Post\Post;
 use App\Models\Wiki\WikiCategory;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class Cercle extends Model
 {
@@ -18,7 +21,7 @@ class Cercle extends Model
 
     public function events()
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class, 'event_cercle', 'cercle_id', 'event_id');
     }
 
     public function posts()
@@ -34,6 +37,11 @@ class Cercle extends Model
     public function wiki_categories()
     {
         return $this->hasMany(WikiCategory::class);
+    }
+
+    public function service()
+    {
+        return $this->hasOne(Service::class);
     }
 
     public static function getImage(int $cercle_id, string $type)
@@ -53,10 +61,8 @@ class Cercle extends Model
 
     public function getCercleIconAttribute()
     {
-        if (\Storage::disk('public')->exists("cercles/{$this->id}/icon.png")) {
-            return asset("/storage/cercles/{$this->id}/icon.png");
-        } else {
-            return asset('/storage/cercles/icon_default.png');
-        }
+        return Cache::remember('getCercleIconAttribute:'.$this->id, 1440, function () {
+            return Storage::exists("cercles/$this->id/icon.png") ? Storage::url("cercles/$this->id/icon.png") : Storage::url('cercles/icon_default.png');
+        });
     }
 }

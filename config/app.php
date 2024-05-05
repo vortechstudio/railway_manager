@@ -185,5 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
     'domain' => env("APP_DOMAIN"),
+    'game_url' => env('APP_GAME_URL')
 
 ];

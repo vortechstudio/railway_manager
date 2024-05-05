@@ -22,6 +22,7 @@ class CreateMenusTable extends Migration
             $table->integer('sort')->default(0);
             $table->boolean('visible')->default(true);
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('icon')->nullable();
 
             $table->timestamps();
             $table->foreign('parent_id')->references('id')->on('menus')->onDelete('set null');

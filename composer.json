@@ -9,6 +9,7 @@
         "ext-curl": "*",
         "arcanedev/log-viewer": "^10.0",
         "guzzlehttp/guzzle": "^7.2",
+        "ivanomatteo/laravel-device-tracking": "^0.2.1",
         "jantinnerezo/livewire-alert": "^3.0",
         "larabug/larabug": "^3.0",
         "laravel/framework": "^10.10",
@@ -19,6 +20,7 @@
         "livewire/livewire": "^3.4",
         "php-flasher/flasher-laravel": "^1.15",
         "php-flasher/flasher-toastr-laravel": "^1.15",
+        "rappasoft/laravel-authentication-log": "^4.0",
         "salahhusa9/laravel-updater": "^1.0",
         "silviolleite/laravelpwa": "^2.0",
         "socialiteproviders/battlenet": "^4.1",
@@ -27,6 +29,7 @@
         "socialiteproviders/google": "^4.1",
         "socialiteproviders/steam": "^4.2",
         "socialiteproviders/twitch": "^5.4",
+        "torann/geoip": "^3.0",
         "vstudio/helpers": "^1.2",
         "vstudio/versionbuildaction": "^1.1"
     },

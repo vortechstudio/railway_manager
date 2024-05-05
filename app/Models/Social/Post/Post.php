@@ -21,6 +21,10 @@ class Post extends Model
         'type' => PostTypeEnum::class,
     ];
 
+    protected $appends = [
+        'has_image',
+    ];
+
     public function user()
     {
         return $this->belongsTo(\App\Models\User\User::class);
@@ -44,5 +48,10 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(\App\Models\Social\Post\PostComment::class);
+    }
+
+    public function getHasImageAttribute()
+    {
+        return $this->images->count() > 0;
     }
 }

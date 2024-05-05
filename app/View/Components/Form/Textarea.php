@@ -13,15 +13,14 @@ class Textarea extends Component
      */
     public function __construct(
         public string $name,
-        public ?string $label = '',
+        public string $label,
         public string $type = 'simple',
-        public string $placeholder = '',
         public bool $required = false,
         public string $value = '',
-        public string $class = '',
-        public bool $noLabel = false,
+
+        public bool $livewire = false,
         public bool $isModel = false,
-        public string $model = ''
+        public string $model = '',
     ) {
         //
     }

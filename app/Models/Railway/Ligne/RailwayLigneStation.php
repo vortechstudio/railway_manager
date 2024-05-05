@@ -13,11 +13,11 @@ class RailwayLigneStation extends Model
 
     public function gare()
     {
-        return $this->belongsTo(RailwayGare::class, 'gare_id');
+        return $this->belongsTo(RailwayGare::class, 'railway_gare_id');
     }
 
     public function ligne()
     {
-        return $this->belongsTo(RailwayLigne::class, 'ligne_id');
+        return $this->belongsTo(RailwayLigne::class, 'railway_ligne_id');
     }
 }

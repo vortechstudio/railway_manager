@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
 use Exception;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -75,10 +77,10 @@ class AuthController extends Controller
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
-        if (! $user) {
+        if (!$user) {
             $user = User::query()->create([
                 'name' => $gUser->name ?? $gUser->nickname,
-                'email' => $gUser->email ?? Helpers::reference(10).'@vst.local',
+                'email' => $gUser->email ?? Helpers::reference(10) . '@vst.local',
                 'password' => Hash::make('password0000'),
                 'email_verified_at' => now(),
                 'admin' => false,
@@ -90,7 +92,7 @@ class AuthController extends Controller
                 'user_id' => $user->id
             ]);
 
-            if (! $user->socials()->where('provider', $provider)->exists()) {
+            if (!$user->socials()->where('provider', $provider)->exists()) {
                 $user->socials()->create([
                     'provider' => $provider,
                     'provider_id' => $gUser->id,
@@ -112,7 +114,7 @@ class AuthController extends Controller
 
             $user->profil()->firstOrCreate(['user_id' => $user->id]);
 
-            if(!$user->services()->where('service_id', $service->id)->exists()){
+            if (!$user->services()->where('service_id', $service->id)->exists()) {
                 $user->services()->create([
                     'status' => true,
                     'premium' => false,
@@ -126,12 +128,19 @@ class AuthController extends Controller
                     'action' => "Inscription au service: $service->name",
                     'user_id' => $user->id,
                 ]);
+
+                $user->railway()->create([
+                    'user_id' => $user->id,
+                    'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
+                    'tpoint' => RailwaySetting::where('name', 'start_tpoint')->first()->value,
+                    'research' => RailwaySetting::where('name', 'start_research')->first()->value
+                ]);
             }
 
             return redirect()->route('auth.setup-account', [$provider, $user->email]);
         }
 
-        if(!$user->services()->where('service_id', $service->id)->exists()){
+        if (!$user->services()->where('service_id', $service->id)->exists()) {
             $user->services()->create([
                 'status' => true,
                 'premium' => false,
@@ -183,6 +192,14 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+            $user->railway()->update([
+                'installed' => true,
+                'name_secretary' => $request->get('name_secretary'),
+                'name_company' => $request->get('name_company'),
+                'desc_company' => $request->get('desc_company'),
+                'name_conseiller' => fake('fr_FR')->name
+            ]);
+
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();
             $user->logs()->create([
@@ -210,7 +227,7 @@ class AuthController extends Controller
      */
     public function confirmPassword(Request $request)
     {
-        if (! \Hash::check($request->password, $request->user()->password)) {
+        if (!\Hash::check($request->password, $request->user()->password)) {
             toastr()
                 ->addError('Mot de passe erronée', "Vérification d'accès !");
         }

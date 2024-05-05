@@ -87,6 +87,28 @@
                                     name="password"
                                     label="Définission du mot de passe"
                                     required="true" />
+
+                                <div class="separator my-3"></div>
+
+                                <x-base.title
+                                    title="Votre compagnie" />
+
+                                <x-form.input
+                                    name="name_company"
+                                    label="Nom de votre compagnie" />
+                                <x-form.textarea
+                                    name="desc_company"
+                                    label="Description de votre compagnie" />
+
+                                <x-form.input
+                                    name="name_secretary"
+                                    label="Nom de votre secretaire" />
+
+                                <x-form.checkbox
+                                    name="accept_tos"
+                                    value="1"
+                                    label="J'accepte les conditions générales d'utilisations de Railway Manager"
+                                    required="true" />
                             </div>
 
                             <x-form.button />
@@ -105,9 +127,11 @@
                     <!--end::Languages-->
                     <!--begin::Links-->
                     <div class="d-flex fw-semibold text-primary fs-base gap-5">
-                        <a href="pages/team.html" target="_blank">Terms</a>
-                        <a href="pages/pricing/column.html" target="_blank">Plans</a>
-                        <a href="pages/contact.html" target="_blank">Contact Us</a>
+                        <a href="//{{ config('app.game_url') }}" target="_blank">Site Web</a>
+                        <a href="//status.{{ config('app.game_url') }}/status/vstudio" target="_blank">Status</a>
+                        <a href="//{{ config('app.game_url') }}/version/latest" target="_blank">Note de version</a>
+                        <a href="//{{ config('app.game_url') }}/roadmap" target="_blank">Roadmap</a>
+                        <a href="//support.{{ config('app.domain') }}" target="_blank">Support</a>
                     </div>
                     <!--end::Links-->
                 </div>

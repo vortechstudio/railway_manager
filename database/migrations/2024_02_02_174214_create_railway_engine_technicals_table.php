@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('nb_marchandise')->nullable();
             $table->integer('nb_wagon')->nullable();
 
-            $table->foreignId('engine_id')
+            $table->foreignId('railway_engine_id')
                 ->constrained('railway_engines')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

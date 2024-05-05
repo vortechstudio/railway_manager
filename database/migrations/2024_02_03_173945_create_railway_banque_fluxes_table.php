@@ -13,7 +13,7 @@ return new class extends Migration
             $table->dateTime('date');
             $table->decimal('interest');
 
-            $table->foreignId('banque_id')
+            $table->foreignId('railway_banque_id')
                 ->constrained('railway_banques')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

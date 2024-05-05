@@ -16,6 +16,6 @@ class RailwayBanqueFlux extends Model
 
     public function banque()
     {
-        return $this->belongsTo(RailwayBanque::class, 'banque_id');
+        return $this->belongsTo(RailwayBanque::class, 'railway_banque_id');
     }
 }

@@ -15,6 +15,6 @@ class RailwayEngineShop extends Model
 
     public function engine()
     {
-        return $this->belongsTo(RailwayEngine::class, 'engine_id');
+        return $this->belongsTo(RailwayEngine::class);
     }
 }

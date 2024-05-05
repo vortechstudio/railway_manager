@@ -23,6 +23,10 @@ class RailwayLigne extends Model
         'type' => LigneTypeEnum::class,
     ];
 
+    protected $appends = [
+        'status_label',
+    ];
+
     public function start()
     {
         return $this->belongsTo(RailwayGare::class, 'start_gare_id');
@@ -35,11 +39,20 @@ class RailwayLigne extends Model
 
     public function hub()
     {
-        return $this->belongsTo(RailwayHub::class, 'hub_id');
+        return $this->belongsTo(RailwayHub::class, 'railway_hub_id');
     }
 
     public function stations()
     {
         return $this->hasMany(RailwayLigneStation::class);
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        if ($this->active) {
+            return "<i class='fa-solid fa-check-circle fs-2 text-success'></i>";
+        } else {
+            return "<i class='fa-solid fa-xmark-circle fs-2 text-danger'></i>";
+        }
     }
 }

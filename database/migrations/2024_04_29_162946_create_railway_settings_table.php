@@ -8,17 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('railway_bonuses', function (Blueprint $table) {
+        Schema::create('railway_settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('number_day');
-            $table->string('designation');
-            $table->string('type');
-            $table->bigInteger('qte');
+            $table->string('name');
+            $table->string('value');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('railway_bonuses');
+        Schema::dropIfExists('railway_settings');
     }
 };

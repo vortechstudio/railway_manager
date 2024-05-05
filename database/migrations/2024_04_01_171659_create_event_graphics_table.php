@@ -8,18 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('railway_ligne_stations', function (Blueprint $table) {
+        Schema::create('event_graphics', function (Blueprint $table) {
             $table->id();
-            $table->integer('time');
-            $table->decimal('distance');
+            $table->string('type_media');
+            $table->string('link_storage');
+            $table->decimal('notation')->default(0);
+            $table->timestamps();
 
-            $table->foreignId('railway_gare_id')
-                ->constrained('railway_gares')
+            $table->foreignId('event_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->foreignId('railway_ligne_id')
-                ->constrained('railway_lignes')
+            $table->foreignId('user_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('railway_ligne_stations');
+        Schema::dropIfExists('event_graphics');
     }
 };

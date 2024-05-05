@@ -9,15 +9,18 @@ use App\Models\Social\Post\Post;
 use App\Models\Social\Post\PostComment;
 use App\Models\Support\Tickets\Ticket;
 use App\Models\Support\Tickets\TicketMessage;
+use App\Models\User\Railway\UserRailway;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +32,6 @@ class User extends Authenticatable
         'email',
         'password',
         'admin',
-        'email_verified_at',
         'otp',
         'otp_token',
         'otp_expires_at',
@@ -54,6 +56,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $appends = [
+        'has_notification',
+        'count_notifications',
+    ];
+
+    protected ?int $unreadNotificationsCount = null;
 
     public function logs()
     {
@@ -106,6 +115,23 @@ class User extends Authenticatable
         return $this->hasMany(UserSocial::class);
     }
 
+    public function railway()
+    {
+        return $this->hasOne(UserRailway::class);
+    }
+
+    public function scopeNotifiable(Builder $query)
+    {
+        return $query->whereHas('profil', function ($query) {
+            $query->where('notification', true);
+        });
+    }
+
+    public function scopeVerified(Builder $query)
+    {
+        return $query->whereNotNull('email_verified_at');
+    }
+
     public function createAccessToken($name, $abilities = ['*'])
     {
         $token = $this->tokens()->create([
@@ -117,5 +143,19 @@ class User extends Authenticatable
         ]);
 
         return new NewAccessToken($token, $token->id.'|'.$plainTextToken);
+    }
+
+    public function getHasNotificationAttribute(): bool
+    {
+        $this->unreadNotificationsCount = $this->unreadNotificationsCount ?? $this->unreadNotifications()->count();
+
+        return $this->unreadNotificationsCount > 0;
+    }
+
+    public function getCountNotificationsAttribute(): int
+    {
+        $this->unreadNotificationsCount = $this->unreadNotificationsCount ?? $this->unreadNotifications()->count();
+
+        return $this->unreadNotificationsCount;
     }
 }
