@@ -28,7 +28,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->foreignId('hub_id')
+            $table->foreignId('railway_hub_id')
                 ->constrained('railway_hubs')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

@@ -13,12 +13,12 @@ return new class extends Migration
             $table->integer('time');
             $table->decimal('distance');
 
-            $table->foreignId('gare_id')
+            $table->foreignId('railway_gare_id')
                 ->constrained('railway_gares')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->foreignId('ligne_id')
+            $table->foreignId('railway_ligne_id')
                 ->constrained('railway_lignes')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

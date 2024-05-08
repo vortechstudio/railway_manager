@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('temperature');
             $table->dateTime('latest_update');
 
-            $table->foreignId('gare_id')
+            $table->foreignId('railway_gare_id')
                 ->constrained('railway_gares')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

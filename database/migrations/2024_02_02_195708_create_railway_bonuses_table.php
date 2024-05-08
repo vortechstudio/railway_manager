@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('designation');
             $table->string('type');
             $table->bigInteger('qte');
-            $table->softDeletes();
         });
     }
 

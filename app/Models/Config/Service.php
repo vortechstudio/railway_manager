@@ -4,6 +4,7 @@ namespace App\Models\Config;
 
 use App\Enums\Config\ServiceStatusEnum;
 use App\Enums\Config\ServiceTypeEnum;
+use App\Models\Social\Cercle;
 use App\Models\Support\Tickets\Ticket;
 use App\Models\Support\Tickets\TicketCategory;
 use App\Models\User\User;
@@ -50,6 +51,11 @@ class Service extends Model
         return $this->hasMany(Ticket::class);
     }
 
+    public function cercle()
+    {
+        return $this->belongsTo(Cercle::class);
+    }
+
     public function getTypeLabelAttribute()
     {
         return match ($this->type) {
@@ -77,7 +83,7 @@ class Service extends Model
         return $this->versions()->where('published', true)->whereNot('version', $this->latest_version->version)->orderBy('version', 'desc')->get();
     }
 
-    public static function getImage(int $cercle_id, string $type)
+    public static function getImage(int $service_id, string $type): string
     {
         $type = match ($type) {
             'icon' => 'icon',
@@ -85,10 +91,10 @@ class Service extends Model
             'default' => 'default',
         };
 
-        if (\Storage::exists('cercles/'.$cercle_id.'/'.$type.'.webp')) {
-            return \Storage::url('cercles/'.$cercle_id.'/'.$type.'.webp');
+        if (\Storage::exists('services/'.$service_id.'/'.$type.'.webp')) {
+            return \Storage::url('services/'.$service_id.'/'.$type.'.webp');
         } else {
-            return \Storage::url('cercles/'.$type.'_default.png');
+            return \Storage::url('services/'.$type.'_default.png');
         }
     }
 }

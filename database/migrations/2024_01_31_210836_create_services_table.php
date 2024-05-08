@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreignId('cercle_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 

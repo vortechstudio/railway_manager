@@ -15,7 +15,7 @@ return new class extends Migration
             $table->boolean('active');
             $table->string('status');
 
-            $table->foreignId('gare_id')
+            $table->foreignId('railway_gare_id')
                 ->constrained('railway_gares')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

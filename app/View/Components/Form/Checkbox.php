@@ -15,6 +15,7 @@ class Checkbox extends Component
         public string $name,
         public string $label,
         public bool $checked = false,
+        public bool $required = false,
         public string $value = '1',
         public string $checkboxSize = '',
         public string $checkboxColor = '',

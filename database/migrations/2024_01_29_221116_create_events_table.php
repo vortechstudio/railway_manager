@@ -16,7 +16,8 @@ return new class extends Migration
             $table->longText('contenue');
             $table->timestamp('start_at');
             $table->timestamp('end_at');
-            $table->string('status')->default(\App\Enums\Social\EventStatusEnum::PROGRESS);
+            $table->timestamp('published_at')->nullable();
+            $table->string('status')->default(\App\Enums\Social\EventStatusEnum::DRAFT);
         });
     }
 

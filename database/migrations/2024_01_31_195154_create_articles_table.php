@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('publish_social')->default(false);
             $table->timestamp('publish_social_at')->nullable();
             $table->boolean('promote')->default(false);
+            $table->string('status')->default('draft');
             $table->timestamps();
 
             $table->foreignId('author')

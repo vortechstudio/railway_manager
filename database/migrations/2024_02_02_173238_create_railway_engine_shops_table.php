@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('money')->default('argent');
             $table->timestamps();
 
-            $table->foreignId('engine_id')
+            $table->foreignId('railway_engine_id')
                 ->constrained('railway_engines')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
