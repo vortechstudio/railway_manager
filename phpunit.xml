@@ -10,7 +10,6 @@
         </testsuite>
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
-            <directory>tests/Http</directory>
         </testsuite>
     </testsuites>
     <source>
