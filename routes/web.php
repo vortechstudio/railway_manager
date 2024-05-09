@@ -34,7 +34,7 @@ Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'co
     ->middleware('auth');
 
 Route::get('/test', function () {
-    dd((new \App\Services\RailwayService())->getRailwayService());
+    dd(\App\Models\Config\Menu::section('railway_manager_app')->get());
 });
 
 Route::middleware(['auth', 'install'])->group(function () {
