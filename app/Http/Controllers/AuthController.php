@@ -255,4 +255,36 @@ class AuthController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function install()
+    {
+        return view('auth.install');
+    }
+
+    public function installSubmit(Request $request)
+    {
+        try {
+            $request->user()->railway()->create([
+                'installed' => true,
+                'name_secretary' => $request->get('name_secretary'),
+                'name_company' => $request->get('name_company'),
+                'desc_company' => $request->get('desc_company'),
+                'name_conseiller' => fake('fr_FR')->name,
+                'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
+                'tpoint' => 0,
+                'research' => 0,
+                'automated_planning' => false,
+                'user_id' => $request->user()->id
+            ]);
+
+            toastr()
+                ->addSuccess('Votre compte a été configurer, Bienvenue');
+            return redirect()->route('home');
+        }catch (Exception $exception) {
+            Log::emergency($exception->getMessage(), [$exception]);
+            toastr()
+                ->addError('Erreur lors de la création de votre compte, nous avons été alerter.');
+            return redirect()->back();
+        }
+    }
 }

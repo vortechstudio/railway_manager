@@ -23,6 +23,9 @@ Route::prefix('auth')->as('auth.')->group(function () {
     Route::post('password-confirm', [\App\Http\Controllers\AuthController::class, 'confirmPassword'])
         ->name('confirm-password')
         ->middleware(['auth', 'throttle:6,1']);
+
+    Route::get('install', [\App\Http\Controllers\AuthController::class, 'install'])->name('install');
+    Route::post('install', [\App\Http\Controllers\AuthController::class, 'installSubmit'])->name('install.submit');
 });
 
 
@@ -34,6 +37,6 @@ Route::get('/test', function () {
     dd((new \App\Services\RailwayService())->getRailwayService());
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'install'])->group(function () {
     Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 });
