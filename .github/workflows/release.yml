@@ -16,13 +16,6 @@ jobs:
 
       - name: Brouillon de la version ${{ github.event.inputs.version }}
         uses: release-drafter/release-drafter@v5
-        with:
-          name-template: 'v$RESOLVED_VERSION 🌈'
-          tag-template: 'v$RESOLVED_VERSION'
-          template: |
-            ## Changes
-
-            $CHANGES
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
