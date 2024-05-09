@@ -26,14 +26,19 @@
                 <div class="menu menu-rounded menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
                     @foreach(\App\Models\Config\Menu::section('railway_manager_app')->get() as $menu)
                         @if($menu->children->isNotEmpty())
-                            <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" data-kt-menu-offset="-50,0" class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+                            <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" data-kt-menu-offset="-50,0" class="menu-item {{ Request::is($menu->url) ? 'here show' : '' }} menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                 <span class="menu-link">
+                                    @if($menu->icon)
+                                        <span class="menu-icon">
+                                            <i class="{{ $menu->icon }} fs-2"></i>
+                                        </span>
+                                    @endif
 									<span class="menu-title">{{ $menu->translations()->first()->title }}</span>
 									<span class="menu-arrow d-lg-none"></span>
 								</span>
                                 <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
                                     @foreach($menu->children as $child)
-                                    <div class="menu-item">
+                                    <div class="menu-item {{ Request::is($menu->url) ? 'here show' : '' }}">
                                         <a class="menu-link" href="{{ $child->url }}" title="{{ $child->translations()->first()->title }}">
                                             <span class="menu-title">{{ $child->translations()->first()->title }}</span>
                                         </a>
@@ -42,12 +47,12 @@
                                 </div>
                             </div>
                         @else
-                            <div class="menu-item">
+                            <div class="menu-item {{ Request::is($menu->url) ? 'here show' : '' }}">
                                 <a class="menu-link" href="{{ $menu->url }}" title="{{ $menu->translations()->first()->title }}">
                                     @if($menu->icon)
-                                    <span class="menu-icon">
-										<i class="{{ $menu->icon }} fs-2"></i>
-									</span>
+                                        <span class="menu-icon">
+                                            <i class="{{ $menu->icon }} fs-2"></i>
+                                        </span>
                                     @endif
                                     <span class="menu-title">{{ $menu->translations()->first()->title }}</span>
                                 </a>
