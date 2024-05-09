@@ -17,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('version', VersionBuildAction::getVersionInfo());
             $view->with('service', (new RailwayService())->getRailwayService());
         });
+        \View::composer('*', function ($view) {
+            $view->with('user', auth()->user());
+        });
     }
 
     /**
