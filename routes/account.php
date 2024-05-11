@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('account')->as('account.')->group(function () {
-    Route::get('/')->name('profil');
+    Route::get('/', \App\Http\Controllers\Account\AccountController::class)->name('profil');
 
     Route::prefix('mailbox')->as('mailbox.')->group(function () {
         Route::get('/')->name('inbox');

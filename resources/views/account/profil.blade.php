@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section("title")
-    Tableau de Bord
+    Mon Profil
 @endsection
 
 @section("toolbar")
     <x-base.toolbar
-        :breads="array('Tableau de Bord')" />
+        :breads="array('Compte', 'Mon Compte')" />
 @endsection
 
 @section("content")
