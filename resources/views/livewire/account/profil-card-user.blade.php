@@ -2,7 +2,7 @@
     <div class="card shadow-sm rounded-3 animate__animated animate__fadeInRight">
         <div class="card-body">
             <div class="d-flex flex-column bg-brown-400 align-items-center rounded-top-2 z-index-2 p-5">
-                <button class="btn btn-icon btn-sm btn-light position-absolute top-0 end-0 m-5 rotate" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <button class="btn btn-icon btn-circle btn-sm btn-outline btn-outline-dark position-absolute top-0 end-0 m-5 rotate" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                     <i class="fa-solid fa-ellipsis-h"></i>
                 </button>
                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-auto min-w-200 mw-300px" data-kt-menu="true">
@@ -14,6 +14,11 @@
                     <div class="menu-item px-3">
                         <a href="#editSocials" data-bs-toggle="modal" class="menu-link px-3">
                             Paramètres sociaux
+                        </a>
+                    </div>
+                    <div class="menu-item px-3">
+                        <a href="#claimVourcher" data-bs-toggle="tooltip" data-bs-title="Bientôt disponible" class="menu-link px-3" disabled="true">
+                            Code d'échange
                         </a>
                     </div>
                 </div>
@@ -169,6 +174,39 @@
                         <button type="button" class="btn btn-light" wire:click="resetForm">Réinitialiser</button>
                         <button type="submit" class="btn btn-primary">
                             <span wire:loading.remove wire:target="saveName"><i class="fa-solid fa-check-circle me-3"></i> Enregistrer</span>
+                            <span wire:loading wire:target="saveName"><i class="fa-solid fa-spinner fa-spin-pulse"></i>Veuillez patienter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div wire:ignore.self class="modal fade" tabindex="-1" id="claimVourcher">
+        <form action="" wire:submit="claim" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Code d'échange</h3>
+
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+
+                    <div class="modal-body">
+                        <x-form.input
+                            name="code"
+                            no-label="true"
+                            placeholder="Veuillez saisir le code d'échange"
+                            required="true" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="fa-solid fa-xmark-circle me-3"></i> Annuler</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span wire:loading.remove wire:target="saveName"><i class="fa-solid fa-check-circle me-3"></i> Confirmer</span>
                             <span wire:loading wire:target="saveName"><i class="fa-solid fa-spinner fa-spin-pulse"></i>Veuillez patienter</span>
                         </button>
                     </div>

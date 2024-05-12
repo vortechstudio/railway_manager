@@ -17,6 +17,8 @@ class ProfilCardUser extends Component
     public bool $accept_friends = false;
     public bool $display_registry = false;
     public bool $display_online_status = false;
+    public bool $btnIsDisabled = false;
+    public string $code = '';
 
     public function mount()
     {
@@ -90,6 +92,12 @@ class ProfilCardUser extends Component
         }
     }
 
+    public function claim()
+    {
+        $this->alert("info", "Fonction bientôt disponible !");
+        $this->dispatch('closeModal', 'claimVourcher');
+    }
+
     #[On('refreshComponent')]
     public function refreshComponent()
     {
@@ -98,6 +106,9 @@ class ProfilCardUser extends Component
 
     public function render()
     {
+        if(empty($this->code)) {
+            $this->btnIsDisabled = true;
+        }
         return view('livewire.account.profil-card-user');
     }
 }
