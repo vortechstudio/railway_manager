@@ -200,6 +200,10 @@ class AuthController extends Controller
                 'name_conseiller' => fake('fr_FR')->name
             ]);
 
+            $user->railway_social()->create([
+                'user_id' => $user->id
+            ]);
+
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();
             $user->logs()->create([
@@ -274,6 +278,10 @@ class AuthController extends Controller
                 'tpoint' => 0,
                 'research' => 0,
                 'automated_planning' => false,
+                'user_id' => $request->user()->id
+            ]);
+
+            $request->user()->railway_social()->create([
                 'user_id' => $request->user()->id
             ]);
 
