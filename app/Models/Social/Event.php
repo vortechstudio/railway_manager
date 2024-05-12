@@ -119,7 +119,7 @@ class Event extends Model
         };
     }
 
-    public static function getImage(int $event_id, string $type): string
+    public function getImage(string $type): string
     {
         $type = match ($type) {
             'icon' => 'icon',
@@ -127,8 +127,8 @@ class Event extends Model
             'default' => 'default',
         };
 
-        if (\Storage::exists('events/'.$event_id.'/'.$type.'.webp')) {
-            return \Storage::url('events/'.$event_id.'/'.$type.'.webp');
+        if (\Storage::exists('events/'.$this->id.'/'.$type.'.webp')) {
+            return \Storage::url('events/'.$this->id.'/'.$type.'.webp');
         } else {
             return \Storage::url('events/'.$type.'_default.png');
         }
