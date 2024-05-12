@@ -12,11 +12,13 @@ class ProfilCardUser extends Component
     use LivewireAlert;
 
     public User $user;
-    public string $name = '';
+    public ?string $name = '';
+    public ?string $signature = '';
 
     public function mount()
     {
         $this->name = $this->user->name;
+        $this->signature = $this->user->profil->signature;
     }
 
     public function resetForm()
@@ -41,6 +43,27 @@ class ProfilCardUser extends Component
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors du changment du nom dans railway Manager");
+        }
+    }
+
+    public function saveSign()
+    {
+        try {
+            $this->user->profil()->update([
+                'signature' => $this->signature
+            ]);
+
+            $this->user->logs()->create([
+                'action' => "Changement de la signature de profil",
+                "user_id" => $this->user->id
+            ]);
+
+            $this->alert('success', "Changement de signature Effectuer");
+            $this->dispatch('closeModal', 'editSign');
+            $this->dispatch('refreshComponent');
+        } catch (\Exception $exception) {
+            \Log::emergency($exception->getMessage(), [$exception]);
+            $this->alert('error', "Erreur lors du changement de signature.");
         }
     }
 
