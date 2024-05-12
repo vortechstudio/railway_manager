@@ -39,4 +39,6 @@ Route::get('/test', function () {
 
 Route::middleware(['auth', 'install'])->group(function () {
     Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+    Route::get('shop')->name('shop');
+    include('account.php');
 });

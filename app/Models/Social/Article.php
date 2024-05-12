@@ -27,6 +27,7 @@ class Article extends Model
     protected $appends = [
         'image_head',
         'image',
+        'url',
     ];
 
     public function author()
@@ -51,6 +52,11 @@ class Article extends Model
         return Cache::remember('getBlogImageAttribute:'.$this->title, 1440, function () {
             return Storage::exists("blog/$this->id/default.webp") ? Storage::url("blog/$this->id/default.webp") : Storage::url('blog/default.png');
         });
+    }
+
+    public function getUrlAttribute()
+    {
+        return 'https://'.config('app.domain').'/news/'.$this->cercle_id.'/'.\Str::slug($this->title);
     }
 
     public static function publish(int $id)
