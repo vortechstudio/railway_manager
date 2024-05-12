@@ -2,39 +2,26 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version'
-        required: true
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-      - name: Brouillon de la version ${{ github.event.inputs.version }}
-        uses: release-drafter/release-drafter@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Semantic Release
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Création du tag de version
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.ACCESS_TOKEN}}
-          script: |
-            const version = "${{ github.event.inputs.version }}"
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `refs/tags/v${version}`,
-              sha: context.sha
-            }).then(() => {
-              console.log('Tag created!')
-            }).catch((err) => {
-              console.log('Failed to create tag: ', err)
-            })
-
-
-
