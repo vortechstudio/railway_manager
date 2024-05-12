@@ -14,11 +14,17 @@ class ProfilCardUser extends Component
     public User $user;
     public ?string $name = '';
     public ?string $signature = '';
+    public bool $accept_friends = false;
+    public bool $display_registry = false;
+    public bool $display_online_status = false;
 
     public function mount()
     {
         $this->name = $this->user->name;
         $this->signature = $this->user->profil->signature;
+        $this->accept_friends = $this->user->railway_social->accept_friends;
+        $this->display_registry = $this->user->railway_social->display_registry;
+        $this->display_online_status = $this->user->railway_social->display_online_status;
     }
 
     public function resetForm()
@@ -64,6 +70,23 @@ class ProfilCardUser extends Component
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors du changement de signature.");
+        }
+    }
+
+    public function saveSocial()
+    {
+        try {
+            $this->user->railway_social->accept_friends = $this->accept_friends;
+            $this->user->railway_social->display_registry = $this->display_registry;
+            $this->user->railway_social->display_online_status = $this->display_online_status;
+            $this->user->railway_social->save();
+
+            $this->alert('success', "Paramètre social mise à jour");
+            $this->dispatch('closeModal', 'editSocial');
+            $this->dispatch('refreshComponent');
+        } catch (\Exception $exception) {
+            \Log::emergency($exception->getMessage(), [$exception]);
+            $this->alert('error', "Erreur lors de la sauvegarde des paramètres sociaux.");
         }
     }
 

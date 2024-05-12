@@ -12,7 +12,7 @@
                         </a>
                     </div>
                     <div class="menu-item px-3">
-                        <a href="#" class="menu-link px-3">
+                        <a href="#editSocials" data-bs-toggle="modal" class="menu-link px-3">
                             Paramètres sociaux
                         </a>
                     </div>
@@ -111,6 +111,58 @@
                             value="{{ $user->profil->signature }}"
                             label="Signature"
                             required="true" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" wire:click="resetForm">Réinitialiser</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span wire:loading.remove wire:target="saveName"><i class="fa-solid fa-check-circle me-3"></i> Enregistrer</span>
+                            <span wire:loading wire:target="saveName"><i class="fa-solid fa-spinner fa-spin-pulse"></i>Veuillez patienter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div wire:ignore.self class="modal fade" tabindex="-1" id="editSocials">
+        <form action="" wire:submit="saveSocial" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Paramètre social</h3>
+
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between align-items-center rounded-top-2 p-3 bg-grey-300">
+                            <span>Accepter automatiquement les demandes d'amis</span>
+                            <x-form.switches
+                                name="accept_friends"
+                                :checked="$accept_friends"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-400">
+                            <span>Rendre votre registre de gestion public</span>
+                            <x-form.switches
+                                name="display_registry"
+                                :checked="$display_registry"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                            <span>Rendre votre status de connexion public</span>
+                            <x-form.switches
+                                name="display_online_status"
+                                :checked="$display_online_status"
+                                label=""
+                                value="1" />
+                        </div>
                     </div>
 
                     <div class="modal-footer">
