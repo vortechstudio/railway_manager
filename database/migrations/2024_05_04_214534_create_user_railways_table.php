@@ -15,9 +15,9 @@ return new class extends Migration {
             $table->string('name_secretary')->nullable();
             $table->string('name_company')->nullable();
             $table->string('desc_company')->nullable();
-            $table->decimal('argent');
+            $table->decimal('argent', 64);
             $table->bigInteger('tpoint');
-            $table->decimal('research');
+            $table->decimal('research', 64);
             $table->boolean('automated_planning')->default(false);
             $table->string('name_conseiller')->nullable();
             $table->string('stripe_id')->nullable();

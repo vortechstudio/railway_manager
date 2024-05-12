@@ -22,6 +22,8 @@ class Service extends Model
     protected $casts = [
         'type' => ServiceTypeEnum::class,
         'status' => ServiceStatusEnum::class,
+        'published_at' => 'timestamp',
+        'publish_social_at' => 'timestamp',
     ];
 
     protected $appends = [
@@ -56,6 +58,11 @@ class Service extends Model
         return $this->belongsTo(Cercle::class);
     }
 
+    public function hasVersions()
+    {
+        return $this->versions()->where('published', true)->exists();
+    }
+
     public function getTypeLabelAttribute()
     {
         return match ($this->type) {
@@ -78,12 +85,16 @@ class Service extends Model
         return $this->versions()->where('published', true)->orderBy('version', 'desc')->first();
     }
 
-    public function getOtherVersionsAttribute()
+    public function getOtherVersionsAttribute(): \Illuminate\Database\Eloquent\Collection|\LaravelIdea\Helper\App\Models\Config\_IH_ServiceVersion_C|array
     {
-        return $this->versions()->where('published', true)->whereNot('version', $this->latest_version->version)->orderBy('version', 'desc')->get();
+        if (isset($this->latest_version->version)) {
+            return $this->versions()->where('published', true)->whereNot('version', $this->latest_version->version)->orderBy('version', 'desc')->get();
+        } else {
+            return [];
+        }
     }
 
-    public static function getImage(int $service_id, string $type): string
+    public function getImage(int $service_id, string $type): string
     {
         $type = match ($type) {
             'icon' => 'icon',
