@@ -57,7 +57,7 @@ class RailwayEngine extends Model
         if ($engine->type_train == RailwayEngineTrainEnum::AUTO) {
             return \Storage::url('engines/automotrice/'.\Str::slug($engine->name).'-0.gif');
         } else {
-            return \Storage::url('engines/'.$engine->type_train.'/'.\Str::slug($engine->name).'.gif');
+            return \Storage::url('engines/'.$engine->type_train->value.'/'.\Str::slug($engine->name).'.gif');
         }
     }
 

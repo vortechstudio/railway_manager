@@ -44,7 +44,7 @@ class Cercle extends Model
         return $this->hasOne(Service::class);
     }
 
-    public static function getImage(int $cercle_id, string $type)
+    public function getImage(int $cercle_id, string $type)
     {
         $type = match ($type) {
             'icon' => 'icon',

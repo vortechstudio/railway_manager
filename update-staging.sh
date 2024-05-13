@@ -13,6 +13,7 @@ php artisan route:clear
 php artisan config:clear
 php artisan view:clear
 php artisan clear
+php artisan release:update
 
 php artisan up
 
