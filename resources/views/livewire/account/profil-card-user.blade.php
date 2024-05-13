@@ -160,11 +160,33 @@
                                 label=""
                                 value="1" />
                         </div>
-                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-300">
                             <span>Rendre votre status de connexion public</span>
                             <x-form.switches
                                 name="display_online_status"
                                 :checked="$display_online_status"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-400">
+                            <span>
+                                Accepter de recevoir des notifications
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Vous devez également accepter de recevoir les notifications par le navigateur"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_notification"
+                                :checked="$accept_notification"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                            <span>
+                                Accepter de recevoir des newsletter periodique
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Les newsletters sont envoyer à interval de plus ou moins 1 mois"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_newsletter"
+                                :checked="$accept_newsletter"
                                 label=""
                                 value="1" />
                         </div>
