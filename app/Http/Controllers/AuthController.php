@@ -205,9 +205,7 @@ class AuthController extends Controller
                 'user_id' => $request->user()->id
             ]);
 
-            $user->railway_social()->create([
-                'user_id' => $user->id
-            ]);
+            $user->railway_social()->create(["user_id" => $user->id]);
 
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();

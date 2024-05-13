@@ -8,6 +8,8 @@
         modal.setAttribute('style', 'display: none')
 
         const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
-        document.body.removeChild(modalsBackdrops[0]);
+        if (modalsBackdrops.length > 0) {
+            document.body.removeChild(modalsBackdrops[0]);
+        }
     })
 </script>

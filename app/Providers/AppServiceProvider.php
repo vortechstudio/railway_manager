@@ -13,9 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        \View::composer('*', function ($view) {
-            $view->with('service', (new RailwayService())->getRailwayService());
-            $view->with('version', (new RailwayService())->getRailwayService()->latest_version->version.'-'.(new RailwayService())->getRailwayService()->latest_version->published_at);
+        $railwayService = (new RailwayService())->getRailwayService();
+        \View::composer('*', function ($view) use ($railwayService) {
+            $view->with('service', $railwayService);
+            $view->with('version', $railwayService->latest_version->version.'-'.$railwayService->latest_version->published_at);
         });
         \View::composer('*', function ($view) {
             $view->with('user', auth()->user());
