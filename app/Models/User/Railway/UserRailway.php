@@ -37,7 +37,7 @@ class UserRailway extends Model
         $next_level = RailwayLevel::find($this->level + 1);
 
         if($next_level == null) {
-            throw new \Exception("Niveau inconnue ou non déployer");
+            throw new \Exception("Unknown level or not deployed");
         }
 
         $exp_next_level = $next_level->exp_required;
