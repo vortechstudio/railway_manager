@@ -21,14 +21,44 @@ class UserRailway extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Retrieves the XP percentage attribute for the model.
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
     public function getXpPercentAttribute()
     {
-        if($this->xp != 0) {
-            $exp_next_level = RailwayLevel::find($this->level + 1)->exp_required;
-            $percent_gained = ($this->xp / $exp_next_level) * 100;
-            return 100 - $percent_gained; //  Calcul du pourcentage restant
-        } else {
+        if($this->xp == 0) {
             return 0;
         }
+
+        $next_level = RailwayLevel::find($this->level + 1);
+
+        if($next_level == null) {
+            throw new \Exception("Niveau inconnue ou non déployer");
+        }
+
+        $exp_next_level = $next_level->exp_required;
+
+        if ($exp_next_level == 0) {
+            return 0;
+        }
+
+        return $this->calculateXpPercent($exp_next_level);
+    }
+
+    /**
+     * Calculates the percentage of experience gained towards the next level.
+     *
+     * @param int $exp_next_level The experience points required for the next level.
+     *
+     * @return float The percentage of experience gained towards the next level.
+     */
+    private function calculateXpPercent(int $exp_next_level): float
+    {
+        $percent_gained = ($this->xp / $exp_next_level) * 100;
+        return 100 - $percent_gained;
     }
 }
