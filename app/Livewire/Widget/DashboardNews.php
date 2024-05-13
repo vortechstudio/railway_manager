@@ -16,6 +16,8 @@ class DashboardNews extends Component
                 ->where('published', 1)
                 ->where('promote', true)
                 ->where('status', 'published')
+                ->orderBy('published_at', 'desc')
+                ->limit(5)
                 ->get()
         ]);
     }
