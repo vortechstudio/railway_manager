@@ -34,11 +34,12 @@ Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'co
     ->middleware('auth');
 
 Route::get('/test', function () {
-    dd(\App\Models\Config\Menu::section('railway_manager_app')->get());
+    auth()->user()->railway->addReputation('engine', null);
 });
 
 Route::middleware(['auth', 'install'])->group(function () {
     Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
-    Route::get('shop')->name('shop');
+    Route::get('/shop')->name('shop');
+    Route::post('/push', \App\Http\Controllers\PushSubscriptionController::class);
     include('account.php');
 });
