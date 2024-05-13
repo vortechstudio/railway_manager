@@ -1,4 +1,4 @@
-<div id="kt_app_toolbar" class="app-toolbar py-6">
+<div id="kt_app_toolbar" class="app-toolbar py-6 bgi-no-repeat bgi-position-center bgi-size-cover" style="background: url('{{ Storage::url('services/'.$service->id.'/wall_login.png') }}')">
     <!--begin::Toolbar container-->
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex align-items-start">
         <!--begin::Toolbar container-->
