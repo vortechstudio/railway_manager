@@ -23,10 +23,12 @@ class UserRailway extends Model
 
     public function getXpPercentAttribute()
     {
-        $exp_next_level = RailwayLevel::find($this->level + 1)->exp_required;
-        $percent_gained = ($this->xp / $exp_next_level) * 100;
-        $percent_remaining = 100 - $percent_gained; //  Calcul du pourcentage restant
-
-        return $percent_remaining;
+        if($this->xp != 0) {
+            $exp_next_level = RailwayLevel::find($this->level + 1)->exp_required;
+            $percent_gained = ($this->xp / $exp_next_level) * 100;
+            return 100 - $percent_gained; //  Calcul du pourcentage restant
+        } else {
+            return 0;
+        }
     }
 }
