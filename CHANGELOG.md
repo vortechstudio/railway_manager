@@ -1,3 +1,23 @@
+# [0.3.0](https://github.com/vortechstudio/railway_manager/compare/v0.2.0...v0.3.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* **Authentification:** Ajouter la nouvelle relation UserRailwaySocial ([bc2269c](https://github.com/vortechstudio/railway_manager/commit/bc2269c0fca22153336fd2809dd03a8aea833501))
+* **Core:** Gestion de l'XP à zéro ([8d8003e](https://github.com/vortechstudio/railway_manager/commit/8d8003efa00f4f3ebfc9850db36dbe6af4ab67f9))
+* **models:** Mise à jour et ajout de nouveaux modèles ([fa850d1](https://github.com/vortechstudio/railway_manager/commit/fa850d19f041fedca11b019235e109a369b60dc5))
+
+
+### Features
+
+* **Profil:** Ajout d'informations supplémentaires sur le profil utilisateur ([da704e5](https://github.com/vortechstudio/railway_manager/commit/da704e55159bc51be1cecbeab62f5c92b0ef3b8b))
+* **Profil:** Ajout de component ProfilCardUser ([0e59b9e](https://github.com/vortechstudio/railway_manager/commit/0e59b9e71005f15660e164f6bcb083a117a84941))
+* **Profil:** ajout de la fonctionnalité d'échange de code (En construction) ([8b378e5](https://github.com/vortechstudio/railway_manager/commit/8b378e5c0ec8055719e4d07e5f9bc0dc12ce6b63))
+* **Profil:** Ajout de la fonctionnalité de modification de la signature du profil ([290f3e7](https://github.com/vortechstudio/railway_manager/commit/290f3e7d05f7e6f32adfc817659f5d0b5d8a2f33))
+* **Profil:** Ajout des paramètres sociaux ([8e5d7cd](https://github.com/vortechstudio/railway_manager/commit/8e5d7cd0dff46afa54d7d3ccf9543b98ffaeb364))
+* **Profil:** Ajout du composant Livewire ProfilTab et de sa vue associée ([3230bec](https://github.com/vortechstudio/railway_manager/commit/3230bec874ecd02d7f29c05a22ba9a81d919d333))
+* **Profil:** mise à jour de la page de profil ([63b1da8](https://github.com/vortechstudio/railway_manager/commit/63b1da8853ccd100b5da45b40ffa09bb5bfe4eb9))
+
 # [0.2.0](https://github.com/vortechstudio/railway_manager/compare/v0.1.0...v0.2.0) (2024-05-12)
 
 
