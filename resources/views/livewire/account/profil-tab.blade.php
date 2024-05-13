@@ -36,6 +36,23 @@
                             <span class="fw-bold text-gray-700 fs-1">0</span>
                         </div>
                     </div>
+                    <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-1s mb-5">
+                        <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-top-2 shadow text-white p-2">
+                            <span class="fw-bold">Entreprise</span>
+                            <span class="typed" data-typed="{{ $user->railway->name_company }}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center bg-gray-400 text-white p-2">
+                            <span class="fw-bold">Secrétaire</span>
+                            <span class="typed" data-typed="{{ $user->railway->name_secretary }}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-bottom-2 shadow text-white p-2">
+                            <span class="fw-bold">Réputation</span>
+                            <span data-kt-countup="true" data-kt-countup-value="458000">0</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-1s mb-5">
+                        <div class="d-flex rounded-3 bg-grey-300 p-5 text-gray-500 fw-semibold">{{ $user->railway->desc_company }}</div>
+                    </div>
                     <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-3s">
                         <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-top-2 shadow text-white p-2">
                             <span>Trésorerie Structurelle</span>
@@ -55,3 +72,17 @@
         </div>
     </div>
 </div>
+
+@push("scripts")
+    <script src="{{ asset('/plugins/custom/typedjs/typedjs.bundle.js') }}"></script>
+    <script type="text/javascript">
+        document.querySelectorAll('.typed').forEach(typed => {
+            //console.log(typed.dataset);
+            //debugger;
+            new Typed(`.${typed.className}`, {
+                strings: [`${typed.dataset.typed}`],
+            })
+        })
+    </script>
+
+@endpush
