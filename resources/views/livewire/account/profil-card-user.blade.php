@@ -53,7 +53,7 @@
                         <div class="symbol symbol-75px">
                             <img src="{{ Storage::url('icons/railway/ranking.png') }}" alt="">
                         </div>
-                        <span class="text-gray-300 fw-bold fs-1">{{ $user->id }}</span>
+                        <span class="text-gray-300 fw-bold fs-1">{{ $user->railway->ranking }}</span>
                     </div>
                 </div>
                 <div class="d-flex rounded-bottom-3 bg-grey-200 h-150px p-5 w-100 text-dark animate__animated animate__fadeInRight animate__delay-5s">
