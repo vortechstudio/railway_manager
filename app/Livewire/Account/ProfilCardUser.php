@@ -17,6 +17,8 @@ class ProfilCardUser extends Component
     public bool $accept_friends = false;
     public bool $display_registry = false;
     public bool $display_online_status = false;
+    public bool $accept_notification = false;
+    public bool $accept_newsletter = false;
     public bool $btnIsDisabled = false;
     public string $code = '';
 
@@ -27,6 +29,8 @@ class ProfilCardUser extends Component
         $this->accept_friends = $this->user->railway_social->accept_friends;
         $this->display_registry = $this->user->railway_social->display_registry;
         $this->display_online_status = $this->user->railway_social->display_online_status;
+        $this->accept_notification = $this->user->profil->notification;
+        $this->accept_newsletter = $this->user->profil->newsletter;
     }
 
     public function resetForm()
@@ -82,6 +86,10 @@ class ProfilCardUser extends Component
             $this->user->railway_social->display_registry = $this->display_registry;
             $this->user->railway_social->display_online_status = $this->display_online_status;
             $this->user->railway_social->save();
+
+            $this->user->profil->notification = $this->accept_notification;
+            $this->user->profil->newsletter = $this->accept_newsletter;
+            $this->user->profil->save();
 
             $this->alert('success', "Paramètre social mise à jour");
             $this->dispatch('closeModal', 'editSocial');

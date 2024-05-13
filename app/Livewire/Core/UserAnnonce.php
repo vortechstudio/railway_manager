@@ -21,7 +21,7 @@ class UserAnnonce extends Component
                 ->orderBy('published_at', 'desc')
                 ->get(),
             'updates' => Article::where('type', 'notice')
-                ->where('title', 'like', '[MAJ]')
+                ->where('title', 'like', '%[MAJ]%')
                 ->where('published', true)
                 ->where('status', 'published')
                 ->where('cercle_id', $service->cercle_id)

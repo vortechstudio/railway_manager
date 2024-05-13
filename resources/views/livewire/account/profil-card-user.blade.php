@@ -53,7 +53,7 @@
                         <div class="symbol symbol-75px">
                             <img src="{{ Storage::url('icons/railway/ranking.png') }}" alt="">
                         </div>
-                        <span class="text-gray-300 fw-bold fs-1">{{ $user->id }}</span>
+                        <span class="text-gray-300 fw-bold fs-1">{{ $user->railway->ranking }}</span>
                     </div>
                 </div>
                 <div class="d-flex rounded-bottom-3 bg-grey-200 h-150px p-5 w-100 text-dark animate__animated animate__fadeInRight animate__delay-5s">
@@ -160,11 +160,33 @@
                                 label=""
                                 value="1" />
                         </div>
-                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-300">
                             <span>Rendre votre status de connexion public</span>
                             <x-form.switches
                                 name="display_online_status"
                                 :checked="$display_online_status"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-400">
+                            <span>
+                                Accepter de recevoir des notifications
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Vous devez également accepter de recevoir les notifications par le navigateur"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_notification"
+                                :checked="$accept_notification"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                            <span>
+                                Accepter de recevoir des newsletter periodique
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Les newsletters sont envoyer à interval de plus ou moins 1 mois"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_newsletter"
+                                :checked="$accept_newsletter"
                                 label=""
                                 value="1" />
                         </div>
