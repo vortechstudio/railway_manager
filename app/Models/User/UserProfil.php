@@ -13,6 +13,7 @@ class UserProfil extends Model
     protected $casts = [
         'banned_at' => 'timestamp',
         'banned_for' => 'timestamp',
+        'birthday' => 'timestamp',
     ];
 
     public function user()
