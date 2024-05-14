@@ -4,6 +4,7 @@ namespace App\Models\Config;
 
 use App\Enums\Config\ServiceStatusEnum;
 use App\Enums\Config\ServiceTypeEnum;
+use App\Models\Railway\Core\Message;
 use App\Models\Social\Cercle;
 use App\Models\Support\Tickets\Ticket;
 use App\Models\Support\Tickets\TicketCategory;
@@ -56,6 +57,11 @@ class Service extends Model
     public function cercle()
     {
         return $this->belongsTo(Cercle::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
     public function hasVersions()
