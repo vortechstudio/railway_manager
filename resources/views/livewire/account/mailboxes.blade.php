@@ -46,9 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <x-markdown>
-                                        {!! $message->message->message_content !!}
-                                    </x-markdown>
+                                    {!! $message->message->message_content !!}
                                 </div>
                                 @if($message->reward_type)
                                     <div class="card-footer">
