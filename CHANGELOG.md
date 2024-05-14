@@ -1,3 +1,28 @@
+# [0.4.0](https://github.com/vortechstudio/railway_manager/compare/v0.3.0...v0.4.0) (2024-05-14)
+
+
+### Bug Fixes
+
+* **Core:** Correction du chemin d'enregistrement du serviceWorker ([665ea91](https://github.com/vortechstudio/railway_manager/commit/665ea916db72a6ef0af0ead2995e77b73040d74a))
+* **Profil:** ajout de l'option de notification et de newsletter ([4aed5fa](https://github.com/vortechstudio/railway_manager/commit/4aed5fa17efddccb42064cb3e5d076aaefeb2a2b))
+* **Profil:** correction de l'affichage du classement de l'utilisateur ([389513d](https://github.com/vortechstudio/railway_manager/commit/389513df2791e61474bf7f129755c0b94c5f384d))
+* **PWA:** Modification de l'orientation dans laravelpwa ([2464204](https://github.com/vortechstudio/railway_manager/commit/2464204f9ecc85212c8e29f7150aab542b4fe155))
+* **Tableau de Bord:** Amélioration de l'affichage des actualités ([67e7325](https://github.com/vortechstudio/railway_manager/commit/67e7325ee6116edce46ccc48cfc1b6b204cbb272))
+* **UserAnnonce:** Correction du filtre de titre pour les mises à jour ([f679971](https://github.com/vortechstudio/railway_manager/commit/f679971fbeb7a11f7d28af65e38b220b9fab0dfc))
+
+
+### Features
+
+* **Core:** Ajout de la notification d'augmentation de réputation ([f02a756](https://github.com/vortechstudio/railway_manager/commit/f02a756eddb22950b8d723a44bd8e27cb9cca678))
+* **Messagerie:** Ajout de fonctionnalités et de vues pour la gestion des boîtes mail ([376f7ba](https://github.com/vortechstudio/railway_manager/commit/376f7baf2bb356678165e5bfaa93019c7378546a))
+* **Messagerie:** Ajout de modèles et migrations pour messages et messages utilisateur ([92ffedc](https://github.com/vortechstudio/railway_manager/commit/92ffedc20e6d7034f3839a854ec4b5cd048276bd))
+* **Messagerie:** ajout du modal récompense et du contrôleur Boîte Mail ([c59535a](https://github.com/vortechstudio/railway_manager/commit/c59535a937b52ebf25303dddcbc066db9daf681d))
+* **Messagerie:** Ajout relation Service-Message ([88e5754](https://github.com/vortechstudio/railway_manager/commit/88e5754bd1e1e35a30e2312118215ed6648a793f))
+* **Messagerie:** Ajouter la vue de la messagerie et l'action Mailbox ([7d0e724](https://github.com/vortechstudio/railway_manager/commit/7d0e7249d5831123f0517a14b1f555e1005de90a))
+* **Profil:** Ajout d'un champ date d'anniversaire ([b4d4cd0](https://github.com/vortechstudio/railway_manager/commit/b4d4cd096a5a8874abd412b27f5a1877a5d8bc4e))
+* **Profil:** Ajout du champ 'birthday' ([5e53078](https://github.com/vortechstudio/railway_manager/commit/5e530786fc9dfec1d746c434a7a7fcb967c956bb))
+* **Utilisateur:** ajout d'une fonctionnalité pour insérer des messages pour les nouveaux utilisateurs ([1940538](https://github.com/vortechstudio/railway_manager/commit/19405380e474a257c074e6b61a86f4ecd3e8feb0))
+
 # [0.3.0](https://github.com/vortechstudio/railway_manager/compare/v0.2.0...v0.3.0) (2024-05-13)
 
 
