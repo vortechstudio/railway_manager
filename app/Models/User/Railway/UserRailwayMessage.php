@@ -2,6 +2,7 @@
 
 namespace App\Models\User\Railway;
 
+use App\Enums\Railway\Core\MessageRewardTypeEnum;
 use App\Models\Railway\Core\Message;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserRailwayMessage extends Model
 {
     protected $guarded = [];
+    protected $casts = [
+        'reward_type' => MessageRewardTypeEnum::class,
+    ];
 
     public function user()
     {
