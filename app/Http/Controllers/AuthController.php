@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Account\MailboxAction;
 use App\Actions\NewUserAction;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
@@ -207,7 +208,23 @@ class AuthController extends Controller
             ]);
 
             $user->railway_social()->create(["user_id" => $user->id]);
-            (new NewUserAction())->insertNewsMessageAccount();
+            (new MailboxAction())->newMessage(
+                user: $user,
+                subject: 'Bienvenue sur Railway Manager',
+                message: "Cher joueur,
+
+Nous sommes ravis de vous accueillir dans notre communauté de passionnés de trains et de simulation. Vous avez franchi le premier pas vers une aventure passionnante dans le monde des chemins de fer.
+
+Notre jeu de simulation ferroviaire par navigateur vous offre l'opportunité de gérer votre propre réseau de trains, de construire des voies ferrées, d'acheter des locomotives et de gérer des horaires de trains. Vous allez découvrir le frisson de la conduite de trains, le défi de la gestion d'un réseau ferroviaire et le plaisir de la planification stratégique.
+
+Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous guidera à travers les bases du jeu. Si vous avez des questions ou besoin d'aide, n'hésitez pas à consulter notre forum de la communauté ou à contacter notre équipe de support.
+
+Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
+
+Bon jeu et à bientôt sur les rails !",
+                reward_type: 'argent',
+                reward_value: 100000,
+            );
 
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();
@@ -290,7 +307,23 @@ class AuthController extends Controller
                 'user_id' => $request->user()->id
             ]);
 
-            (new NewUserAction())->insertNewsMessageAccount();
+            (new MailboxAction())->newMessage(
+                user: $request->user(),
+                subject: 'Bienvenue sur Railway Manager',
+                message: "Cher joueur,
+
+Nous sommes ravis de vous accueillir dans notre communauté de passionnés de trains et de simulation. Vous avez franchi le premier pas vers une aventure passionnante dans le monde des chemins de fer.
+
+Notre jeu de simulation ferroviaire par navigateur vous offre l'opportunité de gérer votre propre réseau de trains, de construire des voies ferrées, d'acheter des locomotives et de gérer des horaires de trains. Vous allez découvrir le frisson de la conduite de trains, le défi de la gestion d'un réseau ferroviaire et le plaisir de la planification stratégique.
+
+Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous guidera à travers les bases du jeu. Si vous avez des questions ou besoin d'aide, n'hésitez pas à consulter notre forum de la communauté ou à contacter notre équipe de support.
+
+Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
+
+Bon jeu et à bientôt sur les rails !",
+                reward_type: 'argent',
+                reward_value: 100000,
+            );
 
             toastr()
                 ->addSuccess('Votre compte a été configurer, Bienvenue');
