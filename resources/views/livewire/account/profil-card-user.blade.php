@@ -12,6 +12,11 @@
                         </a>
                     </div>
                     <div class="menu-item px-3">
+                        <a href="#editBirthday" data-bs-toggle="modal" class="menu-link px-3">
+                            Date d'anniversaire
+                        </a>
+                    </div>
+                    <div class="menu-item px-3">
                         <a href="#editSocials" data-bs-toggle="modal" class="menu-link px-3">
                             Paramètres sociaux
                         </a>
@@ -53,7 +58,7 @@
                         <div class="symbol symbol-75px">
                             <img src="{{ Storage::url('icons/railway/ranking.png') }}" alt="">
                         </div>
-                        <span class="text-gray-300 fw-bold fs-1">{{ $user->id }}</span>
+                        <span class="text-gray-300 fw-bold fs-1">{{ $user->railway->ranking }}</span>
                     </div>
                 </div>
                 <div class="d-flex rounded-bottom-3 bg-grey-200 h-150px p-5 w-100 text-dark animate__animated animate__fadeInRight animate__delay-5s">
@@ -160,11 +165,33 @@
                                 label=""
                                 value="1" />
                         </div>
-                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-300">
                             <span>Rendre votre status de connexion public</span>
                             <x-form.switches
                                 name="display_online_status"
                                 :checked="$display_online_status"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-grey-400">
+                            <span>
+                                Accepter de recevoir des notifications
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Vous devez également accepter de recevoir les notifications par le navigateur"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_notification"
+                                :checked="$accept_notification"
+                                label=""
+                                value="1" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center rounded-bottom-2 p-3 bg-grey-300">
+                            <span>
+                                Accepter de recevoir des newsletter periodique
+                                <i class="fa-solid fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Les newsletters sont envoyer à interval de plus ou moins 1 mois"></i>
+                            </span>
+                            <x-form.switches
+                                name="accept_newsletter"
+                                :checked="$accept_newsletter"
                                 label=""
                                 value="1" />
                         </div>
@@ -208,6 +235,40 @@
                         <button type="submit" class="btn btn-primary">
                             <span wire:loading.remove wire:target="saveName"><i class="fa-solid fa-check-circle me-3"></i> Confirmer</span>
                             <span wire:loading wire:target="saveName"><i class="fa-solid fa-spinner fa-spin-pulse"></i>Veuillez patienter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div wire:ignore.self class="modal fade" tabindex="-1" id="editBirthday">
+        <form action="" wire:submit="birthday" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Date d'anniversaire</h3>
+
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
+                    </div>
+
+                    <div class="modal-body">
+                        <x-form.input
+                            type="date"
+                            name="birthday"
+                            no-label="true"
+                            placeholder="Veuillez saisir le votre date d'anniversaire"
+                            required="true" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="fa-solid fa-xmark-circle me-3"></i> Annuler</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span wire:loading.remove wire:target="birthday"><i class="fa-solid fa-check-circle me-3"></i> Confirmer</span>
+                            <span wire:loading wire:target="birthday"><i class="fa-solid fa-spinner fa-spin-pulse"></i>Veuillez patienter</span>
                         </button>
                     </div>
                 </div>

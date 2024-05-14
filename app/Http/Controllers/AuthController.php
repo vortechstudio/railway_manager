@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\NewUserAction;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
@@ -206,6 +207,7 @@ class AuthController extends Controller
             ]);
 
             $user->railway_social()->create(["user_id" => $user->id]);
+            (new NewUserAction())->insertNewsMessageAccount();
 
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();
@@ -287,6 +289,8 @@ class AuthController extends Controller
             $request->user()->railway_social()->create([
                 'user_id' => $request->user()->id
             ]);
+
+            (new NewUserAction())->insertNewsMessageAccount();
 
             toastr()
                 ->addSuccess('Votre compte a été configurer, Bienvenue');

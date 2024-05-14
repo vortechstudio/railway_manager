@@ -116,6 +116,7 @@ License: For each use you must have a valid license purchased only from above li
 <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
     <i class="ki-outline ki-arrow-up"></i>
 </div>
+<livewire:core.modal-reward />
 <script>var hostUrl = "assets/";</script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>

@@ -39,15 +39,15 @@
                     <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-1s mb-5">
                         <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-top-2 shadow text-white p-2">
                             <span class="fw-bold">Entreprise</span>
-                            <span class="typed" data-typed="{{ $user->railway->name_company }}"></span>
+                            <span>{{ $user->railway->name_company }}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center bg-gray-400 text-white p-2">
                             <span class="fw-bold">Secrétaire</span>
-                            <span class="typed" data-typed="{{ $user->railway->name_secretary }}"></span>
+                            <span>{{ $user->railway->name_secretary }}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-bottom-2 shadow text-white p-2">
                             <span class="fw-bold">Réputation</span>
-                            <span data-kt-countup="true" data-kt-countup-value="458000">0</span>
+                            <span data-kt-countup="true" data-kt-countup-value="{{ $user->railway->reputation }}">0</span>
                         </div>
                     </div>
                     <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-1s mb-5">
@@ -74,15 +74,5 @@
 </div>
 
 @push("scripts")
-    <script src="{{ asset('/plugins/custom/typedjs/typedjs.bundle.js') }}"></script>
-    <script type="text/javascript">
-        document.querySelectorAll('.typed').forEach(typed => {
-            //console.log(typed.dataset);
-            //debugger;
-            new Typed(`.${typed.className}`, {
-                strings: [`${typed.dataset.typed}`],
-            })
-        })
-    </script>
 
 @endpush
