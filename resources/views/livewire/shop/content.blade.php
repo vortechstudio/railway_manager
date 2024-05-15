@@ -23,9 +23,9 @@
                         <div class="row">
                             @foreach($category->railway_items as $item)
                                 <div class="col-4 mb-5">
-                                    <a href="" class="card shadow-sm {{ $item->rarity_bg_color }} bg-hover-opacity-50 ribbon ribbon-top-end">
+                                    <a wire:click.prevent="checkout({{ $item->id }})" href="" class="card shadow-sm shop-bg-{{ $item->rarity }} bg-hover-opacity-50 ribbon ribbon-top-end">
                                         <div class="d-flex justify-content-center p-5">
-                                            <span class="fw-bold text-gray-500 fs-1">{{ Str::upper($item->name ) }}</span>
+                                            <span class="fw-bold fs-1">{{ Str::upper($item->name ) }}</span>
                                             @if($item->disponibility_end_at)
                                                 <div class="ribbon-label bg-primary">{{ $item->disponibility_end_at->shortAbsoluteDiffForHumans() }}</div>
                                             @endif
@@ -54,4 +54,6 @@
             @endforeach
         </div>
     </div>
+    <livewire:shop.modal-checkout />
+    <livewire:shop.modal-pass-checkout />
 </div>

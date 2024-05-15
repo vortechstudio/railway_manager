@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,8 +34,8 @@ Route::get('password-confirm', [\App\Http\Controllers\AuthController::class, 'co
     ->name('password.confirm')
     ->middleware('auth');
 
-Route::get('/test', function () {
-    auth()->user()->railway->addReputation('engine', null);
+Route::get('/test', function (Request $request) {
+    dd($request->all());
 });
 
 Route::middleware(['auth', 'install'])->group(function () {

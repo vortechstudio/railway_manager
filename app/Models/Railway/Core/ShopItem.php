@@ -21,7 +21,8 @@ class ShopItem extends Model
     protected $appends = [
         'rarity_bg_color',
         'image',
-        'price_format'
+        'price_format',
+        'has_checkout',
     ];
 
     public function shopCategory(): BelongsTo
@@ -31,7 +32,7 @@ class ShopItem extends Model
 
     public function packages()
     {
-        return $this->belongsToMany(ShopPackage::class);
+        return $this->belongsToMany(ShopPackage::class, 'package_item');
     }
 
     public function getImage()
@@ -40,6 +41,23 @@ class ShopItem extends Model
             return \Storage::url('icons/railway/shop/items/'.\Str::slug($this->name).'.png');
         } else {
             return \Storage::url('icons/railway/shop/items/'.\Str::slug($this->name).'.gif');
+        }
+    }
+
+    public function getHasCheckoutAttribute()
+    {
+        $user = \Auth::user();
+        // Vérification des montants
+        $amount_ok = match ($this->currency_type) {
+            "argent" => $user->railway->argent >= $this->price,
+            "tpoint" => $user->railway->tpoint >= $this->price,
+            "reel" => true
+        };
+
+        if($amount_ok) {
+            return true;
+        } else {
+            return false;
         }
     }
 

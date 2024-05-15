@@ -3,6 +3,7 @@
 namespace App\Livewire\Shop;
 
 use App\Models\Config\Shop;
+use App\Models\Railway\Core\ShopItem;
 use App\Services\RailwayService;
 use Livewire\Component;
 
@@ -20,6 +21,15 @@ class Content extends Component
     public function selectCategory(int $category_id)
     {
         $this->shop_category_id = $category_id;
+    }
+
+    public function checkout(int $item_id)
+    {
+        $item = ShopItem::with('shopCategory', 'packages')->find($item_id);
+        $this->dispatch('showModalCheckout', [
+            'id' => 'modalCheckout',
+            'item' => $item
+        ]);
     }
 
     public function render()
