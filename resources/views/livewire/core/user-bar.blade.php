@@ -57,7 +57,7 @@
             </a>
         </div>
         <div class="menu-item px-5">
-            <a href="{{ route('shop') }}" class="menu-link px-5">
+            <a href="{{ route('shop.index') }}" class="menu-link px-5">
                                 <span class="menu-icon">
                                     <i class="fa-solid fa-shopping-cart fs-2"></i>
                                 </span>

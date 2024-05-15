@@ -39,7 +39,11 @@ Route::get('/test', function () {
 
 Route::middleware(['auth', 'install'])->group(function () {
     Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
-    Route::get('/shop')->name('shop');
     Route::post('/push', \App\Http\Controllers\PushSubscriptionController::class);
+
+    Route::prefix('shop')->as('shop.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
+    });
+
     include('account.php');
 });
