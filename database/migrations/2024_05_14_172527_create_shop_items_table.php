@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->text('description');
             $table->string('currency_type');
             $table->integer('price')->nullable();
+            $table->enum('rarity', ['base', 'bronze', 'argent', 'or', 'legendary'])->default('base');
             $table->timestamp('disponibility_end_at')->nullable();
             $table->boolean('blocked')->default(false)->comment('Si blocked bloquer à un certain nombre d\'achat');
             $table->integer('blocked_max')->nullable();
