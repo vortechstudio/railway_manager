@@ -1,3 +1,17 @@
+# [0.5.0](https://github.com/vortechstudio/railway_manager/compare/v0.4.0...v0.5.0) (2024-05-15)
+
+
+### Features
+
+* **Boutique:** Ajout de la caractéristique de 'rareté' et amélioration des modèles ShopItem et ShopCategory ([e6aa5fe](https://github.com/vortechstudio/railway_manager/commit/e6aa5fee1e7026a140a18d9ddf618f58086a1aa2))
+* **Boutique:** Ajout de nouvelles fonctionnalités aux modules Shop ([4d0c8da](https://github.com/vortechstudio/railway_manager/commit/4d0c8da7c7a6b221f548896eac6a42248677804e))
+* **Boutique:** Ajout des modals de finalisation de paiement ([eb9f7d7](https://github.com/vortechstudio/railway_manager/commit/eb9f7d7d1b70a4ac6e55c415cb49ad6c473545b0))
+* **Boutique:** Création du module de boutique ([ce59e2e](https://github.com/vortechstudio/railway_manager/commit/ce59e2e367b4b5cbeeaa5502b7931bbd881f017c))
+* **Boutique:** Implementation du système de boutique ([b670479](https://github.com/vortechstudio/railway_manager/commit/b6704793ad25955b9d11c1bc9c59134c21e4b3a0))
+* **core:** Ajout de la barre utilisateur ([2c3d209](https://github.com/vortechstudio/railway_manager/commit/2c3d2096de590fae49540f4c390d2e900277b1fa))
+* **Core:** Ajout du système de blocage d'accès au service ([84170a4](https://github.com/vortechstudio/railway_manager/commit/84170a402628f24903cd5bf1000b8300b1c041fd))
+* **Messagerie:** Ajout de fonctionnalités de messagerie ([53a7f75](https://github.com/vortechstudio/railway_manager/commit/53a7f75d9d15f38940f9db54a2b725834e9920d7))
+
 # [0.4.0](https://github.com/vortechstudio/railway_manager/compare/v0.3.0...v0.4.0) (2024-05-14)
 
 
