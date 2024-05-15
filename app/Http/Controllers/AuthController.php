@@ -208,6 +208,12 @@ class AuthController extends Controller
             ]);
 
             $user->railway_social()->create(["user_id" => $user->id]);
+            Auth::login($user);
+            $service = (new RailwayService())->getRailwayService();
+            $user->logs()->create([
+                'action' => "Connexion au service: $service->name",
+                'user_id' => $user->id,
+            ]);
             (new MailboxAction())->newMessage(
                 user: $user,
                 subject: 'Bienvenue sur Railway Manager',
@@ -225,13 +231,6 @@ Bon jeu et à bientôt sur les rails !",
                 reward_type: 'argent',
                 reward_value: 100000,
             );
-
-            Auth::login($user);
-            $service = (new RailwayService())->getRailwayService();
-            $user->logs()->create([
-                'action' => "Connexion au service: $service->name",
-                'user_id' => $user->id,
-            ]);
         } catch (Exception $exception) {
             Log::emergency($exception->getMessage(), [$exception]);
         }
