@@ -46,18 +46,20 @@ class MailboxAction
     public function newMessage(User $user, string $subject, string $message, string $type = 'global', ?string $reward_type = null, ?int $reward_value = null)
     {
         $service = (new RailwayService())->getRailwayService();
-        $message = Message::create([
-            'message_subject' => $subject,
-            'message_content' => $message,
-            'message_type' => $type,
-            'service_id' => $service->id
-        ]);
+        \DB::transaction(function () use ($subject, $message, $type, $service, $user, $reward_type, $reward_value) {
+            $message = Message::create([
+                'message_subject' => $subject,
+                'message_content' => $message,
+                'message_type' => $type,
+                'service_id' => $service->id
+            ]);
 
-        $message->railway_messages()->create([
-            'user_id' => $user->id,
-            'message_id' => $message->id,
-            'reward_type' => $reward_type,
-            'reward_value' => $reward_value
-        ]);
+            $message->railway_messages()->create([
+                'user_id' => $user->id,
+                'message_id' => $message->id,
+                'reward_type' => $reward_type,
+                'reward_value' => $reward_value
+            ]);
+        });
     }
 }

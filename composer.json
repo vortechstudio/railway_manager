@@ -34,6 +34,7 @@
         "socialiteproviders/twitch": "^5.4",
         "spatie/laravel-markdown": "^2.5",
         "spatie/laravel-options": "^1.1",
+        "stripe/stripe-php": "^14.6",
         "torann/geoip": "^3.0",
         "vstudio/helpers": "^1.2",
         "vstudio/versionbuildaction": "^1.1"

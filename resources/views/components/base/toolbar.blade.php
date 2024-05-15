@@ -1,4 +1,4 @@
-<div id="kt_app_toolbar" class="app-toolbar py-6">
+<div id="kt_app_toolbar" class="app-toolbar py-6 {{ $notitle ? 'mb-10' : '' }}">
     <!--begin::Toolbar container-->
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex align-items-start">
         <!--begin::Toolbar container-->
@@ -32,6 +32,7 @@
             </div>
             <!--end::Toolbar wrapper=-->
             <!--begin::Toolbar wrapper=-->
+            @if(!$notitle)
             <div class="d-flex flex-stack flex-wrap flex-lg-nowrap gap-4 gap-lg-10 pt-6 pb-18 py-lg-13">
                 <!--begin::Page title-->
                 <div class="page-title d-flex align-items-center me-3">
@@ -94,6 +95,7 @@
                 </div>
                 <!--end::Items-->
             </div>
+            @endif
         </div>
         <!--end::Toolbar container=-->
     </div>
