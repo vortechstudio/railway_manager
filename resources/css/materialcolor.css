@@ -534,3 +534,8 @@
 
 .bg-transparent { background-color: transparent!important; }
 .text-transparent { color: transparent!important; }
+
+.btn-active-gray {
+    background-color: rgba(24,24,24,0.89) !important;
+    border-color: rgba(24,24,24,0.89) !important;
+}
