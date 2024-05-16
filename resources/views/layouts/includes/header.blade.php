@@ -80,9 +80,6 @@
                     <!--end::Menu wrapper-->
                 </div>
                 <!--end::Chat-->
-                <!--begin::User menu-->
-                <livewire:core.user-bar />
-                <!--end::User menu-->
                 <livewire:core.user-menu />
                 <!--begin::Header menu toggle-->
 
