@@ -54,7 +54,11 @@
                 document.getElementById(modalId).querySelector('.qteCheckout').innerHTML = event.detail[0].item.qte
 
                 if(event.detail[0].item.has_checkout) {
-                    document.getElementById(modalId).querySelector('.btnCheckout').innerHTML = `<button wire:click="passCheckout('${event.detail[0].item.id}')" class="btn btn-lg btn-primary fs-2">${event.detail[0].item.price_format}</button>`
+                    document.getElementById(modalId).querySelector('.btnCheckout').innerHTML = `
+                        <button wire:click="passCheckout('${event.detail[0].item.id}')" wire:loading.attr="disabled" class="btn btn-lg btn-primary fs-2">
+                        <span wire:loading.remove>${event.detail[0].item.price_format}</span>
+                        <span wire:loading><i class="fa-solid fa-spinner fa-spin"></i> Veuillez patienter...</span>
+                        </button>`
                 } else {
                     document.getElementById(modalId).querySelector('.btnCheckout').innerHTML = `<button disabled="disabled" class="btn btn-lg btn-primary fs-2">${event.detail[0].item.price_format}</button>`
                 }

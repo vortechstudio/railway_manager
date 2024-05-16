@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Shop;
 
+use App\Actions\Compta;
+use App\Actions\ShopFunctionAction;
 use App\Models\Railway\Core\ShopItem;
 use App\Models\Railway\Engine\RailwayEngine;
 use App\Models\User\User;
@@ -24,7 +26,7 @@ class ModalCheckout extends Component
     public function passCheckout(int $item_id)
     {
         $item = ShopItem::with('packages', 'shopCategory')->find($item_id);
-        $checkout = match ($item->currency_type) {
+        match ($item->currency_type) {
             "argent" => $this->checkoutArgent($item),
             "tpoint" => $this->checkoutTpoint($item),
             "reel" => $this->checkoutReel($item),
@@ -33,8 +35,8 @@ class ModalCheckout extends Component
 
     public function checkoutTpoint(ShopItem $item)
     {
-        if($item->section == 'engine') {
-            $engine = RailwayEngine::where('name', 'like', '%'.$item->name.'%')->first();
+        if ($item->section == 'engine') {
+            $engine = RailwayEngine::where('name', 'like', '%' . $item->name . '%')->first();
 
             $this->user->railway->tpoint -= $item->price;
             $this->user->railway->save();
@@ -58,7 +60,7 @@ class ModalCheckout extends Component
 
     private function checkoutReel(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item)
     {
-        if($item->section == 'engine') {
+        if ($item->section == 'engine') {
 
         } elseif ($item->section == 'tpoint') {
             Stripe::setApiKey(config('services.stripe.secret'));
@@ -68,14 +70,39 @@ class ModalCheckout extends Component
                     'quantity' => 1
                 ]],
                 'mode' => 'payment',
-                'success_url' => config('app.url').'/shop?paymentStatement=success&item='.$item->id,
-                'cancel_url' => config('app.url').'/shop',
+                'success_url' => config('app.url') . '/shop?paymentStatement=success&item=' . $item->id,
+                'cancel_url' => config('app.url') . '/shop',
                 'automatic_tax' => [
                     'enabled' => true,
                 ],
             ]);
 
             $this->redirect($checkout_session->url);
+        }
+    }
+
+    private function checkoutArgent(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item)
+    {
+        $function = match ($item->section) {
+            "simulation" => (new ShopFunctionAction())->executeSimulation($item, $this->user),
+        };
+
+        if($function) {
+            (new Compta())->create(
+                $this->user,
+                'Achat en boutique: ' . $item->name,
+                $item->price,
+                'charge',
+                'divers',
+            );
+            $this->dispatch('closeModal', 'modalCheckout');
+            $this->dispatch('showModalPassCheckout', [
+                'id' => 'modalPassCheckout',
+                'item' => $item
+            ]);
+        } else {
+            $this->dispatch('closeModal', 'modalCheckout');
+            $this->alert('error', 'Erreur lors de votre achat, veuillez réessayer ou contacter le support technique !');
         }
     }
 }
