@@ -136,7 +136,8 @@ class AuthController extends Controller
                     'user_id' => $user->id,
                     'argent' => 0,
                     'tpoint' => RailwaySetting::where('name', 'start_tpoint')->first()->value,
-                    'research' => RailwaySetting::where('name', 'start_research')->first()->value
+                    'research' => RailwaySetting::where('name', 'start_research')->first()->value,
+                    'uuid' => rand(10000000, 99999999),
                 ]);
             }
 
@@ -305,7 +306,8 @@ Bon jeu et à bientôt sur les rails !",
                 'tpoint' => 0,
                 'research' => 0,
                 'automated_planning' => false,
-                'user_id' => $request->user()->id
+                'user_id' => $request->user()->id,
+                'uuid' => rand(10000000, 99999999),
             ]);
 
             $request->user()->railway_social()->create([

@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\RailwayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,20 +36,10 @@ Route::middleware(['nolocked'])->group(function() {
         ->name('password.confirm')
         ->middleware('auth');
 
-    Route::get('/test', function (Request $request) {
-        $response = \Cloudstudio\Ollama\Facades\Ollama::agent('Tu est un expert en git et tu travail avec github.')
-            ->prompt('Génère moi une description d\'un exemple d\'erreur rencontrer dans la ravel dans le format issue de github.')
-            ->model('llama3')
-            ->options(['temperature' => 0.8])
-            ->stream(false)
-            ->ask();
-
-        dd($response);
-    });
-
     Route::middleware(['auth', 'install'])->group(function () {
         Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
         Route::post('/push', \App\Http\Controllers\PushSubscriptionController::class);
+        Route::get('/news', \App\Http\Controllers\NewsController::class)->name('news');
 
         Route::prefix('shop')->as('shop.')->group(function () {
             Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
@@ -56,6 +47,11 @@ Route::middleware(['nolocked'])->group(function() {
 
         include('account.php');
     });
+});
+
+Route::get('/test', function (Request $request) {
+    $service = (new RailwayService())->getRailwayArticles();
+    dd($service);
 });
 
 Route::get('/maintenance', function () {
