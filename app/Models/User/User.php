@@ -10,6 +10,7 @@ use App\Models\Social\Post\PostComment;
 use App\Models\Support\Tickets\Ticket;
 use App\Models\Support\Tickets\TicketMessage;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\Railway\UserRailwayMessage;
 use App\Models\User\Railway\UserRailwaySocial;
 use Illuminate\Database\Eloquent\Builder;
@@ -131,6 +132,11 @@ class User extends Authenticatable
     public function railway_messages()
     {
         return $this->hasMany(UserRailwayMessage::class);
+    }
+
+    public function railway_company()
+    {
+        return $this->hasOne(UserRailwayCompany::class);
     }
 
     public function scopeNotifiable(Builder $query)
