@@ -15,5 +15,6 @@ class ErrorDispatchHandle
     {
         $issue = new Issues(Issues::createIssueMonolog('exception', $e->getMessage(), [$e]));
         $issue->createIssueFromException();
+        \Log::emergency($e->getMessage(), [$e]);
     }
 }
