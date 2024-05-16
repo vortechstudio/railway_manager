@@ -3,6 +3,7 @@
 namespace App\Livewire\Account;
 
 use App\Actions\Account\MailboxAction;
+use App\Actions\Compta;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -29,7 +30,14 @@ class Mailboxes extends Component
 
         try {
             match ($message->reward_type->value) {
-                "argent" => (new MailboxAction())->addArgent($message->reward_value)
+                "argent" => (new Compta())->create(
+                    auth()->user(),
+                    'Bonus: '.$message->reward_value,
+                    $message->reward_value,
+                    'revenue',
+                    'divers',
+                    false,
+                )
             };
 
             $message->reward_collected = true;
