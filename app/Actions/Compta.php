@@ -26,7 +26,7 @@ class Compta
         $amountVal = $isCharge ? -$amountVal : $amountVal;
 
         try {
-            $user->railway_company()->create([
+            $user->railway_company->mouvements()->create([
                 'title' => $title,
                 'amount' => $amountVal,
                 'type_amount' => $type_amount,

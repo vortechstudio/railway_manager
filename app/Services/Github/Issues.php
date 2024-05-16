@@ -106,34 +106,34 @@ class Issues
     {
         $results = collect();
 
-        $describe = $this->gpt->prompt("Description sous le format issue de GITHUB: \n" . $title . "\n" . $details['message'] . "\n" . $details['context']['exception']->getMessage() . "\n" . $details['context']['exception']->getTraceAsString())
+        $describe = $this->gpt->prompt("Description sous le format issue de GITHUB: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
             ->model('llama3')
             ->options(['temperature' => 0.8])
             ->stream(false)
             ->ask();
 
-        $reproduce = $this->gpt->prompt("Comment reproduire l'erreur: \n" . $title . "\n" . $details['message'] . "\n" . $details['context']['exception']->getMessage() . "\n" . $details['context']['exception']->getTraceAsString())
+        $reproduce = $this->gpt->prompt("Comment reproduire l'erreur: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
             ->model('llama3')
             ->options(['temperature' => 0.8])
             ->stream(false)
             ->ask();
 
-        $comportement = $this->gpt->prompt("Comportement attendu: \n" . $title . "\n" . $details['message'] . "\n" . $details['context']['exception']->getMessage() . "\n" . $details['context']['exception']->getTraceAsString())
+        $comportement = $this->gpt->prompt("Comportement attendu: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
             ->model('llama3')
             ->options(['temperature' => 0.8])
             ->stream(false)
             ->ask();
 
-        $solution = $this->gpt->prompt("Solution proposé: \n" . $title . "\n" . $details['message'] . "\n" . $details['context']['exception']->getMessage() . "\n" . $details['context']['exception']->getTraceAsString())
+        $solution = $this->gpt->prompt("Solution proposé: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
             ->model('llama3')
             ->options(['temperature' => 0.8])
             ->stream(false)
             ->ask();
 
-        $results->push(['description' => $describe->choices[0]->message->content]);
-        $results->push(['reproduce' => $reproduce->choices[0]->message->content]);
-        $results->push(['comportement' => $comportement->choices[0]->message->content]);
-        $results->push(['solution' => $solution->choices[0]->message->content]);
+        $results->push(['description' => $describe['response']]);
+        $results->push(['reproduce' => $reproduce['response']]);
+        $results->push(['comportement' => $comportement['response']]);
+        $results->push(['solution' => $solution['response']]);
 
         return $results;
     }
