@@ -83,9 +83,9 @@
                             <span class="me-2">Niveau de direction</span>
                             <span>{{ $user->railway->level }}</span>
                         </div>
-                        <div class="fs-4">
+                        <div class="fs-4 text-gray-800 fw-semibold">
                             <span>Expérience</span>
-                            <span>1336/9600</span>
+                            <span>{{ $user->railway->xp }}/{{ $user->railway->next_level_xp }}</span>
                         </div>
                     </div>
                     <div class="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
@@ -145,6 +145,42 @@
                         <i class="fa-solid fa-bullhorn fs-2x text-white text-hover-gray-800"></i>
                         <span id="badgeNews"></span>
                     </a>
+                    <div>
+                        <a class="mb-5 position-relative" data-kt-menu-trigger="click" data-kt-menu-placement="left" data-kt-menu-offset="30px, 30px">
+                            <i class="fa-solid fa-sun fs-2x text-white text-hover-gray-800"></i>
+                        </a>
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-auto min-w-200 mw-300px" data-kt-menu="true" data-kt-element="theme-mode-menu">
+                            <div class="menu-item px-3 my-0">
+                                <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
+														<span class="menu-icon" data-kt-element="icon">
+															<i class="ki-outline ki-night-day fs-2"></i>
+														</span>
+                                    <span class="menu-title">Light</span>
+                                </a>
+                            </div>
+                            <!--end::Menu item-->
+                            <!--begin::Menu item-->
+                            <div class="menu-item px-3 my-0">
+                                <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+														<span class="menu-icon" data-kt-element="icon">
+															<i class="ki-outline ki-moon fs-2"></i>
+														</span>
+                                    <span class="menu-title">Dark</span>
+                                </a>
+                            </div>
+                            <!--end::Menu item-->
+                            <!--begin::Menu item-->
+                            <div class="menu-item px-3 my-0">
+                                <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
+														<span class="menu-icon" data-kt-element="icon">
+															<i class="ki-outline ki-screen fs-2"></i>
+														</span>
+                                    <span class="menu-title">System</span>
+                                </a>
+                            </div>
+                            <!--end::Menu item-->
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex align-items-end h-25 justify-content-end">
                     <a href="{{ route('auth.logout') }}">
