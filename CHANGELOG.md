@@ -1,3 +1,16 @@
+# [0.7.0](https://github.com/vortechstudio/railway_manager/compare/v0.6.0...v0.7.0) (2024-05-16)
+
+
+### Bug Fixes
+
+* **Boutique:** Affichage filtré des catégories et produits dans le shop ([02eb507](https://github.com/vortechstudio/railway_manager/commit/02eb5078567c77f77926f0923833ac95add649da))
+* **General:** suppression de UserBar et intégration de ses fonctionnalités dans UserMenu ([8575527](https://github.com/vortechstudio/railway_manager/commit/857552735d0558706435b8811958dcb2a2475883))
+
+
+### Features
+
+* **Core:** Ajout de nouvelles fonctionnalités dans le menu de l'utilisateur ([2fbd64b](https://github.com/vortechstudio/railway_manager/commit/2fbd64b6b39521603923b1431a92abd608940c92))
+
 # [0.6.0](https://github.com/vortechstudio/railway_manager/compare/v0.5.0...v0.6.0) (2024-05-16)
 
 
