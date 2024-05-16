@@ -1,5 +1,6 @@
 @import "fonts/tabler-icons.css";
 @import "materialcolor.css";
+@import "size.css";
 @import "shop.css";
 
 .animated-background {
@@ -20,3 +21,13 @@
         background-position: 0 50%;
     }
 }
+
+.backgroundGradient {
+    height: 100vh;
+    margin: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.shadow-left-sm {box-shadow: black 0px 8px 25px 19px !important;}
