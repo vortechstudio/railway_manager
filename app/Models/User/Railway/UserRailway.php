@@ -16,7 +16,8 @@ class UserRailway extends Model
 
     protected $appends = [
         'xp_percent',
-        'ranking'
+        'ranking',
+        'next_level_xp',
     ];
 
     public function user(): BelongsTo
@@ -50,6 +51,12 @@ class UserRailway extends Model
         }
 
         return $this->calculateXpPercent($exp_next_level);
+    }
+
+    public function getNextLevelXpAttribute()
+    {
+        $next_level = RailwayLevel::find($this->level + 1);
+        return $next_level->exp_required;
     }
 
     public function getRankingAttribute()
