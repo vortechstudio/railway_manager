@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Account\MailboxAction;
+use App\Actions\Compta;
 use App\Actions\NewUserAction;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
@@ -133,7 +134,7 @@ class AuthController extends Controller
 
                 $user->railway()->create([
                     'user_id' => $user->id,
-                    'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
+                    'argent' => 0,
                     'tpoint' => RailwaySetting::where('name', 'start_tpoint')->first()->value,
                     'research' => RailwaySetting::where('name', 'start_research')->first()->value
                 ]);
@@ -208,6 +209,16 @@ class AuthController extends Controller
             ]);
 
             $user->railway_social()->create(["user_id" => $user->id]);
+            $user->railway_company()->create(['user_id' => $user->id]);
+            $user->railway_bonus()->create(["user_id" => $user->id]);
+            (new Compta())->create(
+                $user,
+                "Compte de départ",
+                RailwaySetting::where('name', 'start_argent')->first()->value,
+                'revenue',
+                'divers',
+                false
+            );
             Auth::login($user);
             $service = (new RailwayService())->getRailwayService();
             $user->logs()->create([
@@ -305,6 +316,17 @@ Bon jeu et à bientôt sur les rails !",
             $request->user()->railway_social()->create([
                 'user_id' => $request->user()->id
             ]);
+
+            $request->user()->railway_company()->create(['user_id' => $request->user()->id]);
+            $request->user()->railway_bonus()->create(["user_id" => $request->user()->id]);
+            (new Compta())->create(
+                $request->user(),
+                "Compte de départ",
+                RailwaySetting::where('name', 'start_argent')->first()->value,
+                'revenue',
+                'divers',
+                false
+            );
 
             (new MailboxAction())->newMessage(
                 user: $request->user(),

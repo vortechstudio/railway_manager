@@ -2,6 +2,7 @@
 
 namespace App\Services\Github;
 
+use Cloudstudio\Ollama\Facades\Ollama;
 use Github\AuthMethod;
 use Github\Client;
 use Monolog\Level;
@@ -19,12 +20,13 @@ class Issues
 
     public function __construct(
         public LogRecord $record
-    ) {
+    )
+    {
         $this->owner = config('updater.github_username');
         $this->repo = config('updater.github_repository');
         $this->client = new Client();
         $this->client->authenticate(config('updater.github_token'), null, AuthMethod::ACCESS_TOKEN);
-        $this->gpt = \OpenAI::client(config('services.openai.api_key'));
+        $this->gpt = Ollama::agent('Tu est un expert en laravel 10 / livewire 3 et AlpineJS. Tu est également un expert en Git et tu connais github pour le provisionnement des repos. Tu est français.');
     }
 
     /**
@@ -43,7 +45,7 @@ class Issues
             'env' => config('app.env'),
         ]);
 
-        if (config('services.openai.state') === true && $gpt === true) {
+        if (config('ollama-laravel.prompt_state') === true) {
             $openai = $this->generatePrompt($title, $details);
 
             ob_start();
@@ -76,8 +78,6 @@ class Issues
         } else {
             ob_start();
             ?>
-            @AdaGPT Aide moi à corriger cette erreur
-
             ## Détail de l'erreur
 
             Message: <?= $details['message'] ?>
@@ -99,58 +99,41 @@ class Issues
     /**
      * A function to generate prompt using OpenAI GPT-3.5-turbo model.
      *
-     * @param  string  $title  The title for the prompt
-     * @param  \Illuminate\Support\Collection  $details  The details for the prompt
+     * @param string $title The title for the prompt
+     * @param \Illuminate\Support\Collection $details The details for the prompt
      */
     private function generatePrompt(string $title, \Illuminate\Support\Collection $details): \Illuminate\Support\Collection
     {
         $results = collect();
 
-        $describe =
-            $this->gpt->chat()->create([
-                'model' => 'gpt-3.5-turbo',
-                'messages' => [
-                    [
-                        'role' => 'assistant',
-                        'content' => "Description sous le format issue de GITHUB: \n".$title."\n".$details['message']."\n".$details['context']['exception']->getMessage()."\n".$details['context']['exception']->getTraceAsString(),
-                    ],
-                ],
-            ]);
+        $describe = $this->gpt->prompt("Description sous le format issue de GITHUB: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
+            ->model('llama3')
+            ->options(['temperature' => 0.8])
+            ->stream(false)
+            ->ask();
 
-        $reproduce = $this->gpt->chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => [
-                [
-                    'role' => 'assistant',
-                    'content' => "Comment reproduire l'erreur: \n".$title."\n".$details['message']."\n".$details['context']['exception']->getMessage()."\n".$details['context']['exception']->getTraceAsString(),
-                ],
-            ],
-        ]);
+        $reproduce = $this->gpt->prompt("Comment reproduire l'erreur: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
+            ->model('llama3')
+            ->options(['temperature' => 0.8])
+            ->stream(false)
+            ->ask();
 
-        $comportement = $this->gpt->chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => [
-                [
-                    'role' => 'assistant',
-                    'content' => "Comportement attendu: \n".$title."\n".$details['message']."\n".$details['context']['exception']->getMessage()."\n".$details['context']['exception']->getTraceAsString(),
-                ],
-            ],
-        ]);
+        $comportement = $this->gpt->prompt("Comportement attendu: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
+            ->model('llama3')
+            ->options(['temperature' => 0.8])
+            ->stream(false)
+            ->ask();
 
-        $solution = $this->gpt->chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => [
-                [
-                    'role' => 'assistant',
-                    'content' => "Solution proposé: \n".$title."\n".$details['message']."\n".$details['context']['exception']->getMessage()."\n".$details['context']['exception']->getTraceAsString(),
-                ],
-            ],
-        ]);
+        $solution = $this->gpt->prompt("Solution proposé: \n" . $title . "\n" . $details['message'] . "\n" . $details['context'][0]->getMessage() . "\n" . $details['context'][0]->getTraceAsString())
+            ->model('llama3')
+            ->options(['temperature' => 0.8])
+            ->stream(false)
+            ->ask();
 
-        $results->push(['description' => $describe->choices[0]->message->content]);
-        $results->push(['reproduce' => $reproduce->choices[0]->message->content]);
-        $results->push(['comportement' => $comportement->choices[0]->message->content]);
-        $results->push(['solution' => $solution->choices[0]->message->content]);
+        $results->push(['description' => $describe['response']]);
+        $results->push(['reproduce' => $reproduce['response']]);
+        $results->push(['comportement' => $comportement['response']]);
+        $results->push(['solution' => $solution['response']]);
 
         return $results;
     }
@@ -158,8 +141,8 @@ class Issues
     /**
      * Envoie un problème vers Github.
      *
-     * @param  string  $title  Le titre du problème
-     * @param  string|bool  $issueContent  Le contenu du problème
+     * @param string $title Le titre du problème
+     * @param string|bool $issueContent Le contenu du problème
      */
     private function pushToGithub(string $title, bool|string $issueContent): void
     {
@@ -168,7 +151,7 @@ class Issues
                 ->create($this->owner, $this->repo, [
                     'title' => $title,
                     'body' => $issueContent,
-                    'labels' => ['bug', 'auto-generated', 'version::'.\VersionBuildAction::getVersionInfo()],
+                    'labels' => ['bug', 'auto-generated', 'version::' . \VersionBuildAction::getVersionInfo()],
                 ]);
 
             return;
