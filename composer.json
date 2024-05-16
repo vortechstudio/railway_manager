@@ -8,6 +8,8 @@
         "php": "^8.1",
         "ext-curl": "*",
         "arcanedev/log-viewer": "^10.0",
+        "cloudstudio/ollama-laravel": "1.0.5",
+        "graham-campbell/github": "^12.6",
         "guzzlehttp/guzzle": "^7.2",
         "ivanomatteo/laravel-device-tracking": "^0.2.1",
         "jantinnerezo/livewire-alert": "^3.0",

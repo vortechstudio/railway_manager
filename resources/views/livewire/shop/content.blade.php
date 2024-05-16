@@ -33,13 +33,6 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center h-250px">
                                             <img src="{{ $item->image }}" class="w-100" alt="">
                                         </div>
-                                        @if($item->blocked)
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-center">
-                                                <span class="badge badge-lg badge-info">Disponible 1/{{ $item->blocked_max }}</span>
-                                            </div>
-                                        </div>
-                                        @endif
                                         <div class="card-footer  p-2 border-top-3 border-white bg-gray-800 bg-opacity-75 shadow-lg">
                                             <div class="d-flex justify-content-center">
                                                 <span class="fw-bold fs-1 text-white">{!! $item->price_format !!}</span>

@@ -36,7 +36,14 @@ Route::middleware(['nolocked'])->group(function() {
         ->middleware('auth');
 
     Route::get('/test', function (Request $request) {
-        dd($request->all());
+        $response = \Cloudstudio\Ollama\Facades\Ollama::agent('Tu est un expert en git et tu travail avec github.')
+            ->prompt('Génère moi une description d\'un exemple d\'erreur rencontrer dans la ravel dans le format issue de github.')
+            ->model('llama3')
+            ->options(['temperature' => 0.8])
+            ->stream(false)
+            ->ask();
+
+        dd($response);
     });
 
     Route::middleware(['auth', 'install'])->group(function () {
