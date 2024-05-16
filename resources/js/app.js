@@ -2,6 +2,8 @@ import './bootstrap';
 import Swiper from 'swiper';
 import 'swiper/css'
 import 'animate.css'
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+Livewire.start()
 
 const swiper = new Swiper('.swiper', {
     spaceBetween: 30,

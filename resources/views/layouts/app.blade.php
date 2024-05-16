@@ -118,10 +118,10 @@ License: For each use you must have a valid license purchased only from above li
 </div>
 <livewire:core.modal-reward />
 <script>var hostUrl = "assets/";</script>
+@livewireScriptConfig
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
-@livewireScripts
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />
 @yield("scripts")
