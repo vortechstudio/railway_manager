@@ -1,3 +1,17 @@
+# [0.6.0](https://github.com/vortechstudio/railway_manager/compare/v0.5.0...v0.6.0) (2024-05-16)
+
+
+### Bug Fixes
+
+* **Authentification:** Modification et ajout de fonctionnalités ([89867d4](https://github.com/vortechstudio/railway_manager/commit/89867d4d2cb2e0a8d0e59b3be30cb0189f07b26f))
+* **Authentification:** Réorganisation logique de la création des logs utilisateur ([1e2ed1d](https://github.com/vortechstudio/railway_manager/commit/1e2ed1dab6093b2e541f46e41c67d603786e21f3))
+* **Messagerie:** Ajout de gestion comptable pour les récompenses ([5d774da](https://github.com/vortechstudio/railway_manager/commit/5d774da1ca7d5333f4d3b8a67b049e73fea8e49f)), closes [#49](https://github.com/vortechstudio/railway_manager/issues/49) [#50](https://github.com/vortechstudio/railway_manager/issues/50) [#51](https://github.com/vortechstudio/railway_manager/issues/51) [#52](https://github.com/vortechstudio/railway_manager/issues/52)
+
+
+### Features
+
+* **General:** Ajout du bonus de chemin de fer pour les utilisateurs ([c1e7bfd](https://github.com/vortechstudio/railway_manager/commit/c1e7bfdd6a4839f57711a8c6605e9fcf65204e58))
+
 # [0.5.0](https://github.com/vortechstudio/railway_manager/compare/v0.4.0...v0.5.0) (2024-05-15)
 
 
