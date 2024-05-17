@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserReward extends Model
 {
     public $timestamps = false;
-
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $casts = [

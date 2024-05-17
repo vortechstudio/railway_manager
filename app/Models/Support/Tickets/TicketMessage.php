@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TicketMessage extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'read_at' => 'datetime',

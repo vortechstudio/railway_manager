@@ -11,6 +11,7 @@ use Pharaonic\Laravel\Taggable\Traits\Taggable;
 class Post extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     use SoftDeletes, Taggable;
 

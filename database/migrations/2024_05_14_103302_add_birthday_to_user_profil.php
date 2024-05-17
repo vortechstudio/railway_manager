@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('user_profils', function (Blueprint $table) {
-            $table->timestamp('birthday')->nullable();
-        });
+            Schema::connection('mysql')->table('user_profils', function (Blueprint $table) {
+                $table->timestamp('birthday')->nullable();
+            });
     }
 
     public function down(): void
     {
-        Schema::table('user_profils', function (Blueprint $table) {
-            $table->dropColumn('birthday');
-        });
+            Schema::connection('mysql')->table('user_profils', function (Blueprint $table) {
+                $table->dropColumn('birthday');
+            });
     }
 };

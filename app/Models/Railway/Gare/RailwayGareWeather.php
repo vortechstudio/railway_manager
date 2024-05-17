@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayGareWeather extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
 
     public $timestamps = false;
 
@@ -16,6 +17,6 @@ class RailwayGareWeather extends Model
 
     public function gare()
     {
-        return $this->belongsTo(RailwayGare::class, 'gare_id');
+        return $this->belongsTo(RailwayGare::class, 'railway_gare_id');
     }
 }

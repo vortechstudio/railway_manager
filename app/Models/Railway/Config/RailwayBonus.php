@@ -10,6 +10,7 @@ use Storage;
 class RailwayBonus extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
 
     public $timestamps = false;
 

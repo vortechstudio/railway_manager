@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WikiLog extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     public function article()
     {

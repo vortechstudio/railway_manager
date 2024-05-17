@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->string('folder')->nullable();
-        });
+            Schema::connection('mysql')->table('services', function (Blueprint $table) {
+                $table->string('folder')->nullable();
+            });
     }
 
     public function down(): void
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->dropColumn('folder');
-        });
+            Schema::connection('mysql')->table('services', function (Blueprint $table) {
+                $table->dropColumn('folder');
+            });
     }
 };

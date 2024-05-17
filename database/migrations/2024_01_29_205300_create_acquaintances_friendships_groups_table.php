@@ -11,27 +11,28 @@ class CreateAcquaintancesFriendshipsGroupsTable extends Migration
 {
     public function up()
     {
+        if (DB::connection()->getDriverName() == 'mysql')
+            Schema::create(config('acquaintances.tables.friendship_groups'), function (Blueprint $table) {
+                $table->id();
 
-        Schema::create(config('acquaintances.tables.friendship_groups'), function (Blueprint $table) {
-            $table->id();
+                $table->unsignedBigInteger('friendship_id')->unsigned();
+                $table->morphs('friend');
+                $table->integer('group_id')->unsigned();
 
-            $table->unsignedBigInteger('friendship_id')->unsigned();
-            $table->morphs('friend');
-            $table->integer('group_id')->unsigned();
+                $table->foreign('friendship_id')
+                    ->references('id')
+                    ->on(config('acquaintances.tables.friendships'))
+                    ->onDelete('cascade');
 
-            $table->foreign('friendship_id')
-                ->references('id')
-                ->on(config('acquaintances.tables.friendships'))
-                ->onDelete('cascade');
+                $table->unique(['friendship_id', 'friend_id', 'friend_type', 'group_id'], 'unique');
 
-            $table->unique(['friendship_id', 'friend_id', 'friend_type', 'group_id'], 'unique');
-
-        });
+            });
 
     }
 
     public function down()
     {
-        Schema::dropIfExists(config('acquaintances.tables.friendship_groups'));
+        if (DB::connection()->getDriverName() == 'mysql')
+            Schema::dropIfExists(config('acquaintances.tables.friendship_groups'));
     }
 }

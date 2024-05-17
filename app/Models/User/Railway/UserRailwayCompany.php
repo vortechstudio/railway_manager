@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayCompany extends Model
 {
     public $timestamps = false;
+    protected $connection = 'railway';
     protected $guarded = [];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function mouvements()

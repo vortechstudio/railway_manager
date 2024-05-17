@@ -14,6 +14,7 @@ class Ticket extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'status' => TicketStatusEnum::class,
