@@ -76,7 +76,6 @@ class Mailboxes extends Component
         $messages = auth()->user()->railway_messages()->with('message')
             ->join(config('database.connections.mysql.database').'.messages', 'messages.id', '=', 'user_railway_messages.message_id')
             ->where('messages.message_type', $this->type)
-            ->select('user_railway_messages.*')
             ->orderBy('created_at', 'desc')
             ->get();
 
