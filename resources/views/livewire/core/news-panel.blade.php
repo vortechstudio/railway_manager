@@ -16,10 +16,15 @@
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="informations" role="tabpanel" aria-labelledby="informations">
                     <div class="row">
-                        <div class="col-6">
-                            <a href="{{ $article_promote->url }}">
-                                <img src="{{ $article_promote->image }}" class="img-thumbnail" alt="">
-                            </a>
+                        <div class="col-6 h-100 align-items-center">
+                            @isset($article_promote)
+                                <a href="{{ $article_promote->url }}">
+                                    <img src="{{ $article_promote->image }}" class="img-thumbnail" alt="">
+                                </a>
+                            @else
+                                <x-base.is-null
+                                    text="Aucune promotion en cours..." />
+                            @endisset
                         </div>
                         <div class="col-6 h-100 hover-scroll-y">
                             <div class="d-flex flex-column">
