@@ -8,14 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
             Schema::connection('mysql')->table('services', function (Blueprint $table) {
-                $table->string('repository')->nullable();
+                $table->boolean('locked')->default(false);
             });
     }
 
     public function down(): void
     {
             Schema::connection('mysql')->table('services', function (Blueprint $table) {
-                $table->removeColumn('repository');
+                $table->dropColumn('locked');
             });
     }
 };

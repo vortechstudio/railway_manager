@@ -26,6 +26,7 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 class User extends Authenticatable
 {
     use AuthenticationLoggable, HasApiTokens, HasFactory, Notifiable, HasPushSubscriptions;
+    protected $connection = 'mysql';
 
     /**
      * The attributes that are mass assignable.

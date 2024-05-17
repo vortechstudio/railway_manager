@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserRailwayMessage extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
     protected $casts = [
         'reward_type' => MessageRewardTypeEnum::class,
     ];
@@ -21,7 +22,7 @@ class UserRailwayMessage extends Model
 
     public function message()
     {
-        return $this->belongsTo(Message::class, 'message_id');
+        return $this->belongsTo(Message::class, 'message_id', 'id');
     }
 
     public function markAsRead()

@@ -11,6 +11,7 @@ class Wiki extends Model
     use HasPages, SoftDeletes;
 
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'posted_at' => 'timestamp',

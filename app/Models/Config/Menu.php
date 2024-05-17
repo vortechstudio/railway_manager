@@ -4,6 +4,7 @@ namespace App\Models\Config;
 
 class Menu extends \Pharaonic\Laravel\Menus\Models\Menu
 {
+    protected $connection = 'mysql';
     /**
      * Creates a new menu item in the specified section
      *

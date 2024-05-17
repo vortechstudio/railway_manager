@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('shops', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('service_id');
-        });
+            Schema::connection('mysql')->create('shops', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('service_id');
+            });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('shops');
+            Schema::connection('mysql')->dropIfExists('shops');
     }
 };

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserSocial extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected function user(): BelongsTo
     {

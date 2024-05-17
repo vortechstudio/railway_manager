@@ -11,7 +11,7 @@ class UserService extends Model
     use SoftDeletes;
 
     public $timestamps = false;
-
+    protected $connection = 'mysql';
     protected $guarded = [];
 
     public function user()

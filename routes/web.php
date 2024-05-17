@@ -50,8 +50,18 @@ Route::middleware(['nolocked'])->group(function() {
 });
 
 Route::get('/test', function (Request $request) {
-    $service = (new RailwayService())->getRailwayArticles();
-    dd($service);
+    $query = \App\Models\User\User::find(auth()->id())
+        ->railway_messages()
+        ->with('message')
+        ->join('messages', 'messages.id', '=', 'user_railway_messages.message_id')
+        ->get();
+    dd($query);
+    dd(auth()->user()->railway_messages()->with('message')
+        ->join('messages', 'messages.id', '=', 'user_railway_messages.message_id')
+        ->where('messages.message_type', 'global')
+        ->select('user_railway_messages.*')
+        ->orderBy('created_at', 'desc')
+        ->get());
 });
 
 Route::get('/maintenance', function () {

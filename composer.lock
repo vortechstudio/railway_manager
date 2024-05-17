@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b416b8b2e6667c23c43d3f2437edafd",
+    "content-hash": "4eb79dcbdbf42ec79a771357f4398f94",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -4543,6 +4543,64 @@
             "time": "2022-04-02T10:14:33+00:00"
         },
         {
+            "name": "pharaonic/laravel-settings",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/laravel-settings.git",
+                "reference": "9187e89677581c2bd4da901e69e0e4bd86207724"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/laravel-settings/zipball/9187e89677581c2bd4da901e69e0e4bd86207724",
+                "reference": "9187e89677581c2bd4da901e69e0e4bd86207724",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=6.0",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pharaonic\\Laravel\\Settings\\SettingsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Pharaonic\\Laravel\\Settings\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moamen Eltouny (Raggi)",
+                    "email": "raggi@raggitech.com"
+                }
+            ],
+            "description": "Store and retrieve settings generally or for model objects in Laravel.",
+            "keywords": [
+                "Settings",
+                "info",
+                "laravel",
+                "laravel settings",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/laravel-settings/issues",
+                "source": "https://github.com/Pharaonic/laravel-settings/tree/1.2.0"
+            },
+            "time": "2022-12-14T16:38:59+00:00"
+        },
+        {
             "name": "pharaonic/laravel-sluggable",
             "version": "1.0.4",
             "source": {
@@ -4609,6 +4667,72 @@
                 }
             ],
             "time": "2022-03-08T17:27:28+00:00"
+        },
+        {
+            "name": "pharaonic/laravel-taggable",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/laravel-taggable.git",
+                "reference": "103dd08e24ff741daddb04d435fc3dff689deb12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/laravel-taggable/zipball/103dd08e24ff741daddb04d435fc3dff689deb12",
+                "reference": "103dd08e24ff741daddb04d435fc3dff689deb12",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=6.0",
+                "pharaonic/laravel-translatable": ">=1.0",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pharaonic\\Laravel\\Taggable\\TaggableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pharaonic\\Laravel\\Taggable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moamen Eltouny (Raggi)",
+                    "email": "raggi@raggitech.com"
+                }
+            ],
+            "description": "Model Taggable Management.",
+            "keywords": [
+                "Laravel Taggable",
+                "Taggable",
+                "laravel",
+                "php",
+                "php Taggable"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/laravel-taggable/issues",
+                "source": "https://github.com/Pharaonic/laravel-taggable/tree/1.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://liberapay.com/Pharaonic",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://www.patreon.com/Pharaonic",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2022-02-10T20:19:56+00:00"
         },
         {
             "name": "pharaonic/laravel-translatable",

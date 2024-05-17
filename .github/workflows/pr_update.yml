@@ -1,0 +1,40 @@
+name: UpdatePR
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  update-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Nécessaire pour obtenir tous les commits
+
+      - name: Mise à jour du titre et de la description
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          COMMITS=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageBody')
+          TITLE=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tail -1)
+          TITLE=${TITLE:0:256}
+          DESCRIPTION=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageBody')
+
+          if [ -n "$TITLE" ]; then
+            gh pr edit $PR_NUMBER --title "$TITLE" --body "$DESCRIPTION"
+          else
+            echo "Le titre est vide, la mise à jour du PR est annulée."
+          fi
+
+      - name: Robin AI Reviewer
+        uses: Integral-Healthcare/robin-ai-reviewer@v1.7.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          OPEN_AI_API_KEY: ${{ secrets.AI_KEY }}
+          gpt_model_name: 'gpt-3.5-turbo-16k'
+          files_to_ignore: |
+            "public/*"
+            "storage/*"
+            "README.md"

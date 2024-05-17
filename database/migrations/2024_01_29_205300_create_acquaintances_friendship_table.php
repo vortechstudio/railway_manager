@@ -8,19 +8,20 @@ class CreateAcquaintancesFriendshipTable extends Migration
 {
     public function up()
     {
-
-        Schema::create(config('acquaintances.tables.friendships'), function (Blueprint $table) {
-            $table->id();
-            $table->morphs('sender');
-            $table->morphs('recipient');
-            $table->string('status')->default('pending')->comment('pending/accepted/denied/blocked/');
-            $table->timestamps();
-        });
+        if (DB::connection()->getDriverName() == 'mysql')
+            Schema::create(config('acquaintances.tables.friendships'), function (Blueprint $table) {
+                $table->id();
+                $table->morphs('sender');
+                $table->morphs('recipient');
+                $table->string('status')->default('pending')->comment('pending/accepted/denied/blocked/');
+                $table->timestamps();
+            });
 
     }
 
     public function down()
     {
-        Schema::dropIfExists(config('acquaintances.tables.friendships'));
+        if (DB::connection()->getDriverName() == 'mysql')
+            Schema::dropIfExists(config('acquaintances.tables.friendships'));
     }
 }

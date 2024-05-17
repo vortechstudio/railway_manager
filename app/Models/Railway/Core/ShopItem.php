@@ -13,6 +13,7 @@ class ShopItem extends Model
 
     public $timestamps = false;
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'disponibility_end_at' => 'datetime'
@@ -27,7 +28,7 @@ class ShopItem extends Model
 
     public function shopCategory(): BelongsTo
     {
-        return $this->belongsTo(ShopCategory::class);
+        return $this->belongsTo(ShopCategory::class, 'shop_category_id');
     }
 
     public function packages()

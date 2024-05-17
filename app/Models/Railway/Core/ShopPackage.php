@@ -11,6 +11,7 @@ class ShopPackage extends Model
 
     public $timestamps = false;
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     public function category()
     {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayEngineTechnical extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
 
     public $timestamps = false;
 
@@ -19,6 +20,6 @@ class RailwayEngineTechnical extends Model
 
     public function engine()
     {
-        return $this->belongsTo(RailwayEngine::class, 'engine_id');
+        return $this->belongsTo(RailwayEngine::class, 'railway_engine_id');
     }
 }

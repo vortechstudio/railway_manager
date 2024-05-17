@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailway extends Model
 {
     public $timestamps = false;
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $appends = [
@@ -22,7 +23,7 @@ class UserRailway extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

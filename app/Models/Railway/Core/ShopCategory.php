@@ -13,6 +13,7 @@ class ShopCategory extends Model
 
     public $timestamps = false;
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $appends = [
         'image'
@@ -20,7 +21,7 @@ class ShopCategory extends Model
 
     public function shop(): BelongsTo
     {
-        return $this->belongsTo(Shop::class);
+        return $this->belongsTo(Shop::class, 'shop_id');
     }
 
     public function railway_items()
