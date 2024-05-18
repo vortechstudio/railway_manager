@@ -7,6 +7,7 @@ use App\Actions\Compta;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use function Laravel\Prompts\select;
 
 class Mailboxes extends Component
 {
@@ -29,25 +30,28 @@ class Mailboxes extends Component
         $message = auth()->user()->railway_messages()->find($message_id);
 
         try {
-            match ($message->reward_type->value) {
-                "argent" => (new Compta())->create(
-                    auth()->user(),
-                    'Bonus: '.$message->reward_value,
-                    $message->reward_value,
-                    'revenue',
-                    'divers',
-                    false,
-                )
-            };
+            foreach ($message->message->rewards as $reward) {
+                match ($reward->reward_type->value) {
+                    "argent" => (new Compta())->create(
+                        auth()->user(),
+                        'Bonus: '.$reward->reward_value,
+                        $reward->reward_value,
+                        'revenue',
+                        'divers',
+                        false,
+                    ),
+                    "tpoint" => auth()->user()->railway->update(['tpoint' => auth()->user()->railway->tpoint + $reward->reward_value]),
+                };
+                $this->dispatch('showModalReward', [
+                    'id' => 'modalReward',
+                    'reward_type' => $reward->reward_type,
+                    'reward_value' => number_format($reward->reward_value, 0, ',', ' '),
+                ]);
+            }
+
 
             $message->reward_collected = true;
             $message->save();
-
-            $this->dispatch('showModalReward', [
-                'id' => 'modalReward',
-                'reward_type' => $message->reward_type,
-                'reward_value' => number_format($message->reward_value, 0, ',', ' '),
-            ]);
         }catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors de l'attribution de la récompense");
@@ -77,6 +81,7 @@ class Mailboxes extends Component
             ->join(config('database.connections.mysql.database').'.messages', 'messages.id', '=', 'user_railway_messages.message_id')
             ->where('messages.message_type', $this->type)
             ->orderBy('created_at', 'desc')
+            ->select('user_railway_messages.*')
             ->get();
 
         //dd($messages);
