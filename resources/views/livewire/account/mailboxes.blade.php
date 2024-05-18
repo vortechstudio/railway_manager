@@ -11,10 +11,10 @@
                                     <span class="fs-2 fw-bold">{{ $message->message->message_subject }}</span>
                                     <span class="fs-6 text-muted">{{ $message->created_at->diffForHumans() }}</span>
                                 </span>
-                                @if(!empty($message->reward_type))
+                                @if($message->message->rewards()->count() > 0)
                                     <span class="d-flex flex-grow-0 border border-2 border-primary border-active-info rounded-3 p-2">
                                         <span class="symbol symbol-70px">
-                                            <img src="{{ Storage::url('icons/railway/'.$message->reward_type->value.'.png') }}" alt="">
+                                            <img src="{{ Storage::url('icons/railway/'.$message->message->rewards()->first()->reward_type->value.'.png') }}" alt="">
                                             @if($message->reward_collected)
                                                 <span class="symbol-badge badge badge-circle badge-light start-100">
                                                     <i class="fa-solid fa-check text-success"></i>
@@ -38,7 +38,7 @@
                                 <div class="card-header">
                                     <h3 class="card-title">{{ $message->message->message_subject }}</h3>
                                     <div class="card-toolbar">
-                                        @if(isset($message->reward_type) && !$message->reward_collected)
+                                        @if($message->message->rewards()->count() > 0 && !$message->reward_collected)
                                             <button wire:click="claim({{ $message->id }})" type="button" class="btn btn-sm btn-light">
                                                 Réclamer
                                             </button>
@@ -48,18 +48,22 @@
                                 <div class="card-body">
                                     {!! $message->message->message_content !!}
                                 </div>
-                                @if($message->reward_type)
+                                @if($message->message->rewards()->count() > 0)
                                     <div class="card-footer">
-                                        <div class="d-flex flex-column align-items-center justify-content-center">
-                                            <div class="symbol symbol-100px symbol-circle mb-2">
-                                                <img src="{{ Storage::url('icons/railway/'.$message->reward_type->value.'.png') }}" alt="">
-                                                @if($message->reward_collected)
-                                                    <span class="symbol-badge badge badge-circle badge-light start-100">
-                                                    <i class="fa-solid fa-check text-success"></i>
-                                                </span>
-                                                @endif
-                                            </div>
-                                            <span class="badge badge-lg badge-light">{{ number_format($message->reward_value, 0, ',', ' ') }}</span>
+                                        <div class="d-flex flex-row justify-content-center gap-5">
+                                            @foreach($message->message->rewards as $reward)
+                                                <div class="d-flex flex-column align-items-center justify-content-center rounded-1 border border-primary p-3">
+                                                    <div class="symbol symbol-100px symbol-circle mb-2">
+                                                        <img src="{{ Storage::url('icons/railway/'.$reward->reward_type->value.'.png') }}" alt="">
+                                                        @if($message->reward_collected)
+                                                            <span class="symbol-badge badge badge-circle badge-light start-100">
+                                                        <i class="fa-solid fa-check text-success"></i>
+                                                    </span>
+                                                        @endif
+                                                    </div>
+                                                    <span class="badge badge-lg badge-light">{{ number_format($reward->reward_value, 0, ',', ' ') }}</span>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 @endif
