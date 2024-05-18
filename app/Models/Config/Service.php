@@ -37,7 +37,7 @@ class Service extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'user_services', 'service_id', 'user_id');
     }
 
     public function versions(): HasMany
