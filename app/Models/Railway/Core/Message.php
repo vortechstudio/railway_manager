@@ -23,6 +23,11 @@ class Message extends Model
         return $this->belongsTo(Service::class, 'service_id');
     }
 
+    public function rewards()
+    {
+        return $this->hasMany(MessageReward::class);
+    }
+
     public function railway_messages()
     {
         return $this->hasMany(UserRailwayMessage::class);
