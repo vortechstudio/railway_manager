@@ -7,11 +7,11 @@
 @section("toolbar")
     <x-base.toolbar
         :breads="array('Succès', $sector)"
-        notitle="true" />
+        notitle="true"
+        :alert-feature="true" />
 @endsection
 
 @section("content")
-
     <div id="kt_app_content" class="app-content h-sm-100 h-lg-700px rounded-3 d-flex flex-column flex-lg-row justify-content-center align-items-center bg-trophy firefly">
         <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-200px mb-7 me-lg-10">
             @foreach(\Spatie\LaravelOptions\Options::forEnum(\App\Enums\Railway\Core\AchievementSectorEnum::class)->toArray() as $type)
