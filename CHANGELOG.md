@@ -1,3 +1,26 @@
+# [0.8.0](https://github.com/vortechstudio/railway_manager/compare/v0.7.0...v0.8.0) (2024-05-19)
+
+
+### Bug Fixes
+
+* **General:** optimisation de la vue news-panel ([7b42db0](https://github.com/vortechstudio/railway_manager/commit/7b42db0a7b141dc028a0ab6531848277357e50a0))
+* **Mailboxes:** Suppression de la sélection inutile dans la requête des messages de l'utilisateur ([f773a46](https://github.com/vortechstudio/railway_manager/commit/f773a4652197c0283ec101f516b286e9627366c1))
+* **Messagerie:** Mise à jour de la logique de la récompense ([c48bea3](https://github.com/vortechstudio/railway_manager/commit/c48bea3b0cb9b0f542217a794cb38f7f22195089))
+* **Succès & Trophées:** Utilisation de HasFactory ([1ed9863](https://github.com/vortechstudio/railway_manager/commit/1ed9863bb8719f6572419453ba674d8416c01a12))
+
+
+### Features
+
+* **General:** Ajout d'une alerte pour les fonctionnalités en développement ([75e1e9a](https://github.com/vortechstudio/railway_manager/commit/75e1e9abad466e9d0dafecf8d7a385a47d05d9dc))
+* **Général:** ajout de la fonctionnalité "bug tracker" ([c46a916](https://github.com/vortechstudio/railway_manager/commit/c46a9167d6de3d6faae91e59ce84bc11ee7ad989))
+* **Messagerie:** Ajout de la gestion multi-récompenses ([9e077e6](https://github.com/vortechstudio/railway_manager/commit/9e077e6825416b3321c940ad05fb21eef4b93857))
+* **pr_update.yml:** Mettre à jour le nom du modèle GPT ([787aca0](https://github.com/vortechstudio/railway_manager/commit/787aca03fa0745b3d384b98a565e564fecb24b68))
+* **pr_update.yml:** Mettre à jour le nom du modèle GPT ([962c6ee](https://github.com/vortechstudio/railway_manager/commit/962c6ee0f76a9d337c5c2a31f6b5c44a231d09fe))
+* **Succès & Trophées:** ajout d'une nouvelle vue et mise à jour des liens ([a368481](https://github.com/vortechstudio/railway_manager/commit/a36848197b65ca24e3a52c0d1ffa6d7a1ad2ef56))
+* **Succès & Trophées:** ajout de la page show des trophées et intégration Sass ([52698c1](https://github.com/vortechstudio/railway_manager/commit/52698c14c1e6afdd5a67d1c43318b283478cad13))
+* **Succès & Trophées:** ajout des succès et récompenses ([46915e2](https://github.com/vortechstudio/railway_manager/commit/46915e2c695a69b4229c17f78069ecd3912d160f))
+* **Succès & Trophées:** ajout du panel des trophées et de son affichage ([b1d3180](https://github.com/vortechstudio/railway_manager/commit/b1d318072c1090b48352d1e7956259674b0f4875))
+
 # [0.7.0](https://github.com/vortechstudio/railway_manager/compare/v0.6.0...v0.7.0) (2024-05-16)
 
 
