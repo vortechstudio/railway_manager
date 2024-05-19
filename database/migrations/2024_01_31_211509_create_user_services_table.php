@@ -4,32 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
-        Schema::create('user_services', function (Blueprint $table) {
-            $table->id();
-            $table->boolean('status');
-            $table->boolean('premium');
+            Schema::connection('mysql')->create('user_services', function (Blueprint $table) {
+                $table->id();
+                $table->boolean('status')->default(true);
+                $table->boolean('premium')->default(false);
 
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                $table->foreignId('user_id');
 
-            $table->foreignId('service_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                $table->foreignId('service_id');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_services');
+            Schema::connection('mysql')->dropIfExists('user_services');
     }
 };

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserQuests extends Model
 {
     public $timestamps = false;
-
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $casts = [
@@ -18,11 +18,11 @@ class UserQuests extends Model
 
     protected function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function railwayQuest(): BelongsTo
     {
-        return $this->belongsTo(RailwayQuest::class);
+        return $this->belongsTo(RailwayQuest::class, 'railway_quest_id');
     }
 }

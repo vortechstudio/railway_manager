@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayEngineShop extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
 
     protected $casts = [
         'money' => EngineMoneyEnum::class,
@@ -15,6 +16,6 @@ class RailwayEngineShop extends Model
 
     public function engine()
     {
-        return $this->belongsTo(RailwayEngine::class);
+        return $this->belongsTo(RailwayEngine::class, 'railway_engine_id');
     }
 }

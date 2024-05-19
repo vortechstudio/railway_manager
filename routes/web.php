@@ -45,13 +45,19 @@ Route::middleware(['nolocked'])->group(function() {
             Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
         });
 
+        Route::prefix('trophy')->as('trophy.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\TrophyController::class, 'index'])->name('index');
+            Route::get('{sector}', [\App\Http\Controllers\TrophyController::class, 'show'])->name('show');
+        });
+
         include('account.php');
     });
 });
 
 Route::get('/test', function (Request $request) {
-    $service = (new RailwayService())->getRailwayArticles();
-    dd($service);
+    $user = auth()->user();
+
+    dd($user->services);
 });
 
 Route::get('/maintenance', function () {

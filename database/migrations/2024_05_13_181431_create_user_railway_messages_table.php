@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('user_railway_messages', function (Blueprint $table) {
+        Schema::connection('railway')->create('user_railway_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('message_id')->constrained('messages')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id');
+            $table->foreignId('message_id');
             $table->boolean('is_read')->default(false);
             $table->boolean('reward_collected')->default(false);
             $table->timestamps();
@@ -19,6 +19,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('user_railway_messages');
+        Schema::connection('railway')->dropIfExists('user_railway_messages');
     }
 };

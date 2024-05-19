@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceVersion extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'published_at' => 'timestamp',
@@ -15,6 +16,6 @@ class ServiceVersion extends Model
 
     public function service()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class, 'service_id');
     }
 }

@@ -96,6 +96,9 @@
                 <!--end::Items-->
             </div>
             @endif
+            @if($alertFeature)
+                <x-base.alert-feature-dev />
+            @endif
         </div>
         <!--end::Toolbar container=-->
     </div>

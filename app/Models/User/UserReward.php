@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserReward extends Model
 {
     public $timestamps = false;
-
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $casts = [
@@ -18,11 +18,11 @@ class UserReward extends Model
 
     protected function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function railwayLevelReward(): BelongsTo
     {
-        return $this->belongsTo(RailwayLevelReward::class);
+        return $this->belongsTo(RailwayLevelReward::class, 'railway_level_reward_id');
     }
 }

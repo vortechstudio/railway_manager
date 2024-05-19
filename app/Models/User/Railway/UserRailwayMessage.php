@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserRailwayMessage extends Model
 {
     protected $guarded = [];
+    protected $connection = 'railway';
     protected $casts = [
         'reward_type' => MessageRewardTypeEnum::class,
     ];

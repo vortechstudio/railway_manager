@@ -14,6 +14,7 @@ class Toolbar extends Component
     public function __construct(
         public ?array $breads = null,
         public bool $notitle = false,
+        public bool $alertFeature = false,
     )
     {
         //

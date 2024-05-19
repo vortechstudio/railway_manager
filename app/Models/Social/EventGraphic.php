@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class EventGraphic extends Model
 {
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'type_media' => EventGraphicTypeEnum::class,

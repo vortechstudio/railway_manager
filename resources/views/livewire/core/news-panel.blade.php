@@ -16,10 +16,15 @@
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="informations" role="tabpanel" aria-labelledby="informations">
                     <div class="row">
-                        <div class="col-6">
-                            <a href="{{ $article_promote->url }}">
-                                <img src="{{ $article_promote->image }}" class="img-thumbnail" alt="">
-                            </a>
+                        <div class="col-6 h-100 align-items-center">
+                            @isset($article_promote)
+                                <a href="{{ $article_promote->url }}">
+                                    <img src="{{ $article_promote->image }}" class="img-thumbnail" alt="">
+                                </a>
+                            @else
+                                <x-base.is-null
+                                    text="Aucune promotion en cours..." />
+                            @endisset
                         </div>
                         <div class="col-6 h-100 hover-scroll-y">
                             <div class="d-flex flex-column">
@@ -42,7 +47,7 @@
                         <div class="col-md-4 h-450px hover-scroll-y">
                             <ul class="nav nav-pills nav-pills-custom" role="tablist">
                                 @foreach($notices as $notice)
-                                    <li class="nav-item w-100">
+                                    <li class="nav-item w-100 mb-5">
                                         <a wire:click.prevent="read({{ $notice->id }})" class="d-flex btn btn-flex btn-outline btn-color-muted btn-active-color-warning btn-active-gray flex-row overflow-hidden h-100px showNotice" data-article-id="{{ $notice->id }}" href="#notice_{{ $notice->id }}" data-bs-toggle="pill" role="tab">
                                             <span class="noticeUnread"></span>
                                             <span class="fs-3 fs-3">{{ $notice->title }}</span>

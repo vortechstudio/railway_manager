@@ -13,6 +13,7 @@ class Event extends Model
     use Taggable;
 
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     public $timestamps = false;
 

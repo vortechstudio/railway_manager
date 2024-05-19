@@ -11,6 +11,7 @@ class RailwayAdvantageCard extends Model
 {
     use SoftDeletes;
 
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $casts = [

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayMouvement extends Model
 {
     public $timestamps = false;
+    protected $connection = 'railway';
     protected $guarded = [];
 
     protected $casts = [
@@ -19,6 +20,6 @@ class UserRailwayMouvement extends Model
 
     public function userRailwayCompany(): BelongsTo
     {
-        return $this->belongsTo(UserRailwayCompany::class);
+        return $this->belongsTo(UserRailwayCompany::class, 'user_railway_company_id');
     }
 }

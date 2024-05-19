@@ -13,7 +13,7 @@ class CreateMenuTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu_translations', function (Blueprint $table) {
+        Schema::connection('mysql')->create('menu_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
 
@@ -31,6 +31,6 @@ class CreateMenuTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_translations');
+        Schema::connection('mysql')->dropIfExists('menu_translations');
     }
 }

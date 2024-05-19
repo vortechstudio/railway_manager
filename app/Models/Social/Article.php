@@ -16,6 +16,7 @@ class Article extends Model
     use Categorizable, HasFactory;
 
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     protected $casts = [
         'published_at' => 'datetime',

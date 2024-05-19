@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('railway_quests', function (Blueprint $table) {
-            $table->string('action');
-            $table->integer('action_count');
-        });
+            Schema::connection('railway')->table('railway_quests', function (Blueprint $table) {
+                $table->string('action');
+                $table->integer('action_count');
+            });
     }
 
     public function down(): void
     {
-        Schema::table('railway_quests', function (Blueprint $table) {
-            $table->dropColumn(['action', 'action_count']);
-        });
+            Schema::connection('railway')->table('railway_quests', function (Blueprint $table) {
+                $table->dropColumn(['action', 'action_count']);
+            });
     }
 };

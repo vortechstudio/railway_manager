@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     public $timestamps = false;
+    protected $connection = 'mysql';
 
     protected $guarded = [];
 
@@ -20,6 +21,11 @@ class Message extends Model
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    public function rewards()
+    {
+        return $this->hasMany(MessageReward::class);
     }
 
     public function railway_messages()

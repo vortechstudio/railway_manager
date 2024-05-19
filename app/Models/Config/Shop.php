@@ -10,6 +10,7 @@ class Shop extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
+    protected $connection = 'mysql';
 
     public function service(): BelongsTo
     {
