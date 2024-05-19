@@ -3,10 +3,13 @@
 namespace App\Models\Railway\Core;
 
 use App\Enums\Railway\Core\AchievementRewardTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AchieveReward extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
     protected $guarded = [];
     protected $connection = 'railway';
@@ -14,7 +17,7 @@ class AchieveReward extends Model
         'type_reward' => AchievementRewardTypeEnum::class,
     ];
     protected $appends = [
-        'icon'
+        'icon',
     ];
 
     public function achievements()
@@ -24,6 +27,6 @@ class AchieveReward extends Model
 
     public function getIconAttribute()
     {
-        return \Storage::url('icons/railway/'.$this->type_reward->value.'.png');
+        return \Storage::url('icons/railway/' . $this->type_reward->value . '.png');
     }
 }
