@@ -235,8 +235,16 @@ Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous 
 Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
 
 Bon jeu et à bientôt sur les rails !",
-                reward_type: 'argent',
-                reward_value: 100000,
+                rewards: [
+                    [
+                        "type" => 'argent',
+                        "value" => 100000,
+                    ],
+                    [
+                        "type" => "tpoint",
+                        "value" => 250
+                    ]
+                ]
             );
         } catch (Exception $exception) {
             Log::emergency($exception->getMessage(), [$exception]);
@@ -339,8 +347,16 @@ Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous 
 Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
 
 Bon jeu et à bientôt sur les rails !",
-                reward_type: 'argent',
-                reward_value: 100000,
+                rewards: [
+                    [
+                        "type" => 'argent',
+                        "value" => 100000,
+                    ],
+                    [
+                        "type" => "tpoint",
+                        "value" => 250
+                    ]
+                ]
             );
 
             toastr()

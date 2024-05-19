@@ -9,18 +9,12 @@ return new class extends Migration {
     {
             Schema::connection('mysql')->create('user_services', function (Blueprint $table) {
                 $table->id();
-                $table->boolean('status');
-                $table->boolean('premium');
+                $table->boolean('status')->default(true);
+                $table->boolean('premium')->default(false);
 
-                $table->foreignId('user_id')
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                $table->foreignId('user_id');
 
-                $table->foreignId('service_id')
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                $table->foreignId('service_id');
 
                 $table->timestamps();
                 $table->softDeletes();
