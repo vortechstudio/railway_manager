@@ -22,6 +22,21 @@
     }
 }
 
+.bg-trophy {
+    background: rgb(128,120,254);
+    background: radial-gradient(circle, rgba(128,120,254,1) 0%, rgba(31,169,217,1) 63%, rgba(0,212,255,1) 100%);
+}
+
+.panelZoom {
+    transition: transform 2s !important;
+}
+
+.panelZoom:hover {
+    -ms-transform: scale(1.5) !important; /* IE 9 */
+    -webkit-transform: scale(1.5) !important; /* Safari 3-8 */
+    transform: scale(1.5) !important;
+}
+
 .backgroundGradient {
     height: 100vh;
     margin: 0;

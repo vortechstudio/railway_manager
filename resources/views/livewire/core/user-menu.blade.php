@@ -97,7 +97,7 @@
                 <div class="d-flex flex-wrap justify-content-evenly w-100 h-75 scroll">
                     <div class="row">
                         <div class="col-md-4">
-                            <a href=""
+                            <a href="{{ route('trophy.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                     <span class="symbol symbol-75px">
                         <img src="{{ Storage::url('icons/railway/trophy.png') }}" class="w-75px" alt>

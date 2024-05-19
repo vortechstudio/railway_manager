@@ -45,6 +45,10 @@ Route::middleware(['nolocked'])->group(function() {
             Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
         });
 
+        Route::prefix('trophy')->as('trophy.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\TrophyController::class, 'index'])->name('index');
+        });
+
         include('account.php');
     });
 });
