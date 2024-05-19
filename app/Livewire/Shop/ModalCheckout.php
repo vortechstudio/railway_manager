@@ -53,11 +53,6 @@ class ModalCheckout extends Component
     }
 
 
-    public function render()
-    {
-        return view('livewire.shop.modal-checkout');
-    }
-
     private function checkoutReel(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item)
     {
         if ($item->section == 'engine') {
@@ -104,5 +99,10 @@ class ModalCheckout extends Component
             $this->dispatch('closeModal', 'modalCheckout');
             $this->alert('error', 'Erreur lors de votre achat, veuillez réessayer ou contacter le support technique !');
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.shop.modal-checkout');
     }
 }
