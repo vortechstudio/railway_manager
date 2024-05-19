@@ -24,7 +24,7 @@ License: For each use you must have a valid license purchased only from above li
     <link defer href="{{ asset('/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link defer href="{{ asset('/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/sass/animate.scss'])
     @yield("styles")
     @stack("styles")
     @laravelPWA

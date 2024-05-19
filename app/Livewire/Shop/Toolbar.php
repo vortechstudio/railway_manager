@@ -9,6 +9,7 @@ class Toolbar extends Component
 {
     public int $argent = 0;
     public int $tpoint = 0;
+    public bool $noText = true;
 
     #[On('refreshComponent')]
     public function refresh()

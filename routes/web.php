@@ -47,6 +47,7 @@ Route::middleware(['nolocked'])->group(function() {
 
         Route::prefix('trophy')->as('trophy.')->group(function () {
             Route::get('/', [\App\Http\Controllers\TrophyController::class, 'index'])->name('index');
+            Route::get('{sector}', [\App\Http\Controllers\TrophyController::class, 'show'])->name('show');
         });
 
         include('account.php');
