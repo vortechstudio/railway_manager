@@ -43,22 +43,27 @@ class MailboxAction
      * @param int|null $reward_value The value of the reward associated with the message (optional).
      * @return void
      */
-    public function newMessage(User $user, string $subject, string $message, string $type = 'global', ?string $reward_type = null, ?int $reward_value = null)
+    public function newMessage(User $user, string $subject, string $message, string $type = 'global', ?array $rewards = [])
     {
         $service = (new RailwayService())->getRailwayService();
-        \DB::transaction(function () use ($subject, $message, $type, $service, $user, $reward_type, $reward_value) {
+        \DB::transaction(function () use ($subject, $message, $type, $service, $user, $rewards) {
             $message = Message::create([
                 'message_subject' => $subject,
                 'message_content' => $message,
                 'message_type' => $type,
                 'service_id' => $service->id
             ]);
+            foreach ($rewards as $k => $reward) {
+                $message->rewards()->create([
+                    'reward_type' => $reward['type'],
+                    'reward_value' => $reward['value'],
+                    'message_id' => $message->id
+                ]);
+            }
 
             $message->railway_messages()->create([
                 'user_id' => $user->id,
                 'message_id' => $message->id,
-                'reward_type' => $reward_type,
-                'reward_value' => $reward_value
             ]);
         });
     }

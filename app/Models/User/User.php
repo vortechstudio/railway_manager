@@ -10,9 +10,11 @@ use App\Models\Social\Post\PostComment;
 use App\Models\Support\Tickets\Ticket;
 use App\Models\Support\Tickets\TicketMessage;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayAchievement;
 use App\Models\User\Railway\UserRailwayBonus;
 use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\Railway\UserRailwayMessage;
+use App\Models\User\Railway\UserRailwayReward;
 use App\Models\User\Railway\UserRailwaySocial;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,7 +27,8 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable
 {
-    use AuthenticationLoggable, HasApiTokens, HasFactory, Notifiable, HasPushSubscriptions;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, HasPushSubscriptions, Notifiable;
+
     protected $connection = 'mysql';
 
     /**
@@ -102,7 +105,7 @@ class User extends Authenticatable
 
     public function services()
     {
-        return $this->belongsToMany(UserService::class, 'user_services');
+        return $this->hasMany(UserService::class);
     }
 
     public function tickets()
@@ -144,6 +147,16 @@ class User extends Authenticatable
     public function railway_bonus()
     {
         return $this->hasOne(UserRailwayBonus::class);
+    }
+
+    public function railway_achievements()
+    {
+        return $this->hasMany(UserRailwayAchievement::class);
+    }
+
+    public function railway_rewards()
+    {
+        return $this->hasMany(UserRailwayReward::class);
     }
 
     public function scopeNotifiable(Builder $query)

@@ -45,23 +45,19 @@ Route::middleware(['nolocked'])->group(function() {
             Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
         });
 
+        Route::prefix('trophy')->as('trophy.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\TrophyController::class, 'index'])->name('index');
+            Route::get('{sector}', [\App\Http\Controllers\TrophyController::class, 'show'])->name('show');
+        });
+
         include('account.php');
     });
 });
 
 Route::get('/test', function (Request $request) {
-    $query = \App\Models\User\User::find(auth()->id())
-        ->railway_messages()
-        ->with('message')
-        ->join('messages', 'messages.id', '=', 'user_railway_messages.message_id')
-        ->get();
-    dd($query);
-    dd(auth()->user()->railway_messages()->with('message')
-        ->join('messages', 'messages.id', '=', 'user_railway_messages.message_id')
-        ->where('messages.message_type', 'global')
-        ->select('user_railway_messages.*')
-        ->orderBy('created_at', 'desc')
-        ->get());
+    $user = auth()->user();
+
+    dd($user->services);
 });
 
 Route::get('/maintenance', function () {

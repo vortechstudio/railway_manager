@@ -1,7 +1,11 @@
 <div class="d-flex justify-content-between align-items-center gap-5 mb-3">
     <div>
+        @if($noText)
         <i class="fa-solid fa-shopping-cart fs-3tx text-white me-2"></i>
         <span class="fw-bold fs-3tx text-white">Boutique</span>
+        @else
+            &nbsp;
+        @endif
     </div>
     <div class="d-flex gap-5">
         <div class="d-flex justify-content-between align-items-center w-250px rounded-1 bg-gray-100 bg-opacity-10 p-2 animate__animated animate__fadeIn">

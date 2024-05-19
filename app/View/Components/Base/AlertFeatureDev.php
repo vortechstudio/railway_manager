@@ -6,16 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Toolbar extends Component
+class AlertFeatureDev extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(
-        public ?array $breads = null,
-        public bool $notitle = false,
-        public bool $alertFeature = false,
-    )
+    public function __construct()
     {
         //
     }
@@ -25,6 +21,6 @@ class Toolbar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.base.toolbar');
+        return view('components.base.alert-feature-dev');
     }
 }

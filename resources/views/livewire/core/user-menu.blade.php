@@ -94,10 +94,10 @@
                              aria-valuenow="{{ $user->railway->xp_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
-                <div class="d-flex flex-wrap justify-content-evenly w-100 h-75 scroll">
+                <div class="w-100 h-75 hover-scroll-y hover-scroll-x">
                     <div class="row">
                         <div class="col-md-4">
-                            <a href=""
+                            <a href="{{ route('trophy.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                     <span class="symbol symbol-75px">
                         <img src="{{ Storage::url('icons/railway/trophy.png') }}" class="w-75px" alt>
@@ -117,11 +117,20 @@
                         <div class="col-md-4">
                             <a href=""
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
-                    <span class="symbol symbol-75px">
-                        <img src="{{ Storage::url('icons/railway/gatcha.png') }}" class="w-75px" alt>
-                    </span>
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/gatcha.png') }}" class="w-75px" alt>
+                                </span>
                                 <span class="fs-semibold fs-3">Concession</span>
                             </a>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="drawer_bug_tracker_button"
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/bug.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Rapport de Bug</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -188,6 +197,55 @@
                     </a>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="drawer_bug_tracker"
+        class="bg-white"
+        data-kt-drawer="true"
+         data-kt-drawer-activate="true"
+         data-kt-drawer-toggle="#drawer_bug_tracker_button"
+         data-kt-drawer-close="#drawer_bug_tracker_close"
+         data-kt-drawer-width="800px"
+         wire:ignore.self
+         >
+        <div class="card shadow-sm w-100">
+            <form action="" wire:submit="sendBug" method="POST">
+                <div class="card-header">
+                    <h3 class="card-title">Support Technique</h3>
+                    <div class="card-toolbar">
+                        <a href="" id="drawer_bug_tracker_close">
+                            <i class="fa-regular fa-xmark-circle fs-2x text-light text-hover-gray-800 pt-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-10">
+                        <label for="ticket_category_id" class="form-label required">Catégorie de votre rapport</label>
+                        <select wire:model="ticket_category_id" name="ticket_category_id" id="ticket_category_id" class="form-select" required>
+                            <option>-- Sélectionner une catégorie --</option>
+                            @foreach($service->ticket_categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <x-form.input
+                        name="subject"
+                        label="Sujet de votre rapport"
+                        required="true" />
+                    <x-form.textarea
+                        name="message"
+                        label="Quel est le problème que vous rencontrer ?"
+                        required="true"
+                        :livewire="true" />
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline btn-outline-primary" wire:loading.attr="disabled">
+                        <span wire:loading.remove><i class="fa-solid fa-check me-2"></i> Envoyer</span>
+                        <span wire:loading wire:loading.class="spinner-grow spinner-grow-sm"></span>
+                        <span wire:loading role="status">Envoie en cours...</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

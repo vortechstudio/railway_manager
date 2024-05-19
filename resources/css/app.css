@@ -3,6 +3,7 @@
 @import "size.css";
 @import "shop.css";
 
+
 .animated-background {
     background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
     background-size: 400% 400%;
@@ -20,6 +21,25 @@
     100% {
         background-position: 0 50%;
     }
+}
+
+.bg-trophy {
+    background: rgb(128,120,254);
+    background: radial-gradient(circle, rgba(128,120,254,1) 0%, rgb(20, 107, 134) 63%, rgb(1, 153, 189) 100%);
+}
+
+.panelZoom {
+    transition: transform 2s !important;
+}
+
+.panelZoom:hover {
+    -ms-transform: scale(1.5) !important; /* IE 9 */
+    -webkit-transform: scale(1.5) !important; /* Safari 3-8 */
+    transform: scale(1.5) !important;
+}
+
+.scale-up {
+    transform: scale(1.1) !important;
 }
 
 .backgroundGradient {
