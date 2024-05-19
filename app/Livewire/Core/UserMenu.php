@@ -43,6 +43,8 @@ class UserMenu extends Component
             ]);
 
             dispatch(new UpgradeTicketPriorityJob($ticket));
+            $this->dispatch('closeDrawer', 'drawer_bug_tracker');
+            $this->dispatch('closeDrawer', 'drawer_user_menu');
             $this->alert('success', 'Votre rapport à bien été pris en compte');
         }catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);

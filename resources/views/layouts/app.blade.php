@@ -153,6 +153,7 @@ License: For each use you must have a valid license purchased only from above li
     <i class="ki-outline ki-arrow-up"></i>
 </div>
 <livewire:core.modal-reward />
+<x-base.close-drawer />
 <script>var hostUrl = "assets/";</script>
 @livewireScriptConfig
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
