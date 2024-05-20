@@ -1,0 +1,9 @@
+@for $i from 1 through 20 {
+    $multiplier: $i * 5;
+    .w-#{$multiplier} {
+        width: unquote("#{$multiplier}% !important");
+    }
+    .h-#{$multiplier} {
+        height: unquote("#{$multiplier}% !important");
+    }
+}
