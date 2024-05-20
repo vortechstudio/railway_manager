@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayBanqueFlux extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;

@@ -8,16 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::connection('railway')->create('railway_quests', function (Blueprint $table) {
+        Schema::create('railway_engine_rentals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->bigInteger('xp_reward');
+            $table->foreignId('railway_engine_id');
+            $table->foreignId('railway_rental_id');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::connection('railway')->dropIfExists('railway_quests');
+        Schema::dropIfExists('railway_engine_rentals');
     }
 };

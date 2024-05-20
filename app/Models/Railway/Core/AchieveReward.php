@@ -11,11 +11,15 @@ class AchieveReward extends Model
     use HasFactory;
 
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'type_reward' => AchievementRewardTypeEnum::class,
     ];
+
     protected $appends = [
         'icon',
     ];
@@ -27,6 +31,6 @@ class AchieveReward extends Model
 
     public function getIconAttribute()
     {
-        return \Storage::url('icons/railway/' . $this->type_reward->value . '.png');
+        return \Storage::url('icons/railway/'.$this->type_reward->value.'.png');
     }
 }

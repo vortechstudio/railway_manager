@@ -11,6 +11,7 @@ class DashboardNews extends Component
     public function render()
     {
         $service = (new RailwayService())->getRailwayService();
+
         return view('livewire.widget.dashboard-news', [
             'articles' => Article::where('cercle_id', $service->cercle_id)
                 ->where('published', 1)
@@ -18,7 +19,7 @@ class DashboardNews extends Component
                 ->where('status', 'published')
                 ->orderBy('published_at', 'desc')
                 ->limit(5)
-                ->get()
+                ->get(),
         ]);
     }
 }

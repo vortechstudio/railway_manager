@@ -12,6 +12,7 @@ class RailwayHub extends Model
     use Settingable;
 
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;

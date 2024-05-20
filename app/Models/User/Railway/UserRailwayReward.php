@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserRailwayReward extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public function reward()

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceVersion extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     protected $casts = [

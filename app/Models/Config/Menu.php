@@ -5,6 +5,7 @@ namespace App\Models\Config;
 class Menu extends \Pharaonic\Laravel\Menus\Models\Menu
 {
     protected $connection = 'mysql';
+
     /**
      * Creates a new menu item in the specified section
      *
@@ -26,7 +27,7 @@ class Menu extends \Pharaonic\Laravel\Menus\Models\Menu
             'parent_id' => $parent,
             'sort' => $sort,
             'visible' => $visible,
-            'icon' => $icon
+            'icon' => $icon,
         ];
 
         $localKey = $menu->translationsKey ?? 'locale';

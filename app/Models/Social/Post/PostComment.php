@@ -11,6 +11,7 @@ class PostComment extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     public function post()

@@ -15,6 +15,7 @@ class RailwayLigne extends Model
     use Settingable, SoftDeletes;
 
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;

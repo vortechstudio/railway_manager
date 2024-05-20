@@ -12,19 +12,22 @@ use Livewire\WithFileUploads;
 class UserMenu extends Component
 {
     use LivewireAlert, WithFileUploads;
+
     public $articles;
 
     //form Bug Tracker
     public int $ticket_category_id = 0;
+
     public string $subject = '';
+
     public string $message = '';
 
-    public function mount()
+    public function mount(): void
     {
         $this->articles = (new RailwayService())->getRailwayArticles();
     }
 
-    public function sendBug()
+    public function sendBug(): void
     {
         try {
             $ticket = auth()->user()->tickets()->create([
@@ -46,13 +49,13 @@ class UserMenu extends Component
             $this->dispatch('closeDrawer', 'drawer_bug_tracker');
             $this->dispatch('closeDrawer', 'drawer_user_menu');
             $this->alert('success', 'Votre rapport à bien été pris en compte');
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', 'Une erreur est survenue !');;
+            $this->alert('error', 'Une erreur est survenue !');
         }
     }
 
-    public function readVersion()
+    public function readVersion(): void
     {
         $this->dispatch('readVersion');
     }

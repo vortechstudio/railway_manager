@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayLigneStation extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;

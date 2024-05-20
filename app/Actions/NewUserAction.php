@@ -7,7 +7,7 @@ use App\Services\RailwayService;
 
 class NewUserAction
 {
-    public function insertNewsMessageAccount()
+    public function insertNewsMessageAccount(): void
     {
         $service = (new RailwayService())->getRailwayService();
         foreach (Message::where('service_id', $service->id)->where('message_type', 'global')->get() as $message) {

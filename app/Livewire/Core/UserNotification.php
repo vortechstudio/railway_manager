@@ -3,12 +3,11 @@
 namespace App\Livewire\Core;
 
 use App\Models\User\User;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class UserNotification extends Component
 {
-    public function markAsRead($id)
+    public function markAsRead($id): void
     {
         try {
             User::find(auth()->user()->id)->notifications()->find($id)

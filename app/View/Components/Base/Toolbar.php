@@ -15,8 +15,7 @@ class Toolbar extends Component
         public ?array $breads = null,
         public bool $notitle = false,
         public bool $alertFeature = false,
-    )
-    {
+    ) {
         //
     }
 
