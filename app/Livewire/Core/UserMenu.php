@@ -52,6 +52,11 @@ class UserMenu extends Component
         }
     }
 
+    public function readVersion()
+    {
+        $this->dispatch('readVersion');
+    }
+
     public function render()
     {
         return view('livewire.core.user-menu', [

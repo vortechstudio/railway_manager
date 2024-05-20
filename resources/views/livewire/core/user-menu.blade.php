@@ -13,7 +13,7 @@
     </div>
     <!--end::Menu wrapper-->
     <div id="drawer_user_menu" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="menu"
-         data-kt-drawer-activate="true" data-kt-drawer-overlay="true"
+         data-kt-drawer-activate="true"
          data-kt-drawer-width="{default:'300px', 'md': '500px'}" data-kt-drawer-direction="end"
          data-kt-drawer-toggle="#drawer_user_menu_toggle" data-kt-drawer-close="#drawer_user_menu_close">
         <div class="d-flex flex-row-fluid backgroundGradient p-5"
@@ -132,6 +132,16 @@
                                 <span class="fs-semibold fs-3">Rapport de Bug</span>
                             </button>
                         </div>
+                        <div class="col-md-4">
+                            <button wire:click="readVersion" id="drawer_version_button"
+                                    class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 position-relative">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/soon.png') }}" class="w-50px h-50px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Contenue de la version</span>
+                                <span class="noReadVersion"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,6 +256,31 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div id="drawer_version"
+        class="bg-body"
+        data-kt-drawer="true"
+         data-kt-drawer-activate="true"
+         data-kt-drawer-toggle="#drawer_version_button"
+         data-kt-drawer-close="#drawer_version_close"
+         data-kt-drawer-width="100%"
+         wire:ignore.self
+         >
+        <div class="card shadow-sm w-100">
+            <div class="card-header">
+                <h3 class="card-title">Note de mise à jour {{ $service->latest_version->version }} ({{ \Carbon\Carbon::parse($service->latest_version->published_at)->format('d-m-Y') }})</h3>
+                <div class="card-toolbar">
+                    <a href="" id="drawer_version_close">
+                        <i class="fa-regular fa-xmark-circle fs-2x text-light text-hover-gray-800 pt-5"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <x-markdown>
+                    {!! $service->latest_version->contenue !!}
+                </x-markdown>
+            </div>
         </div>
     </div>
 </div>
