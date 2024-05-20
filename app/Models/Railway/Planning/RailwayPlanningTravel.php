@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayPlanningTravel extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public function railwayPlanning(): BelongsTo

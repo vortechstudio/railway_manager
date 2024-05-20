@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayPlanning extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     protected $casts = [
@@ -60,5 +62,10 @@ class RailwayPlanning extends Model
     public function stations()
     {
         return $this->hasMany(RailwayPlanningStation::class);
+    }
+
+    public function incidents()
+    {
+        return $this->hasMany(RailwayIncident::class);
     }
 }

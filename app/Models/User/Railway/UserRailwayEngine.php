@@ -4,6 +4,7 @@ namespace App\Models\User\Railway;
 
 use App\Enums\Railway\Users\RailwayEngineStatusEnum;
 use App\Models\Railway\Engine\RailwayEngine;
+use App\Models\Railway\Planning\RailwayIncident;
 use App\Models\Railway\Planning\RailwayPlanning;
 use App\Models\Railway\Planning\RailwayPlanningConstructor;
 use App\Models\User\User;
@@ -44,5 +45,10 @@ class UserRailwayEngine extends Model
     public function constructors()
     {
         return $this->hasMany(RailwayPlanningConstructor::class);
+    }
+
+    public function incidents()
+    {
+        return $this->hasMany(RailwayIncident::class);
     }
 }

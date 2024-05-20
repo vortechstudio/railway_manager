@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayPlanningPassenger extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'type' => RailwayLigneTarifTypeEnum::class,
     ];

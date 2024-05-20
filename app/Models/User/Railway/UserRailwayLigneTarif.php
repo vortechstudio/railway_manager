@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayLigneTarif extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     protected $casts = [

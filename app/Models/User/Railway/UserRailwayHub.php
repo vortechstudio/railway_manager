@@ -3,6 +3,7 @@
 namespace App\Models\User\Railway;
 
 use App\Models\Railway\Gare\RailwayHub;
+use App\Models\Railway\Planning\RailwayIncident;
 use App\Models\Railway\Planning\RailwayPlanning;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayHub extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     protected $casts = [
@@ -36,5 +39,10 @@ class UserRailwayHub extends Model
     public function plannings()
     {
         return $this->hasMany(RailwayPlanning::class);
+    }
+
+    public function incidents()
+    {
+        return $this->hasMany(RailwayIncident::class);
     }
 }
