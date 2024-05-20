@@ -13,6 +13,7 @@ use App\Models\User\Railway\UserRailway;
 use App\Models\User\Railway\UserRailwayAchievement;
 use App\Models\User\Railway\UserRailwayBonus;
 use App\Models\User\Railway\UserRailwayCompany;
+use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayMessage;
 use App\Models\User\Railway\UserRailwayReward;
 use App\Models\User\Railway\UserRailwaySocial;
@@ -147,6 +148,11 @@ class User extends Authenticatable
     public function railway_bonus()
     {
         return $this->hasOne(UserRailwayBonus::class);
+    }
+
+    public function railway_engines()
+    {
+        return $this->hasMany(UserRailwayEngine::class);
     }
 
     public function railway_achievements()
