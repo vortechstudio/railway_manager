@@ -3,6 +3,7 @@
 namespace App\Models\Railway\Ligne;
 
 use App\Models\Railway\Gare\RailwayGare;
+use App\Models\Railway\Planning\RailwayPlanningStation;
 use Illuminate\Database\Eloquent\Model;
 
 class RailwayLigneStation extends Model
@@ -21,5 +22,10 @@ class RailwayLigneStation extends Model
     public function ligne()
     {
         return $this->belongsTo(RailwayLigne::class, 'railway_ligne_id');
+    }
+
+    public function planning_stations()
+    {
+        return $this->hasMany(RailwayPlanningStation::class);
     }
 }

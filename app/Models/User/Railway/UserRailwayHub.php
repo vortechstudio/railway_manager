@@ -2,33 +2,30 @@
 
 namespace App\Models\User\Railway;
 
-use App\Enums\Railway\Users\RailwayEngineStatusEnum;
-use App\Models\Railway\Engine\RailwayEngine;
+use App\Models\Railway\Gare\RailwayHub;
 use App\Models\Railway\Planning\RailwayPlanning;
-use App\Models\Railway\Planning\RailwayPlanningConstructor;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserRailwayEngine extends Model
+class UserRailwayHub extends Model
 {
     public $timestamps = false;
-
+    protected $guarded = [];
     protected $connection = 'railway';
 
     protected $casts = [
         'date_achat' => 'timestamp',
-        'status' => RailwayEngineStatusEnum::class,
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function railwayEngine(): BelongsTo
+    public function railwayHub(): BelongsTo
     {
-        return $this->belongsTo(RailwayEngine::class);
+        return $this->belongsTo(RailwayHub::class, 'railway_hub_id');
     }
 
     public function userRailwayLigne()
@@ -39,10 +36,5 @@ class UserRailwayEngine extends Model
     public function plannings()
     {
         return $this->hasMany(RailwayPlanning::class);
-    }
-
-    public function constructors()
-    {
-        return $this->hasMany(RailwayPlanningConstructor::class);
     }
 }
