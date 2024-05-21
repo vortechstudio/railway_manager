@@ -55,7 +55,7 @@ class RailwayGare extends Model
         return $this->hub()->count() != 0;
     }
 
-    public function getTypeEquipementIconAttribute($equipement): string
+    public function getTypeEquipementIconAttribute($equipement): string|null
     {
         return match ($equipement) {
             'toilette' => 'fa-restroom',
@@ -66,10 +66,11 @@ class RailwayGare extends Model
             'guichets' => 'fa-ticket',
             'boutique' => 'fa-shop',
             'restaurant' => 'fa-utensils',
+            default => null,
         };
     }
 
-    public function getTypeEquipementStringAttribute($equipement): string
+    public function getTypeEquipementStringAttribute($equipement): string|null
     {
         return match ($equipement) {
             'toilette' => 'Toilette',
@@ -80,6 +81,7 @@ class RailwayGare extends Model
             'guichets' => 'Guichets',
             'boutique' => 'Boutique',
             'restaurant' => 'Restaurant',
+            default => null,
         };
     }
 
