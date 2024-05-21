@@ -106,11 +106,11 @@ class UserRailwayHub extends Model
         $ref_result = $this->getBenefice(now()->subDays(2), now()->subDays(2));
 
         if ($yesteday_result > $ref_result) {
-            return "<i class='fa-solid fa-circle-arrow-up text-green-600 fs-2 me-5'></i>";
+            return "<i class='fa-solid fa-arrow-up text-success fs-2 me-3'></i>";
         } elseif ($yesteday_result == $ref_result) {
-            return "<i class='fa-solid fa-circle-arrow-right text-orange-600 fs-2 me-5'></i>";
+            return "<i class='fa-solid fa-arrow-right text-warning fs-2 me-3'></i>";
         } else {
-            return "<i class='fa-solid fa-circle-arrow-down text-red-600 fs-2 me-5'></i>";
+            return "<i class='fa-solid fa-arrow-down text-danger fs-2 me-3'></i>";
         }
     }
 
