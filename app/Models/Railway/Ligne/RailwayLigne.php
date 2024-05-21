@@ -13,7 +13,7 @@ use Pharaonic\Laravel\Settings\Traits\Settingable;
 
 class RailwayLigne extends Model
 {
-    use Settingable, SoftDeletes;
+    use SoftDeletes;
 
     protected $guarded = [];
 

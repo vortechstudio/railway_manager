@@ -49,4 +49,9 @@ class UserRailwayLigne extends Model
     {
         return $this->hasMany(RailwayPlanning::class);
     }
+
+    public function mouvements()
+    {
+        return $this->hasMany(UserRailwayMouvement::class);
+    }
 }

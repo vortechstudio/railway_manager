@@ -9,7 +9,6 @@ use Pharaonic\Laravel\Settings\Traits\Settingable;
 
 class RailwayHub extends Model
 {
-    use Settingable;
 
     protected $guarded = [];
 

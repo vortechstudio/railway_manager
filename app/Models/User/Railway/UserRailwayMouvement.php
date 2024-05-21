@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserRailwayMouvement extends Model
 {
-    public $timestamps = false;
-
     protected $connection = 'railway';
 
     protected $guarded = [];
@@ -23,5 +21,15 @@ class UserRailwayMouvement extends Model
     public function userRailwayCompany(): BelongsTo
     {
         return $this->belongsTo(UserRailwayCompany::class, 'user_railway_company_id');
+    }
+
+    public function user_hub()
+    {
+        return $this->belongsTo(UserRailwayHub::class, 'user_railway_hub_id');
+    }
+
+    public function user_ligne()
+    {
+        return $this->belongsTo(UserRailwayLigne::class, 'user_railway_ligne_id');
     }
 }
