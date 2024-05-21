@@ -5,6 +5,9 @@
         .text-#{$color-name}-#{$color-variant} {
             color: #{$hex-value}
         }
+        i.text-#{$color-name}-#{$color-variant} {
+            color: #{$hex-value}
+        }
         .bg-#{$color-name}-#{$color-variant} {
             background-color: #{$hex-value}
         }
