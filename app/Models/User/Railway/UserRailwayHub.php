@@ -38,6 +38,11 @@ class UserRailwayHub extends Model
         return $this->hasMany(UserRailwayLigne::class);
     }
 
+    public function userRailwayEngine()
+    {
+        return $this->hasMany(UserRailwayEngine::class);
+    }
+
     public function plannings()
     {
         return $this->hasMany(RailwayPlanning::class);

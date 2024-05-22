@@ -56,17 +56,38 @@ Route::middleware(['nolocked'])->group(function() {
 });
 
 Route::get('/test', function (Request $request) {
-    $result = Process::run('C:\cmder\vendor\git-for-windows\bin\git.exe diff --stat v0.7.0 v0.8.0');
+    $engine = \App\Models\Railway\Engine\RailwayEngine::find(6);
+    $hub = \App\Models\User\Railway\UserRailwayHub::with('railwayHub', 'userRailwayEngine')->find(1);
+    $data = collect([
+        'materiel_roulant' => $engine->name,
+        'type_engine' => $engine->type_transport->value,
+        'hub_affilier' => $hub->railwayHub->gare->name,
+        'other_engines' => $hub->userRailwayEngine
+    ])->toJson();
     $ollama = Ollama::agent("
-    Tu est assistant développeur et professionnel dans l'utilisation de git. Tu doit absolument me répondre dans la langue française.
-    Tu doit me préparer un article de mise à jour pour mon site à travers le prompt que je vais te fournir.
-    Essaye de classer par feature, fix,etc suivant la convention de nommage de git.
+    Tu doit agir comme un agent de regulation du traffic ferroviaires français.
+    Ton role va être de définir le code mission de la rame suivant le code SNCF et de me le retourner dans un entier absolue et suivant les critères suivant:
+    - Les codes missions chez la SNCF sont uniquement des chiffres.
+    - Prend en compte le type de transport (type_transport) de la rame (TER,TGV,Intercité,etc...).
+    - Prend également en compte le hub d'attache de la rame (ex: Nantes, Lyon, etc,...) en recherchant la région, il servira pour les 2 premiers chiffre en cas de TER ou des Intercités
+    - Outre les TGV qui ont 4 chiffres, les TER/Intercité/other ont 6 chiffres
+    - Prend également attention aux rames déjà présente avec leurs numéro, le numéro de mission doit être unique.
+    - Voici un exemple de code propre:
+    - TER: les deux premier chiffre correspond au département du hub / les 4 seconds sont aléatoire mais unique
+    - TGV: les deux premier chiffre sont obligatoirement 80 / les deux autres aléatoire mais unique
+    - INTERCITE: les deux premiers chiffres correspond au département du HUB / les 4 seconds sont aléatoire mais unique
+    - TRAM: Le code mission se compose comme suis: 3 lettres - 5 chiffre (les trois lettres corresponde aux trois premiere lettre du hub / les 5 chiffres aléatoire mais unique)
+    - METRO: Tu doit te baser sur la structure du métro parisien de la RATP
+    - OTHER: Comme bon te semble mais doit faire entre 5 et 6 chiffre maximum
+    -> Retour JSON Obligatoirement attendue: [{'mission_code': XXXXXXX}]
     ");
-    $response = $ollama->prompt($result->output())
-        ->model('codellama')
-        ->stream(false)
+
+    $response = $ollama->prompt($data)
+        ->model('llama3')
         ->ask();
-    dd($response);
+
+    dd(\Vortechstudio\Helpers\Facades\Helpers::searchJsonOnString($response['response']));
+
 });
 
 Route::get('/maintenance', function () {

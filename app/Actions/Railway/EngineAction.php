@@ -2,6 +2,9 @@
 
 namespace App\Actions\Railway;
 
+use App\Models\Railway\Engine\RailwayEngine;
+use App\Models\User\Railway\UserRailwayHub;
+
 class EngineAction extends EngineSelectAction
 {
     /**
@@ -139,5 +142,103 @@ class EngineAction extends EngineSelectAction
         } else {
             return $calc;
         }
+    }
+
+    /**
+     * Generates a mission code based on the type of railway engine and user railway hub.
+     *
+     * @param  RailwayEngine  $engine  The railway engine object.
+     * @param  UserRailwayHub  $hub  The user railway hub object.
+     * @return int|string The generated mission code.
+     */
+    public function generateMissionCode(RailwayEngine $engine, UserRailwayHub $hub): int|string
+    {
+        $missionCode = 0;
+        switch ($engine->type_transport->value) {
+            case 'ter' || 'intercity':
+                $depNum = $this->getDepartementNumberOfHub($hub);
+                $missionCode = $this->generateUniqueNumber(6, [$depNum]);
+                break;
+
+            case 'tgv':
+                $missionCode = $this->generateUniqueNumber(4, ['80']);
+                break;
+
+            case 'tram':
+                $letters = \Str::limit(\Str::upper($hub->railwayHub->gare->name), 3, '');
+                $digitPart = $this->generateUniqueNumber(5, [], true);
+                $missionCode = $letters.'-'.$digitPart;
+                break;
+
+            case 'metro':
+                break;
+
+            case 'other':
+                $missionCode = $this->generateUniqueNumber(rand(5, 6));
+                break;
+        }
+
+        return $missionCode;
+    }
+
+    /**
+     * Generates a unique number based on the given length and prefix.
+     *
+     * @param  int  $length  The desired length of the generated number.
+     * @param  array  $prefix  An array of prefixes to be included in the number.
+     * @param  bool  $excludePrefixFromLength  Determines whether to exclude the length of the prefix from the total length of the generated number.
+     * @return string The generated unique number.
+     */
+    private function generateUniqueNumber(int $length, array $prefix = [], bool $excludePrefixFromLength = false): string
+    {
+        $number = '';
+        foreach ($prefix as $p) {
+            $number .= $p;
+        }
+        if ($excludePrefixFromLength) {
+            $length -= strlen($number);
+        }
+        $existingCodes = $this->getAllExistingMissionCodes();
+        do {
+            while (strlen($number) < $length) {
+                $number .= mt_rand(0, 9);
+            }
+        } while (in_array($number, $existingCodes));
+
+        return $number;
+
+    }
+
+    /**
+     * Retrieves all existing mission codes from the authenticated user's user railway hubs and engines.
+     *
+     * @return array The array of existing mission codes.
+     */
+    private function getAllExistingMissionCodes(): array
+    {
+        $ens = auth()->user()->userRailwayHub()->with('userRailwayEngine')->get();
+        $data = collect();
+        foreach ($ens as $en) {
+            foreach ($en->userRailwayEngine as $engine) {
+                $data->push([$engine->number]);
+            }
+        }
+
+        return $data->toArray();
+    }
+
+    /**
+     * Get the department number of a railway hub.
+     *
+     * @param  UserRailwayHub  $hub  The user's railway hub.
+     * @return string The department number.
+     */
+    private function getDepartementNumberOfHub(UserRailwayHub $hub): string
+    {
+        $response = \Http::withoutVerifying()
+            ->get('https://geo.api.gouv.fr/communes?nom='.$hub->railwayHub->gare->name.'&fields=nom,codeDepartement&format=json&geometry=centre')
+            ->object();
+
+        return $response[0]->codeDepartement;
     }
 }
