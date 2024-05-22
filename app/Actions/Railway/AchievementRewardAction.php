@@ -10,7 +10,7 @@ class AchievementRewardAction
     public function handle(AchieveReward $reward, User $user)
     {
         return match ($reward->type_reward) {
-            "argent" => $this->argentAction($reward, $user),
+            'argent' => $this->argentAction($reward, $user),
         };
     }
 }

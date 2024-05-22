@@ -51,13 +51,22 @@ Route::middleware(['nolocked'])->group(function() {
         });
 
         include('account.php');
+        include('network.php');
     });
 });
 
 Route::get('/test', function (Request $request) {
-    $user = auth()->user();
-
-    dd($user->services);
+    $result = Process::run('C:\cmder\vendor\git-for-windows\bin\git.exe diff --stat v0.7.0 v0.8.0');
+    $ollama = Ollama::agent("
+    Tu est assistant développeur et professionnel dans l'utilisation de git. Tu doit absolument me répondre dans la langue française.
+    Tu doit me préparer un article de mise à jour pour mon site à travers le prompt que je vais te fournir.
+    Essaye de classer par feature, fix,etc suivant la convention de nommage de git.
+    ");
+    $response = $ollama->prompt($result->output())
+        ->model('codellama')
+        ->stream(false)
+        ->ask();
+    dd($response);
 });
 
 Route::get('/maintenance', function () {

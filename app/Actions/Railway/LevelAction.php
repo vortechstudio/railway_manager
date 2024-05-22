@@ -13,9 +13,8 @@ class LevelAction
      *
      * @param  int  $niv_max  The maximum level to be generated (default: 50).
      * @param  int  $xp_start  The starting experience points for the levels (default: 1250).
-     * @return void
      */
-    public function handle(int $niv_max = 50, int $xp_start = 1250)
+    public function handle(int $niv_max = 50, int $xp_start = 1250): void
     {
         $this->generateRewards();
         $this->generateLevels($niv_max, $xp_start);

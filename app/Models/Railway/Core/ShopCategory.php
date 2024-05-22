@@ -12,11 +12,13 @@ class ShopCategory extends Model
     use SoftDeletes;
 
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     protected $appends = [
-        'image'
+        'image',
     ];
 
     public function shop(): BelongsTo
@@ -37,7 +39,7 @@ class ShopCategory extends Model
     public function getImage()
     {
         if (empty($this->icon)) {
-            return \Storage::url('icons/railway/shop/category/' . \Str::slug($this->name) . '.png');
+            return \Storage::url('icons/railway/shop/category/'.\Str::slug($this->name).'.png');
         } else {
             return $this->icon;
         }

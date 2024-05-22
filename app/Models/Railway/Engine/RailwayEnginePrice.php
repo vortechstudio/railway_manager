@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayEnginePrice extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public function engine()

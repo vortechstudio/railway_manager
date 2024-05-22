@@ -18,42 +18,40 @@ class ModalCheckout extends Component
 
     public User $user;
 
-    public function mount()
+    public function mount(): void
     {
         $this->user = \Auth::user();
     }
 
-    public function passCheckout(int $item_id)
+    public function passCheckout(int $item_id): void
     {
         $item = ShopItem::with('packages', 'shopCategory')->find($item_id);
         match ($item->currency_type) {
-            "argent" => $this->checkoutArgent($item),
-            "tpoint" => $this->checkoutTpoint($item),
-            "reel" => $this->checkoutReel($item),
+            'argent' => $this->checkoutArgent($item),
+            'tpoint' => $this->checkoutTpoint($item),
+            'reel' => $this->checkoutReel($item),
         };
     }
 
-    public function checkoutTpoint(ShopItem $item)
+    public function checkoutTpoint(ShopItem $item): void
     {
         if ($item->section == 'engine') {
-            $engine = RailwayEngine::where('name', 'like', '%' . $item->name . '%')->first();
+            $engine = RailwayEngine::where('name', 'like', '%'.$item->name.'%')->first();
 
             $this->user->railway->tpoint -= $item->price;
             $this->user->railway->save();
 
             // Ajout du matériel roulant dans le compte client
 
-
             $this->dispatch('closeModal', 'modalCheckout');
             $this->dispatch('showModalPassCheckout', [
                 'id' => 'modalPassCheckout',
-                'item' => $item
+                'item' => $item,
             ]);
         }
     }
 
-
-    private function checkoutReel(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item)
+    private function checkoutReel(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item): void
     {
         if ($item->section == 'engine') {
 
@@ -62,11 +60,11 @@ class ModalCheckout extends Component
             $checkout_session = Session::create([
                 'line_items' => [[
                     'price' => $item->stripe_token,
-                    'quantity' => 1
+                    'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => config('app.url') . '/shop?paymentStatement=success&item=' . $item->id,
-                'cancel_url' => config('app.url') . '/shop',
+                'success_url' => config('app.url').'/shop?paymentStatement=success&item='.$item->id,
+                'cancel_url' => config('app.url').'/shop',
                 'automatic_tax' => [
                     'enabled' => true,
                 ],
@@ -76,16 +74,16 @@ class ModalCheckout extends Component
         }
     }
 
-    private function checkoutArgent(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item)
+    private function checkoutArgent(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item): void
     {
         $function = match ($item->section) {
-            "simulation" => (new ShopFunctionAction())->executeSimulation($item, $this->user),
+            'simulation' => (new ShopFunctionAction())->executeSimulation($item, $this->user),
         };
 
-        if($function) {
+        if ($function) {
             (new Compta())->create(
                 $this->user,
-                'Achat en boutique: ' . $item->name,
+                'Achat en boutique: '.$item->name,
                 $item->price,
                 'charge',
                 'divers',
@@ -93,7 +91,7 @@ class ModalCheckout extends Component
             $this->dispatch('closeModal', 'modalCheckout');
             $this->dispatch('showModalPassCheckout', [
                 'id' => 'modalPassCheckout',
-                'item' => $item
+                'item' => $item,
             ]);
         } else {
             $this->dispatch('closeModal', 'modalCheckout');

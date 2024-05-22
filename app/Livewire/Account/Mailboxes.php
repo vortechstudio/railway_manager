@@ -2,37 +2,36 @@
 
 namespace App\Livewire\Account;
 
-use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\On;
 use Livewire\Component;
-use function Laravel\Prompts\select;
 
 class Mailboxes extends Component
 {
     use LivewireAlert;
+
     public string $type;
+
     public $selectedMessage = null;
 
-    public function read(int $message_id)
+    public function read(int $message_id): void
     {
         $this->selectedMessage = $message_id;
         try {
             auth()->user()->railway_messages()->find($message_id)->update(['is_read' => true]);
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
         }
     }
 
-    public function claim(int $message_id)
+    public function claim(int $message_id): void
     {
         $message = auth()->user()->railway_messages()->find($message_id);
 
         try {
             foreach ($message->message->rewards as $reward) {
                 match ($reward->reward_type->value) {
-                    "argent" => (new Compta())->create(
+                    'argent' => (new Compta())->create(
                         auth()->user(),
                         'Bonus: '.$reward->reward_value,
                         $reward->reward_value,
@@ -40,7 +39,7 @@ class Mailboxes extends Component
                         'divers',
                         false,
                     ),
-                    "tpoint" => auth()->user()->railway->update(['tpoint' => auth()->user()->railway->tpoint + $reward->reward_value]),
+                    'tpoint' => auth()->user()->railway->update(['tpoint' => auth()->user()->railway->tpoint + $reward->reward_value]),
                 };
                 $this->dispatch('showModalReward', [
                     'id' => 'modalReward',
@@ -49,16 +48,15 @@ class Mailboxes extends Component
                 ]);
             }
 
-
             $message->reward_collected = true;
             $message->save();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors de l'attribution de la récompense");
         }
     }
 
-    public function allDelete()
+    public function allDelete(): void
     {
         try {
             $messages = auth()->user()->railway_messages()
@@ -69,9 +67,9 @@ class Mailboxes extends Component
             }
 
             $this->alert('success', 'Tous les messages ont été supprimés');
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
-            $this->alert('error', "Erreur lors de la suppression des messages");
+            $this->alert('error', 'Erreur lors de la suppression des messages');
         }
     }
 
@@ -86,7 +84,7 @@ class Mailboxes extends Component
 
         //dd($messages);
         return view('livewire.account.mailboxes', [
-            'messages' => $messages
+            'messages' => $messages,
         ]);
     }
 }

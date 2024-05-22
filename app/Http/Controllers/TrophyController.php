@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Railway\Core\Achievement;
-
 class TrophyController extends Controller
 {
     public function index()
@@ -14,7 +12,7 @@ class TrophyController extends Controller
     public function show(string $sector)
     {
         return view('trophy.show', [
-            'sector' => $sector
+            'sector' => $sector,
         ]);
     }
 }

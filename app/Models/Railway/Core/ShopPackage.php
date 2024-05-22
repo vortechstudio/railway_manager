@@ -10,7 +10,9 @@ class ShopPackage extends Model
     use SoftDeletes;
 
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     public function category()

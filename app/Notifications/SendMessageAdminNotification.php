@@ -15,8 +15,7 @@ class SendMessageAdminNotification extends Notification implements ShouldQueue
         public string $sector,
         public string $type = 'info',
         public string $message = '',
-    )
-    {
+    ) {
     }
 
     public function via($notifiable): array

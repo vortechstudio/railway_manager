@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
-use App\Actions\NewUserAction;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
 use Exception;
-use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +15,6 @@ use Laravel\Socialite\Facades\Socialite;
 use Log;
 use Str;
 use Vortechstudio\Helpers\Facades\Helpers;
-use Vortechstudio\Helpers\Helpers\Generator;
 
 class AuthController extends Controller
 {
@@ -34,8 +31,7 @@ class AuthController extends Controller
     /**
      * Redirects the user to the authentication page of the specified social media provider.
      *
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
-     *
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The redirect response to the authentication page
      */
     public function redirect(string $provider)
@@ -46,8 +42,7 @@ class AuthController extends Controller
     /**
      * Callback method that handles the authentication callback from different social media providers.
      *
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
-     *
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return mixed The result of the verification process for the user
      *
      * @throws \Exception If the specified provider is not supported
@@ -70,9 +65,8 @@ class AuthController extends Controller
     /**
      * Verify the user and handle the necessary actions based on the authentication process.
      *
-     * @param object $user The user object returned by the social media provider
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
-     *
+     * @param  object  $user  The user object returned by the social media provider
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The response to redirect the user
      */
     private function verifyUser(object $user, string $provider)
@@ -80,10 +74,10 @@ class AuthController extends Controller
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
-        if (!$user) {
+        if (! $user) {
             $user = User::query()->create([
                 'name' => $gUser->name ?? $gUser->nickname,
-                'email' => $gUser->email ?? Helpers::reference(10) . '@vst.local',
+                'email' => $gUser->email ?? Helpers::reference(10).'@vst.local',
                 'password' => Hash::make('password0000'),
                 'email_verified_at' => now(),
                 'admin' => false,
@@ -91,11 +85,11 @@ class AuthController extends Controller
             ]);
 
             $user->logs()->create([
-                'action' => "Création du compte utilisateur",
-                'user_id' => $user->id
+                'action' => 'Création du compte utilisateur',
+                'user_id' => $user->id,
             ]);
 
-            if (!$user->socials()->where('provider', $provider)->exists()) {
+            if (! $user->socials()->where('provider', $provider)->exists()) {
                 $user->socials()->create([
                     'provider' => $provider,
                     'provider_id' => $gUser->id,
@@ -117,14 +111,14 @@ class AuthController extends Controller
 
             $user->profil()->firstOrCreate(['user_id' => $user->id]);
 
-            if (!$user->services()->where('service_id', $service->id)->exists()) {
+            if (! $user->services()->where('service_id', $service->id)->exists()) {
                 $user->services()->create([
                     'status' => true,
                     'premium' => false,
                     'user_id' => $user->id,
                     'service_id' => $service->id,
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ]);
 
                 $user->logs()->create([
@@ -144,14 +138,14 @@ class AuthController extends Controller
             return redirect()->route('auth.setup-account', [$provider, $user->email]);
         }
 
-        if (!$user->services()->where('service_id', $service->id)->exists()) {
+        if (! $user->services()->where('service_id', $service->id)->exists()) {
             $user->services()->create([
                 'status' => true,
                 'premium' => false,
                 'user_id' => $user->id,
                 'service_id' => $service->id,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
             $user->logs()->create([
@@ -177,10 +171,9 @@ class AuthController extends Controller
     /**
      * Submit method for setting up an account.
      *
-     * @param \Illuminate\Http\Request $request The HTTP request object
-     * @param string $provider The social media provider
-     * @param string $email The user's email address
-     *
+     * @param  \Illuminate\Http\Request  $request  The HTTP request object
+     * @param  string  $provider  The social media provider
+     * @param  string  $email  The user's email address
      * @return \Illuminate\Http\RedirectResponse Redirects user to the home route
      */
     public function setupAccountSubmit(Request $request, string $provider, string $email)
@@ -209,12 +202,12 @@ class AuthController extends Controller
                 'user_id' => $request->user()->id
             ]);
 
-            $user->railway_social()->create(["user_id" => $user->id]);
+            $user->railway_social()->create(['user_id' => $user->id]);
             $user->railway_company()->create(['user_id' => $user->id]);
-            $user->railway_bonus()->create(["user_id" => $user->id]);
+            $user->railway_bonus()->create(['user_id' => $user->id]);
             (new Compta())->create(
                 $user,
-                "Compte de départ",
+                'Compte de départ',
                 RailwaySetting::where('name', 'start_argent')->first()->value,
                 'revenue',
                 'divers',
@@ -242,13 +235,13 @@ Nous sommes impatients de voir le réseau ferroviaire que vous allez construire 
 Bon jeu et à bientôt sur les rails !",
                 rewards: [
                     [
-                        "type" => 'argent',
-                        "value" => 100000,
+                        'type' => 'argent',
+                        'value' => 100000,
                     ],
                     [
-                        "type" => "tpoint",
-                        "value" => 250
-                    ]
+                        'type' => 'tpoint',
+                        'value' => 250,
+                    ],
                 ]
             );
         } catch (Exception $exception) {
@@ -266,13 +259,12 @@ Bon jeu et à bientôt sur les rails !",
     /**
      * Confirm the user's password before granting access.
      *
-     * @param \Illuminate\Http\Request $request The HTTP request object
-     *
+     * @param  \Illuminate\Http\Request  $request  The HTTP request object
      * @return \Illuminate\Http\RedirectResponse The redirect response to the intended page
      */
     public function confirmPassword(Request $request)
     {
-        if (!\Hash::check($request->password, $request->user()->password)) {
+        if (! \Hash::check($request->password, $request->user()->password)) {
             toastr()
                 ->addError('Mot de passe erronée', "Vérification d'accès !");
         }
@@ -324,14 +316,14 @@ Bon jeu et à bientôt sur les rails !",
             ]);
 
             $request->user()->railway_social()->create([
-                'user_id' => $request->user()->id
+                'user_id' => $request->user()->id,
             ]);
 
             $request->user()->railway_company()->create(['user_id' => $request->user()->id]);
-            $request->user()->railway_bonus()->create(["user_id" => $request->user()->id]);
+            $request->user()->railway_bonus()->create(['user_id' => $request->user()->id]);
             (new Compta())->create(
                 $request->user(),
-                "Compte de départ",
+                'Compte de départ',
                 RailwaySetting::where('name', 'start_argent')->first()->value,
                 'revenue',
                 'divers',
@@ -354,23 +346,25 @@ Nous sommes impatients de voir le réseau ferroviaire que vous allez construire 
 Bon jeu et à bientôt sur les rails !",
                 rewards: [
                     [
-                        "type" => 'argent',
-                        "value" => 100000,
+                        'type' => 'argent',
+                        'value' => 100000,
                     ],
                     [
-                        "type" => "tpoint",
-                        "value" => 250
-                    ]
+                        'type' => 'tpoint',
+                        'value' => 250,
+                    ],
                 ]
             );
 
             toastr()
                 ->addSuccess('Votre compte a été configurer, Bienvenue');
+
             return redirect()->route('home');
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             Log::emergency($exception->getMessage(), [$exception]);
             toastr()
                 ->addError('Erreur lors de la création de votre compte, nous avons été alerter.');
+
             return redirect()->back();
         }
     }
