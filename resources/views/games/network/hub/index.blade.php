@@ -57,6 +57,9 @@
                     <livewire:game.core.map type="lignes" :user_hub_id="$hub->id" />
                     <livewire:game.network.ligne-list type="hub" :hub="$hub" />
                 </div>
+                <div class="tab-pane fade" id="rames" role="tabpanel">
+                    <livewire:game.engine.engine-list type="hub" :hub="$hub" />
+                </div>
             </div>
         </div>
     </div>
