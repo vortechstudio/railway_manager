@@ -10,12 +10,12 @@
                         <span class="badge bagde-circle badge-warning text-white me-2">Hub</span>
                         <span class="fw-bold fs-3">{{ $hub->railwayHub->gare->name }}</span>
                     </div>
-                    <button class="btn btn-flex bg-orange-600">
+                    <a href="{{ route('network.hub.show', $hub->id) }}" class="btn btn-flex bg-orange-600">
                         <span class="symbol symbol-35px me-2">
                             <img src="{{ Storage::url('icons/railway/hub.png') }}" alt="">
                         </span>
                         <span class="text-white">Détail du Hub</span>
-                    </button>
+                    </a>
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     {!! $hub->getRatioPerformance() !!}

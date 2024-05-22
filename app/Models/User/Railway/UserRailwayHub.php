@@ -6,6 +6,7 @@ use App\Models\Railway\Gare\RailwayHub;
 use App\Models\Railway\Planning\RailwayIncident;
 use App\Models\Railway\Planning\RailwayPlanning;
 use App\Models\User\User;
+use App\Services\Models\User\Railway\UserRailwayHubAction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -53,54 +54,32 @@ class UserRailwayHub extends Model
         return $this->hasMany(UserRailwayMouvement::class);
     }
 
-    private function calcSumAmount(?string $type, ?Carbon $from, ?Carbon $to)
-    {
-        return $this->mouvements()
-            ->where('user_railway_hub_id', $this->id)
-            ->when($type, function (Builder $query) use ($type) {
-                $query->where('type_mvm', $type);
-            })
-            ->when($from && $to, function (Builder $query) use ($from, $to) {
-                $query->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()]);
-            })
-            ->sum('amount');
-    }
-
     public function getCA(?Carbon $from = null, ?Carbon $to = null)
     {
-        return UserRailwayMouvement::where('user_railway_hub_id', $this->id)
-            ->where('type_amount', 'revenue')
-            ->when($from && $to, function (Builder $query) use ($from, $to) {
-                return $query->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()]);
-            })
-            ->sum('amount');
+        return (new UserRailwayHubAction($this))->getCA($from, $to);
     }
 
     public function getBenefice(?Carbon $from = null, ?Carbon $to = null)
     {
-        $billetterie = $this->calcSumAmount('billetterie', $from, $to);
-        $rent_aux = $this->calcSumAmount('rent_trajet_aux', $from, $to);
-        $cout = $this->calcSumAmount('cout_trajet', $from, $to);
-
-        return ($billetterie + $rent_aux) - $cout;
+        return (new UserRailwayHubAction($this))->getBenefice($from, $to);
     }
 
     public function getFraisCarburant(?Carbon $from = null, ?Carbon $to = null)
     {
-        return $this->calcSumAmount('gasoil', $from, $to);
+        return (new UserRailwayHubAction($this))->getFraisCarburant($from, $to);
     }
 
     public function getFraisElectrique(?Carbon $from = null, ?Carbon $to = null)
     {
-        return $this->calcSumAmount('electrique', $from, $to);
+        return (new UserRailwayHubAction($this))->getFraisElectrique($from, $to);
     }
 
     public function getTaxe(?Carbon $from = null, ?Carbon $to = null)
     {
-        return $this->calcSumAmount('taxe', $from, $to);
+        return (new UserRailwayHubAction($this))->getTaxe($from, $to);
     }
 
-    public function getRatioPerformance()
+    public function getRatioPerformance(): string
     {
         $yesteday_result = $this->getBenefice(now()->subDays(), now()->subDays());
         $ref_result = $this->getBenefice(now()->subDays(2), now()->subDays(2));
@@ -116,26 +95,26 @@ class UserRailwayHub extends Model
 
     public function getSumPassengers(string $type_passenger, ?Carbon $from = null, ?Carbon $to = null)
     {
-        $type_passenger = $type_passenger ?? 'unique';
-
-        $plannings = $this->plannings()
-            ->when($from && $to, function (Builder $query) use ($from, $to) {
-                $query->whereBetween('date_depart', [$from->startOfDay(), $to->endOfDay()]);
-            })
-            ->get();
-
-        return $this->countPassengersByType($plannings, $type_passenger);
+        return (new UserRailwayHubAction($this))->getSumPassengers($type_passenger, $from, $to);
     }
 
-    private function countPassengersByType($plannings, $type_passager)
+    public function getLigneKilometer()
     {
-        $sum = 0;
-        foreach ($plannings as $planning) {
-            $sum += $planning->passengers()
-                ->where('type', $type_passager)
-                ->sum('nb_passengers');
-        }
+        return (new UserRailwayHubAction($this))->getLigneKilometer();
+    }
 
-        return $sum;
+    public function getCountIncidents(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayHubAction($this))->getCountIncidents($from, $to);
+    }
+
+    public function getAmountIncident(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayHubAction($this))->getAmountIncidents($from, $to);
+    }
+
+    public function getCountCanceledTravel(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayHubAction($this))->getCountCanceledTravel($from, $to);
     }
 }
