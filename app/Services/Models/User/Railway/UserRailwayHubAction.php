@@ -66,6 +66,7 @@ class UserRailwayHubAction
         foreach ($this->hub->userRailwayLigne as $ligne) {
             $sum += $ligne->railwayLigne->distance;
         }
+
         return $sum;
     }
 

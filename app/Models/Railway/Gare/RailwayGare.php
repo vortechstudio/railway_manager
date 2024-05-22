@@ -55,7 +55,7 @@ class RailwayGare extends Model
         return $this->hub()->count() != 0;
     }
 
-    public function getTypeEquipementIconAttribute($equipement): string|null
+    public function getTypeEquipementIconAttribute($equipement): ?string
     {
         return match ($equipement) {
             'toilette' => 'fa-restroom',
@@ -70,7 +70,7 @@ class RailwayGare extends Model
         };
     }
 
-    public function getTypeEquipementStringAttribute($equipement): string|null
+    public function getTypeEquipementStringAttribute($equipement): ?string
     {
         return match ($equipement) {
             'toilette' => 'Toilette',

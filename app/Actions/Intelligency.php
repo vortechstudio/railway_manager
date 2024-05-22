@@ -10,7 +10,7 @@ class Intelligency
     /**
      * Calculates the demand for tariffs on a railway journey based on the given information.
      *
-     * @param UserRailwayLigne $ligne The user's railway line.
+     * @param  UserRailwayLigne  $ligne  The user's railway line.
      * @return int The rounded demand value.
      */
     public function defineDemandeTarifs(UserRailwayLigne $ligne): int
@@ -20,14 +20,14 @@ class Intelligency
         $data->push([
             'ligne' => $ligne->railwayLigne,
             'gare_central' => $ligne->userRailwayHub->railwayHub->gare,
-            "ratio_multiplicateur_offre" => $ligne->user->railway_company->tarification,
+            'ratio_multiplicateur_offre' => $ligne->user->railway_company->tarification,
             'nb_arret' => $ligne->railwayLigne->stations()->count(),
-            "tarifs" => $ligne->tarifs,
+            'tarifs' => $ligne->tarifs,
             'engine' => [
                 'ligne_engine' => $ligne->userRailwayEngine,
-                'engine' => $ligne->userRailwayEngine->railwayEngine()->with('technical', 'price')->first()
+                'engine' => $ligne->userRailwayEngine->railwayEngine()->with('technical', 'price')->first(),
             ],
-            "settings" => \App\Models\Railway\Config\RailwaySetting::all()
+            'settings' => \App\Models\Railway\Config\RailwaySetting::all(),
         ]);
         $ollama = Ollama::agent('
     Tu agit en temps que bot assistant dans la régulation ferroviaire français.

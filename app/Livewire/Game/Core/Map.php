@@ -9,21 +9,30 @@ use Livewire\Component;
 class Map extends Component
 {
     public string $type;
+
     public $user_hub_id;
+
     public $user_ligne_id;
+
     public $user;
+
     public $initialMarkers;
+
     public $initialPolygons;
+
     public $initialPolylines;
+
     public $initialRectangles;
+
     public $initialCircles;
+
     public $options;
 
-    public function mount()
+    public function mount(): void
     {
         match ($this->type) {
-            "hub" => $this->defineForHub(),
-            "lignes" => $this->defineForLignes()
+            'hub' => $this->defineForHub(),
+            'lignes' => $this->defineForLignes()
         };
     }
 
@@ -32,7 +41,7 @@ class Map extends Component
         return view('livewire.game.core.map');
     }
 
-    private function defineForHub()
+    private function defineForHub(): void
     {
         $hub = UserRailwayHub::find($this->user_hub_id);
         $this->options = [
@@ -53,12 +62,12 @@ class Map extends Component
                     'lng' => $hub->railwayHub->gare->longitude,
                 ],
                 'draggable' => false,
-                'title' => 'Tatuí - SP'
-            ]
+                'title' => 'Tatuí - SP',
+            ],
         ];
     }
 
-    private function defineForLignes()
+    private function defineForLignes(): void
     {
         $hub = UserRailwayHub::find($this->user_hub_id);
         $this->options = [
@@ -80,20 +89,20 @@ class Map extends Component
                         'lng' => $railwayLigneStation->gare->longitude,
                     ],
                     'draggable' => false,
-                    'title' => $railwayLigneStation->gare->name
+                    'title' => $railwayLigneStation->gare->name,
                 ];
             });
         });
 
         $this->initialPolylines = $hub->userRailwayLigne->map(function ($ligne) {
-                $ligne->railwayLigne->stations->map(function (RailwayLigneStation $railwayLigneStation) {
-                    return [
-                        'path' => [$railwayLigneStation->gare->latitude, $railwayLigneStation->gare->longitude],
-                        'strokeColor' => '#FF0000',
-                        'strokeOpacity' => 1.0,
-                        'strokeWeight' => 2,
-                    ];
-                })->toArray();
+            $ligne->railwayLigne->stations->map(function (RailwayLigneStation $railwayLigneStation) {
+                return [
+                    'path' => [$railwayLigneStation->gare->latitude, $railwayLigneStation->gare->longitude],
+                    'strokeColor' => '#FF0000',
+                    'strokeOpacity' => 1.0,
+                    'strokeWeight' => 2,
+                ];
             })->toArray();
+        })->toArray();
     }
 }

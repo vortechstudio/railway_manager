@@ -2,8 +2,6 @@
 
 namespace App\Actions;
 
-use App\Models\User\Railway\UserRailwayEngine;
-
 class IncidentAction
 {
     public $ollama;

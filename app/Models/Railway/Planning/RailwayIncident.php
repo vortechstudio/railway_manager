@@ -12,10 +12,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayIncident extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'type_incident' => IncidentTypeEnum::class,
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

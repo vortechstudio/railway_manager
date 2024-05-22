@@ -5,11 +5,9 @@ namespace App\Models\Railway\Gare;
 use App\Enums\Railway\Gare\HubStatusEnum;
 use App\Models\Railway\Ligne\RailwayLigne;
 use Illuminate\Database\Eloquent\Model;
-use Pharaonic\Laravel\Settings\Traits\Settingable;
 
 class RailwayHub extends Model
 {
-
     protected $guarded = [];
 
     protected $connection = 'railway';
