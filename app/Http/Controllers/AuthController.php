@@ -195,6 +195,11 @@ class AuthController extends Controller
                 'name_company' => $request->get('name_company'),
                 'desc_company' => $request->get('desc_company'),
                 'name_conseiller' => fake('fr_FR')->name,
+                'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
+                'tpoint' => 0,
+                'research' => 0,
+                'automated_planning' => false,
+                'user_id' => $request->user()->id
             ]);
 
             $user->railway_social()->create(['user_id' => $user->id]);
