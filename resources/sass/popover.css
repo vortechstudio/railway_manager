@@ -1,0 +1,12 @@
+.popover-warning {
+  --bs-popover-bg: #f9a825;
+  --bs-popover-border-color: #fda20d;
+  --bs-popover-box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+  --bs-popover-header-color: var(--bs-gray-200);
+  --bs-popover-header-bg: var(--bs-gray-900);
+  --bs-popover-body-color: var(--bs-gray-400);
+  --bs-popover-arrow-border: transparent;
+  --bs-popover-header-border-color: var(--bs-gray-800);
+}
+
+/*# sourceMappingURL=popover.css.map */

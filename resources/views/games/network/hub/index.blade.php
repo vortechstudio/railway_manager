@@ -60,6 +60,9 @@
                 <div class="tab-pane fade" id="rames" role="tabpanel">
                     <livewire:game.engine.engine-list type="hub" :hub="$hub" />
                 </div>
+                <div class="tab-pane fade" id="travels" role="tabpanel">
+                    <livewire:game.planning.planning-list-by-date type="hub" :hub="$hub" />
+                </div>
             </div>
         </div>
     </div>

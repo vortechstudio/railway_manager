@@ -24,6 +24,10 @@ class RailwayPlanning extends Model
         'status' => RailwayPlanningStatusEnum::class,
     ];
 
+    protected $appends = [
+        'incident_niveau_max',
+    ];
+
     public function userRailwayHub(): BelongsTo
     {
         return $this->belongsTo(UserRailwayHub::class, 'user_railway_hub_id');
@@ -68,4 +72,18 @@ class RailwayPlanning extends Model
     {
         return $this->hasMany(RailwayIncident::class);
     }
+
+    public function getIncidentNiveauMaxAttribute()
+    {
+        $levelMax = $this->incidents->max('niveau');
+        if($levelMax == 0 || $levelMax == 1) {
+            return 'low';
+        } elseif($levelMax == 2) {
+            return 'middle';
+        } else {
+            return 'critical';
+        }
+    }
+
+
 }

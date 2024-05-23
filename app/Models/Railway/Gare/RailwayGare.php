@@ -22,6 +22,7 @@ class RailwayGare extends Model
         'is_hub',
         'type_gare_string',
         'type_equipement_string',
+        'abr',
     ];
 
     public function weather()
@@ -83,6 +84,11 @@ class RailwayGare extends Model
             'restaurant' => 'Restaurant',
             default => null,
         };
+    }
+
+    public function getAbrAttribute()
+    {
+        return \Str::limit(\Str::upper($this->name), 3, '');
     }
 
     public function formatIsHub()
