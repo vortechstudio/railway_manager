@@ -18,7 +18,7 @@
                     </button>
                 </div>
                 <div class="d-flex flex-row align-items-center">
-                    {!! $ligne->getRatioPerformance() !!}
+                    {!! $ligne->ratio_performance !!}
                     <div class="d-flex align-items-center me-5">
                         <span class="bullet bullet-dot bg-black w-5px h-5px me-2"></span>
                         <span class="me-2">Distance: </span>
