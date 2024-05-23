@@ -50,6 +50,7 @@ class UserRailwayLigneAction
     {
         $ca = $this->getCA($from, $to);
         $cout = $this->getCout($from, $to);
+
         return $ca - $cout;
     }
 

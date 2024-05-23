@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayMouvement extends Model
 {
     use HasFactory;
+
     protected $connection = 'railway';
 
     protected $guarded = [];

@@ -22,6 +22,7 @@ class UserRailwayEngine extends Model
         'date_achat' => 'timestamp',
         'status' => RailwayEngineStatusEnum::class,
     ];
+
     protected $appends = [
         'status_badge',
         'utilisation',

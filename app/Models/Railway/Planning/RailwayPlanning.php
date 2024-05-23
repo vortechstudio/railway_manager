@@ -76,14 +76,12 @@ class RailwayPlanning extends Model
     public function getIncidentNiveauMaxAttribute()
     {
         $levelMax = $this->incidents->max('niveau');
-        if($levelMax == 0 || $levelMax == 1) {
+        if ($levelMax == 0 || $levelMax == 1) {
             return 'low';
-        } elseif($levelMax == 2) {
+        } elseif ($levelMax == 2) {
             return 'middle';
         } else {
             return 'critical';
         }
     }
-
-
 }
