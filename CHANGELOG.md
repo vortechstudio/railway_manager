@@ -1,3 +1,32 @@
+# [0.9.0](https://github.com/vortechstudio/railway_manager/compare/v0.8.0...v0.9.0) (2024-05-23)
+
+
+### Bug Fixes
+
+* **General:** Amélioration des méthodes de calcul et ajustement des icônes ([bd07081](https://github.com/vortechstudio/railway_manager/commit/bd070810c556a1a616e0e3d98f67272b0a1c8866))
+* **General:** Mise à jour de la version de vstudio/helpers ([8282e85](https://github.com/vortechstudio/railway_manager/commit/8282e85eacd7d3cb2a36f494d76eb5a8edecc6d1))
+* **General:** Utilisation de données non échappées pour le contenu d'une alerte ([a6adea5](https://github.com/vortechstudio/railway_manager/commit/a6adea5ae529b8068d15032707f52e247dc565fd))
+* **Menu Utilisateur:** Ajout de la fermeture automatique des tiroirs ([f1842ed](https://github.com/vortechstudio/railway_manager/commit/f1842ed533df660d54a518ca4c2b44ed56ad5809))
+
+
+### Features
+
+* **AI Improvement:** Ajout de la fonction de calcul de demandes tarifaires ([d4d5504](https://github.com/vortechstudio/railway_manager/commit/d4d5504f810a96368e5e7364dfe95057f99853c0))
+* **AI Improvement:** Creation de la classe IncidentAction ([83d1261](https://github.com/vortechstudio/railway_manager/commit/83d126195699b0131b289fe9b8b358b94eca7a95))
+* **General:** ajout de la fonctionnalité de lecture de version ([d543d9a](https://github.com/vortechstudio/railway_manager/commit/d543d9a2897a428a100f063675af19ccd4e669de))
+* **General:** Ajout des relations de modèle Railway et des migrations ([971a8d9](https://github.com/vortechstudio/railway_manager/commit/971a8d9ede1bc1e52e468bcc87849169610d83d7))
+* **General:** Ajoute des relations aux incidents des chemins de fer ([0bff75b](https://github.com/vortechstudio/railway_manager/commit/0bff75b6846b7bc9af29515fe5c8341a19b857b0))
+* **General:** Prise en charge de la fluctuation du marché ([fc9b9ef](https://github.com/vortechstudio/railway_manager/commit/fc9b9efc7a1e33b8335e670dc0cc7423f2794cf6))
+* **Loader:** Ajoute un chargement visuel à la page ([e228966](https://github.com/vortechstudio/railway_manager/commit/e22896665bfc31602190c979cd1060a3ec31a856))
+* Mise à jour majeure des fonctionnalités du réseau ferroviaire ([e78557d](https://github.com/vortechstudio/railway_manager/commit/e78557d68ec557177c501eaa352f7ad9a739332d))
+* **Network:** Ajout de détails du hub et de la carte du jeu ([b366017](https://github.com/vortechstudio/railway_manager/commit/b36601788b9840d3487fba1cda13d1eb07f1b251))
+* **Network:** Ajout de la liste de planification par date ([a257dc4](https://github.com/vortechstudio/railway_manager/commit/a257dc48e8b3999f99fbb87e34b3ac0649d5ecbb))
+* **Network:** Ajout de la liste des lignes de réseau ([3a42490](https://github.com/vortechstudio/railway_manager/commit/3a42490fe7387b39c2fb7c41df1c8ca72c5d83a9))
+* **Network:** Ajout de la liste des moteurs de jeu ([bcb63b6](https://github.com/vortechstudio/railway_manager/commit/bcb63b6708f5cf5adbafd311786ae5be00337259))
+* **Network:** Ajout de nouvelles fonctionnalités et améliorations ([8fa942d](https://github.com/vortechstudio/railway_manager/commit/8fa942dc31ccb7c25325b352b3295639bb76d42b))
+* **Network:** Création du fichier de vente de hub et de la vue associée ([a009295](https://github.com/vortechstudio/railway_manager/commit/a00929559dd25983bd10a8155cabbb40864cc2c7))
+* **Reseau:** Ajout des fonctionnalités du réseau ferroviaire ([08e23fa](https://github.com/vortechstudio/railway_manager/commit/08e23fa053a5c982a770ed2c8bdda56fae4c7b52))
+
 # [0.8.0](https://github.com/vortechstudio/railway_manager/compare/v0.7.0...v0.8.0) (2024-05-19)
 
 
