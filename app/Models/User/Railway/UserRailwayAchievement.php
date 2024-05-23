@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayAchievement extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     public function achievement(): BelongsTo
     {
         return $this->belongsTo(Achievement::class, 'achievement_id');

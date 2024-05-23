@@ -9,6 +9,7 @@ use Livewire\Component;
 class TrophyPanel extends Component
 {
     public string $sector;
+
     public function render()
     {
         return view('livewire.trophy.trophy-panel', [

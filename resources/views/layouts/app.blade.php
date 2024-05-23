@@ -24,14 +24,46 @@ License: For each use you must have a valid license purchased only from above li
     <link defer href="{{ asset('/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link defer href="{{ asset('/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     @livewireStyles
-    @vite(['resources/css/app.css', 'resources/sass/animate.scss'])
+    @vite(['resources/css/app.css', 'resources/sass/app.scss'])
     @yield("styles")
     @stack("styles")
     @laravelPWA
+    <style>
+        /* HTML: <div class="loader"></div> */
+        .loader {
+            width: 250px;
+            aspect-ratio: 1;
+            border: 3px solid;
+            border-radius: 50%;
+            display: grid;
+            background:
+                radial-gradient(circle 3px, currentColor 95%,#0000),
+                linear-gradient(currentColor 50%,#0000 0) 50%/2px 60% no-repeat;
+        }
+        .loader:before,
+        .loader:after {
+            content: "";
+            grid-area: 1/1;
+        }
+        .loader:before {
+            background: repeating-conic-gradient(from -2deg, #2476e5 0 4deg,#0000 0 90deg);
+            -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 6px),#2476e5 0);
+        }
+        .loader:after {
+            background: linear-gradient(currentColor 50%,#0000 0) 50%/2px 80% no-repeat;
+            animation: l7 1s infinite;
+        }
+        @keyframes l7 {
+            0%,
+            100% {transform: rotate(30deg)}
+            90%  {transform: rotate(42deg)}
+            95%  {transform: rotate(15deg)}
+        }
+    </style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<body id="kt_app_body" data-kt-app-header-fixed-mobile="true" data-kt-app-toolbar-enabled="true" class="app-default">
+<body id="kt_app_body" data-kt-app-header-fixed-mobile="true" data-kt-app-toolbar-enabled="true" data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on" class="app-default">
 <!--begin::Theme mode setup on page load-->
 <script>
     let defaultThemeMode = "light";
@@ -52,6 +84,10 @@ License: For each use you must have a valid license purchased only from above li
         document.documentElement.setAttribute("data-bs-theme", themeMode);
     }
 </script>
+<div class="page-loader flex-column bg-dark bg-opacity-50">
+    <div class="loader" role="status"></div>
+    <span class="text-gray-800 fs-6 fw-semibold mt-5">Loading...</span>
+</div>
 <!--end::Theme mode setup on page load-->
 <!--begin::App-->
 <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -117,13 +153,16 @@ License: For each use you must have a valid license purchased only from above li
     <i class="ki-outline ki-arrow-up"></i>
 </div>
 <livewire:core.modal-reward />
+<x-base.close-drawer />
 <script>var hostUrl = "assets/";</script>
 @livewireScriptConfig
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />
+<x-scripts.versionDetect />
 @yield("scripts")
 @stack("scripts")
 <!--end::Global Javascript Bundle-->

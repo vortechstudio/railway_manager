@@ -19,6 +19,7 @@ class Service extends Model
     use HasPages, SoftDeletes;
 
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     protected $casts = [

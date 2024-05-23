@@ -3,7 +3,7 @@
     <div class="d-flex flex-column text-white pe-0 pe-sm-10">
         <div class="fs-1 mb-2">{{ $title }}</div>
         <p>
-            {{ $content }}
+            {!! $content !!}
         </p>
     </div>
 </div>

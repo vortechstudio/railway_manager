@@ -3,6 +3,9 @@
 namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Railway\Planning\RailwayIncident;
+use App\Models\Railway\Planning\RailwayPlanning;
+use App\Models\Railway\Planning\RailwayPlanningConstructor;
 use App\Models\Social\Article;
 use App\Models\Social\Event;
 use App\Models\Social\Post\Post;
@@ -13,6 +16,9 @@ use App\Models\User\Railway\UserRailway;
 use App\Models\User\Railway\UserRailwayAchievement;
 use App\Models\User\Railway\UserRailwayBonus;
 use App\Models\User\Railway\UserRailwayCompany;
+use App\Models\User\Railway\UserRailwayEngine;
+use App\Models\User\Railway\UserRailwayHub;
+use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMessage;
 use App\Models\User\Railway\UserRailwayReward;
 use App\Models\User\Railway\UserRailwaySocial;
@@ -149,6 +155,11 @@ class User extends Authenticatable
         return $this->hasOne(UserRailwayBonus::class);
     }
 
+    public function railway_engines()
+    {
+        return $this->hasMany(UserRailwayEngine::class);
+    }
+
     public function railway_achievements()
     {
         return $this->hasMany(UserRailwayAchievement::class);
@@ -157,6 +168,31 @@ class User extends Authenticatable
     public function railway_rewards()
     {
         return $this->hasMany(UserRailwayReward::class);
+    }
+
+    public function userRailwayHub()
+    {
+        return $this->hasMany(UserRailwayHub::class);
+    }
+
+    public function userRailwayLigne()
+    {
+        return $this->hasMany(UserRailwayLigne::class);
+    }
+
+    public function railway_plannings()
+    {
+        return $this->hasMany(RailwayPlanning::class);
+    }
+
+    public function railway_planning_constructors()
+    {
+        return $this->hasMany(RailwayPlanningConstructor::class);
+    }
+
+    public function railway_incidents()
+    {
+        return $this->hasMany(RailwayIncident::class);
     }
 
     public function scopeNotifiable(Builder $query)

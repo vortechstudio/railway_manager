@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayEngineTechnical extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;

@@ -49,7 +49,7 @@ class Achievement extends Model
         return method_exists(AchievementAction::class, $this->action.'Action');
     }
 
-    public function unlock()
+    public function unlock(): void
     {
         (new AchievementAction())->handle($this);
     }

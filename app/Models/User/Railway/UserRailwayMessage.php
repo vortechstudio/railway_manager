@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 class UserRailwayMessage extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'reward_type' => MessageRewardTypeEnum::class,
     ];
 
-    public function user()
+    public function user(): void
     {
         $this->belongsTo(User::class, 'user_id');
     }
@@ -25,7 +27,7 @@ class UserRailwayMessage extends Model
         return $this->belongsTo(Message::class, 'message_id');
     }
 
-    public function markAsRead()
+    public function markAsRead(): void
     {
         $this->update([
             'is_read' => true,

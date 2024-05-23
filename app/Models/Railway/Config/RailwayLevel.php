@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayLevel extends Model
 {
     public $timestamps = false;
+
     protected $connection = 'railway';
 
     protected $guarded = [];

@@ -1,0 +1,18 @@
+@import 'map';
+
+@each $color-name, $color-variants in $material-colors {
+    @each $color-variant, $hex-value in $color-variants {
+        .text-#{$color-name}-#{$color-variant} {
+            color: #{$hex-value}
+        }
+        i.text-#{$color-name}-#{$color-variant} {
+            color: #{$hex-value}
+        }
+        .bg-#{$color-name}-#{$color-variant} {
+            background-color: #{$hex-value}
+        }
+        .border-#{$color-name}-#{$color-variant} {
+            border-color: #{$hex-value}
+        }
+    }
+}

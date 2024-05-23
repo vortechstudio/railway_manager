@@ -10,7 +10,7 @@ class NewsPanel extends Component
 {
     public $selectedNotice = null;
 
-    public function read(int $notice_id)
+    public function read(int $notice_id): void
     {
         $this->selectedNotice = $notice_id;
     }
@@ -18,6 +18,7 @@ class NewsPanel extends Component
     public function render()
     {
         $service = (new RailwayService())->getRailwayService();
+
         return view('livewire.core.news-panel', [
             'article_promote' => Article::where('published', true)
                 ->where('cercle_id', $service->cercle_id)

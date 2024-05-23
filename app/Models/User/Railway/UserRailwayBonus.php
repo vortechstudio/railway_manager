@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayBonus extends Model
 {
     public $timestamps = false;
+
     protected $connection = 'railway';
+
     protected $guarded = [];
 
     public function user(): BelongsTo

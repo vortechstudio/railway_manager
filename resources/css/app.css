@@ -1,8 +1,9 @@
 @import "fonts/tabler-icons.css";
-@import "materialcolor.css";
-@import "size.css";
 @import "shop.css";
 
+body {
+    font-family: "Twemoji Country Flags",Inter,Helvetica,"sans-serif";
+}
 
 .animated-background {
     background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);

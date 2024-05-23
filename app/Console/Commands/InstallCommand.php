@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
+
 use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\spin;
-use function Laravel\Prompts\text;
 
 class InstallCommand extends Command
 {
@@ -34,6 +33,7 @@ class InstallCommand extends Command
             $this->line('please run');
             $this->line('php artisan app:install --help');
             $this->line('to see the command usage.');
+
             return 0;
         }
         $this->alert('Application is installing...');
@@ -58,12 +58,13 @@ class InstallCommand extends Command
         $this->importGithubWorkflow();
 
         $this->alert('Application is installed successfully.');
+
         return 1;
     }
 
     public function missingRequiredOptions(): bool
     {
-        return !$this->option('db-database');
+        return ! $this->option('db-database');
     }
 
     private function updateEnv($data)
@@ -76,47 +77,48 @@ class InstallCommand extends Command
                 $entry = explode('=', $envValue, 2);
                 // Check if exists or not in env file
                 if ($entry[0] == $dataKey) {
-                    $env[$envKey] = $dataKey . '=' . $dataValue;
+                    $env[$envKey] = $dataKey.'='.$dataValue;
                     $alreadyExistInEnv = true;
                 } else {
                     $env[$envKey] = $envValue;
                 }
             }
             // add the variable if not exists in env
-            if (!$alreadyExistInEnv) {
-                $env[] = $dataKey . '=' . $dataValue;
+            if (! $alreadyExistInEnv) {
+                $env[] = $dataKey.'='.$dataValue;
             }
         }
         $env = implode("\n", $env);
         file_put_contents(base_path('.env'), $env);
+
         return true;
     }
 
-    public function copyEnvExampleToEnv()
+    public function copyEnvExampleToEnv(): void
     {
-        if($this->option('env') == 'local') {
-            if (!is_file(base_path('.env')) && is_file(base_path('.env.example'))) {
+        if ($this->option('env') == 'local') {
+            if (! is_file(base_path('.env')) && is_file(base_path('.env.example'))) {
                 File::copy(base_path('.env.example'), base_path('.env'));
             }
         } elseif ($this->option('env') == 'staging' || $this->option('env') == 'testing') {
-            if (!is_file(base_path('.env')) && is_file(base_path('.env.staging'))) {
+            if (! is_file(base_path('.env')) && is_file(base_path('.env.staging'))) {
                 File::copy(base_path('.env.staging'), base_path('.env'));
             }
         } else {
-            if (!is_file(base_path('.env')) && is_file(base_path('.env.production'))) {
+            if (! is_file(base_path('.env')) && is_file(base_path('.env.production'))) {
                 File::copy(base_path('.env.production'), base_path('.env'));
             }
         }
     }
 
-    public static function generateAppKey()
+    public static function generateAppKey(): void
     {
         Artisan::call('key:generate');
     }
 
     public static function runMigrationsWithSeeders()
     {
-        $a = confirm("Voulez-vous executer les migration");
+        $a = confirm('Voulez-vous executer les migration');
         if ($a) {
             try {
                 Artisan::call('migrate:fresh', ['--force' => true]);
@@ -124,12 +126,14 @@ class InstallCommand extends Command
             } catch (\Exception $e) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 
-    public function updateEnvVariablesFromOptions()
+    public function updateEnvVariablesFromOptions(): void
     {
         $this->updateEnv([
             'DB_HOST' => $this->option('db-host'),
@@ -138,7 +142,7 @@ class InstallCommand extends Command
             'DB_USERNAME' => $this->option('db-username'),
             'DB_PASSWORD' => $this->option('db-password'),
             'GITHUB_REPOSITORY' => $this->option('github-repository'),
-            'GITHUB_TOKEN' => $this->option('github-token')
+            'GITHUB_TOKEN' => $this->option('github-token'),
         ]);
         $conn = config('database.default', 'mysql');
         $dbConfig = Config::get("database.connections.$conn");
@@ -153,53 +157,52 @@ class InstallCommand extends Command
         DB::reconnect($conn);
     }
 
-    private function installCoreSystem()
+    private function installCoreSystem(): void
     {
         $flow = confirm('Voulez-vous utiliser git flow ?');
         if ($flow) {
             Process::run('git flow init -f -d --feature feature/  --bugfix bugfix/ --release release/ --hotfix hotfix/ --support support/', function (string $type, string $output) {
-                if($type == 'err') {
+                if ($type == 'err') {
                     $this->error($output);
                 } else {
-                    $this->info("Git flow Initilialized !");
+                    $this->info('Git flow Initilialized !');
                 }
             });
         }
 
-
-        $this->info("Installation des dépendance principal obligatoire");
+        $this->info('Installation des dépendance principal obligatoire');
 
         $result = Process::pipe(function (Pipe $pipe) {
-            $this->line("-- INSTALLATION DU LOG VIEWER --");
+            $this->line('-- INSTALLATION DU LOG VIEWER --');
             $pipe->command('composer require arcanedev/log-viewer');
             $this->updateEnv([
-                'LOG_CHANNEL' => "daily"
+                'LOG_CHANNEL' => 'daily',
             ]);
-            $pipe->command("php artisan log-viewer:publish");
-            $pipe->command("php artisan log-viewer:clear");
-            $this->line("");
-            $this->line("-- INSTALLATION DE VIEWER/EXPORT PDF --");
-            $pipe->command("composer require barryvdh/laravel-dompdf");
-            $this->line("");
-            $this->line("-- ");
+            $pipe->command('php artisan log-viewer:publish');
+            $pipe->command('php artisan log-viewer:clear');
+            $this->line('');
+            $this->line('-- INSTALLATION DE VIEWER/EXPORT PDF --');
+            $pipe->command('composer require barryvdh/laravel-dompdf');
+            $this->line('');
+            $this->line('-- ');
         });
-        if($result->successful()) {
-            $this->info("Installation des dépendance principal obligatoire terminé");
+        if ($result->successful()) {
+            $this->info('Installation des dépendance principal obligatoire terminé');
         } else {
             $this->error("Erreur lors de l'installation des dépendance obligatoire");
         }
     }
 
-    private function installOptionnalSystem()
+    private function installOptionnalSystem(): void
     {
         $auth = confirm("Voulez-vous utiliser l'authentification ?", 'yes');
-        if($auth) {
+        if ($auth) {
             $r = Process::pipe(function (Pipe $pipe) {
-                $pipe->command("composer require laravel/fortify");
-                Artisan::call("vendor:publish", ['--provider="Laravel\Fortify\FortifyServiceProvider"']);
+                $pipe->command('composer require laravel/fortify');
+                Artisan::call('vendor:publish', ['--provider="Laravel\Fortify\FortifyServiceProvider"']);
 
-                $pipe->command("composer require rappasoft/laravel-authentication-log");
-                $pipe->command("composer require torann/geoip");
+                $pipe->command('composer require rappasoft/laravel-authentication-log');
+                $pipe->command('composer require torann/geoip');
 
                 Artisan::call('vendor:publish', ['--provider="Rappasoft\LaravelAuthenticationLog\LaravelAuthenticationLogServiceProvider"', '--tag="authentication-log-migrations"']);
                 Artisan::call('vendor:publish', ['--provider="Torann\GeoIP\GeoIPServiceProvider"', '--tag=config']);
@@ -208,17 +211,16 @@ class InstallCommand extends Command
             $r ? $this->alert("Installation de Laravel Fortify Terminer, n'oublier pas d'ajouter l'interface 'AuthenticationLoggable' au model 'User'") : $this->error("Erreur lors de l'installation de laravel Fortify");
         }
 
-
     }
 
-    private function importGithubWorkflow()
+    private function importGithubWorkflow(): void
     {
-        $this->info("Importation du workflow github");
+        $this->info('Importation du workflow github');
         $prAgent = file_put_contents('.github/workflows/pr_agent.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_agent.yml'), FILE_APPEND);
         $prUpdate = file_put_contents('.github/workflows/pr_update.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/pr_update.yml'), FILE_APPEND);
         $d_staging = file_put_contents('.github/workflows/deploy_staging.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_staging.yml'), FILE_APPEND);
         $d_production = file_put_contents('.github/workflows/deploy_production.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/manager/master/.github/workflows/deploy_production.yml'), FILE_APPEND);
-        $dependabot = file_put_contents( '.github/dependabot.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/dependabot.yml'), FILE_APPEND);
+        $dependabot = file_put_contents('.github/dependabot.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/dependabot.yml'), FILE_APPEND);
         $issue_bug = file_put_contents('.github/ISSUE_TEMPLATE/bug.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/bug.yml'), FILE_APPEND);
         $issue_config = file_put_contents('.github/ISSUE_TEMPLATE/config.yml', file_get_contents('https://raw.githubusercontent.com/vortechstudio/api/master/.github/ISSUE_TEMPLATE/config.yml'), FILE_APPEND);
 
@@ -227,21 +229,21 @@ class InstallCommand extends Command
         $tests = file_put_contents('.github/workflows/tests.yml', file_get_contents('https://raw.githubusercontent.com/laravel/laravel/11.x/.github/workflows/tests.yml'), FILE_APPEND);
     }
 
-    private function installFrontSystem()
+    private function installFrontSystem(): void
     {
-        $this->info("Installation de livewire");
+        $this->info('Installation de livewire');
         $result = Process::pipe(function (Pipe $pipe) {
-            $pipe->command("composer require livewire/livewire");
-            Artisan::call("livewire:publish", ["--config"]);
+            $pipe->command('composer require livewire/livewire');
+            Artisan::call('livewire:publish', ['--config']);
         });
 
         if ($result->successful()) {
-            Process::run("npm install");
-            Process::run("npm run build");
+            Process::run('npm install');
+            Process::run('npm run build');
         }
 
         $result = Process::pipe(function (Pipe $pipe) {
-            $pipe->command("composer require jantinnerezo/livewire-alert");
+            $pipe->command('composer require jantinnerezo/livewire-alert');
         });
 
     }

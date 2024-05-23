@@ -1,0 +1,37 @@
+.popover-warning {
+    --bs-popover-bg: #f9a825 !important;
+    --bs-popover-border-color: #fda20d !important;
+    color: white;
+    --bs-popover-box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    --bs-popover-header-color: var(--bs-gray-200);
+    --bs-popover-header-bg: var(--bs-gray-900);
+    --bs-popover-body-color: var(--bs-gray-400);
+    --bs-popover-arrow-border: transparent;
+    --bs-popover-header-border-color: var(--bs-gray-800);
+
+    .popover-header {
+        --bs-popover-bg: #f9a825 !important;
+    }
+    .popover-body {
+        color: white;
+    }
+}
+
+.popover-critical {
+    --bs-popover-bg: #ff2b2b !important;
+    --bs-popover-border-color: #b61f1f !important;
+    color: white;
+    --bs-popover-box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    --bs-popover-header-color: var(--bs-gray-200);
+    --bs-popover-header-bg: var(--bs-gray-900);
+    --bs-popover-body-color: var(--bs-gray-400);
+    --bs-popover-arrow-border: transparent;
+    --bs-popover-header-border-color: var(--bs-gray-800);
+
+    .popover-header {
+        --bs-popover-bg: #ff2b2b !important;
+    }
+    .popover-body {
+        color: white;
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Models\Railway\Config;
 
+use App\Models\Railway\Engine\RailwayEngine;
 use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,9 @@ class RailwayRental extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     public $timestamps = false;
 
     protected $casts = [
@@ -24,6 +27,11 @@ class RailwayRental extends Model
     protected $appends = [
         'image',
     ];
+
+    public function engines()
+    {
+        return $this->belongsToMany(RailwayEngine::class, 'railway_engine_rentals', 'railway_engine_id', 'railway_rental_id');
+    }
 
     public function getImageAttribute()
     {

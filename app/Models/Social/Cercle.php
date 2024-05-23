@@ -12,7 +12,9 @@ use Storage;
 class Cercle extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'mysql';
+
     public $timestamps = false;
 
     protected $appends = [

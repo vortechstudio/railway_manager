@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class WikiCategory extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'mysql';
+
     public $timestamps = false;
 
     public function cercle()

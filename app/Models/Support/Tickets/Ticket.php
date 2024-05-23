@@ -22,6 +22,7 @@ class Ticket extends Model
         'status' => TicketStatusEnum::class,
         'priority' => TicketPriorityEnum::class,
     ];
+
     protected $appends = [
         'priority_human',
     ];

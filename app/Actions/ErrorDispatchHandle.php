@@ -13,7 +13,7 @@ class ErrorDispatchHandle
 {
     public function handle(\Throwable $e): void
     {
-        if(config('app.env') == 'staging' || config('app.env') == 'production') {
+        if (config('app.env') == 'staging' || config('app.env') == 'production') {
             $issue = new Issues(Issues::createIssueMonolog('exception', $e->getMessage(), [$e]));
             $issue->createIssueFromException();
         }

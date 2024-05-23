@@ -6,6 +6,8 @@ use App\Enums\Railway\Engine\RailwayEngineEnergyEnum;
 use App\Enums\Railway\Engine\RailwayEngineStatusEnum;
 use App\Enums\Railway\Engine\RailwayEngineTrainEnum;
 use App\Enums\Railway\Engine\RailwayEngineTransportEnum;
+use App\Models\Railway\Config\RailwayRental;
+use App\Models\User\Railway\UserRailwayEngine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,6 +16,7 @@ class RailwayEngine extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     public $timestamps = false;
@@ -44,6 +47,16 @@ class RailwayEngine extends Model
     public function technical()
     {
         return $this->hasOne(RailwayEngineTechnical::class);
+    }
+
+    public function rentals()
+    {
+        return $this->belongsToMany(RailwayRental::class, 'railway_engine_rentals', 'railway_rental_id', 'railway_engine_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(UserRailwayEngine::class);
     }
 
     public function getSlugAttribute()

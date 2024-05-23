@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayEngineShop extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     protected $casts = [

@@ -27,4 +27,5 @@ enum MvmTypeMvmEnum: string
     case VENTE_HUB = 'vente_hub';
     case VENTE_LIGNE = 'vente_ligne';
     case VENTE_ENGINE = 'vente_engine';
+    case INCIDENT = 'incident';
 }

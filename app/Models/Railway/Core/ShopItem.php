@@ -12,11 +12,13 @@ class ShopItem extends Model
     use SoftDeletes;
 
     public $timestamps = false;
+
     protected $guarded = [];
+
     protected $connection = 'mysql';
 
     protected $casts = [
-        'disponibility_end_at' => 'datetime'
+        'disponibility_end_at' => 'datetime',
     ];
 
     protected $appends = [
@@ -38,7 +40,7 @@ class ShopItem extends Model
 
     public function getImage()
     {
-        if(\Storage::exists('icons/railway/shop/items/'.\Str::slug($this->name).'.png')) {
+        if (\Storage::exists('icons/railway/shop/items/'.\Str::slug($this->name).'.png')) {
             return \Storage::url('icons/railway/shop/items/'.\Str::slug($this->name).'.png');
         } else {
             return \Storage::url('icons/railway/shop/items/'.\Str::slug($this->name).'.gif');
@@ -50,12 +52,12 @@ class ShopItem extends Model
         $user = \Auth::user();
         // Vérification des montants
         $amount_ok = match ($this->currency_type) {
-            "argent" => $user->railway->argent >= $this->price,
-            "tpoint" => $user->railway->tpoint >= $this->price,
-            "reel" => true
+            'argent' => $user->railway->argent >= $this->price,
+            'tpoint' => $user->railway->tpoint >= $this->price,
+            'reel' => true
         };
 
-        if($amount_ok) {
+        if ($amount_ok) {
             return true;
         } else {
             return false;
@@ -70,7 +72,7 @@ class ShopItem extends Model
     public function getRarityBgColorAttribute()
     {
         return match ($this->rarity) {
-            "base" => 'bg-gray-200',
+            'base' => 'bg-gray-200',
             'bronze' => 'bg-brown-200',
             'argent' => 'bg-gray-400',
             'or' => 'bg-yellow-400',
@@ -81,9 +83,9 @@ class ShopItem extends Model
     public function getPriceFormatAttribute()
     {
         return match ($this->currency_type) {
-            "argent" => '<img src="'.\Storage::url('icons/railway/argent.png').'" alt="" class="w-30px me-2" />'.number_format($this->price, 0, ',', ' '),
-            "tpoint" => '<img src="'.\Storage::url('icons/railway/tpoint.png').'" alt="" class="w-30px me-2" />'.number_format($this->price, 0, ',', ' '),
-            "reel" => Helpers::eur($this->price)
+            'argent' => '<img src="'.\Storage::url('icons/railway/argent.png').'" alt="" class="w-30px me-2" />'.number_format($this->price, 0, ',', ' '),
+            'tpoint' => '<img src="'.\Storage::url('icons/railway/tpoint.png').'" alt="" class="w-30px me-2" />'.number_format($this->price, 0, ',', ' '),
+            'reel' => Helpers::eur($this->price)
         };
     }
 }

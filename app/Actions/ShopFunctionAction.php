@@ -9,9 +9,11 @@ class ShopFunctionAction
         try {
             $user->railway_bonus->simulation += $item->qte;
             $user->railway_bonus->save();
+
             return true;
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
+
             return false;
         }
     }
