@@ -22,6 +22,9 @@ class UserRailwayHub extends Model
     protected $casts = [
         'date_achat' => 'timestamp',
     ];
+    protected $appends = [
+        'flux_market',
+    ];
 
     public function user(): BelongsTo
     {
@@ -120,5 +123,15 @@ class UserRailwayHub extends Model
     public function getCountCanceledTravel(?Carbon $from = null, ?Carbon $to = null)
     {
         return (new UserRailwayHubAction($this))->getCountCanceledTravel($from, $to);
+    }
+
+    public function getFluxMarketAttribute()
+    {
+        return (new UserRailwayHubAction($this))->getActualFluctuation();
+    }
+
+    public function simulateSelling()
+    {
+        return (new UserRailwayHubAction($this))->simulateSelling();
     }
 }

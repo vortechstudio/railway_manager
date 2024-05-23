@@ -93,4 +93,9 @@ class UserRailwayEngine extends Model
     {
         return (new UserRailwayEngineAction($this))->getIndiceAncien();
     }
+
+    public function simulateSelling()
+    {
+        return (new UserRailwayEngineAction($this))->simulateSelling();
+    }
 }

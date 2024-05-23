@@ -2,6 +2,7 @@
 
 namespace App\Services\Models\User\Railway;
 
+use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayMouvement;
 use Carbon\Carbon;
@@ -30,6 +31,28 @@ class UserRailwayHubAction
         $cout = $this->calcSumAmount('cout_trajet', $from, $to);
 
         return ($billetterie + $rent_aux) - $cout;
+    }
+
+    public function getCout(?Carbon $from = null, ?Carbon $to = null)
+    {
+        $electricite = $this->calcSumAmount('electricite', $from, $to);
+        $gasoil = $this->calcSumAmount('gasoil', $from, $to);
+        $taxe = $this->calcSumAmount('taxe', $from, $to);
+        $m_engine = $this->calcSumAmount('maintenance_engine', $from, $to);
+        $cout_trajet = $this->calcSumAmount('cout_trajet', $from, $to);
+
+        $ca = $this->getCA($from, $to);
+        $cout = $electricite + $gasoil + $taxe + $m_engine + $cout_trajet;
+
+        return $ca - $cout;
+    }
+
+    public function getResultat(?Carbon $from = null, ?Carbon $to = null)
+    {
+        $ca = $this->getCA($from, $to);
+        $cout = $this->getCout($from, $to);
+
+        return $ca - $cout;
     }
 
     public function getFraisCarburant(?Carbon $from = null, ?Carbon $to = null)
@@ -97,6 +120,17 @@ class UserRailwayHubAction
                 $query->whereBetween('date_depart', [$from->startOfDay(), $to->endOfDay()]);
             })
             ->count();
+    }
+
+    public function getActualFluctuation()
+    {
+        return RailwayFluxMarket::whereDate('date', Carbon::today())
+            ->first()->flux_hub;
+    }
+
+    public function simulateSelling()
+    {
+        return ($this->hub->railwayHub->price_base / 2) + $this->getResultat(now()->subDays(7), now());
     }
 
     private function countPassengersByType($plannings, $type_passager)

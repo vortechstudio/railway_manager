@@ -4,11 +4,13 @@ namespace App\Models\User\Railway;
 
 use App\Enums\Railway\Core\MvmTypeAmountEnum;
 use App\Enums\Railway\Core\MvmTypeMvmEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserRailwayMouvement extends Model
 {
+    use HasFactory;
     protected $connection = 'railway';
 
     protected $guarded = [];

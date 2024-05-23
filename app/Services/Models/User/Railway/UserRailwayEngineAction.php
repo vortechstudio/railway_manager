@@ -83,6 +83,17 @@ class UserRailwayEngineAction
         return min($usureTotal, $this->engine->max_runtime);
     }
 
+    public function simulateSelling()
+    {
+        $usure = $this->getTotalUsure();
+        if ($usure == 0) {
+            return $this->engine->railwayEngine->price->achat / 2;
+        } else {
+            return ($this->engine->railwayEngine->price->achat / 2) * $usure / 100;
+        }
+
+    }
+
     private function formatStatusDefault()
     {
         return match ($this->engine->status->value) {
