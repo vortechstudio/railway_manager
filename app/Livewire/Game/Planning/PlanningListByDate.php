@@ -10,12 +10,16 @@ use Livewire\Component;
 class PlanningListByDate extends Component
 {
     public $type;
+
     public UserRailwayHub $hub;
+
     public $plannings;
+
     public $selectedDate;
+
     public $allDates = [];
 
-    public function mount()
+    public function mount(): void
     {
         $this->selectedDate = $this->selectedDate ? Carbon::parse($this->selectedDate)->startOfDay() : now()->startOfDay();
         $this->allDates = [
@@ -29,21 +33,21 @@ class PlanningListByDate extends Component
         ];
         $query = match ($this->type) {
             default => auth()->user()->railway_plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
-            "hub" => $this->hub->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
+            'hub' => $this->hub->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
         };
-        $this->plannings = $query->when($this->selectedDate, fn(Builder $query) => $query->whereBetween('date_depart', [$this->selectedDate, Carbon::parse($this->selectedDate)->endOfDay()]))
+        $this->plannings = $query->when($this->selectedDate, fn (Builder $query) => $query->whereBetween('date_depart', [$this->selectedDate, Carbon::parse($this->selectedDate)->endOfDay()]))
             ->get();
         //dd($this->selectedDate);
     }
 
-    public function selectDate(string $date)
+    public function selectDate(string $date): void
     {
         $this->selectedDate = Carbon::parse($date)->startOfDay();
         $query = match ($this->type) {
             default => auth()->user()->railway_plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
-            "hub" => $this->hub->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
+            'hub' => $this->hub->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
         };
-        $this->plannings = $query->when($this->selectedDate, fn(Builder $query) => $query->whereBetween('date_depart', [$this->selectedDate, Carbon::parse($this->selectedDate)->endOfDay()]))
+        $this->plannings = $query->when($this->selectedDate, fn (Builder $query) => $query->whereBetween('date_depart', [$this->selectedDate, Carbon::parse($this->selectedDate)->endOfDay()]))
             ->get();
     }
 

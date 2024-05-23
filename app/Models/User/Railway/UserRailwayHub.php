@@ -22,6 +22,7 @@ class UserRailwayHub extends Model
     protected $casts = [
         'date_achat' => 'timestamp',
     ];
+
     protected $appends = [
         'flux_market',
     ];

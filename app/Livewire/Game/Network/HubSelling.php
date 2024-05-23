@@ -12,21 +12,27 @@ use Vortechstudio\Helpers\Facades\Helpers;
 class HubSelling extends Component
 {
     use LivewireAlert;
+
     public UserRailwayHub $hub;
+
     public bool $sellingEngine = false;
+
     public float $totalSelling = 0.00;
+
     public float $totalLigne = 0.00;
+
     public float $totalEngine = 0.00;
+
     public float $totalFlux = 0.00;
 
-    public function mount()
+    public function mount(): void
     {
         $this->getTotalLigne();
         $this->totalFlux = ($this->hub->simulateSelling() + $this->totalLigne) * $this->hub->flux_market / 100;
         $this->totalSelling = ($this->hub->simulateSelling() + $this->totalLigne) + $this->totalFlux;
     }
 
-    public function getTotalLigne()
+    public function getTotalLigne(): void
     {
         $this->totalLigne = 0;
         foreach ($this->hub->userRailwayLigne as $item) {
@@ -34,14 +40,15 @@ class HubSelling extends Component
         }
     }
 
-    public function getTotalEngine()
+    public function getTotalEngine(): void
     {
         $this->totalEngine = 0;
         foreach ($this->hub->userRailwayEngine as $item) {
             $this->totalEngine += $item->simulateSelling();
         }
     }
-    public function updated()
+
+    public function updated(): void
     {
         if ($this->sellingEngine) {
             $this->getTotalEngine();
@@ -54,7 +61,7 @@ class HubSelling extends Component
         }
     }
 
-    public function sell()
+    public function sell(): void
     {
         $this->alert('question', 'Etes-vous sur de vouloir vendre ce hub pour '.Helpers::eur($this->totalSelling).' ?', [
             'showConfirmButton' => true,
@@ -63,20 +70,20 @@ class HubSelling extends Component
             'toast' => false,
             'allowOutsideClick' => false,
             'timer' => null,
-            'position' => 'center'
+            'position' => 'center',
         ]);
     }
 
     #[On('confirmed')]
-    public function selling()
+    public function selling(): void
     {
-        if($this->hub->user->userRailwayHub->count() <= 1) {
+        if ($this->hub->user->userRailwayHub->count() <= 1) {
             $this->alert('error', "Vous ne pouvez pas vendre le seul hub qu'il vous reste");
         } else {
             if ($this->sellingEngine) {
                 foreach ($this->hub->userRailwayEngine as $engine) {
                     if ($engine->status->value != 'free') {
-                        $this->alert('error', "Vous ne pouvez pas vendre une rame en service.");
+                        $this->alert('error', 'Vous ne pouvez pas vendre une rame en service.');
                     } else {
                         (new Compta())->create(
                             user: auth()->user(),
@@ -112,7 +119,7 @@ class HubSelling extends Component
             );
 
             $this->hub->delete();
-            $this->alert('success', "Votre hub à bien été vendue");
+            $this->alert('success', 'Votre hub à bien été vendue');
             $this->redirectRoute('network.index');
         }
     }
