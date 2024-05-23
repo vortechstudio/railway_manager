@@ -63,6 +63,9 @@
                 <div class="tab-pane fade" id="travels" role="tabpanel">
                     <livewire:game.planning.planning-list-by-date type="hub" :hub="$hub" />
                 </div>
+                <div class="tab-pane fade" id="selling" role="tabpanel">
+                    @livewire('game.network.hub-selling', ['hub' => $hub])
+                </div>
             </div>
         </div>
     </div>

@@ -159,6 +159,7 @@ License: For each use you must have a valid license purchased only from above li
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />
 <x-scripts.versionDetect />
