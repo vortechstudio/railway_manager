@@ -170,6 +170,119 @@
             </div>
         </div>
         <div class="card shadow-sm mb-5">
+            <div class="card-header ">
+                <div class="card-title">
+                    <div class="symbol symbol-40px bg-gray-100 me-3">
+                        <img src="{{ Storage::url('icons/railway/ligne.png') }}" alt="">
+                    </div>
+                    <span class="fw-bold fs-1">Gestion des tarifs</span>
+                </div>
+                <div class="card-toolbar">
+                    <a href="" class="btn btn-flex bg-purple-600 bg-hover-info">
+                        <span class="symbol symbol-35px me-2">
+                            <img src="{{ Storage::url('icons/railway/financial.png') }}" alt="">
+                        </span>
+                        <span class="text-white">Tarif de la ligne</span>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body" x-data="{daySelected: 'today'}">
+                <div class="d-flex">
+                    <div class="form-check form-check-custom form-check-solid form-check-inline">
+                        <input class="form-check-input" x-model="daySelected" name="daySelected" value="today" type="radio" checked/>
+                        <label class="form-check-label" for="today">
+                            Aujourd'hui
+                        </label>
+                    </div>
+                    <div class="form-check form-check-custom form-check-solid form-check-inline">
+                        <input class="form-check-input" x-model="daySelected" name="daySelected" value="yesterday" type="radio" />
+                        <label class="form-check-label" for="yesterday">
+                            Hier
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <table class="table table table-row-bordered table-row-gray-800 rounded-4 bg-gray-400 table-striped gap-5 gs-5 gy-5 gx-5 align-middle mb-10">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            @if($ligne->railwayLigne->type->value == 'ter')
+                                <th>Classe Unique</th>
+                            @else
+                                <th>Première Classe</th>
+                                <th>Seconde Classe</th>
+                            @endif
+                        </tr>
+                        </thead>
+                        <tbody x-show="daySelected === 'today'">
+                        @foreach($ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::today())->get() as $tarif)
+                            <tr>
+                                <td>Demande</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ $tarif->demande }} P</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->demande : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->demande : '' }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Offre</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ $tarif->offre }} P</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->offre : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->offre : '' }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Prix Moyen</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) }}</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
+                                @endif
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tbody x-show="daySelected === 'yesterday'">
+                        @foreach($ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::yesterday())->get() as $tarif)
+                            <tr>
+                                <td>Demande</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ $tarif->demande }} P</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->demande : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->demande : '' }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Offre</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ $tarif->offre }} P</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->offre : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->offre : '' }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Prix Moyen</td>
+                                @if($ligne->railwayLigne->type->value == 'ter')
+                                    <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) }}</td>
+                                @else
+                                    <td>{{ $tarif->type_tarif->value == 'first' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
+                                    <td>{{ $tarif->type_tarif->value == 'second' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
+                                @endif
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card shadow-sm mb-5">
             <div class="card-header">
                 <div class="card-title">
                     <div class="symbol symbol-40px bg-gray-100 me-3">

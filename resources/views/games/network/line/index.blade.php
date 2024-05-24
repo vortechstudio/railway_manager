@@ -44,6 +44,9 @@
                     @livewire('game.core.screen-departure', ["type" => "ligne", "ligne" => $ligne])
                     @livewire('game.network.ligne-detail', ["ligne" => $ligne])
                 </div>
+                <div class="tab-pane fade" id="travels" role="tabpanel">
+                    @livewire('game.planning.planning-list-by-date', ["type" => "ligne", "ligne" => $ligne])
+                </div>
             </div>
         </div>
     </div>
