@@ -12,6 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        \Carbon\Carbon::setLocale('fr');
         $railwayService = (new RailwayService())->getRailwayService();
         \View::composer('*', function ($view) use ($railwayService) {
             $view->with('service', $railwayService);
