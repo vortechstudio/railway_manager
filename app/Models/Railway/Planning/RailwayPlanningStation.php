@@ -16,8 +16,8 @@ class RailwayPlanningStation extends Model
     protected $connection = 'railway';
 
     protected $casts = [
-        'departure_at' => 'timestamp',
-        'arrival_at' => 'timestamp',
+        'departure_at' => 'datetime',
+        'arrival_at' => 'datetime',
         'status' => RailwayPlanningStationStatusEnum::class,
     ];
 

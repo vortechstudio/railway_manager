@@ -5471,4 +5471,8 @@ i.text-blue-grey-1000 {
   background-size: 3rem 3rem;
 }
 
+.strike {
+  text-decoration: line-through;
+}
+
 /*# sourceMappingURL=app.css.map */
