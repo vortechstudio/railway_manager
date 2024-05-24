@@ -18,7 +18,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 col-lg-9 mb-5">
-                            <div id="map"></div>
+                            <div id="map">
+                                @livewire('game.core.map')
+                            </div>
                         </div>
                         <div class="col-sm-12 col-lg-3 mb-5">
                             <h3 class="card-title">Filtres</h3>
