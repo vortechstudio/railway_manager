@@ -47,6 +47,9 @@
                 <div class="tab-pane fade" id="travels" role="tabpanel">
                     @livewire('game.planning.planning-list-by-date', ["type" => "ligne", "ligne" => $ligne])
                 </div>
+                <div class="tab-pane fade" id="selling" role="tabpanel">
+                    @livewire('game.network.ligne-selling', ["ligne" => $ligne])
+                </div>
             </div>
         </div>
     </div>

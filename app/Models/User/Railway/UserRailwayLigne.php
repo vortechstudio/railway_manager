@@ -24,6 +24,7 @@ class UserRailwayLigne extends Model
 
     protected $appends = [
         'ratio_performance',
+        'flux_market',
     ];
 
     public function userRailwayHub(): BelongsTo
@@ -64,6 +65,11 @@ class UserRailwayLigne extends Model
     public function getRatioPerformanceAttribute()
     {
         return (new UserRailwayLigneAction($this))->getRatioPerformance();
+    }
+
+    public function getFluxMarketAttribute()
+    {
+        return (new UserRailwayLigneAction($this))->getActualFluctuation();
     }
 
     public function getCA(?Carbon $from = null, ?Carbon $to = null)

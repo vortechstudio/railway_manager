@@ -2,6 +2,7 @@
 
 namespace App\Services\Models\User\Railway;
 
+use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMouvement;
 use Carbon\Carbon;
@@ -139,5 +140,12 @@ class UserRailwayLigneAction
                 $query->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()]);
             })
             ->sum('amount');
+    }
+
+    public function getActualFluctuation()
+    {
+        return RailwayFluxMarket::whereDate('date', Carbon::today())
+            ->first()
+            ->flux_ligne;
     }
 }
