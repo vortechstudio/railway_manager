@@ -9,7 +9,10 @@
             color: #{$hex-value}
         }
         .bg-#{$color-name}-#{$color-variant} {
-            background-color: #{$hex-value}
+            background-color: #{$hex-value};
+        }
+        .bg-hover-#{$color-name}-#{$color-variant} {
+            background-color: #{$hex-value} - 100;
         }
         .border-#{$color-name}-#{$color-variant} {
             border-color: #{$hex-value}

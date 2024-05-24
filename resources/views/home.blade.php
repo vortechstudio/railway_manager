@@ -81,67 +81,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 col-lg-6 mb-5">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-blue-800 text-white">
-                            <h3 class="card-title">Prochains Départ</h3>
-                            <div class="card-toolbar">
-                            </div>
-                        </div>
-                        <div class="card-body bg-blue-700 p-0 m-0">
-                            <div class="d-flex align-items-center p-3 gap-5 bg-white shadow-lg mb-2">
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <span class="fs-2 fw-bolder text-blue-800">12:00</span>
-                                    <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                        <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-1 justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="fs-2hx text-blue-800 fw-bold">Nantes</span>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-green-300 fs-3 me-2">via</span>
-                                            <span class="fs-2 text-blue-800">Montaigu</span>
-                                            <span class="bullet bullet-dot bg-green-300 mx-1"></span>
-                                            <span class="fs-2 text-blue-800">Clisson</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-0 bg-green-300 align-items-center justify-content-center w-100px h-auto rounded-2 p-2">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span class="fs-3 text-blue-800">TER</span>
-                                        <span class="fs-2 text-blue-800 fw-bold">897400</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center p-3 gap-5 bg-white shadow-lg mb-2">
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <span class="fs-2 fw-bolder text-blue-800">12:00</span>
-                                    <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                        <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-1 justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="fs-2hx text-blue-800 fw-bold">Nantes</span>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-green-300 fs-3 me-2">via</span>
-                                            <span class="fs-2 text-blue-800">Montaigu</span>
-                                            <span class="bullet bullet-dot bg-green-300 mx-1"></span>
-                                            <span class="fs-2 text-blue-800">Clisson</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-0 bg-green-300 align-items-center justify-content-center w-100px h-auto rounded-2 p-2">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span class="fs-3 text-blue-800">TER</span>
-                                        <span class="fs-2 text-blue-800 fw-bold">897400</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @livewire('game.core.screen-departure')
                 </div>
                 <div class="col-sm-12 col-lg-6 mb-5">
                     <div class="card shadow-sm">

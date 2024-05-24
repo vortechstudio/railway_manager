@@ -10,12 +10,12 @@
                         <span class="badge bagde-circle badge-primary text-white me-2">Ligne</span>
                         <span class="fw-bold fs-3">{{ $ligne->railwayLigne->start->name }} <-> {{ $ligne->railwayLigne->end->name }}</span>
                     </div>
-                    <button class="btn btn-flex bg-blue-600 bg-hover-primary">
+                    <a href="{{ route('network.line.show', $ligne->id) }}" class="btn btn-flex bg-blue-600 bg-hover-primary">
                                 <span class="symbol symbol-35px me-2">
                                     <img src="{{ Storage::url('icons/railway/ligne.png') }}" alt="">
                                 </span>
                         <span class="text-white">Détail de la ligne</span>
-                    </button>
+                    </a>
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     {!! $ligne->ratio_performance !!}

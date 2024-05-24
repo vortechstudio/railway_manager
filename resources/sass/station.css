@@ -1,0 +1,44 @@
+.line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.station {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.station-name {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.station-circle {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.connections {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.connection {
+  font-size: 0.8em;
+  padding: 2px 4px;
+  background-color: lightgray;
+  border-radius: 3px;
+}
+
+/*# sourceMappingURL=station.css.map */

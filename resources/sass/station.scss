@@ -1,0 +1,63 @@
+.line {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px;
+    position: relative;
+}
+
+.station {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.line-segment {
+    width: 40px; /* Ajustez la largeur selon vos besoins */
+    height: 4px;
+    background-color: red;
+    align-self: center;
+}
+
+.station-name {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.station-circle {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.connections {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.connection {
+    font-size: 0.8em;
+    padding: 2px 4px;
+    background-color: lightgray;
+    border-radius: 3px;
+}
+
+@keyframes blink {
+    0%, 100% {opacity: 1;}
+    50% {opacity: 0;}
+}
+
+.first-blink {
+    animation: blink 1s infinite;
+}
+.second-blink {
+    animation: blink 3s 1s infinite;
+}
+
