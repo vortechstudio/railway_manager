@@ -1,0 +1,157 @@
+.bg-info {
+  color: white;
+}
+
+.bg-primary {
+  color: white;
+}
+
+.bg-success {
+  color: white;
+}
+
+.bg-danger {
+  color: white;
+}
+
+.form-check.form-check-ter .form-check-input:checked {
+  background-color: #034EA2 !important;
+}
+
+.form-check.form-check-ter .form-check-input:checked {
+  background-color: #034EA2-color !important;
+}
+
+.border .border-color-ter {
+  border-color: #034EA2-color !important;
+}
+.border .border-color-ter-inverse {
+  border-color: #013672-color !important;
+}
+
+.text-color-ter {
+  color: #034EA2-color !important;
+}
+
+.text-color-ter-inverse {
+  color: #013672-color !important;
+}
+
+.bg-color-ter {
+  background-color: #034EA2-color !important;
+}
+
+.bg-color-ter-inverse {
+  background-color: #013672-color !important;
+}
+
+.btn .btn-ter {
+  background-color: #034EA2-color !important;
+}
+.btn .btn-ter-inverse {
+  background-color: #013672-color !important;
+}
+
+.form-check.form-check-tgv .form-check-input:checked {
+  background-color: #9b2743-color !important;
+}
+
+.border .border-color-tgv {
+  border-color: #9b2743-color !important;
+}
+.border .border-color-tgv-inverse {
+  border-color: #701c30-color !important;
+}
+
+.text-color-tgv {
+  color: #9b2743-color !important;
+}
+
+.text-color-tgv-inverse {
+  color: #701c30-color !important;
+}
+
+.bg-color-tgv {
+  background-color: #9b2743-color !important;
+}
+
+.bg-color-tgv-inverse {
+  background-color: #701c30-color !important;
+}
+
+.btn .btn-tgv {
+  background-color: #9b2743-color !important;
+}
+.btn .btn-tgv-inverse {
+  background-color: #701c30-color !important;
+}
+
+.form-check.form-check-ic .form-check-input:checked {
+  background-color: #7B1791-color !important;
+}
+
+.border .border-color-ic {
+  border-color: #7B1791-color !important;
+}
+.border .border-color-ic-inverse {
+  border-color: #4f0f5d-color !important;
+}
+
+.text-color-ic {
+  color: #7B1791-color !important;
+}
+
+.text-color-ic-inverse {
+  color: #4f0f5d-color !important;
+}
+
+.bg-color-ic {
+  background-color: #7B1791-color !important;
+}
+
+.bg-color-ic-inverse {
+  background-color: #4f0f5d-color !important;
+}
+
+.btn .btn-ic {
+  background-color: #7B1791-color !important;
+}
+.btn .btn-ic-inverse {
+  background-color: #4f0f5d-color !important;
+}
+
+.form-check.form-check-transilien .form-check-input:checked {
+  background-color: #83BF00-color !important;
+}
+
+.border .border-color-transilien {
+  border-color: #83BF00-color !important;
+}
+.border .border-color-transilien-inverse {
+  border-color: #557c01-color !important;
+}
+
+.text-color-transilien {
+  color: #83BF00-color !important;
+}
+
+.text-color-transilien-inverse {
+  color: #557c01-color !important;
+}
+
+.bg-color-transilien {
+  background-color: #83BF00-color !important;
+}
+
+.bg-color-transilien-inverse {
+  background-color: #557c01-color !important;
+}
+
+.btn .btn-transilien {
+  background-color: #83BF00-color !important;
+}
+.btn .btn-transilien-inverse {
+  background-color: #557c01-color !important;
+}
+
+/*# sourceMappingURL=color.css.map */

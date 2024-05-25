@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-500px bg-blue-900">
+<div class="d-flex flex-column h-500px bg-blue-900" wire:poll.visible.30s>
     <div class="d-flex flex-row-fluid h-80 p-5 gap-15">
         <div class="card shadow-sm w-45 h-80 bg-gray-300">
             <div class="card-header justify-content-between align-items-center">
@@ -32,7 +32,7 @@
             <div class="card-body bg-light flex-column">
                 <span class="fw-bolder fs-2x text-blue-800">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
                 <div class="d-flex flex-row p-5 bg-blue-300 w-75 rounded">
-                    <span class="fw-bold fs-1 text-blue-800">TER 853301</span>
+                    <span class="fw-bold fs-1 text-blue-800">{{ $planning->userRailwayLigne->userRailwayEngine->railwayEngine->type_transport->name }} {{ $planning->number_travel }}</span>
                 </div>
             </div>
         </div>
