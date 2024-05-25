@@ -104,6 +104,31 @@
   animation-delay: 3000ms;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.scrolling-text {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.scrolling-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 5px;
+  left: 100%;
+  white-space: nowrap;
+  width: 150%;
+  animation: marquee 10s linear infinite;
+}
+
 .text-red-50 {
   color: #ffebee;
 }

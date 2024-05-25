@@ -31,13 +31,15 @@
                     <h3 class="card-title">&nbsp;</h3>
                     <div class="card-toolbar">
                         <ul class="nav nav-pills nav-pills-custom" role="tablist">
+                            @if($isPremium)
                             <li class="nav-item">
-                                <a href="#screen" class="nav-link border-0 bg-light bg-active-primary active" data-bs-toggle="tab">
+                                <a href="#screen" class="nav-link border-0 bg-light bg-active-primary {{ $isPremium ? 'active' : '' }}" data-bs-toggle="tab">
                                     Ecran
                                 </a>
                             </li>
+                            @endif
                             <li class="nav-item">
-                                <a href="#table" class="nav-link border-0 bg-light bg-active-primary" data-bs-toggle="tab">
+                                <a href="#table" class="nav-link border-0 bg-light bg-active-primary {{ !$isPremium ? 'active' : '' }}" data-bs-toggle="tab">
                                     Tableau
                                 </a>
                             </li>
@@ -46,11 +48,13 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="screen" role="tabpanel">
+                        @if($isPremium)
+                        <div class="tab-pane fade {{ $isPremium  ? 'show active' : '' }}" id="screen" role="tabpanel">
                             @livewire('game.core.screen.ecran', ["planning" => $planning])
                         </div>
-                        <div class="tab-pane fade" id="table" role="tabpanel">
-                            Tableau
+                        @endif
+                        <div class="tab-pane fade {{ !$isPremium ? 'show active' : '' }}" id="table" role="tabpanel">
+                            @livewire('game.core.screen.screen-table', ["planning" => $planning])
                         </div>
                     </div>
                 </div>

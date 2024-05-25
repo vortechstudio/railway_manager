@@ -9,7 +9,9 @@
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/git": "^10.0.1",
         "axios": "^1.6.4",
+        "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0.0",
+        "pusher-js": "^8.4.0-rc2",
         "sass": "^1.77.2",
         "semantic-release": "^23.0.7",
         "vite": "^5.0.0"
