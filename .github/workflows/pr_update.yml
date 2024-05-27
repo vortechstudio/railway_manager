@@ -28,13 +28,19 @@ jobs:
             echo "Le titre est vide, la mise à jour du PR est annulée."
           fi
 
-      - name: Robin AI Reviewer
-        uses: Integral-Healthcare/robin-ai-reviewer@v1.7.0
-        with:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v43
+
+      - name: Review code
+        env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          OPEN_AI_API_KEY: ${{ secrets.AI_KEY }}
-          gpt_model_name: 'gpt-3.5-turbo-16k-0613'
-          files_to_ignore: |
-            "public/*"
-            "storage/*"
-            "README.md"
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            review=$(curl -s http://82.64.133.182:11434/api/generate -d '{"model": "llama3", "prompt": "Effectue une revue de ce fichier en français:\n\n```\n$(cat $file)\n```", "stream": false}' | jq -r '.response')
+            comment="Ollama Code Review for \`$file\`:\n\n$review"
+            echo "$comment" >> ollama_review.txt
+          done
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat ollama_review.txt)"
+        shell: bash
