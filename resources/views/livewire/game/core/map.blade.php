@@ -1,4 +1,4 @@
-<div class="mb-10">
+<div class="mb-10 w-100 h-100">
     <x-laravel-map
         :initialMarkers="$initialMarkers"
         :initialPolygons="$initialPolygons"

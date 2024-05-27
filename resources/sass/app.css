@@ -1,3 +1,4 @@
+@import "leaflet/dist/leaflet.css";
 .animate__animated.animate__delay-0 {
   -webkit-animation-delay: 1s;
   animation-delay: 0ms;
@@ -101,6 +102,31 @@
 .animate__animated.animate__delay-20 {
   -webkit-animation-delay: 1s;
   animation-delay: 3000ms;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.scrolling-text {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.scrolling-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 5px;
+  left: 100%;
+  white-space: nowrap;
+  width: 150%;
+  animation: marquee 10s linear infinite;
 }
 
 .text-red-50 {
@@ -5466,9 +5492,169 @@ i.text-blue-grey-1000 {
   animation: blink 3s 1s infinite;
 }
 
+.bg-info {
+  color: white;
+}
+
+.bg-primary {
+  color: white;
+}
+
+.bg-success {
+  color: white;
+}
+
+.bg-danger {
+  color: white;
+}
+
+.form-check.form-check-ter .form-check-input:checked {
+  background-color: #034EA2 !important;
+}
+
+.form-check.form-check-ter .form-check-input:checked {
+  background-color: #034EA2 !important;
+}
+
+.border .border-color-ter {
+  border-color: #034EA2 !important;
+}
+.border .border-color-ter-inverse {
+  border-color: #013672 !important;
+}
+
+.text-color-ter {
+  color: #034EA2 !important;
+}
+
+.text-color-ter-inverse {
+  color: #013672 !important;
+}
+
+.bg-color-ter {
+  background-color: #034EA2 !important;
+}
+
+.bg-color-ter-inverse {
+  background-color: #013672 !important;
+}
+
+.btn .btn-ter {
+  background-color: #034EA2 !important;
+}
+.btn .btn-ter-inverse {
+  background-color: #013672 !important;
+}
+
+.form-check.form-check-tgv .form-check-input:checked {
+  background-color: #9b2743 !important;
+}
+
+.border .border-color-tgv {
+  border-color: #9b2743 !important;
+}
+.border .border-color-tgv-inverse {
+  border-color: #701c30 !important;
+}
+
+.text-color-tgv {
+  color: #9b2743 !important;
+}
+
+.text-color-tgv-inverse {
+  color: #701c30 !important;
+}
+
+.bg-color-tgv {
+  background-color: #9b2743 !important;
+}
+
+.bg-color-tgv-inverse {
+  background-color: #701c30 !important;
+}
+
+.btn .btn-tgv {
+  background-color: #9b2743 !important;
+}
+.btn .btn-tgv-inverse {
+  background-color: #701c30 !important;
+}
+
+.form-check.form-check-ic .form-check-input:checked {
+  background-color: #7B1791 !important;
+}
+
+.border .border-color-ic {
+  border-color: #7B1791 !important;
+}
+.border .border-color-ic-inverse {
+  border-color: #4f0f5d !important;
+}
+
+.text-color-ic {
+  color: #7B1791 !important;
+}
+
+.text-color-ic-inverse {
+  color: #4f0f5d !important;
+}
+
+.bg-color-ic {
+  background-color: #7B1791 !important;
+}
+
+.bg-color-ic-inverse {
+  background-color: #4f0f5d !important;
+}
+
+.btn .btn-ic {
+  background-color: #7B1791 !important;
+}
+.btn .btn-ic-inverse {
+  background-color: #4f0f5d !important;
+}
+
+.form-check.form-check-transilien .form-check-input:checked {
+  background-color: #83BF00 !important;
+}
+
+.border .border-color-transilien {
+  border-color: #83BF00 !important;
+}
+.border .border-color-transilien-inverse {
+  border-color: #557c01 !important;
+}
+
+.text-color-transilien {
+  color: #83BF00 !important;
+}
+
+.text-color-transilien-inverse {
+  color: #557c01 !important;
+}
+
+.bg-color-transilien {
+  background-color: #83BF00 !important;
+}
+
+.bg-color-transilien-inverse {
+  background-color: #557c01 !important;
+}
+
+.btn .btn-transilien {
+  background-color: #83BF00 !important;
+}
+.btn .btn-transilien-inverse {
+  background-color: #557c01 !important;
+}
+
 .bg-striped {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-size: 3rem 3rem;
+}
+
+.strike {
+  text-decoration: line-through;
 }
 
 /*# sourceMappingURL=app.css.map */

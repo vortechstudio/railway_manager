@@ -40,6 +40,7 @@ class UserRailwayLigneAction
         $taxe = $this->calcSumAmount('taxe', $from, $to);
         $m_engine = $this->calcSumAmount('maintenance_engine', $from, $to);
         $cout_trajet = $this->calcSumAmount('cout_trajet', $from, $to);
+
         return $electricite + $gasoil + $taxe + $m_engine + $cout_trajet;
     }
 

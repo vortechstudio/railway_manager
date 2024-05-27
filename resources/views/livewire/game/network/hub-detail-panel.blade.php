@@ -13,54 +13,56 @@
                 ->orWhere('status', 'canceled')->first();
             \Carbon\Carbon::setLocale('fr');
             @endphp
-            <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-blue-200 mb-5">
-                <div class="card-header">
-                    <h3 class="card-title">Prochain départ</h3>
-                    <div class="card-toolbar">
-                        @if($planning->status->value == 'initialized')
-                            <div class="d-flex align-items-center rounded-3 border border-1 border-primary p-1">
-                                <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                            </div>
-                        @elseif($planning->status->value == 'retarded')
-                            <div class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
-                                <div class="animate__animated animate__flash animate__infinite">
+            @if(isset($planning))
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-blue-200 mb-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Prochain départ</h3>
+                        <div class="card-toolbar">
+                            @if($planning->status->value == 'initialized')
+                                <div class="d-flex align-items-center rounded-3 border border-1 border-primary p-1">
                                     <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                    <span class="fs-4 text-blue-800 fw-semibold"> Retardé</span>
+                                    <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
                                 </div>
-                            </div>
-                        @elseif($planning->status->value == 'canceled')
-                            <div class="d-flex align-items-center rounded-3 bg-red-600 border border-red-900 p-2">
-                                <div class="">
-                                    <i class="fa-solid fa-clock-four text-white me-2 fs-3"></i>
-                                    <span class="fs-4 text-white fw-semibold"> Annulé</span>
+                            @elseif($planning->status->value == 'retarded')
+                                <div class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
+                                    <div class="animate__animated animate__flash animate__infinite">
+                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
+                                        <span class="fs-4 text-blue-800 fw-semibold"> Retardé</span>
+                                    </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                <span class="fs-4 text-blue-800 fw-semibold"> Départ Imminent</span>
-                            </div>
-                        @endif
+                            @elseif($planning->status->value == 'canceled')
+                                <div class="d-flex align-items-center rounded-3 bg-red-600 border border-red-900 p-2">
+                                    <div class="">
+                                        <i class="fa-solid fa-clock-four text-white me-2 fs-3"></i>
+                                        <span class="fs-4 text-white fw-semibold"> Annulé</span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="d-flex align-items-center rounded-3 border border-primary p-1">
+                                    <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
+                                    <span class="fs-4 text-blue-800 fw-semibold"> Départ Imminent</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
+                            <span class="fw-bold fs-3">{{ $planning->date_depart->format('H:i') }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
+                            <span class="fw-bold fs-3">{{ $planning->date_arrived->format('H:i') }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img src="{{ $planning->userRailwayLigne->railwayLigne->icon }}" class="w-40px" alt="">
+                            <span>{{ $planning->number_travel }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
-                        <span class="fw-bold fs-3">{{ $planning->date_depart->format('H:i') }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
-                        <span class="fw-bold fs-3">{{ $planning->date_arrived->format('H:i') }}</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <img src="{{ $planning->userRailwayLigne->railwayLigne->icon }}" class="w-40px" alt="">
-                        <span>{{ $planning->number_travel }}</span>
-                    </div>
-                </div>
-            </div>
+            @endif
             @php
                 $planning = $hub->plannings()->where('status', 'arrival')->whereBetween('date_arrived', [now()->startOfDay(), now()->endOfDay()])->first();
                 \Carbon\Carbon::setLocale('fr');

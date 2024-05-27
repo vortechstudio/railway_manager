@@ -13,6 +13,7 @@ class PlanningListByDate extends Component
     public $type;
 
     public UserRailwayHub $hub;
+
     public UserRailwayLigne $ligne;
 
     public $plannings;

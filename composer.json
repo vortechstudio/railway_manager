@@ -30,6 +30,7 @@
         "pharaonic/laravel-taggable": "^1.0",
         "php-flasher/flasher-laravel": "^1.15",
         "php-flasher/flasher-toastr-laravel": "^1.15",
+        "pusher/pusher-php-server": "^7.2",
         "rappasoft/laravel-authentication-log": "^4.0",
         "salahhusa9/laravel-updater": "^1.0",
         "silviolleite/laravelpwa": "^2.0",

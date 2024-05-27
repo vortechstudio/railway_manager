@@ -1,0 +1,44 @@
+name: "Ollama PR Updater"
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install_ollama:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: action/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama pull llama3
+        shell: bash
+
+  pr_updater:
+    needs: install_ollama
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get changed file
+        id: changed-file
+        uses: tj-actions/changed-files@v43
+
+      - name: Revue du code
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            review=$(curl -s http://127.0.0.1:11434/api/generate -d '{"model": "llama3", "prompt": "Consultez le fichier suivant:\n\n```\n$(cat $file)\n```", "stream": false}' | jq -r '.response')
+            comment="Ollama Code Review for \`$file\`:\n\n$review"
+            echo "$comment" >> ollama_review.txt
+          done
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat ollama_review.txt)"
+
+        shell: bash
+
+
