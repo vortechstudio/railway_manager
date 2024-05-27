@@ -18,6 +18,8 @@ jobs:
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
           ollama pull llama3
+          OLLAMA_HOST="127.0.0.1:11434"
+          systemctl start ollama
         shell: bash
 
   pr_updater:
