@@ -17,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
         \View::composer('*', function ($view) use ($railwayService) {
             $view->with('service', $railwayService);
             $view->with('version', $railwayService->latest_version->version.'-'.$railwayService->latest_version->published_at);
-            $view->with('isPremium', auth()->user()->services()->where('service_id', $railwayService->id)->first()->premium);
+            if(\Auth::check()) {
+                $view->with('isPremium', auth()->user()->services()->where('service_id', $railwayService->id)->first()->premium);
+            }
         });
         \View::composer('*', function ($view) {
             $view->with('user', auth()->user());
