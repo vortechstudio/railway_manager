@@ -24,6 +24,11 @@ class RailwayPlanningTravel extends Model
         return (new RailwayPlanningTravelAction($this))->getCA();
     }
 
+    public function getCoast()
+    {
+        return (new RailwayPlanningTravelAction($this))->getCoast();
+    }
+
     public function getResultat()
     {
         return (new RailwayPlanningTravelAction($this))->getResultat();
