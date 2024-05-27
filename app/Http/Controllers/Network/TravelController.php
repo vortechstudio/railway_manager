@@ -12,7 +12,7 @@ class TravelController extends Controller
         $planning = RailwayPlanning::find($travel_id);
 
         return view('games.network.travel.index', [
-            "planning" => $planning
+            'planning' => $planning,
         ]);
     }
 }

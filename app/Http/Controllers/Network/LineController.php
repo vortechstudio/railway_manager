@@ -12,7 +12,7 @@ class LineController extends Controller
         $ligne = UserRailwayLigne::find($line_id);
 
         return view('games.network.line.index', [
-            'ligne' => $ligne
+            'ligne' => $ligne,
         ]);
     }
 }

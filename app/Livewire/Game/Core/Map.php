@@ -111,7 +111,7 @@ class Map extends Component
         })->toArray();
     }
 
-    private function defineDefault()
+    private function defineDefault(): void
     {
         $firstHub = auth()->user()->userRailwayHub()->first();
         $hubs = auth()->user()->userRailwayHub()->whereNot('id', $firstHub->id)->get();
@@ -151,7 +151,7 @@ class Map extends Component
         $this->initialMarkers = $this->initialMarkers->toArray();
     }
 
-    private function defineStation()
+    private function defineStation(): void
     {
         $station_start = $this->planning->stations()->where('status', 'done')->orderBy('departure_at', 'desc')->first();
         $station_end = $this->planning->stations()->where('status', 'init')->orderBy('arrival_at')->first();
@@ -174,21 +174,20 @@ class Map extends Component
             [
                 'position' => [
                     'lat' => $station_start->railwayLigneStation->gare->latitude,
-                    'lng' => $station_start->railwayLigneStation->gare->longitude
+                    'lng' => $station_start->railwayLigneStation->gare->longitude,
                 ],
                 'draggable' => false,
-                'title' => 'Tatuí - SP'
+                'title' => 'Tatuí - SP',
             ],
             [
                 'position' => [
                     'lat' => $station_end->railwayLigneStation->gare->latitude,
-                    'lng' => $station_end->railwayLigneStation->gare->longitude
+                    'lng' => $station_end->railwayLigneStation->gare->longitude,
                 ],
                 'draggable' => false,
-                'title' => 'Tatuí - SP'
+                'title' => 'Tatuí - SP',
             ],
         ];
-
 
     }
 }

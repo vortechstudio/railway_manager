@@ -13,11 +13,14 @@ use Vortechstudio\Helpers\Facades\Helpers;
 class LigneSelling extends Component
 {
     use LivewireAlert;
+
     public UserRailwayLigne $ligne;
+
     public float $totalSelling = 0.00;
+
     public float $totalFlux = 0.00;
 
-    public function mount()
+    public function mount(): void
     {
         $this->totalFlux = ($this->ligne->simulateSelling()) * $this->ligne->flux_market / 100;
         $this->totalSelling = ($this->ligne->simulateSelling()) + $this->totalFlux;
@@ -35,12 +38,12 @@ class LigneSelling extends Component
             'position' => 'center',
             'showCancelButton' => true,
             'cancelButtonText' => 'Annuler',
-            'cancelButtonColor' => '#ef5350'
+            'cancelButtonColor' => '#ef5350',
         ]);
     }
 
     #[On('confirmed')]
-    public function selling()
+    public function selling(): void
     {
         try {
             (new Compta())->create(
@@ -54,7 +57,7 @@ class LigneSelling extends Component
             $this->ligne->delete();
             $this->alert('success', 'Votre ligne à bien été vendue');
             $this->redirectRoute('network.index');
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
             $this->alert('error', 'Une erreur à eu lieu !');
         }

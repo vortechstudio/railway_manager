@@ -9,6 +9,7 @@ use Livewire\Component;
 class EcranSiveTravel extends Component
 {
     public RailwayPlanning $planning;
+
     public function render()
     {
         return view('livewire.game.core.screen.ecran-sive-travel');
@@ -22,7 +23,7 @@ class EcranSiveTravel extends Component
         $current = now()->timestamp - $start;
         $progress = $current / $timespan;
         $remaining = ($progress) * 100;
-        if($remaining >= 100) {
+        if ($remaining >= 100) {
             return 100;
         } else {
             return $remaining;

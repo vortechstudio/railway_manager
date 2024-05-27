@@ -9,10 +9,12 @@ use Livewire\Component;
 class ScreenDeparture extends Component
 {
     public $type;
+
     public UserRailwayLigne $ligne;
+
     public $plannings;
 
-    public function mount()
+    public function mount(): void
     {
         $this->plannings = match ($this->type) {
             default => auth()->user()->railway_plannings()

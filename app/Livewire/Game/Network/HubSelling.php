@@ -73,7 +73,7 @@ class HubSelling extends Component
             'position' => 'center',
             'showCancelButton' => true,
             'cancelButtonText' => 'Annuler',
-            'cancelButtonColor' => '#ef5350'
+            'cancelButtonColor' => '#ef5350',
         ]);
     }
 

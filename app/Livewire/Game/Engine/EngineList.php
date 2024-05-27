@@ -11,6 +11,7 @@ class EngineList extends Component
     public $type;
 
     public UserRailwayHub $hub;
+
     public UserRailwayLigne $ligne;
 
     public $engines;
