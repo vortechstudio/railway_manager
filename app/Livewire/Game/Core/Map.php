@@ -115,42 +115,51 @@ class Map extends Component
 
     private function defineDefault(): void
     {
-        $firstHub = auth()->user()->userRailwayHub()->first();
-        $hubs = auth()->user()->userRailwayHub()->whereNot('id', $firstHub->id)->get();
-        $this->initialMarkers = collect();
+        if(auth()->user()->userRailwayHub()->exists()) {
+            $firstHub = auth()->user()->userRailwayHub()->first();
+            $hubs = auth()->user()->userRailwayHub()->whereNot('id', $firstHub->id)->get();
+            $this->initialMarkers = collect();
 
-        $this->options = [
-            'center' => [
-                'lat' => $firstHub->railwayHub->gare->latitude,
-                'lng' => $firstHub->railwayHub->gare->longitude,
-            ],
-            'zoom' => 6,
-            'zoomControl' => true,
-            'minZoom' => 5,
-            'maxZoom' => 18,
-        ];
-        $this->initialMarkers->push([
-            'position' => [
-                'lat' => $firstHub->railwayHub->gare->latitude,
-                'lng' => $firstHub->railwayHub->gare->longitude,
-            ],
-            'draggable' => false,
-            'title' => $firstHub->railwayHub->gare->name,
-        ]);
+            $this->options = [
+                'center' => [
+                    'lat' => $firstHub->railwayHub->gare->latitude,
+                    'lng' => $firstHub->railwayHub->gare->longitude,
+                ],
+                'zoom' => 6,
+                'zoomControl' => true,
+                'minZoom' => 5,
+                'maxZoom' => 18,
+            ];
+            $this->initialMarkers->push([
+                'position' => [
+                    'lat' => $firstHub->railwayHub->gare->latitude,
+                    'lng' => $firstHub->railwayHub->gare->longitude,
+                ],
+                'draggable' => false,
+                'title' => $firstHub->railwayHub->gare->name,
+            ]);
 
-        $this->initialMarkers->push(
-            $hubs->map(function (UserRailwayHub $userRailwayHub) {
-                return [
-                    'position' => [
-                        'lat' => $userRailwayHub->railwayHub->gare->latitude,
-                        'lng' => $userRailwayHub->railwayHub->gare->longitude,
-                    ],
-                    'draggable' => false,
-                    'title' => $userRailwayHub->railwayHub->gare->name,
-                ];
-            })
-        );
-        $this->initialMarkers = $this->initialMarkers->toArray();
+            $this->initialMarkers->push(
+                $hubs->map(function (UserRailwayHub $userRailwayHub) {
+                    return [
+                        'position' => [
+                            'lat' => $userRailwayHub->railwayHub->gare->latitude,
+                            'lng' => $userRailwayHub->railwayHub->gare->longitude,
+                        ],
+                        'draggable' => false,
+                        'title' => $userRailwayHub->railwayHub->gare->name,
+                    ];
+                })
+            );
+            $this->initialMarkers = $this->initialMarkers->toArray();
+        } else {
+            $this->options = [
+                'zoom' => 6,
+                'zoomControl' => true,
+                'minZoom' => 5,
+                'maxZoom' => 18,
+            ];
+        }
     }
 
     private function defineStation(): void
