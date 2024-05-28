@@ -4,6 +4,7 @@ namespace App\Models\Railway\Gare;
 
 use App\Enums\Railway\Gare\GareTypeEnum;
 use App\Models\Railway\Ligne\RailwayLigneStation;
+use App\Services\Models\Railway\Gare\GareAction;
 use Illuminate\Database\Eloquent\Model;
 
 class RailwayGare extends Model
@@ -23,6 +24,11 @@ class RailwayGare extends Model
         'type_gare_string',
         'type_equipement_string',
         'abr',
+        'passenger_first',
+        'passenger_second',
+        'nb_max_commerce',
+        'nb_max_publicite',
+        'nb_max_parking',
     ];
 
     public function weather()
@@ -90,6 +96,32 @@ class RailwayGare extends Model
     {
         return \Str::limit(\Str::upper($this->name), 3, '');
     }
+
+    public function getPassengerFirstAttribute()
+    {
+        return (new GareAction($this))->getSumFirstPassenger();
+    }
+
+    public function getPassengerSecondAttribute()
+    {
+        return (new GareAction($this))->getSumSecondPassenger();
+    }
+
+    public function getNbMaxCommerceAttribute()
+    {
+        return (new GareAction($this))->calcNbSlotCommerce();
+    }
+
+    public function getNbMaxPubliciteAttribute()
+    {
+        return (new GareAction($this))->calcNbSlotPublicite();
+    }
+
+    public function getNbMaxParkingAttribute()
+    {
+        return (new GareAction($this))->calcNbSlotParking();
+    }
+
 
     public function formatIsHub()
     {

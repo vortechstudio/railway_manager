@@ -18,6 +18,7 @@ class Map extends Component
     public RailwayPlanning $planning;
 
     public $user;
+    public $hubs;
 
     public $initialMarkers;
 
@@ -35,6 +36,7 @@ class Map extends Component
     {
         match ($this->type) {
             'hub' => $this->defineForHub(),
+            'hubs' => $this->defineForHubs(),
             'lignes' => $this->defineForLignes(),
             'station' => $this->defineStation(),
             default => $this->defineDefault(),
@@ -187,6 +189,38 @@ class Map extends Component
                 'draggable' => false,
                 'title' => 'Tatuí - SP',
             ],
+        ];
+
+    }
+
+    private function defineForHubs()
+    {
+        $centerLat = 0;
+        $centerLng = 0;
+
+        foreach ($this->hubs as $hub) {
+            $centerLat += $hub->gare->latitude /2;
+            $centerLng += $hub->gare->longitude /2;
+        }
+        $this->initialMarkers = $this->hubs->map(function ($hub) {
+                return [
+                    'position' => [
+                        'lat' => $hub->gare->latitude,
+                        'lng' => $hub->gare->longitude,
+                    ],
+                    'draggable' => false,
+                    'title' => $hub->gare->name,
+                ];
+            })->toArray();
+        $this->options = [
+            'center' => [
+                'lat' => $centerLat,
+                'lng' => $centerLng,
+            ],
+            'zoom' => 8,
+            'zoomControl' => true,
+            'minZoom' => 5,
+            'maxZoom' => 18,
         ];
 
     }
