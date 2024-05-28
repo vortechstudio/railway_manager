@@ -19,7 +19,7 @@
                     <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active" data-bs-toggle="tab" href="#notifs">Notifications</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#delivery">Livraison en cours</a>
+                    <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#delivery">Livraison en cours ({{ auth()->user()->userRailwayDelivery()->count() }})</a>
                 </li>
             </ul>
             <!--end::Tabs-->
@@ -59,7 +59,17 @@
             <div class="tab-pane fade" id="delivery" role="tabpanel">
                 <!--begin::Items-->
                 <div class="scroll-y mh-325px my-5 px-8">
-
+                    @foreach(auth()->user()->userRailwayDelivery()->get() as $delivery)
+                        <div class="d-flex justify-content-between align-items-center mb-2 p-5">
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-45px symbol-circle bg-success me-3">
+                                    <i class="fa-solid fa-truck text-white"></i>
+                                </div>
+                                <span>{{ $delivery->designation }}</span>
+                            </div>
+                            <span data-ago="{{ \Carbon\Carbon::parse($delivery->end_at)->timestamp }}">{{ \Carbon\Carbon::parse($delivery->end_at)->format('H:i:s') }}</span>
+                        </div>
+                    @endforeach
                 </div>
                 <!--end::Items-->
             </div>
@@ -70,3 +80,4 @@
     <!--end::Menu-->
     <!--end::Menu wrapper-->
 </div>
+

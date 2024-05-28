@@ -17,8 +17,8 @@ class UserRailwayDelivery extends Model
     protected $connection = 'railway';
 
     protected $casts = [
-        'start_at' => 'timestamp',
-        'end_at' => 'timestamp',
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
         'type' => RailwayDeliveryTypeEnum::class,
     ];
 
