@@ -22,7 +22,7 @@ class DeliveryJob implements ShouldQueue
     {
         $model = $this->delivery->model::find($this->delivery->model_id);
         $model->update([
-            'active' => true
+            'active' => true,
         ]);
         $this->delivery->user->notify(new SendMessageAdminNotification(
             title: 'Livraison effectuer',

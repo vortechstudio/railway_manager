@@ -18,6 +18,7 @@ class Map extends Component
     public RailwayPlanning $planning;
 
     public $user;
+
     public $hubs;
 
     public $initialMarkers;
@@ -115,7 +116,7 @@ class Map extends Component
 
     private function defineDefault(): void
     {
-        if(auth()->user()->userRailwayHub()->exists()) {
+        if (auth()->user()->userRailwayHub()->exists()) {
             $firstHub = auth()->user()->userRailwayHub()->first();
             $hubs = auth()->user()->userRailwayHub()->whereNot('id', $firstHub->id)->get();
             $this->initialMarkers = collect();
@@ -202,25 +203,25 @@ class Map extends Component
 
     }
 
-    private function defineForHubs()
+    private function defineForHubs(): void
     {
         $centerLat = 0;
         $centerLng = 0;
 
         foreach ($this->hubs as $hub) {
-            $centerLat += $hub->gare->latitude /2;
-            $centerLng += $hub->gare->longitude /2;
+            $centerLat += $hub->gare->latitude / 2;
+            $centerLng += $hub->gare->longitude / 2;
         }
         $this->initialMarkers = $this->hubs->map(function ($hub) {
-                return [
-                    'position' => [
-                        'lat' => $hub->gare->latitude,
-                        'lng' => $hub->gare->longitude,
-                    ],
-                    'draggable' => false,
-                    'title' => $hub->gare->name,
-                ];
-            })->toArray();
+            return [
+                'position' => [
+                    'lat' => $hub->gare->latitude,
+                    'lng' => $hub->gare->longitude,
+                ],
+                'draggable' => false,
+                'title' => $hub->gare->name,
+            ];
+        })->toArray();
         $this->options = [
             'center' => [
                 'lat' => $centerLat,

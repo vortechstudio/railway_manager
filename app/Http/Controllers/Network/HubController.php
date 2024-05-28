@@ -20,7 +20,7 @@ class HubController extends Controller
     public function buy()
     {
         $hubs = RailwayHub::with('gare', 'lignes')->where('active', true);
-        if(config('app.env') == 'production') {
+        if (config('app.env') == 'production') {
             $hubs->where('status', 'production');
         } else {
             $hubs->where('status', 'beta');

@@ -12,9 +12,9 @@ class AchievementAction
     {
     }
 
-    public function subscribe($events)
+    public function subscribe($events): void
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayHub', [$this, $this->checkoutHubAction()]);
             $events->listen('App\Events\Model\User\Railway\NewUserEvent', [$this, $this->welcomeAction()]);
         }

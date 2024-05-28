@@ -18,21 +18,27 @@ class HubCheckout extends Component
     use LivewireAlert;
 
     public $selectedHub = 0;
+
     public $hubs;
 
     public $price_base;
+
     public $subvention_percent;
+
     public $subvention_amount;
+
     public $flux_hub_percent;
+
     public $flux_hub_amount;
+
     public $amount_paid;
 
-    public function mount()
+    public function mount(): void
     {
         $this->flux_hub_percent = RailwayFluxMarket::where('date', Carbon::today())->first()->flux_hub;
     }
 
-    public function updatedSelectedHub($value)
+    public function updatedSelectedHub($value): void
     {
         $hub = RailwayHub::find($value);
         $this->price_base = $hub->price_base;
@@ -42,9 +48,9 @@ class HubCheckout extends Component
         $this->amount_paid = $this->price_base - $this->subvention_amount + $this->flux_hub_amount;
     }
 
-    public function checkout()
+    public function checkout(): void
     {
-        $this->alert('question', 'Etes-vous sur de vouloir acheter ce hub pour ' . Helpers::eur($this->amount_paid) . ' ?', [
+        $this->alert('question', 'Etes-vous sur de vouloir acheter ce hub pour '.Helpers::eur($this->amount_paid).' ?', [
             'showConfirmButton' => true,
             'confirmButtonText' => 'Acheter le hub',
             'onConfirmed' => 'confirmed',
@@ -58,16 +64,16 @@ class HubCheckout extends Component
         ]);
     }
 
-    #[On("confirmed")]
-    public function check()
+    #[On('confirmed')]
+    public function check(): void
     {
         $hub = RailwayHub::find($this->selectedHub);
         if (auth()->user()->userRailwayHub()->where('railway_hub_id', $this->selectedHub)->exists()) {
-            $this->alert('warning', "Vous ne pouvez pas acheter un hub déjà acquis !");
+            $this->alert('warning', 'Vous ne pouvez pas acheter un hub déjà acquis !');
         } else {
             (new Compta())->create(
                 user: auth()->user(),
-                title: "Achat du hub",
+                title: 'Achat du hub',
                 amount: $this->amount_paid,
                 type_amount: 'charge',
                 type_mvm: 'achat_hub',
@@ -90,15 +96,15 @@ class HubCheckout extends Component
 
             $delivery = auth()->user()->userRailwayDelivery()->create([
                 'type' => 'hub',
-                'designation' => "Hub: " . $hub->gare->name,
+                'designation' => 'Hub: '.$hub->gare->name,
                 'start_at' => now(),
                 'end_at' => now()->addMinutes(5 / auth()->user()->railway_company->livraison),
                 'user_id' => auth()->user()->id,
                 'model' => UserRailwayHub::class,
-                'model_id' => $userHub->id
+                'model_id' => $userHub->id,
             ]);
 
-            $this->alert('success', "Le hub à bien été acheter avec succes !");
+            $this->alert('success', 'Le hub à bien été acheter avec succes !');
             dispatch(new DeliveryJob($delivery))->delay($delivery->end_at)->onQueue('delivery');
             $this->redirectRoute('network.index');
         }

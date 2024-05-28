@@ -122,7 +122,6 @@ class RailwayGare extends Model
         return (new GareAction($this))->calcNbSlotParking();
     }
 
-
     public function formatIsHub()
     {
         if ($this->getIsHubAttribute()) {
