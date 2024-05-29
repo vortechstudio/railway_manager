@@ -62,6 +62,12 @@ class LigneStationAction
     public function calculTemps(float|int $distance, float|int $vitesse): int
     {
         $timeInSecond = $distance / $vitesse;
+        $calc = ($timeInSecond * 60) / 1.8;
+        if($calc == 0 || $calc <= 1) {
+            return 1;
+        } else {
+            return intval($calc);
+        }
 
         return intval(($timeInSecond * 60) / 1.8);
     }
