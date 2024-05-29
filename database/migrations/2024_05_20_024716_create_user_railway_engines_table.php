@@ -17,8 +17,14 @@ return new class extends Migration {
             $table->timestamp('date_achat');
             $table->string('status')->default('in_delivery');
 
-            $table->foreignId('user_id');
-            $table->foreignId('railway_engine_id');
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+            $table->foreignId('railway_engine_id')
+                ->references('id')
+                ->on('railway_engines')
+                ->cascadeOnDelete();
         });
     }
 

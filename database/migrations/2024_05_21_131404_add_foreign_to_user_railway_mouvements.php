@@ -8,8 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::connection('railway')->table('user_railway_mouvements', function (Blueprint $table) {
-            $table->foreignId('user_railway_hub_id')->nullable();
-            $table->foreignId('user_railway_ligne_id')->nullable();
+            $table->foreignId('user_railway_hub_id')->nullable()
+                ->references('id')
+                ->on('user_railway_hubs')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_ligne_id')->nullable()
+                ->references('id')
+                ->on('user_railway_lignes')
+                ->cascadeOnDelete();
         });
     }
 

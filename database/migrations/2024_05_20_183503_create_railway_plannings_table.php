@@ -15,10 +15,23 @@ return new class extends Migration {
             $table->integer('retarded_time')->nullable();
             $table->integer('kilometer');
             $table->timestamp('date_arrived');
-            $table->foreignId('user_railway_hub_id');
-            $table->foreignId('user_railway_ligne_id');
-            $table->foreignId('user_railway_engine_id');
-            $table->foreignId('user_id');
+
+            $table->foreignId('user_railway_hub_id')
+                ->references('id')
+                ->on('user_railway_hubs')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_ligne_id')
+                ->references('id')
+                ->on('user_railway_lignes')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_engine_id')
+                ->references('id')
+                ->on('user_railway_engines')
+                ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 

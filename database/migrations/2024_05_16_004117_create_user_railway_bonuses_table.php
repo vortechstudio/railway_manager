@@ -13,7 +13,10 @@ return new class extends Migration
             $table->integer('simulation')->default(0);
             $table->integer('audit_ext')->default(0);
             $table->integer('audit_int')->default(0);
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 

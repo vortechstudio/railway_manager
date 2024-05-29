@@ -11,7 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->string('type');
             $table->integer('nb_passengers');
-            $table->foreignId('railway_planning_id');
+            $table->foreignId('railway_planning_id')
+                ->references('id')
+                ->on('railway_plannings')
+                ->cascadeOnDelete();
         });
     }
 

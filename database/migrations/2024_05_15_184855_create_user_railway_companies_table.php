@@ -29,7 +29,10 @@ return new class extends Migration
             $table->decimal('rate_research', 16)->default(1);
             $table->double('credit_impot', 16)->default(0);
             $table->double('research_coast_base', 16)->default(0);
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 

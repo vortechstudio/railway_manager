@@ -13,10 +13,23 @@ return new class extends Migration {
             $table->integer('nb_depart_jour');
             $table->string('quai');
             $table->boolean('active')->default(false);
-            $table->foreignId('user_railway_hub_id');
-            $table->foreignId('railway_ligne_id');
-            $table->foreignId('user_railway_engine_id')->nullable();
-            $table->foreignId('user_id');
+
+            $table->foreignId('user_railway_hub_id')
+                ->references('id')
+                ->on('user_railway_hubs')
+                ->cascadeOnDelete();
+            $table->foreignId('railway_ligne_id')
+                ->references('id')
+                ->on('railway_lignes')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_engine_id')->nullable()
+                ->references('id')
+                ->on('user_railway_engines')
+                ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 

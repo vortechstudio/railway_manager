@@ -14,11 +14,24 @@ return new class extends Migration {
             $table->boolean('closed')->default(false);
             $table->string('designation');
             $table->string('note');
-            $table->foreignId('user_id');
-            $table->foreignId('railway_planning_id');
-            $table->foreignId('user_railway_engine_id');
-            $table->foreignId('user_railway_hub_id');
             $table->timestamps();
+
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+            $table->foreignId('railway_planning_id')
+                ->references('id')
+                ->on('railway_plannings')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_engine_id')
+                ->references('id')
+                ->on('user_railway_engines')
+                ->cascadeOnDelete();
+            $table->foreignId('user_railway_hub_id')
+                ->references('id')
+                ->on('user_railway_hubs')
+                ->cascadeOnDelete();
         });
     }
 

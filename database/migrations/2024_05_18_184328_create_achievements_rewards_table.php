@@ -11,8 +11,14 @@ return new class extends Migration
         Schema::connection('railway')->create('achievements_rewards', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('achievement_id');
-            $table->foreignId('reward_id');
+            $table->foreignId('achievement_id')
+                ->references('id')
+                ->on('achievements')
+                ->cascadeOnDelete();
+            $table->foreignId('reward_id')
+                ->references('id')
+                ->on('achieve_rewards')
+                ->cascadeOnDelete();
         });
     }
 
