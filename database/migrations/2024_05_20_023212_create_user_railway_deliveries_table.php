@@ -13,10 +13,7 @@ return new class extends Migration {
             $table->string('designation');
             $table->timestamp('start_at');
             $table->timestamp('end_at')->nullable();
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
             $table->string('model');
             $table->bigInteger('model_id');
         });

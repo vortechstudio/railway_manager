@@ -10,14 +10,8 @@ return new class extends Migration
     {
         Schema::connection('railway')->create('user_railway_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
-            $table->foreignId('message_id')
-                ->references('id')
-                ->on('messages')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
+            $table->foreignId('message_id');
             $table->boolean('is_read')->default(false);
             $table->boolean('reward_collected')->default(false);
             $table->timestamps();

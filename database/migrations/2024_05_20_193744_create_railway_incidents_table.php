@@ -16,10 +16,7 @@ return new class extends Migration {
             $table->string('note');
             $table->timestamps();
 
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
             $table->foreignId('railway_planning_id')
                 ->references('id')
                 ->on('railway_plannings')

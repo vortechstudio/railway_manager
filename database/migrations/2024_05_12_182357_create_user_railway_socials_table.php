@@ -13,10 +13,7 @@ return new class extends Migration
             $table->boolean('accept_friends')->default(false);
             $table->boolean('display_registry')->default(false);
             $table->boolean('display_online_status')->default(false);
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
         });
     }
 

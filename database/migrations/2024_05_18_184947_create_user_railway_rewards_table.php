@@ -12,10 +12,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
 
             $table->string('model');
             $table->unsignedBigInteger('model_id');

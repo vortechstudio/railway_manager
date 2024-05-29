@@ -14,10 +14,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('achievements')
                 ->cascadeOnDelete();
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

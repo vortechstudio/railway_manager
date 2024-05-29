@@ -22,10 +22,7 @@ return new class extends Migration {
             $table->integer('publicity_actual')->default(0);
             $table->integer('parking_actual')->default(0);
             $table->integer('ligne_limit')->default(0);
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
             $table->foreignId('railway_hub_id')
                 ->references('id')
                 ->on('railway_hubs')

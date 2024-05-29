@@ -22,22 +22,26 @@ class GareAction
 
     public function calcNbSlotCommerce(): int
     {
-        return $this->calculate(50 * auth()->user()->railway_company->confort);
+        $confort = auth()->user()->railway_company->confort ?? 1;
+        return $this->calculate(50 * $confort);
     }
 
     public function calcNbSlotPublicite(): int
     {
-        return $this->calculate(25 * auth()->user()->railway_company->distraction);
+        $distraction = auth()->user()->railway_company->distraction ?? 1;
+        return $this->calculate(25 * $distraction);
     }
 
     public function calcNbSlotParking(): int
     {
-        return $this->calculate(10 * auth()->user()->railway_company->confort);
+        $confort = auth()->user()->railway_company->confort ?? 1;
+        return $this->calculate(10 * $confort);
     }
 
     private function calculate(int $factor): int
     {
-        $basVal = $this->gare->freq_base * auth()->user()->railway_company->distraction;
+        $distraction = auth()->user()->railway_company->distraction ?? 1;
+        $basVal = $this->gare->freq_base * $distraction;
         $divisor = $this->gare->hab_city * $factor / 100;
         $calc = intval($basVal);
         $calc = $calc / $divisor;

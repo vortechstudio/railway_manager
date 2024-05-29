@@ -22,10 +22,7 @@ return new class extends Migration
             $table->boolean('automated_planning')->default(false);
             $table->string('name_conseiller')->nullable();
             $table->string('stripe_id')->nullable();
-            $table->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreignId('user_id');
         });
     }
 
