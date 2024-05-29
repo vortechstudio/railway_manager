@@ -29,6 +29,7 @@ class RailwayGare extends Model
         'nb_max_commerce',
         'nb_max_publicite',
         'nb_max_parking',
+        'time_day_work',
     ];
 
     public function weather()
@@ -120,6 +121,11 @@ class RailwayGare extends Model
     public function getNbMaxParkingAttribute()
     {
         return (new GareAction($this))->calcNbSlotParking();
+    }
+
+    public function getTimeDayWorkAttribute()
+    {
+        return (new GareAction($this))->calcTimeDayWork();
     }
 
     public function formatIsHub()

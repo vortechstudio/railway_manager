@@ -21,6 +21,7 @@ Route::prefix('network')->as('network.')->group(function () {
     });
 
     Route::prefix('line')->as('line.')->group(function () {
+        Route::get('buy', [\App\Http\Controllers\Network\LineController::class, 'buy'])->name('buy');
         Route::get('{id}', [\App\Http\Controllers\Network\LineController::class, 'show'])->name('show');
     });
 

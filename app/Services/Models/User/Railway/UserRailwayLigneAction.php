@@ -7,6 +7,7 @@ use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMouvement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Vortechstudio\Helpers\Facades\Helpers;
 
 class UserRailwayLigneAction
 {
@@ -148,5 +149,13 @@ class UserRailwayLigneAction
         return RailwayFluxMarket::whereDate('date', Carbon::today())
             ->first()
             ->flux_ligne;
+    }
+
+    public function calcNbDepartJour()
+    {
+        $nb_hour_to_min = Helpers::hoursToMinutes($this->ligne->userRailwayHub->railwayHub->gare->time_day_work);
+        $temps_trajet = $this->ligne->railwayLigne->time_min;
+
+        return intval($nb_hour_to_min / $temps_trajet);
     }
 }

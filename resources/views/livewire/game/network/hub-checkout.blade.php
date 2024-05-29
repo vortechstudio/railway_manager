@@ -51,6 +51,10 @@
                                         <span>Nombre Max de place de parking</span>
                                         <span>{{ $hub->gare->nb_max_parking }}</span>
                                     </div>
+                                    <div class="d-flex flex-row justify-content-between p-5 bg-grey-200 rounded-3 mb-3">
+                                        <span>Nombre de ligne disponible</span>
+                                        <span>{{ $hub->lignes()->where('active', true)->count() }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
