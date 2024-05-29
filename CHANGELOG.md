@@ -1,3 +1,37 @@
+# [0.10.0](https://github.com/vortechstudio/railway_manager/compare/v0.9.0...v0.10.0) (2024-05-29)
+
+
+### Bug Fixes
+
+* **Authentification:** Ajustement de la vérification du statut premium pour un utilisateur authentifié ([00cf687](https://github.com/vortechstudio/railway_manager/commit/00cf687bd3322d306e128c5f9be7551768b84908))
+* **core:** Correction de l'affichage de l'indicateur de nouveau message dans le menu principal ([597f343](https://github.com/vortechstudio/railway_manager/commit/597f343169892f9dc58f127380aa12821ce9d0fd))
+* **General:** Correction de la gestion du premium pour les utilisateurs connectés ([f03324c](https://github.com/vortechstudio/railway_manager/commit/f03324c9dccc9289ea90ae41ee444052a8174936))
+* **Network:** Ajout du nombre de lignes disponibles dans lors de la selection d'un hub lors de son achat ([2a374d7](https://github.com/vortechstudio/railway_manager/commit/2a374d7074c23b19e8c17c57c350671ed74ddc66))
+* **Succès:** Correction du système de succès, il permet maintenant une ecoute directement par l'action de l'utilisateur. ([29525be](https://github.com/vortechstudio/railway_manager/commit/29525bea4e2b78eaf43e5422b40accf025b3c665))
+* **workflows:** Correction de l'action Checkout dans le fichier ollama.yml ([ba2a882](https://github.com/vortechstudio/railway_manager/commit/ba2a8820fe490fccc508261b33050291173c1bb3))
+
+
+### Features
+
+* **.github/workflows:** Mise à jour du workflow Ollama ([4e7fb16](https://github.com/vortechstudio/railway_manager/commit/4e7fb164c7dc5efa8c81da7cffe4d93479889f64))
+* Amélioration de l'affichage de l'interface et des informations de la carte ([a63404a](https://github.com/vortechstudio/railway_manager/commit/a63404aad10af00682ed6dd03563aa5bd55f97b4))
+* **General:** Ajout d'intéraction avec l'interface utilisateur ([65bd0f4](https://github.com/vortechstudio/railway_manager/commit/65bd0f478f1b990854dfe43742f2ec8f8bcc11ad))
+* **General:** Ajoute de nouvelles propriétés et méthodes pour la gestion du reseau. ([4787260](https://github.com/vortechstudio/railway_manager/commit/47872609b014d51fe5ffa8a23c51a44ff3fca3a1))
+* **General:** Préparation à l'ajout de différents écrans interactifs ([fbe89e1](https://github.com/vortechstudio/railway_manager/commit/fbe89e163924449ab980ec789d90c2548d732f68))
+* **Network:** Ajout d'une vérification d'existence pour planning dans la vue de dérail d'un hub ([4f2ea55](https://github.com/vortechstudio/railway_manager/commit/4f2ea552812148614d7e1f53b695a2c90cef9d6f))
+* **Network:** Ajout de fonctionnalités pour l'achat d'une ligne ([66d296a](https://github.com/vortechstudio/railway_manager/commit/66d296a15305517b36db32eeebfbdcee8418ae66))
+* **Network:** Ajout de la feuille de route pour un itinéraire ([6d8efdd](https://github.com/vortechstudio/railway_manager/commit/6d8efdd13886c4fd72fb05de47d4ea6aaffccfc4))
+* **Network:** Ajout des différents écrans interactif sur les feuilles de route ([0f23a6a](https://github.com/vortechstudio/railway_manager/commit/0f23a6a5ced52b787c866d8ab532ff8d3f0d3b0a))
+* **Network:** Ajout des différents écrans interactif sur les feuilles de route ([5b8db49](https://github.com/vortechstudio/railway_manager/commit/5b8db49a9d4efc2a1429e287150a79ce5484d89c))
+* **Network:** Ajout des fonctionnalités d’achats pour les hubs ([a9253b5](https://github.com/vortechstudio/railway_manager/commit/a9253b5e6e921e22e5108cef84d7f65d8e165179))
+* **Network:** Ajout des options de vente de ligne ([a746384](https://github.com/vortechstudio/railway_manager/commit/a7463845c4cb6271c4476e7f13fad11ef936d021))
+* **Network:** Ajout du tableau des incidents ([a3bcd84](https://github.com/vortechstudio/railway_manager/commit/a3bcd84a5f28707c64224efb186f762dbb0962a4))
+* **Network:** Amélioration de la gestion des lignes ferroviaires ([64b13b8](https://github.com/vortechstudio/railway_manager/commit/64b13b8070bdd5ece4d3b15c1d8dce922d0db4a0))
+* **Network:** Création des vues LigneDetail et ligne-detail ([ebc60fe](https://github.com/vortechstudio/railway_manager/commit/ebc60fecb7d0605001959c8c1e9b4bbf78d95d52))
+* **planning:** Ajout de la gestion des plannings par ligne ferroviaire ([68fd6c3](https://github.com/vortechstudio/railway_manager/commit/68fd6c3cdad51ebc32920d63eb9d86828d4d9cf2))
+* **ScreenDeparture:** Ajout du composant ScreenDeparture et de sa vue associée ([942a149](https://github.com/vortechstudio/railway_manager/commit/942a1494bbdffebed50ddc1f2193fcca83c5955a))
+* **Travel View:** Ajout de détails et modifications de la mise en page de la vue de la feuille de route ([af65b59](https://github.com/vortechstudio/railway_manager/commit/af65b59ecc7c669fd2da9205a0e8a70ea093a69f))
+
 # [0.9.0](https://github.com/vortechstudio/railway_manager/compare/v0.8.0...v0.9.0) (2024-05-23)
 
 
