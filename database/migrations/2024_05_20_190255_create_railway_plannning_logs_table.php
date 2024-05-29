@@ -10,7 +10,10 @@ return new class extends Migration {
         Schema::connection('railway')->create('railway_plannning_logs', function (Blueprint $table) {
             $table->id();
             $table->string('message');
-            $table->foreignId('railway_planning_id');
+            $table->foreignId('railway_planning_id')
+                ->references('id')
+                ->on('railway_plannings')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

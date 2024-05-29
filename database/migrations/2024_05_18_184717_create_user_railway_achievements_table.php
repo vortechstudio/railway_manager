@@ -10,7 +10,10 @@ return new class extends Migration
     {
         Schema::connection('railway')->create('user_railway_achievements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('achievement_id');
+            $table->foreignId('achievement_id')
+                ->references('id')
+                ->on('achievements')
+                ->cascadeOnDelete();
             $table->foreignId('user_id');
             $table->timestamps();
         });

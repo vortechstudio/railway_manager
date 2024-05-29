@@ -14,7 +14,10 @@ return new class extends Migration {
             $table->integer('demande');
             $table->integer('offre');
             $table->decimal('price');
-            $table->foreignId('user_railway_ligne_id');
+            $table->foreignId('user_railway_ligne_id')
+                ->references('id')
+                ->on('user_railway_lignes')
+                ->cascadeOnDelete();
         });
     }
 
