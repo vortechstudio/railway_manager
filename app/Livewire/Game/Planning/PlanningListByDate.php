@@ -3,6 +3,7 @@
 namespace App\Livewire\Game\Planning;
 
 use App\Models\User\Railway\UserRailwayHub;
+use App\Models\User\Railway\UserRailwayLigne;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -12,6 +13,8 @@ class PlanningListByDate extends Component
     public $type;
 
     public UserRailwayHub $hub;
+
+    public UserRailwayLigne $ligne;
 
     public $plannings;
 
@@ -34,6 +37,7 @@ class PlanningListByDate extends Component
         $query = match ($this->type) {
             default => auth()->user()->railway_plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
             'hub' => $this->hub->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
+            'ligne' => $this->ligne->plannings()->with('travel', 'passengers', 'userRailwayEngine', 'incidents'),
         };
         $this->plannings = $query->when($this->selectedDate, fn (Builder $query) => $query->whereBetween('date_depart', [$this->selectedDate, Carbon::parse($this->selectedDate)->endOfDay()]))
             ->get();

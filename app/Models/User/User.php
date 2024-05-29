@@ -16,6 +16,7 @@ use App\Models\User\Railway\UserRailway;
 use App\Models\User\Railway\UserRailwayAchievement;
 use App\Models\User\Railway\UserRailwayBonus;
 use App\Models\User\Railway\UserRailwayCompany;
+use App\Models\User\Railway\UserRailwayDelivery;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
@@ -178,6 +179,11 @@ class User extends Authenticatable
     public function userRailwayLigne()
     {
         return $this->hasMany(UserRailwayLigne::class);
+    }
+
+    public function userRailwayDelivery()
+    {
+        return $this->hasMany(UserRailwayDelivery::class);
     }
 
     public function railway_plannings()

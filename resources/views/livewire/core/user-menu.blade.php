@@ -154,7 +154,7 @@
                     </a>
                 </div>
                 <div class="d-flex flex-column h-50 rounded-2">
-                    <a href="{{ route('account.mailbox.inbox') }}" class="mb-5">
+                    <a href="{{ route('account.mailbox.inbox') }}" class="mb-5 position-relative">
                         <i class="fa-solid fa-envelope fs-2x text-white text-hover-gray-800"></i>
                         @if($countMessage > 0)
                             <span class="badge badge-sm badge-circle badge-danger position-absolute top-0 start-100 translate-middle"><i class="fa-solid fa-exclamation text-white"></i> </span>

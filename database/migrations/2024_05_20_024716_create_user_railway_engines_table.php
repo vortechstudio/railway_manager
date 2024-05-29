@@ -18,7 +18,10 @@ return new class extends Migration {
             $table->string('status')->default('in_delivery');
 
             $table->foreignId('user_id');
-            $table->foreignId('railway_engine_id');
+            $table->foreignId('railway_engine_id')
+                ->references('id')
+                ->on('railway_engines')
+                ->cascadeOnDelete();
         });
     }
 

@@ -14,7 +14,10 @@ return new class extends Migration {
             $table->decimal('fee_electrique');
             $table->decimal('fee_gasoil');
             $table->decimal('fee_other');
-            $table->foreignId('railway_planning_id');
+            $table->foreignId('railway_planning_id')
+                ->references('id')
+                ->on('railway_plannings')
+                ->cascadeOnDelete();
         });
     }
 

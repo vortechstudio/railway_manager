@@ -15,7 +15,10 @@ return new class extends Migration {
             $table->boolean('repeat')->default(false);
             $table->timestamp('repeat_end_at');
             $table->foreignId('user_id');
-            $table->foreignId('user_railway_engine_id');
+            $table->foreignId('user_railway_engine_id')
+                ->references('id')
+                ->on('user_railway_engines')
+                ->cascadeOnDelete();
         });
     }
 

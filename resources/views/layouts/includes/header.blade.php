@@ -68,7 +68,7 @@
                 <!--begin::Notifications-->
                 <livewire:core.user-annonce />
                 <!--end::Notifications-->
-                @if($user->unreadNotifications()->count() > 0)
+                @if($user->unreadNotifications()->count() > 0 || $user->userRailwayDelivery()->get()->count() > 0)
                 <livewire:core.user-notification />
                 @endif
                 <!--begin::Chat-->

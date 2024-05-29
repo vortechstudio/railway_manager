@@ -24,6 +24,7 @@ class UserRailwayLigne extends Model
 
     protected $appends = [
         'ratio_performance',
+        'flux_market',
     ];
 
     public function userRailwayHub(): BelongsTo
@@ -66,14 +67,54 @@ class UserRailwayLigne extends Model
         return (new UserRailwayLigneAction($this))->getRatioPerformance();
     }
 
+    public function getFluxMarketAttribute()
+    {
+        return (new UserRailwayLigneAction($this))->getActualFluctuation();
+    }
+
     public function getCA(?Carbon $from = null, ?Carbon $to = null)
     {
         return (new UserRailwayLigneAction($this))->getCA($from, $to);
     }
 
+    public function getCABilletterie(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->calcSumAmount('billetterie', $from, $to);
+    }
+
+    public function getFrais(string $type, ?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->calcSumAmount($type, $from, $to);
+    }
+
+    public function getPrevCA(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->prevCA($from, $to);
+    }
+
+    public function getCout(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->getCout($from, $to);
+    }
+
+    public function getRevenusAux(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->calcSumAmount('rent_trajet_aux', $from, $to);
+    }
+
+    public function getCoutIncident(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->calcSumAmount('incident', $from, $to);
+    }
+
     public function getBenefice(?Carbon $from = null, ?Carbon $to = null)
     {
         return (new UserRailwayLigneAction($this))->getBenefice($from, $to);
+    }
+
+    public function getResultat(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return (new UserRailwayLigneAction($this))->getResultat($from, $to);
     }
 
     public function getActualOffreLigne()
@@ -84,5 +125,10 @@ class UserRailwayLigne extends Model
     public function simulateSelling()
     {
         return (new UserRailwayLigneAction($this))->simulateSelling();
+    }
+
+    public function sumPassenger(string $type)
+    {
+        return (new UserRailwayLigneAction($this))->sumPassenger($type);
     }
 }

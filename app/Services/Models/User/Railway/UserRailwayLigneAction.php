@@ -2,10 +2,12 @@
 
 namespace App\Services\Models\User\Railway;
 
+use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMouvement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Vortechstudio\Helpers\Facades\Helpers;
 
 class UserRailwayLigneAction
 {
@@ -40,10 +42,7 @@ class UserRailwayLigneAction
         $m_engine = $this->calcSumAmount('maintenance_engine', $from, $to);
         $cout_trajet = $this->calcSumAmount('cout_trajet', $from, $to);
 
-        $ca = $this->getCA($from, $to);
-        $cout = $electricite + $gasoil + $taxe + $m_engine + $cout_trajet;
-
-        return $ca - $cout;
+        return $electricite + $gasoil + $taxe + $m_engine + $cout_trajet;
     }
 
     public function getResultat(?Carbon $from = null, ?Carbon $to = null)
@@ -84,7 +83,55 @@ class UserRailwayLigneAction
         return $offer;
     }
 
-    private function calcSumAmount(?string $type, ?Carbon $from, ?Carbon $to)
+    public function avgPrice(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return $this->ligne->tarifs()
+            ->when($from && $to, function (Builder $query) use ($from, $to) {
+                $query->whereBetween('date_tarif', [$from->startOfDay(), $to->endOfDay()]);
+            })
+            ->avg('price');
+    }
+
+    public function avgDemande(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return $this->ligne->tarifs()
+            ->when($from && $to, function (Builder $query) use ($from, $to) {
+                $query->whereBetween('date_tarif', [$from->startOfDay(), $to->endOfDay()]);
+            })
+            ->avg('demande');
+    }
+
+    public function avgOffre(?Carbon $from = null, ?Carbon $to = null)
+    {
+        return $this->ligne->tarifs()
+            ->when($from && $to, function (Builder $query) use ($from, $to) {
+                $query->whereBetween('date_tarif', [$from->startOfDay(), $to->endOfDay()]);
+            })
+            ->avg('offre');
+    }
+
+    public function prevCA(?Carbon $from = null, ?Carbon $to = null)
+    {
+        $avgDemande = $this->avgDemande($from, $to);
+        $avgPrice = $this->avgPrice($from, $to);
+
+        return $avgDemande * $avgPrice;
+    }
+
+    public function sumPassenger(string $type)
+    {
+        $sum = 0;
+
+        foreach ($this->ligne->plannings as $planning) {
+            $sum += $planning->passengers()
+                ->where('type', $type)
+                ->sum('nb_passengers');
+        }
+
+        return $sum;
+    }
+
+    public function calcSumAmount(?string $type, ?Carbon $from, ?Carbon $to)
     {
         return $this->ligne->mouvements()
             ->where('user_railway_ligne_id', $this->ligne->id)
@@ -95,5 +142,20 @@ class UserRailwayLigneAction
                 $query->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()]);
             })
             ->sum('amount');
+    }
+
+    public function getActualFluctuation()
+    {
+        return RailwayFluxMarket::whereDate('date', Carbon::today())
+            ->first()
+            ->flux_ligne;
+    }
+
+    public function calcNbDepartJour()
+    {
+        $nb_hour_to_min = Helpers::hoursToMinutes($this->ligne->userRailwayHub->railwayHub->gare->time_day_work);
+        $temps_trajet = $this->ligne->railwayLigne->time_min;
+
+        return intval($nb_hour_to_min / $temps_trajet);
     }
 }

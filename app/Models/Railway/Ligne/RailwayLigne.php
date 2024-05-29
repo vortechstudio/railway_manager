@@ -27,6 +27,8 @@ class RailwayLigne extends Model
 
     protected $appends = [
         'status_label',
+        'icon',
+        'name',
     ];
 
     public function start()
@@ -61,5 +63,19 @@ class RailwayLigne extends Model
         } else {
             return "<i class='fa-solid fa-xmark-circle fs-2 text-danger'></i>";
         }
+    }
+
+    public function getIconAttribute()
+    {
+        if (\Storage::exists("icons/railway/transport/logo_{$this->type->value}.svg")) {
+            return \Storage::url("icons/railway/transport/logo_{$this->type->value}.svg");
+        } else {
+            return \Storage::url("icons/railway/transport/logo_{$this->type->value}.png");
+        }
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->start->name.' <-> '.$this->end->name;
     }
 }

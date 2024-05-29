@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
+use App\Actions\ErrorDispatchHandle;
+use App\Actions\NewUserAction;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
@@ -31,7 +33,7 @@ class AuthController extends Controller
     /**
      * Redirects the user to the authentication page of the specified social media provider.
      *
-     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The redirect response to the authentication page
      */
     public function redirect(string $provider)
@@ -42,7 +44,7 @@ class AuthController extends Controller
     /**
      * Callback method that handles the authentication callback from different social media providers.
      *
-     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
      * @return mixed The result of the verification process for the user
      *
      * @throws \Exception If the specified provider is not supported
@@ -65,8 +67,8 @@ class AuthController extends Controller
     /**
      * Verify the user and handle the necessary actions based on the authentication process.
      *
-     * @param  object  $user  The user object returned by the social media provider
-     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
+     * @param object $user The user object returned by the social media provider
+     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The response to redirect the user
      */
     private function verifyUser(object $user, string $provider)
@@ -74,84 +76,16 @@ class AuthController extends Controller
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
-        if (! $user) {
-            $user = User::query()->create([
-                'name' => $gUser->name ?? $gUser->nickname,
-                'email' => $gUser->email ?? Helpers::reference(10).'@vst.local',
-                'password' => Hash::make('password0000'),
-                'email_verified_at' => now(),
-                'admin' => false,
-                'uuid' => Str::uuid(),
-            ]);
-
-            $user->logs()->create([
-                'action' => 'Création du compte utilisateur',
-                'user_id' => $user->id,
-            ]);
-
-            if (! $user->socials()->where('provider', $provider)->exists()) {
-                $user->socials()->create([
-                    'provider' => $provider,
-                    'provider_id' => $gUser->id,
-                    'avatar' => $gUser->avatar,
-                    'user_id' => $user->id,
-                ]);
-            }
-
-            $user->services()->create([
-                'status' => true,
-                'premium' => false,
-                'user_id' => $user->id,
-                'service_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            $user->logs()->create(['user_id' => $user->id, 'action' => 'Affiliation au service: Accès de base']);
-
-            $user->profil()->firstOrCreate(['user_id' => $user->id]);
-
-            if (! $user->services()->where('service_id', $service->id)->exists()) {
-                $user->services()->create([
-                    'status' => true,
-                    'premium' => false,
-                    'user_id' => $user->id,
-                    'service_id' => $service->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                $user->logs()->create([
-                    'action' => "Inscription au service: $service->name",
-                    'user_id' => $user->id,
-                ]);
-
-                $user->railway()->create([
-                    'user_id' => $user->id,
-                    'argent' => 0,
-                    'tpoint' => RailwaySetting::where('name', 'start_tpoint')->first()->value,
-                    'research' => RailwaySetting::where('name', 'start_research')->first()->value,
-                    'uuid' => rand(10000000, 99999999),
-                ]);
-            }
-
+        if (!$user) {
+            $user = (new NewUserAction())->createUser($gUser, $provider, $service);
             return redirect()->route('auth.setup-account', [$provider, $user->email]);
         }
 
-        if (! $user->services()->where('service_id', $service->id)->exists()) {
-            $user->services()->create([
-                'status' => true,
-                'premium' => false,
-                'user_id' => $user->id,
-                'service_id' => $service->id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            $user->logs()->create([
-                'action' => "Inscription au service: $service->name",
-                'user_id' => $user->id,
-            ]);
+        if (!$user->services()->where('service_id', $service->id)->exists()) {
+            (new NewUserAction())->addUserService($user, $service);
+        } else {
+            Auth::login($user);
+            return redirect()->route('auth.install');
         }
 
         Auth::login($user);
@@ -171,9 +105,9 @@ class AuthController extends Controller
     /**
      * Submit method for setting up an account.
      *
-     * @param  \Illuminate\Http\Request  $request  The HTTP request object
-     * @param  string  $provider  The social media provider
-     * @param  string  $email  The user's email address
+     * @param \Illuminate\Http\Request $request The HTTP request object
+     * @param string $provider The social media provider
+     * @param string $email The user's email address
      * @return \Illuminate\Http\RedirectResponse Redirects user to the home route
      */
     public function setupAccountSubmit(Request $request, string $provider, string $email)
@@ -184,68 +118,12 @@ class AuthController extends Controller
 
         try {
             $user = User::where('email', $email)->firstOrFail();
-
-            $user->update([
-                'password' => Hash::make($request->password),
-            ]);
-
-            $user->railway()->update([
-                'installed' => true,
-                'name_secretary' => $request->get('name_secretary'),
-                'name_company' => $request->get('name_company'),
-                'desc_company' => $request->get('desc_company'),
-                'name_conseiller' => fake('fr_FR')->name,
-                'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
-                'tpoint' => 0,
-                'research' => 0,
-                'automated_planning' => false,
-                'user_id' => $request->user()->id,
-            ]);
-
-            $user->railway_social()->create(['user_id' => $user->id]);
-            $user->railway_company()->create(['user_id' => $user->id]);
-            $user->railway_bonus()->create(['user_id' => $user->id]);
-            (new Compta())->create(
-                $user,
-                'Compte de départ',
-                RailwaySetting::where('name', 'start_argent')->first()->value,
-                'revenue',
-                'divers',
-                false
-            );
-            Auth::login($user);
-            $service = (new RailwayService())->getRailwayService();
-            $user->logs()->create([
-                'action' => "Connexion au service: $service->name",
-                'user_id' => $user->id,
-            ]);
-            (new MailboxAction())->newMessage(
-                user: $user,
-                subject: 'Bienvenue sur Railway Manager',
-                message: "Cher joueur,
-
-Nous sommes ravis de vous accueillir dans notre communauté de passionnés de trains et de simulation. Vous avez franchi le premier pas vers une aventure passionnante dans le monde des chemins de fer.
-
-Notre jeu de simulation ferroviaire par navigateur vous offre l'opportunité de gérer votre propre réseau de trains, de construire des voies ferrées, d'acheter des locomotives et de gérer des horaires de trains. Vous allez découvrir le frisson de la conduite de trains, le défi de la gestion d'un réseau ferroviaire et le plaisir de la planification stratégique.
-
-Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous guidera à travers les bases du jeu. Si vous avez des questions ou besoin d'aide, n'hésitez pas à consulter notre forum de la communauté ou à contacter notre équipe de support.
-
-Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
-
-Bon jeu et à bientôt sur les rails !",
-                rewards: [
-                    [
-                        'type' => 'argent',
-                        'value' => 100000,
-                    ],
-                    [
-                        'type' => 'tpoint',
-                        'value' => 250,
-                    ],
-                ]
-            );
-        } catch (Exception $exception) {
-            Log::emergency($exception->getMessage(), [$exception]);
+            $this->updateUserPassword($user, $request->get('password'));
+            $this->updateUserRailway($user, $request);
+            $this->createUserSocialCompanyBonus($user);
+            $this->loginAndSendWelcomeMessage($user, $provider);
+        }catch (\Exception $exception) {
+            (new ErrorDispatchHandle())->handle($exception);
         }
 
         return redirect()->route('home');
@@ -259,12 +137,12 @@ Bon jeu et à bientôt sur les rails !",
     /**
      * Confirm the user's password before granting access.
      *
-     * @param  \Illuminate\Http\Request  $request  The HTTP request object
+     * @param \Illuminate\Http\Request $request The HTTP request object
      * @return \Illuminate\Http\RedirectResponse The redirect response to the intended page
      */
     public function confirmPassword(Request $request)
     {
-        if (! \Hash::check($request->password, $request->user()->password)) {
+        if (!\Hash::check($request->password, $request->user()->password)) {
             toastr()
                 ->addError('Mot de passe erronée', "Vérification d'accès !");
         }
@@ -301,71 +179,103 @@ Bon jeu et à bientôt sur les rails !",
     public function installSubmit(Request $request)
     {
         try {
-            $request->user()->railway()->create([
-                'installed' => true,
-                'name_secretary' => $request->get('name_secretary'),
-                'name_company' => $request->get('name_company'),
-                'desc_company' => $request->get('desc_company'),
-                'name_conseiller' => fake('fr_FR')->name,
-                'argent' => RailwaySetting::where('name', 'start_argent')->first()->value,
-                'tpoint' => 0,
-                'research' => 0,
-                'automated_planning' => false,
-                'user_id' => $request->user()->id,
-                'uuid' => rand(10000000, 99999999),
-            ]);
-
-            $request->user()->railway_social()->create([
-                'user_id' => $request->user()->id,
-            ]);
-
-            $request->user()->railway_company()->create(['user_id' => $request->user()->id]);
-            $request->user()->railway_bonus()->create(['user_id' => $request->user()->id]);
-            (new Compta())->create(
-                $request->user(),
-                'Compte de départ',
-                RailwaySetting::where('name', 'start_argent')->first()->value,
-                'revenue',
-                'divers',
-                false
-            );
-
-            (new MailboxAction())->newMessage(
-                user: $request->user(),
-                subject: 'Bienvenue sur Railway Manager',
-                message: "Cher joueur,
-
-Nous sommes ravis de vous accueillir dans notre communauté de passionnés de trains et de simulation. Vous avez franchi le premier pas vers une aventure passionnante dans le monde des chemins de fer.
-
-Notre jeu de simulation ferroviaire par navigateur vous offre l'opportunité de gérer votre propre réseau de trains, de construire des voies ferrées, d'acheter des locomotives et de gérer des horaires de trains. Vous allez découvrir le frisson de la conduite de trains, le défi de la gestion d'un réseau ferroviaire et le plaisir de la planification stratégique.
-
-Pour commencer, nous vous recommandons de suivre le tutoriel intégré qui vous guidera à travers les bases du jeu. Si vous avez des questions ou besoin d'aide, n'hésitez pas à consulter notre forum de la communauté ou à contacter notre équipe de support.
-
-Nous sommes impatients de voir le réseau ferroviaire que vous allez construire et nous espérons que vous apprécierez votre voyage avec nous.
-
-Bon jeu et à bientôt sur les rails !",
-                rewards: [
-                    [
-                        'type' => 'argent',
-                        'value' => 100000,
-                    ],
-                    [
-                        'type' => 'tpoint',
-                        'value' => 250,
-                    ],
-                ]
-            );
+            $this->updateUserRailway($request->user(), $request);
+            $this->createUserSocialCompanyBonus($request->user());
+            $this->loginAndSendWelcomeMessage($request->user());
 
             toastr()
                 ->addSuccess('Votre compte a été configurer, Bienvenue');
 
             return redirect()->route('home');
         } catch (Exception $exception) {
-            Log::emergency($exception->getMessage(), [$exception]);
+            (new ErrorDispatchHandle())->handle($exception);
             toastr()
                 ->addError('Erreur lors de la création de votre compte, nous avons été alerter.');
 
             return redirect()->back();
         }
+    }
+
+    private function updateUserPassword(User $user, mixed $password)
+    {
+        $user->update(['password' => Hash::make($password)]);
+    }
+
+    private function updateUserRailway(User $user, Request $request)
+    {
+        $user->railway()->updateOrCreate([
+            'uuid' => rand(10000000, 99999999),
+            'installed' => true,
+            'name_secretary' => $request->get('name_secretary'),
+            'name_company' => $request->get('name_secretary'),
+            'desc_company' => $request->get('desc_company'),
+            'name_conseiller' => fake('fr_FR')->name,
+            'automated_planning' => false,
+            'user_id' => $user->id,
+            'argent' => 0,
+            'tpoint' => 0,
+            'research' => 0,
+        ]);
+    }
+
+    private function createUserSocialCompanyBonus(User $user)
+    {
+        $user->railway_social()->create(['user_id' => $user->id]);
+        $user->railway_company()->create([
+            'user_id' => $user->id,
+            'distraction' => 1,
+            'tarification' => 1,
+            'ponctualite' => 1,
+            'securite' => 1,
+            'confort' => 1,
+            'rent_aux' => 1,
+            'frais' => 1,
+            'livraison' => 1,
+            'subvention' => 10,
+        ]);
+        $user->railway_bonus()->create(['user_id' => $user->id]);
+    }
+
+    private function loginAndSendWelcomeMessage(User $user)
+    {
+        (new Compta())->create(
+            $user,
+            'Compte de départ',
+            RailwaySetting::where('name', 'start_argent')->first()->value,
+            'revenue',
+            'divers',
+            false,
+        );
+
+        Auth::login($user);
+        $service = (new RailwayService())->getRailwayService();
+        (new NewUserAction())->createLog($user, "Connexion au service {$service->name}");
+        (new MailboxAction())->newMessage(
+            user: $user,
+            subject: "Bienvenue sur railway Manager",
+            message: "<p>Cher joueur,</p>
+
+<p>Nous sommes ravis de vous accueillir dans le monde passionnant de Railway Manager. Vous venez d'entrer dans une communauté de passionnés de trains et de simulations stratégiques.</p>
+
+<p>Notre jeu vous offre l'opportunité de prendre les commandes de votre propre réseau ferroviaire. Construisez des voies, achetez des locomotives, gérez les horaires de trains, et plus encore. Vous découvrirez le frisson de conduire des trains, le défi de gérer un réseau ferroviaire en constante évolution, et le plaisir de la planification stratégique.</p>
+
+<p>Pour commencer votre aventure, nous vous recommandons de suivre le tutoriel intégré qui vous guidera à travers les bases du jeu. Si vous avez des questions ou si vous avez besoin d'aide, n'hésitez pas à consulter notre forum de la communauté ou à contacter notre équipe de support.</p>
+
+<p>Nous avons hâte de voir le réseau ferroviaire que vous allez construire. Nous espérons que vous apprécierez votre voyage dans le monde de Railway Manager.</p>
+
+<p>Bon jeu et à bientôt sur les rails !</p>
+
+<p>Votre équipe Railway Manager</p>",
+            rewards: [
+                [
+                    'type' => 'argent',
+                    'value' => 100000,
+                ],
+                [
+                    'type' => 'tpoint',
+                    'value' => 250,
+                ],
+            ]
+        );
     }
 }

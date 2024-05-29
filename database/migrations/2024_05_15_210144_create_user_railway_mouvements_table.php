@@ -14,10 +14,7 @@ return new class extends Migration
             $table->decimal('amount', 16);
             $table->string('type_amount');
             $table->string('type_mvm');
-            $table->foreignId('user_railway_company_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            $table->foreignId('user_railway_company_id');
         });
     }
 

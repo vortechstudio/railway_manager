@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Railway\AchievementAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
             \SocialiteProviders\Twitch\TwitchExtendSocialite::class.'@handle',
         ],
+    ];
+
+    protected $subscribe = [
+        AchievementAction::class,
     ];
 
     /**

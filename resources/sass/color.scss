@@ -1,0 +1,72 @@
+$ter-color: #034EA2;
+$tgv-color: #9b2743;
+$ic-color: #7B1791;
+$transilien-color: #83BF00;
+$eva-color: #010830;
+$eva-color-arrival: #08CF85;
+$eva-color-departure: #1C3A83;
+
+$ter-color-inverse: #013672;
+$tgv-color-inverse: #701c30;
+$ic-color-inverse: #4f0f5d;
+$transilien-color-inverse: #557c01;
+$eva-color-inverse: #011379;
+$eva-color-arrival-inverse: #068d5b;
+$eva-color-departure-inverse: #102048;
+
+$type_colors: info, primary, success, danger;
+$types: ter $ter-color $ter-color-inverse,
+tgv $tgv-color $tgv-color-inverse,
+ic $ic-color $ic-color-inverse,
+transilien $transilien-color $transilien-color-inverse;
+
+@each $type in $type_colors {
+    .bg-#{$type} {
+        color: white;
+    }
+}
+
+.form-check.form-check-ter .form-check-input:checked {
+    background-color: #034EA2 !important;
+}
+
+@each $type in $types {
+    .form-check.form-check-#{nth($type, 1)} .form-check-input:checked {
+        background-color: #{nth($type, 2)} !important;
+    }
+
+    .border {
+        .border-color-#{nth($type, 1)} {
+            border-color: #{nth($type, 2)} !important;
+        }
+
+        .border-color-#{nth($type, 1)}-inverse {
+            border-color: #{nth($type, 3)} !important;
+        }
+    }
+
+    .text-color-#{nth($type, 1)} {
+        color: #{nth($type, 2)} !important;
+    }
+
+    .text-color-#{nth($type, 1)}-inverse {
+        color: #{nth($type, 3)} !important;
+    }
+
+    .bg-color-#{nth($type, 1)} {
+        background-color: #{nth($type, 2)} !important;
+    }
+    .bg-color-#{nth($type, 1)}-inverse {
+        background-color: #{nth($type, 3)} !important;
+    }
+
+    .btn {
+        .btn-#{nth($type, 1)} {
+            background-color: #{nth($type, 2)} !important;
+        }
+
+        .btn-#{nth($type, 1)}-inverse {
+            background-color: #{nth($type, 3)} !important;
+        }
+    }
+}

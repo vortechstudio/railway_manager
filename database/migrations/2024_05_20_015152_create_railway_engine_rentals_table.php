@@ -10,8 +10,14 @@ return new class extends Migration
     {
         Schema::connection('railway')->create('railway_engine_rentals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('railway_engine_id');
-            $table->foreignId('railway_rental_id');
+            $table->foreignId('railway_engine_id')
+                ->references('id')
+                ->on('railway_engines')
+                ->cascadeOnDelete();
+            $table->foreignId('railway_rental_id')
+                ->references('id')
+                ->on('railway_rentals')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
