@@ -135,6 +135,7 @@ class EngineSellList extends Component
             ]);
 
             dispatch(new DeliveryJob($delivery));
+            $this->dispatch('refreshToolbar');
             $this->alert('success', "L'achat a bien été effectué.<br />N'oubliez pas d'assigner cette rame à une ligne.", [
                 'showConfirmButton' => true,
                 'confirmButtonText' => 'OK',

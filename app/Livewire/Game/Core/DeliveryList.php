@@ -36,6 +36,7 @@ class DeliveryList extends Component
     {
         if((new CheckoutAction())->checkoutTpoint($this->delivery->end_at->diffInMinutes(now()))) {
             (new UserRailwayDeliveryAction($this->delivery))->delivered();
+            $this->dispatch('refreshToolbar');
         }
     }
     public function render()

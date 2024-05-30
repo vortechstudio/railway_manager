@@ -5,8 +5,10 @@
 @endsection
 
 @section("toolbar")
-    <x-base.toolbar
-        :breads="array('Compte', 'Mon Compte')" />
+    @livewire('core.toolbar', [
+        "breads" => ['Compte', 'Mon Compte'],
+        "alertFeature" => true
+    ])
 @endsection
 
 @section("content")

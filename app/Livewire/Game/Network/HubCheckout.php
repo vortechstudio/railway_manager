@@ -105,6 +105,7 @@ class HubCheckout extends Component
             ]);
 
             $this->alert('success', 'Le hub à bien été acheter avec succes !');
+            $this->dispatch('refreshToolbar');
             dispatch(new DeliveryJob($delivery))->delay($delivery->end_at)->onQueue('delivery');
             $this->redirectRoute('network.index');
         }

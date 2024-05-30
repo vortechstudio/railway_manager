@@ -122,6 +122,7 @@ class HubSelling extends Component
             );
 
             $this->hub->delete();
+            $this->dispatch('refreshToolbar');
             $this->alert('success', 'Votre hub à bien été vendue');
             $this->redirectRoute('network.index');
         }

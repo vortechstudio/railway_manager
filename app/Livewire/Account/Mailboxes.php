@@ -46,6 +46,7 @@ class Mailboxes extends Component
                     'reward_type' => $reward->reward_type,
                     'reward_value' => number_format($reward->reward_value, 0, ',', ' '),
                 ]);
+                $this->dispatch('refreshToolbar');
             }
 
             $message->reward_collected = true;

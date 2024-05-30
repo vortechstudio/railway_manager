@@ -5,9 +5,10 @@
 @endsection
 
 @section("toolbar")
-    <x-base.toolbar
-        :breads="array('Réseau Ferroviaire', 'Hub', $hub->railwayHub->gare->name)"
-        :alert-feature="true" />
+    @livewire('core.toolbar', [
+        "breads" => ['Réseau Ferroviaire', 'hub', $hub->railwayHub->gare->name],
+        "alertFeature" => true
+    ])
 @endsection
 
 @section("content")
