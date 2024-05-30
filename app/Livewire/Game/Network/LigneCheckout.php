@@ -96,6 +96,7 @@ class LigneCheckout extends Component
             ]);
 
             $this->alert('success', 'La ligne à bien été acheter avec succes !');
+            $this->dispatch('refreshToolbar');
             dispatch(new DeliveryJob($delivery))->delay($delivery->end_at)->onQueue('delivery');
             $this->redirectRoute('network.index');
         }

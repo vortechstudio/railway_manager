@@ -52,6 +52,7 @@ Route::middleware(['nolocked'])->group(function() {
 
         include('account.php');
         include('network.php');
+        include('materiel.php');
     });
 });
 

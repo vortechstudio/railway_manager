@@ -55,6 +55,7 @@ class LigneSelling extends Component
             );
 
             $this->ligne->delete();
+            $this->dispatch('refreshToolbar');
             $this->alert('success', 'Votre ligne à bien été vendue');
             $this->redirectRoute('network.index');
         } catch (\Exception $exception) {

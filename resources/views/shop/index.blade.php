@@ -5,9 +5,10 @@
 @endsection
 
 @section("toolbar")
-    <x-base.toolbar
-        :breads="array('Boutique')"
-        notitle="true" />
+    @livewire('core.toolbar', [
+        "breads" => ['Boutique'],
+        'notitle' => true
+    ])
 @endsection
 
 @section("content")

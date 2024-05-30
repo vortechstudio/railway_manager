@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\User\Railway\UserRailwayDelivery;
 use App\Notifications\SendMessageAdminNotification;
+use App\Services\Models\User\Railway\UserRailwayDeliveryAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -20,16 +21,11 @@ class DeliveryJob implements ShouldQueue
 
     public function handle(): void
     {
-        $model = $this->delivery->model::find($this->delivery->model_id);
-        $model->update([
-            'active' => true,
-        ]);
-        $this->delivery->user->notify(new SendMessageAdminNotification(
-            title: 'Livraison effectuer',
-            sector: 'delivery',
-            type: 'success',
-            message: "Livraison: {$this->delivery->designation} effectuer !"
-        ));
-        $this->delivery->delete();
+        if($this->delivery->exists()) {
+            (new UserRailwayDeliveryAction($this->delivery))->delivered();;
+        } else {
+            $this->delete();
+        }
+
     }
 }
