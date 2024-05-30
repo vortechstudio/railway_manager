@@ -16,6 +16,9 @@ class UserRailway extends Model
     protected $connection = 'railway';
 
     protected $guarded = [];
+    protected $casts = [
+        'automated_planning' => 'boolean',
+    ];
 
     protected $appends = [
         'xp_percent',

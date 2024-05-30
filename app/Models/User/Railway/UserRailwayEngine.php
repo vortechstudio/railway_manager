@@ -44,7 +44,7 @@ class UserRailwayEngine extends Model
 
     public function userRailwayLigne()
     {
-        return $this->hasMany(UserRailwayLigne::class);
+        return $this->hasOne(UserRailwayLigne::class);
     }
 
     public function userRailwayHub()

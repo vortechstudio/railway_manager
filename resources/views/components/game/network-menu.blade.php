@@ -1,6 +1,6 @@
 <div class="d-flex flex-end justify-content-end align-items-center gap-3 mb-5">
-    <a href="" class="btn btn-flush">
-                    <span class="symbol symbol-40px symbol-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Planifier">
+    <a href="{{ route('network.planning.index') }}" class="btn btn-flush">
+                    <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['network.planning.index', 'network.planning.editing'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Planifier">
                         <img src="{{ Storage::url('icons/railway/planning.png') }}" alt="">
                     </span>
     </a>
