@@ -95,7 +95,7 @@ class Service extends Model
 
     public function getLatestVersionAttribute()
     {
-        return $this->versions()->where('published', true)->orderBy('version', 'desc')->first();
+        return $this->versions()->where('published', true)->orderBy('id')->first();
     }
 
     public function getOtherVersionsAttribute(): \Illuminate\Database\Eloquent\Collection|\LaravelIdea\Helper\App\Models\Config\_IH_ServiceVersion_C|array

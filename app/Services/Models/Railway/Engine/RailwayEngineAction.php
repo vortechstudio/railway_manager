@@ -11,7 +11,7 @@ class RailwayEngineAction
     {
     }
 
-    public function getMasseOfEngine()
+    public function getMasseOfEngine(): float|int
     {
         $median_loco = match ($this->engine->type_energy->value) {
             'diesel' => 100,
@@ -37,7 +37,7 @@ class RailwayEngineAction
 
     }
 
-    public function getCoefEssieux()
+    public function getCoefEssieux(): float
     {
         if ($this->engine->type_train->value == 'automotrice') {
             $dataEssieux = (new EngineAction())->getDataCalcForEssieux($this->engine->technical->essieux, $this->engine->type_train->value, $this->engine->technical->nb_wagon);
@@ -63,16 +63,16 @@ class RailwayEngineAction
 
     public function maxRuntime()
     {
-        $coefTypeEngine = (new EngineAction())->selectorTypeTrain($this->engine->type_train->value);
-        $coefTypeEnergy = (new EngineAction())->selectorTypeEnergy($this->engine->type_energy->value);
-        $coefTypeMotor = (new EngineAction())->selectorTypeMotor($this->engine->technical->motor->value);
+        $coefTypeEngine = (new EngineAction())->selectorTypeTrain($this->engine->type_train->value, 'coef');
+        $coefTypeEnergy = (new EngineAction())->selectorTypeEnergy($this->engine->type_energy->value, 'coef');
+        $coefTypeMotor = (new EngineAction())->selectorTypeMotor($this->engine->technical->motor->value, 'coef');
         $coefEssieux = $this->getCoefEssieux();
         $mass = $this->getMasseOfEngine();
 
         if ($this->engine->type_train->value == 'automotrice') {
-            return ($mass * $this->engine->technical->velocity * $this->engine->technical->nb_wagon) / ($coefEssieux * $coefTypeEngine * $coefTypeEnergy * $coefTypeMotor) / 4;
+            return intval(($mass * $this->engine->technical->velocity * $this->engine->technical->nb_wagon) / ($coefEssieux * $coefTypeEngine * $coefTypeEnergy * $coefTypeMotor) / 4);
         } else {
-            return ($mass * $this->engine->technical->velocity) / ($coefEssieux * $coefTypeEngine * $coefTypeEnergy * $coefTypeMotor) / 4;
+            return intval(($mass * $this->engine->technical->velocity) / ($coefEssieux * $coefTypeEngine * $coefTypeEnergy * $coefTypeMotor) / 4);
         }
     }
 }
