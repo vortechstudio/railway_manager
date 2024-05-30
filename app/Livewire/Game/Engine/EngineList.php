@@ -2,12 +2,15 @@
 
 namespace App\Livewire\Game\Engine;
 
+use App\Actions\ErrorDispatchHandle;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class EngineList extends Component
 {
+    use LivewireAlert;
     public $type;
 
     public UserRailwayHub $hub;
@@ -16,6 +19,10 @@ class EngineList extends Component
 
     public $engines;
 
+    //Form Assign Ligne
+    public $user_railway_engine_id;
+    public $user_railway_ligne_id;
+
     public function mount(): void
     {
         $this->engines = match ($this->type) {
@@ -23,6 +30,24 @@ class EngineList extends Component
             'hub' => $this->hub->userRailwayEngine()->with('railwayEngine')->get(),
             'ligne' => $this->ligne->userRailwayEngine()->with('railwayEngine')->get(),
         };
+    }
+
+    public function selectedEngine(int $engine_id)
+    {
+        $this->user_railway_engine_id = $engine_id;
+    }
+
+    public function updatedUserRailwayLigneId()
+    {
+        try {
+            auth()->user()->userRailwayLigne()->find($this->user_railway_ligne_id)->update([
+                'user_railway_engine_id' => $this->user_railway_engine_id,
+            ]);
+            $this->alert('success', "Rame assigné !");
+        } catch (\Exception $exception) {
+            (new ErrorDispatchHandle())->handle($exception);
+            $this->alert('error', "Une erreur à eu lieu !");
+        }
     }
 
     public function render()
