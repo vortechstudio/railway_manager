@@ -18,6 +18,9 @@
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h3 class="card-title">{{ now()->locale('fr_FR')->isoFormat('LL') }}</h3>
+                    <div class="card-toolbar">
+                        <a href="{{ route('network.planning.editing') }}" class="btn btn-light">Editer le planning</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     @livewire('game.planning.planning-timeline')
