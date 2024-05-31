@@ -20,6 +20,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('travel prepare')->everyMinute();
         $schedule->command('travel departure')->everyMinute();
         $schedule->command('travel transit')->everyMinute();
+        $schedule->command('travel in_station')->everyMinute();
+        $schedule->command('travel in_station_arrival')->everyMinute();
+        $schedule->command('travel in_station_departure')->everyMinute();
+        $schedule->command('travel arrival')->everyMinute();
     }
 
     /**
