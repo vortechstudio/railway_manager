@@ -21,7 +21,7 @@ class TravelCommand extends Command
 
     public function handle(): void
     {
-        match ($this->option('action')) {
+        match ($this->argument('action')) {
             'prepare' => $this->prepare(),
             'departure' => $this->departure(),
             'transit' => $this->transit(),

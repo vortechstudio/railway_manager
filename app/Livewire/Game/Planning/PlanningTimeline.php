@@ -44,7 +44,7 @@ class PlanningTimeline extends Component
             $tooltip = ob_get_clean();
             $this->plannings[] = [
                 $data->userRailwayEngine->railwayEngine->name,
-                $data->userRailwayEngine->railwayEngine->type_transport->name.' - N°'.$data->number_travel,
+                $data->userRailwayEngine->railwayEngine->type_transport->name.' - N°'.$data->userRailwayEngine->number,
                 $tooltip,
                 $data->date_depart,
                 $data->date_arrived,
