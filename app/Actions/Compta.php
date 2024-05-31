@@ -18,7 +18,7 @@ class Compta
      * @param  string  $type_mvm  The type of the movement (e.g. INCOME or EXPENSE)
      * @param  bool  $valorisation  (optional) Whether to update the balance and valorisation (default is true)
      */
-    public function create(User $user, string $title, float|int|string $amount, string $type_amount, string $type_mvm, bool $valorisation = true): void
+    public function create(User $user, string $title, float|int|string $amount, string $type_amount, string $type_mvm, bool $valorisation = true, ?int $user_railway_ligne_id = null, ?int $user_railway_hub_id = null): void
     {
         $isCharge = $type_amount == self::CHARGE;
         $amountVal = floatval($amount);
@@ -31,6 +31,8 @@ class Compta
                 'type_amount' => $type_amount,
                 'type_mvm' => $type_mvm,
                 'user_railway_company_id' => $user->railway_company->id,
+                'user_railway_ligne_id' => $user_railway_ligne_id,
+                'user_railway_hub_id' => $user_railway_hub_id,
             ]);
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);

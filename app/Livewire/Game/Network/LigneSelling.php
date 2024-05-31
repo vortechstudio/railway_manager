@@ -52,6 +52,7 @@ class LigneSelling extends Component
                 amount: $this->totalSelling,
                 type_amount: 'revenue',
                 type_mvm: 'vente_ligne',
+                user_railway_hub_id: $this->ligne->user_railway_hub_id
             );
 
             $this->ligne->delete();

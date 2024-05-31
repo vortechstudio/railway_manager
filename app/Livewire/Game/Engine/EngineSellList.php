@@ -107,7 +107,8 @@ class EngineSellList extends Component
                 title: "Achat de matériel roulant: x{$this->qte} {$this->engineData->name}",
                 amount: $this->globalAmount,
                 type_amount: 'charge',
-                type_mvm: 'achat_materiel'
+                type_mvm: 'achat_materiel',
+                user_railway_hub_id: $this->user_railway_hub_id,
             );
             $hub = UserRailwayHub::find($this->user_railway_hub_id);
 

@@ -133,18 +133,18 @@ class TravelCommand extends Command
                     if($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'unique',
-                            'nb_passengers' => rand(0, $station->railwayLigneStation->gare->passenger_second),
+                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     } else {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'first',
-                            'nb_passengers' => rand(0, $station->railwayLigneStation->gare->passenger_first),
+                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_first)),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'second',
-                            'nb_passengers' => rand(0, $station->railwayLigneStation->gare->passenger_second),
+                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     }
@@ -201,10 +201,11 @@ class TravelCommand extends Command
     private function arrival()
     {
         $plannings = RailwayPlanning::where('status', 'travel')
+            ->orWhere('status', 'in_station')
             ->get();
 
         foreach ($plannings as $planning) {
-            if($planning->date_arrived->startOfMinute() == now()->startOfMinute()) {
+            if($planning->date_arrived < now()) {
                 $planning->update(['status' => 'arrival']);
                 $ca_other = rand(0, $planning->passengers()->sum('nb_passengers')) * \Helpers::randomFloat(1,20);
 
@@ -224,22 +225,28 @@ class TravelCommand extends Command
                     user: $planning->user,
                     title: "Vente de la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
                     amount: $this->resultatBilletterie($planning),
-                    type_amount: 'billetterie',
-                    type_mvm: 'revenue'
+                    type_amount: 'revenue',
+                    type_mvm: 'billetterie',
+                    user_railway_ligne_id: $planning->userRailwayLigne->id,
+                    user_railway_hub_id: $planning->userRailwayHub->id,
                 );
                 (new Compta())->create(
                     user: $planning->user,
                     title: "Vente Additionnel de la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
                     amount: $ca_other,
-                    type_amount: 'rent_trajet_aux',
-                    type_mvm: 'revenue'
+                    type_amount: 'revenue',
+                    type_mvm: 'rent_trajet_aux',
+                    user_railway_ligne_id: $planning->userRailwayLigne->id,
+                    user_railway_hub_id: $planning->userRailwayHub->id,
                 );
                 (new Compta())->create(
                     user: $planning->user,
                     title: "Taxe de passage en gare pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
                     amount: $planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price,
-                    type_amount: 'taxe',
-                    type_mvm: 'charge'
+                    type_amount: 'charge',
+                    type_mvm: 'taxe',
+                    user_railway_ligne_id: $planning->userRailwayLigne->id,
+                    user_railway_hub_id: $planning->userRailwayHub->id,
                 );
 
                 $planning->userRailwayEngine->update([
