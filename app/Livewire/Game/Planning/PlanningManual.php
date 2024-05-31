@@ -28,7 +28,7 @@ class PlanningManual extends Component
             $first = $engine->constructors()->first();
             $last = $engine->constructors()->orderBy('id', 'desc')->first();
 
-            if ($heure_depart >= $first->start_at && $heure_depart <= $last->end_at || in_array($this->day, json_decode($first->dayOfWeek))) {
+            if ($heure_depart >= $first->start_at && $heure_depart <= $last->end_at || in_array($this->day, json_decode($first->day_of_week))) {
                 $this->alert('error', 'Le planning est déjà disponible');
             }
         }

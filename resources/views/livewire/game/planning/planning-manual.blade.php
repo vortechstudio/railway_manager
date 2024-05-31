@@ -74,43 +74,43 @@
                         <div class="d-flex flex-row justify-content-around align-items-center mb-10">
                             <label for="" class="form-label">Jour du planning</label>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="0" id="lundi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="1" id="lundi">
                                 <label class="form-check-label" for="lundi">
                                     Lundi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="1" id="mardi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="2" id="mardi">
                                 <label class="form-check-label" for="mardi">
                                     Mardi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="2" id="mercredi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="3" id="mercredi">
                                 <label class="form-check-label" for="mercredi">
                                     Mercredi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="3" id="jeudi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="4" id="jeudi">
                                 <label class="form-check-label" for="jeudi">
                                     Jeudi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="4" id="vendredi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="5" id="vendredi">
                                 <label class="form-check-label" for="vendredi">
                                     Vendredi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="5" id="samedi">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="6" id="samedi">
                                 <label class="form-check-label" for="samedi">
                                     Samedi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="6" id="dimanche">
+                                <input class="form-check-input" wire:model="day" name="day[]" type="checkbox" value="7" id="dimanche">
                                 <label class="form-check-label" for="dimanche">
                                     Dimanche
                                 </label>
