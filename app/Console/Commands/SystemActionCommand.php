@@ -3,11 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Actions\Railway\EngineAction;
+use App\Models\Railway\Gare\RailwayGare;
+use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
 use App\Services\Models\User\Railway\RailwayPlanningAction;
 use App\Services\Models\User\Railway\UserRailwayEngineAction;
+use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
+use App\Services\WeatherService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +25,9 @@ class SystemActionCommand extends Command
     public function handle(): void
     {
         match ($this->argument('action')) {
-            "planning_today" => $this->planningToday()
+            "planning_today" => $this->planningToday(),
+            "update_weather" => $this->updateWeather(),
+            "tarif_today" => $this->tarifToday()
         };
     }
 
@@ -130,6 +136,56 @@ class SystemActionCommand extends Command
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private function updateWeather()
+    {
+        $gares = RailwayGare::all();
+        $bar = $this->output->createProgressBar(count($gares));
+
+        $bar->start();
+        foreach ($gares as $gare) {
+            $weather = (new WeatherService())->getWeather($gare->name);
+
+            if(isset($weather->current)) {
+                if($gare->weather()->exists()) {
+                    $gare->weather()->update([
+                        'weather' => $weather->current->condition->text,
+                        'temperature' => $weather->current->temp_c,
+                        'latest_update' => now(),
+                        'railway_gare_id' => $gare->id
+                    ]);
+                } else {
+                    $gare->weather()->create([
+                        'weather' => $weather->current->condition->text,
+                        'temperature' => $weather->current->temp_c,
+                        'latest_update' => now(),
+                        'railway_gare_id' => $gare->id
+                    ]);
+                }
+            } else {
+                $gare->weather()->updateOrCreate(['gare_id' => $gare->id],[
+                    'weather' => 'inconnue',
+                    'temperature' => 0,
+                    'latest_update' => now(),
+                    'railway_gare_id' => $gare->id
+                ]);
+            }
+
+            $bar->advance();
+        }
+
+        $bar->finish();
+        \Log::notice("Mise à jour de la météo terminé");
+    }
+
+    private function tarifToday()
+    {
+        foreach (UserRailwayLigne::where('active', true)->get() as $ligne) {
+            if(!$ligne->tarifs()->whereDate('date_tarif', Carbon::today())->exists()) {
+                (new UserRailwayLigneAction($ligne))->createTarif();
             }
         }
     }
