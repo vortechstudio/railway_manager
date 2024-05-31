@@ -9,6 +9,7 @@ use App\Models\Railway\Planning\RailwayPlanning;
 use App\Models\Railway\Planning\RailwayPlanningStation;
 use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\User\Railway\RailwayPlanningAction;
+use App\Services\Models\User\Railway\UserRailwayAction;
 use App\Services\Models\User\Railway\UserRailwayEngineAction;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -256,6 +257,8 @@ class TravelCommand extends Command
                     type: 'info',
                     message: "La Rame {$planning->userRailwayEngine->railwayEngine->name} / {$planning->userRailwayEngine->number} vient d'arriver en gare de {$planning->userRailwayLigne->railwayLigne->end->name}"
                 ));
+
+                (new UserRailwayAction($planning->user->railway))->addExperience(100);
             }
         }
     }

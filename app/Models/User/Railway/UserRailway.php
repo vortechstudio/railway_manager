@@ -100,18 +100,19 @@ class UserRailway extends Model
             'hubs' => $this->addReputForHubs($coefficient, $reputation),
             'ligne' => $this->addReputForLigne($coefficient, $reputation),
             'quest' => $this->addReputForQuest($model_id, $coefficient, $reputation),
+            'research' => $this->addReputForResearch($coefficient, $reputation),
         };
         try {
             $this->update([
                 'reputation' => $new_reputation,
             ]);
-            $this->user->notify(new IncrementReputationNotification($reputation, $new_reputation));
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
         }
 
         return null;
     }
+
 
     private function addReputForEngine(int|float $coefficient, int $reputation)
     {
@@ -130,6 +131,13 @@ class UserRailway extends Model
     private function addReputForLigne(int|float $coefficient, int $reputation)
     {
         $reputation += 150 * $coefficient;
+
+        return $reputation;
+    }
+
+    private function addReputForResearch(int|float $coefficient, int $reputation)
+    {
+        $reputation += 100 * $coefficient;
 
         return $reputation;
     }
