@@ -12,8 +12,8 @@
                     <thead>
                     <tr>
                         <th>Matériel</th>
-                        @for($i=0; $i <= 6; $i++)
-                            <th>{{ now()->locale('fr_FR')->startOfWeek(\Carbon\Carbon::MONDAY)->addDays($i)->dayName }}</th>
+                        @for($i=1; $i <= 7; $i++)
+                            <th>{{ now()->locale('fr_FR')->startOfWeek(\Carbon\Carbon::SUNDAY)->addDays($i)->dayName }}</th>
                         @endfor
                     </tr>
                     </thead>
@@ -22,7 +22,7 @@
                         @if($engine->userRailwayLigne()->exists())
                             <tr>
                                 <td>{{ $engine->railwayEngine->name }}</td>
-                                @for($i=0; $i <= 6; $i++)
+                                @for($i=1; $i <= 7; $i++)
                                     <td>
                                         @isset($engine->constructors)
                                             @foreach($engine->constructors as $planning)
