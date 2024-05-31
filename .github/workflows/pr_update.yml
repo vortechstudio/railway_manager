@@ -6,39 +6,52 @@ on:
 jobs:
   update-pr:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      URL_BASE: http://${{ secrets.URL_OLLAMA_SERVER }}:11434/api/generate
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Nécessaire pour obtenir tous les commits
 
-      - name: Mise à jour du titre et de la description
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Generate PR title from commits
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           COMMITS=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageBody')
-          TITLE=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageHeadline' | tail -1)
-          TITLE=${TITLE:0:256}
-          DESCRIPTION=$(gh pr view $PR_NUMBER --json commits --jq '.commits[].messageBody')
 
-          if [ -n "$TITLE" ]; then
-            gh pr edit $PR_NUMBER --title "$TITLE" --body "$DESCRIPTION"
+          TITLE_REVIEW=$(curl -s -H "Content-Type: application/json" -d "{ \"model\":\"llama3\", \
+          \"prompt\":\"Generate a PR title from these commits:\n$COMMITS\", \"stream\":false}" "$URL_BASE" | jq -r '.response')
+
+          if [ -n "$TITLE_REVIEW" ]; then
+            gh pr edit $PR_NUMBER --title "$TITLE_REVIEW"
           else
-            echo "Le titre est vide, la mise à jour du PR est annulée."
+            echo "Title is empty, cannot update PR."
           fi
+
+      - uses: octue/generate-pull-request-description@1.0.0.beta-2
+        id: pr-description
+        with:
+          pull_request_url: ${{ github.event.pull_request.url }}
+          api_token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Update pull request body
+        uses: riskledger/update-pr-description@v2
+        with:
+          body: ${{ steps.pr-description.outputs.pull_request_description }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
 
       - name: Review code
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            review=$(curl -s http://82.64.133.182:11434/api/generate -d '{"model": "llama3", "prompt": "Effectue une revue de ce fichier en français:\n\n```\n$(cat $file)\n```", "stream": false}' | jq -r '.response')
-            comment="Ollama Code Review for \`$file\`:\n\n$review"
+            review=$(curl -s -H "Content-Type: application/json" -d "{ \"model\":\"llama3\", \
+            \"prompt\":\"Effectue une revue de ce fichier en français:$file\", \"stream\":false}" "$URL_BASE" | jq -r '.response')
+
+            comment="Ollama Code Review for \`$file\`:\n$review"
             echo "$comment" >> ollama_review.txt
           done
 
