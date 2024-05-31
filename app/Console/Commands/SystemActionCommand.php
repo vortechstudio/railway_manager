@@ -134,6 +134,9 @@ class SystemActionCommand extends Command
                                         "railway_planning_id" => $planning->id,
                                         "railway_ligne_station_id" => $station->id
                                     ]);
+                                    $planning->update([
+                                        'date_arrived' => $previous_station->departure_at->addMinutes($station->time)
+                                    ]);
                                 } else {
                                     $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
                                     $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();

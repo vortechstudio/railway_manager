@@ -285,8 +285,8 @@ class TravelCommand extends Command
                 user: $planning->user,
                 title: "Frais électrique pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
                 amount: $amount,
-                type_amount: 'electricite',
-                type_mvm: 'charge'
+                type_amount: 'charge',
+                type_mvm: 'electricite'
             );
 
             return $amount;
@@ -303,8 +303,8 @@ class TravelCommand extends Command
                 user: $planning->user,
                 title: "Frais gasoil pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
                 amount: $amount,
-                type_amount: 'gasoil',
-                type_mvm: 'charge'
+                type_amount: 'charge',
+                type_mvm: 'gasoil'
             );
 
             return $amount;
