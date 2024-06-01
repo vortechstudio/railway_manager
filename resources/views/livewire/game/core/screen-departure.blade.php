@@ -38,10 +38,10 @@
                             </div>
                         @endif
                     </div>
-                    <div class="d-flex flex-grow-1 justify-content-between align-items-center">
+                    <div class="d-flex flex-grow-1 justify-content-between overflow-hidden align-items-center">
                         <div class="d-flex flex-column">
                             <span class="fs-2hx text-blue-800 fw-bold">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center scrolling-text w-100">
                                 <span class="text-green-300 fs-3 me-2">via</span>
                                 @foreach($planning->userRailwayLigne->railwayLigne->stations as $station)
                                     <span class="fs-2 text-blue-800">{{ $station->gare->name }}</span>
@@ -53,7 +53,7 @@
                     <div class="d-flex flex-grow-0 bg-green-300 align-items-center justify-content-center w-100px h-auto rounded-2 p-2">
                         <div class="d-flex flex-column align-items-center">
                             <span class="fs-3 text-blue-800">{{ $planning->userRailwayEngine->railwayEngine->type_transport->value }}</span>
-                            <span class="fs-2 text-blue-800 fw-bold">{{ $planning->number_travel }}</span>
+                            <span class="fs-2 text-blue-800 fw-bold">{{ $planning->userRailwayEngine->number }}</span>
                         </div>
                     </div>
                 </div>

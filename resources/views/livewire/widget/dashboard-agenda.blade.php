@@ -5,7 +5,7 @@
             <span class="card-subtitle text-muted">Réalisez les objectifs de l'Agenda et gagnez des ressources</span>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body h-250px scroll">
         Lorem Ipsum is simply dummy text...
     </div>
 </div>
