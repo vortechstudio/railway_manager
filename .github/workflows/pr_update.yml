@@ -48,20 +48,3 @@ jobs:
         with:
           body: ${{ steps.pr-description.outputs.pull_request_description }}
           token: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v44
-
-      - name: Review code
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            review=$(curl -s -H "Content-Type: application/json" -d "{ \"model\":\"llama3\", \
-            \"prompt\":\"Peut tu me générer une review de code pour le fichier suivant: $file\", \"stream\":false}" "$URL_BASE" | jq -r '.response')
-
-            comment="Ollama Code Review for \`$file\`:\n$review"
-            echo "$comment" >> ollama_review.txt
-          done
-
-          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat ollama_review.txt)"
-        shell: bash
