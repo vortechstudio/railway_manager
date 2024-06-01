@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Actions\Account\MailboxAction;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
@@ -24,7 +25,8 @@ class SystemActionCommand extends Command
         match ($this->argument('action')) {
             'planning_today' => $this->planningToday(),
             'update_weather' => $this->updateWeather(),
-            'tarif_today' => $this->tarifToday()
+            'tarif_today' => $this->tarifToday(),
+            'updateReward' => $this->updateReward()
         };
     }
 
@@ -197,9 +199,57 @@ class SystemActionCommand extends Command
     private function tarifToday(): void
     {
         foreach (UserRailwayLigne::where('active', true)->get() as $ligne) {
-            if (! $ligne->tarifs()->whereDate('date_tarif', Carbon::today())->exists()) {
+            if (!$ligne->tarifs()->whereDate('date_tarif', Carbon::today())->exists()) {
                 (new UserRailwayLigneAction($ligne))->createTarif();
             }
         }
+    }
+
+    private function updateReward()
+    {
+        $service = (new RailwayService())->getRailwayService();
+        $service_id = $service->id;
+        $users = User::with('railway')->whereHas('services', function (Builder $query) use ($service_id) {
+            $query->where('service_id', $service_id);
+        })->get();
+        $response = \Http::get("https://api.github.com/repos/vortechstudio/$service->repository/releases/latest")->object();
+
+        foreach ($users as $user) {
+            if ($user->railway()->exists()) {
+                (new MailboxAction())->newMessage(
+                    user: $user,
+                    subject: "Compensation de mise à jour",
+                    message: $this->contentMessageUpdate($user, $response),
+                    type: 'account',
+                    rewards: [
+                        [
+                            "type" => "argent",
+                            "value" => "200000"
+                        ],
+                        [
+                            "type" => "tpoint",
+                            "value" => "50"
+                        ],
+                    ]
+                );
+            }
+        }
+    }
+
+    private function contentMessageUpdate(mixed $user, ?object $response)
+    {
+        ob_start();
+        ?>
+        <span class="fw-bold">Cher directeur,</span>
+        <p>
+            La mise à jour <strong><?= $response->tag_name ?></strong> a été déployé avec succès.<br>
+            Veuillez trouver ci-joint la compensation pour ce désagrément.
+        </p>
+        <span class="fst-italic">
+            Cordialement,
+            <span class="fw-semibold"><?= $user->railway->name_conseiller ?></span>
+        </span>
+        <?php
+        return ob_get_clean();
     }
 }
