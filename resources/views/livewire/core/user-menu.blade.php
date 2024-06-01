@@ -14,6 +14,8 @@
     <!--end::Menu wrapper-->
     <div id="drawer_user_menu" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="menu"
          data-kt-drawer-activate="true"
+         data-kt-drawer-overlay="true"
+         data-kt-drawer-permanent="true"
          data-kt-drawer-width="{default:'300px', 'md': '500px'}" data-kt-drawer-direction="end"
          data-kt-drawer-toggle="#drawer_user_menu_toggle" data-kt-drawer-close="#drawer_user_menu_close">
         <div class="d-flex flex-row-fluid backgroundGradient p-5"
