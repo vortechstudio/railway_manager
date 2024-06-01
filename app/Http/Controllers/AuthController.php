@@ -6,6 +6,7 @@ use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
 use App\Actions\NewUserAction;
+use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
@@ -252,6 +253,7 @@ class AuthController extends Controller
         Auth::login($user);
         $service = (new RailwayService())->getRailwayService();
         (new NewUserAction())->createLog($user, "Connexion au service {$service->name}");
+        event(new NewUserEvent($user));
         (new MailboxAction())->newMessage(
             user: $user,
             subject: 'Bienvenue sur railway Manager',
