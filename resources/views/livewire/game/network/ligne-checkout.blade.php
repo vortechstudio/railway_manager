@@ -10,15 +10,19 @@
                     @endforeach
                 </select>
             </div>
+            @if($selectedHubValue)
             <div class="mb-10">
                 <label for="railway_ligne_id" class="form-label required">Ligne</label>
                 <select wire:model.live="railway_ligne_id" name="railway_ligne_id" id="railway_ligne_id" class="form-select"  required>
                     <option>-- Selectionner une ligne --</option>
                     @foreach($this->lignes as $ligne)
-                        <option value="{{ $ligne->id }}">{{ $ligne->name }}</option>
+                        @if(!auth()->user()->userRailwayLigne()->where('railway_ligne_id', $ligne->id)->exists())
+                            <option value="{{ $ligne->id }}">{{ $ligne->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
+            @endif
         </div>
         <div class="order-sm-first order-lg-last col-sm-12 col-lg-4 mb-5">
 
