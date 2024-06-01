@@ -76,6 +76,7 @@ class AuthController extends Controller
         $gUser = $user;
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
+
         if (!$user) {
             $user = (new NewUserAction())->createUser($gUser, $provider, $service);
             return redirect()->route('auth.setup-account', [$provider, $user->email]);
@@ -84,8 +85,10 @@ class AuthController extends Controller
         if (!$user->services()->where('service_id', $service->id)->exists()) {
             (new NewUserAction())->addUserService($user, $service);
         } else {
-            Auth::login($user);
-            return redirect()->route('auth.install');
+            if (!$user->railway->installed){
+                Auth::login($user);
+                return redirect()->route('auth.install');
+            }
         }
 
         Auth::login($user);

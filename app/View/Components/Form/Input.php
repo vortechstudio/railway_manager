@@ -23,7 +23,8 @@ class Input extends Component
         public $mask = '',
         public bool $isModel = false,
         public string $model = '',
-        public ?string $hint = null
+        public ?string $hint = null,
+        public ?string $control = null,
     ) {
     }
 

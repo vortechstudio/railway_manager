@@ -18,6 +18,8 @@ class RailwayPlanningConstructor extends Model
     protected $casts = [
         'day_of_week' => 'array',
         'repeat_end_at' => 'timestamp',
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

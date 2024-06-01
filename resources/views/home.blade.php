@@ -5,8 +5,9 @@
 @endsection
 
 @section("toolbar")
-    <x-base.toolbar
-        :breads="array('Tableau de Bord')" />
+    @livewire('core.toolbar', [
+        "breads" => ['Tableau de Bord'],
+    ])
 @endsection
 
 @section("content")
@@ -24,36 +25,45 @@
                 <div class="col-sm-12 col-lg-4 mb-5">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h3 class="card-title">SITUATION DE VOTRE COMPAGNIE (J-1)</h3>
+                            <h3 class="card-title fs-5">
+                                <img src="{{ Storage::url('icons/railway/hq.png') }}" alt="Hub" class="w-20px h-20px me-3">
+                                SITUATION DE VOTRE COMPAGNIE (J-1)
+                            </h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body h-250px scroll">
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300 rounded-top-1">
                                 <span class="fw-bold">Chiffre d'affaire</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getCA(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300">
                                 <span class="fw-bold">Coût des trajets</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getCoastTravel(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300">
                                 <span class="fw-bold">Résulat des trajets</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getResultat(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300">
                                 <span class="fw-bold">Remboursement des emprunts</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getRembEmprunt(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300">
                                 <span class="fw-bold">Coût des locations</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getLocationMateriel(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300">
                                 <span class="fw-bold">Trésorerie structurelle</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayCompanyAction(auth()->user()->railway_company))->getTresorerieStructurel(now()->subDay(), now()->subDay())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between p-3 bg-gray-300 rounded-bottom-1">
                                 <span class="fw-bold">Investissement R&D</span>
-                                <span>0,00 €</span>
+                                <span>{{ Helpers::eur(auth()->user()->railway->research) }}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex flex-center">
+                                <a href="#" class="btn btn-color-gray-600 btn-active-color-primary">Comptabilité Générale <i
+                                        class="ki-outline ki-arrow-right fs-5"></i></a>
                             </div>
                         </div>
                     </div>
@@ -61,92 +71,51 @@
                 <div class="col-sm-12 col-lg-4 mb-5">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h3 class="card-title">ÉVOLUTION DE VOS RÉSULTATS</h3>
+                            <h3 class="card-title fs-5">
+                                <img src="{{ Storage::url('icons/railway/bank.png') }}" alt="Hub" class="w-20px h-20px me-3">
+                                EMPRUNTS, PROCHAINES ÉCHÉANCES
+                            </h3>
                         </div>
-                        <div class="card-body">
-
+                        <div class="card-body scroll h-250px">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>Minibank</td>
+                                    <td class="text-danger text-end">1 852 000 €</td>
+                                    <td class="text-end">24/10/2023</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex flex-center">
+                                <a href="#" class="btn btn-color-gray-600 btn-active-color-primary">Comptabilité Générale <i
+                                        class="ki-outline ki-arrow-right fs-5"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-4 mb-5">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h3 class="card-title">ÉVOLUTION DES INCIDENTS</h3>
+                            <h3 class="card-title fs-5">
+                                <img src="{{ Storage::url('icons/railway/financial.png') }}" alt="Hub" class="w-20px h-20px me-3">
+                                ÉVOLUTION DE VOS RÉSULTATS
+                            </h3>
                         </div>
-                        <div class="card-body">
-
+                        <div class="card-body  h-250px">
+                            <div id="evoRsultatChart" style="height: 200px"></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 mb-5">
-                    @livewire('game.core.screen-departure')
-                </div>
-                <div class="col-sm-12 col-lg-6 mb-5">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-blue-800 text-white">
-                            <h3 class="card-title">Prochains Arrivées</h3>
-                            <div class="card-toolbar">
-                            </div>
-                        </div>
-                        <div class="card-body bg-blue-700 p-0 m-0">
-                            <div class="d-flex align-items-center p-3 gap-5 bg-white shadow-lg mb-2">
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <span class="fs-2 fw-bolder text-blue-800">12:00</span>
-                                    <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                        <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-1 justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="fs-2hx text-blue-800 fw-bold">Nantes</span>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-green-300 fs-3 me-2">via</span>
-                                            <span class="fs-2 text-blue-800">Montaigu</span>
-                                            <span class="bullet bullet-dot bg-green-300 mx-1"></span>
-                                            <span class="fs-2 text-blue-800">Clisson</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-0 bg-green-300 align-items-center justify-content-center w-100px h-auto rounded-2 p-2">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span class="fs-3 text-blue-800">TER</span>
-                                        <span class="fs-2 text-blue-800 fw-bold">897400</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center p-3 gap-5 bg-white shadow-lg mb-2">
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <span class="fs-2 fw-bolder text-blue-800">12:00</span>
-                                    <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                        <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-1 justify-content-between align-items-center">
-                                    <div class="d-flex flex-column">
-                                        <span class="fs-2hx text-blue-800 fw-bold">Nantes</span>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-green-300 fs-3 me-2">via</span>
-                                            <span class="fs-2 text-blue-800">Montaigu</span>
-                                            <span class="bullet bullet-dot bg-green-300 mx-1"></span>
-                                            <span class="fs-2 text-blue-800">Clisson</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-grow-0 bg-green-300 align-items-center justify-content-center w-100px h-auto rounded-2 p-2">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span class="fs-3 text-blue-800">TER</span>
-                                        <span class="fs-2 text-blue-800 fw-bold">897400</span>
-                                    </div>
-                                </div>
+                        <div class="card-footer">
+                            <div class="d-flex flex-center">
+                                <a href="#" class="btn btn-color-gray-600 btn-active-color-primary">Comptabilité Générale <i
+                                        class="ki-outline ki-arrow-right fs-5"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @livewire('game.core.screen-departure')
         </div>
     </div>
 @endsection

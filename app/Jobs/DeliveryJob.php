@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Actions\ErrorDispatchHandle;
 use App\Models\User\Railway\UserRailwayDelivery;
-use App\Notifications\SendMessageAdminNotification;
+use App\Services\Models\User\Railway\UserRailwayAction;
+use App\Services\Models\User\Railway\UserRailwayDeliveryAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -20,16 +22,23 @@ class DeliveryJob implements ShouldQueue
 
     public function handle(): void
     {
-        $model = $this->delivery->model::find($this->delivery->model_id);
-        $model->update([
-            'active' => true,
-        ]);
-        $this->delivery->user->notify(new SendMessageAdminNotification(
-            title: 'Livraison effectuer',
-            sector: 'delivery',
-            type: 'success',
-            message: "Livraison: {$this->delivery->designation} effectuer !"
-        ));
-        $this->delivery->delete();
+        try {
+            if($this->delivery->exists()) {
+                (new UserRailwayDeliveryAction($this->delivery))->delivered();;
+                match ($this->delivery->type->value) {
+                    'hub' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(200),
+                    'ligne' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(35),
+                    'engine' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(30),
+                    'research' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(50),
+                };
+
+                $this->delivery->user->railway->addReputation($this->delivery->type->value, null);
+            } else {
+                $this->delete();
+            }
+        } catch (\Exception $exception) {
+            (new ErrorDispatchHandle())->handle($exception);
+        }
+
     }
 }

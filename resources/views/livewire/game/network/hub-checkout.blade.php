@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="mb-10" wire:ignore.self>
                         <label for="hub_id" class="form-label required">Hub disponible</label>
-                        <select wire:model.live="selectedHub" class="form-select" required>
+                        <select wire:model.live="selectedHub" id="selectedHub" data-control="select2" class="form-select" required>
                             <option value="0">-- Aucune valeur --</option>
                             @foreach($hubs as $hub)
                                 <option value="{{ $hub->id }}">{{ $hub->gare->name }}</option>
@@ -104,4 +104,5 @@
 
         </div>
     </div>
+    <x-scripts.pluginForm />
 </form>

@@ -3,6 +3,7 @@ import Swiper from 'swiper';
 import 'swiper/css'
 import 'animate.css'
 import './isotoemoji.js'
+import './plugins.js'
 import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 Livewire.start()

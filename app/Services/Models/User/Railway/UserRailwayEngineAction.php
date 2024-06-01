@@ -94,6 +94,15 @@ class UserRailwayEngineAction
 
     }
 
+    public function verifEngine()
+    {
+        $calDistanceParcoure = $this->engine->plannings()
+            ->where('status', 'arrival')
+            ->sum('kilometer');
+
+        return $calDistanceParcoure >= $this->engine->max_runtime && $this->engine->status == 'free';
+    }
+
     private function formatStatusDefault()
     {
         return match ($this->engine->status->value) {

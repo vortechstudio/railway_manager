@@ -70,7 +70,8 @@ class LigneCheckout extends Component
                 title: "Achat de la ligne: {$this->ligne->name}",
                 amount: $this->amount_paid,
                 type_amount: 'charge',
-                type_mvm: 'achat_ligne'
+                type_mvm: 'achat_ligne',
+                user_railway_hub_id: $this->selectedHubValue,
             );
 
             $userLigne = auth()->user()->userRailwayLigne()->create([
@@ -96,6 +97,7 @@ class LigneCheckout extends Component
             ]);
 
             $this->alert('success', 'La ligne à bien été acheter avec succes !');
+            $this->dispatch('refreshToolbar');
             dispatch(new DeliveryJob($delivery))->delay($delivery->end_at)->onQueue('delivery');
             $this->redirectRoute('network.index');
         }

@@ -5,19 +5,29 @@
     @else
         <div class="d-flex flex-column h-sm-100 h-lg-450px hover-scroll-y">
             @foreach($engines as $engine)
-                <div class="d-flex flex-column bg-gray-200 p-5 mb-5 rounded-2">
+                <div class="d-flex flex-column bg-gray-200 p-5 mb-5 rounded-2" x-data="{assignLigne: false}">
                     <div class="d-flex flex-row justify-content-between align-items-center border border-gray-300 border-bottom-2 border-top-0 border-left-0 border-right-0 pb-1 mb-5">
                         <div class="d-flex align-items-center">
                             <span class="badge bagde-circle badge-primary text-white me-2">{{ $engine->number }}</span>
                             <span class="fw-bold fs-3 me-3">{{ $engine->railwayEngine->name }}</span>
                             {!! $engine->status_badge !!}
                         </div>
-                        <button class="btn btn-flex bg-blue-600 bg-hover-primary">
+                        <div>
+                            @if(!auth()->user()->userRailwayLigne()->where('user_railway_engine_id', $engine->id)->exists())
+                                <button @click="assignLigne = ! assignLigne" wire:click="selectedEngine({{ $engine->id }})" class="btn btn-flex bg-blue-600 bg-hover-primary me-3">
+                                    <span class="symbol symbol-35px me-2">
+                                        <img src="{{ Storage::url('icons/railway/ligne.png') }}" alt="">
+                                    </span>
+                                    <span class="text-white">Assigner à une ligne</span>
+                                </button>
+                            @endif
+                            <button class="btn btn-flex bg-blue-600 bg-hover-primary">
                                 <span class="symbol symbol-35px me-2">
                                     <img src="{{ Storage::url('icons/railway/train.png') }}" alt="">
                                 </span>
-                            <span class="text-white">Détail de la rame</span>
-                        </button>
+                                <span class="text-white">Détail de la rame</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="d-flex align-items-center p-5">
                         <img src="{{ $engine->railwayEngine->getFirstImage($engine->railway_engine_id) }}" class="img-fluid w-160px me-5" alt="">
@@ -59,6 +69,19 @@
                             </div>
                         </div>
                     </div>
+                    @if(!auth()->user()->userRailwayLigne()->where('user_railway_engine_id', $engine->id)->exists())
+                    <div class="d-flex flex-row justify-content-between align-items-center" x-show="assignLigne">
+                        <div class="mb-10">
+                            <label for="user_railway_ligne_id" class="form-label required">Ligne</label>
+                            <select wire:model.live="user_railway_ligne_id" name="user_railway_ligne_id" id="user_railway_ligne_id" class="form-select" required>
+                                <option>-- Selectionner une ligne --</option>
+                                @foreach($engine->userRailwayHub->userRailwayLigne()->get() as $ligne)
+                                    <option value="{{ $ligne->id }}">{{ $ligne->railwayLigne->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             @endforeach
         </div>
