@@ -57,7 +57,7 @@ jobs:
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             review=$(curl -s -H "Content-Type: application/json" -d "{ \"model\":\"llama3\", \
-            \"prompt\":\"Effectue une revue de ce fichier en français:$file\", \"stream\":false}" "$URL_BASE" | jq -r '.response')
+            \"prompt\":\"Peut tu me générer une review de code pour le fichier suivant: $file\", \"stream\":false}" "$URL_BASE" | jq -r '.response')
 
             comment="Ollama Code Review for \`$file\`:\n$review"
             echo "$comment" >> ollama_review.txt
