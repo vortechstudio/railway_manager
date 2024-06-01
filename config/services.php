@@ -79,6 +79,10 @@ return [
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'weather' => [
+        'api_key' => env('WEATHER_API_KEY'),
     ]
 
 ];

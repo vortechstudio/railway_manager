@@ -64,7 +64,7 @@
                                                 title="<strong>Niveau: </strong><span class='text-yellow-600'>Mineur</span>"
                                                 data-bs-content="<div class='d-flex flex-column'><div class='d-flex justify-content-between mb-1'><span class='fw-bold'>Type d'incident</span><span>{{ Str::ucfirst($planning->incidents()->where('niveau', 2)->first()->type_incident->value) }}</span></div><div class='d-flex justify-content-between mb-1'><span class='fw-bold'>Survenue à </span><span>{{ $planning->incidents()->where('niveau', 2)->first()->created_at->format('H:i') }}</span></div><div class='d-flex justify-content-between mb-2'><span class='fw-bold'>Problème rencontrer </span><span>{{ $planning->incidents()->where('niveau', 2)->first()->designation }}</span></div><div class='d-flex'>{{ $planning->incidents()->where('niveau', 2)->first()->note }}</div></div>"></i>
                                         @endif
-                                            <a href="" class="btn btn-sm btn-outline btn-icon btn-outline-primary"><i class="fa-solid fa-eye"></i> </a>
+                                            <a href="{{ route('network.travel.show', $planning->id) }}" class="btn btn-sm btn-outline btn-icon btn-outline-primary"><i class="fa-solid fa-eye"></i> </a>
                                     </td>
                                 </tr>
                             @endforeach

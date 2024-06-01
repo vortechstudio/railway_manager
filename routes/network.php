@@ -28,4 +28,9 @@ Route::prefix('network')->as('network.')->group(function () {
     Route::prefix('travel')->as('travel.')->group(function () {
         Route::get('{id}', [\App\Http\Controllers\Network\TravelController::class, 'show'])->name('show');
     });
+
+    Route::prefix('planning')->as('planning.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Network\PlanningController::class, 'index'])->name('index');
+        Route::get('/editing', [\App\Http\Controllers\Network\PlanningController::class, 'editing'])->name('editing');
+    });
 });

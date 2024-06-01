@@ -4,6 +4,7 @@ namespace App\Livewire\Game\Core;
 
 use App\Actions\CheckoutAction;
 use App\Models\User\Railway\UserRailwayDelivery;
+use App\Services\Models\User\Railway\UserRailwayAction;
 use App\Services\Models\User\Railway\UserRailwayDeliveryAction;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -36,6 +37,14 @@ class DeliveryList extends Component
     {
         if((new CheckoutAction())->checkoutTpoint($this->delivery->end_at->diffInMinutes(now()))) {
             (new UserRailwayDeliveryAction($this->delivery))->delivered();
+            match ($this->delivery->type->value) {
+                'hub' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(200),
+                'ligne' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(35),
+                'engine' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(30),
+                'research' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(50),
+            };
+
+            $this->delivery->user->railway->addReputation($this->delivery->type->value, null);
             $this->dispatch('refreshToolbar');
         }
     }

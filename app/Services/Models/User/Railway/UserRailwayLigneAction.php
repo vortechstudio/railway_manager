@@ -3,6 +3,7 @@
 namespace App\Services\Models\User\Railway;
 
 use App\Models\Railway\Config\RailwayFluxMarket;
+use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMouvement;
 use Carbon\Carbon;
@@ -157,5 +158,72 @@ class UserRailwayLigneAction
         $temps_trajet = $this->ligne->railwayLigne->time_min;
 
         return intval($nb_hour_to_min / $temps_trajet);
+    }
+
+    public function createTarif()
+    {
+        match ($this->ligne->userRailwayEngine->railwayEngine->type_transport->value) {
+            'ter', 'other' => $this->generateTarifTer(),
+            'tgv', 'intercity' => $this->generateTarifTGV(),
+        };
+    }
+
+    private function generateTarifTer()
+    {
+        $this->ligne->tarifs()->create([
+            'date_tarif' => Carbon::today(),
+            'type_tarif' => 'unique',
+            'demande' => $this->calcDemande(),
+            'offre' => $this->calcOffre(),
+            'price' => $this->calcTarifSecond(),
+            'user_railway_ligne_id' => $this->ligne->id,
+        ]);
+    }
+    private function generateTarifTGV()
+    {
+        $this->ligne->tarifs()->create([
+            'date_tarif' => Carbon::today(),
+            'type_tarif' => 'first',
+            'demande' => $this->calcDemande(),
+            'offre' => $this->calcOffre(),
+            'price' => $this->calcTarifFirst(),
+            'user_railway_ligne_id' => $this->ligne->id,
+        ]);
+        $this->ligne->tarifs()->create([
+            'date_tarif' => Carbon::today(),
+            'type_tarif' => 'second',
+            'demande' => $this->calcDemande(),
+            'offre' => $this->calcOffre(),
+            'price' => $this->calcTarifSecond(),
+            'user_railway_ligne_id' => $this->ligne->id,
+        ]);
+    }
+
+    private function calcDemande()
+    {
+        $calc = ($this->ligne->userRailwayHub->railwayHub->gare->freq_base / 365) / $this->ligne->userRailwayHub->railwayHub->gare->time_day_work;
+
+        return intval($calc);
+    }
+
+    private function calcOffre()
+    {
+        return $this->ligne->userRailwayEngine->railwayEngine->technical->nb_marchandise;
+    }
+
+    private function calcTarifFirst()
+    {
+        $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
+        $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
+        $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+        return round(floatval($calc * 60 / 100), 2);
+    }
+
+    private function calcTarifSecond()
+    {
+        $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
+        $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
+        $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+        return round(floatval($calc * 40 / 100), 2);
     }
 }
