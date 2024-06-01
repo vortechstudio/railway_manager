@@ -15,6 +15,13 @@ jobs:
         with:
           fetch-depth: 0  # Nécessaire pour obtenir tous les commits
 
+      - name: Count Commits
+        id: count
+        run: |
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          COMMITS=$(gh pr view $PR_NUMBER --json commits --jq '.commits | length')
+          echo "::set-output name=count::$COMMITS"
+
       - name: Generate PR title from commits
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
@@ -28,6 +35,7 @@ jobs:
           else
             echo "Title is empty, cannot update PR."
           fi
+        if: steps.count.output.count > 1
 
       - uses: octue/generate-pull-request-description@1.0.0.beta-2
         id: pr-description
