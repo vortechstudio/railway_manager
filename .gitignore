@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /composer.phar
 Changelog.md
+/ollama_review.txt
