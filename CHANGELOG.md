@@ -1,3 +1,30 @@
+# [0.11.0](https://github.com/vortechstudio/railway_manager/compare/v0.10.0...v0.11.0) (2024-06-01)
+
+
+### Bug Fixes
+
+* **General:** Ajout de la gestion d'erreur et modification du comportement pour les expériences et la réputation ([c009a5a](https://github.com/vortechstudio/railway_manager/commit/c009a5a288ddd24ea1d601c28d7303518f85c7f2))
+* **General:** Correction de fonctionnalités d'expérience et de récompense basées sur le niveau. ([20efa30](https://github.com/vortechstudio/railway_manager/commit/20efa30bd0ead2765d68ba1e06cccf934e5875c9))
+* **General:** Correction de fonctionnalités d'expérience et de récompense basées sur le niveau. ([77f6494](https://github.com/vortechstudio/railway_manager/commit/77f64945c1ab27e8655738a5620bcfc606439221))
+* **General:** Correction mineurs comptables ([8f0dcf8](https://github.com/vortechstudio/railway_manager/commit/8f0dcf84dc2d71a8273cdb54a07d2d2db980c608))
+* **Materiel:** Ajout de vérifications d'achat de HUB ([90995e2](https://github.com/vortechstudio/railway_manager/commit/90995e2cf22e049c96c8d12e4209ac69e67b9588))
+* **Network Planification:** Ajout d'un bouton d'édition de planning ([a197fae](https://github.com/vortechstudio/railway_manager/commit/a197fae748ab3c4123b4b64f0c43a8f545645b87))
+* **Network Planification:** Correction de bugs mineurs ([f735359](https://github.com/vortechstudio/railway_manager/commit/f7353593ddf5211f33414089d71789fba4200559))
+* **Network:** Accès à la feuille de route disponible ([8ba1a23](https://github.com/vortechstudio/railway_manager/commit/8ba1a23cedb1dfcb3cf8cf5f35257a8f7f751352))
+* **Network:** Améliorations apportées au rendu du formulaire ([4535b16](https://github.com/vortechstudio/railway_manager/commit/4535b16c88b22190359bf26bb27a3f937e6f914f))
+
+
+### Features
+
+* **Authentification:** optimisation de la gestion des utilisateurs ([e179689](https://github.com/vortechstudio/railway_manager/commit/e179689cc4a6559c04e5a7b79d6b73947e44158b))
+* **General:** Ajout de nouvelles fonctionnalités et modifications diverses ([42ea3ef](https://github.com/vortechstudio/railway_manager/commit/42ea3ef6fe2803a5dbc8180c99d7671fdaf150e3))
+* **General:** amélioration de l'affichage des informations financières et suppression de sections inutiles ([1ab1b70](https://github.com/vortechstudio/railway_manager/commit/1ab1b7029786e4b95637e2fdedf6c87764f6bb1f))
+* **Matériel Roulant:** Ajout de fonctionnalités pour le jeu de trajet en train ([4dd9e97](https://github.com/vortechstudio/railway_manager/commit/4dd9e971c6a9cc7ae3593d77c8287d86be820d0a))
+* **Network Planification:** Ajout de commandes pour gérer les arrêts en station ([1fd58e5](https://github.com/vortechstudio/railway_manager/commit/1fd58e5fc5b323f267b8a382c2efea5757a913d2))
+* **NetWork Planification:** Mise à jour et création de fonctions de planification ([9777018](https://github.com/vortechstudio/railway_manager/commit/97770181a424a0f9195b3fe496ae550158ca5538))
+* **Network:** Ajoute la fonctionnalité d'assignation de rame à une ligne ([ed3de94](https://github.com/vortechstudio/railway_manager/commit/ed3de947f93550aa6ea18edaea9ef0ec2e36fb2c))
+* **Network:** Mise à jour de la gestion des trajets et de la météo ([8ed088f](https://github.com/vortechstudio/railway_manager/commit/8ed088f82427fdefc8b323e1185ea16eb9b5c49c))
+
 # [0.10.0](https://github.com/vortechstudio/railway_manager/compare/v0.9.0...v0.10.0) (2024-05-29)
 
 
