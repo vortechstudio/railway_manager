@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayEngine extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
 
     protected $connection = 'railway';

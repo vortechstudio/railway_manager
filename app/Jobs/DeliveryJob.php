@@ -23,8 +23,8 @@ class DeliveryJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            if($this->delivery->exists()) {
-                (new UserRailwayDeliveryAction($this->delivery))->delivered();;
+            if ($this->delivery->exists()) {
+                (new UserRailwayDeliveryAction($this->delivery))->delivered();
                 match ($this->delivery->type->value) {
                     'hub' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(200),
                     'ligne' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(35),

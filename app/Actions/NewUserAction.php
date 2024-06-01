@@ -46,7 +46,7 @@ class NewUserAction
         return $user;
     }
 
-    public function createLog(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, string $string)
+    public function createLog(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, string $string): void
     {
         $user->logs()->create([
             'action' => $string,
@@ -54,7 +54,7 @@ class NewUserAction
         ]);
     }
 
-    public function addUserSocial(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, object $gUser, string $provider)
+    public function addUserSocial(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, object $gUser, string $provider): void
     {
         if (! $user->socials()->where('provider', $provider)->exists()) {
             $user->socials()->create([
@@ -66,9 +66,9 @@ class NewUserAction
         }
     }
 
-    public function addUserService(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, ?object $service)
+    public function addUserService(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, ?object $service): void
     {
-        if(!$user->services()->where('service_id', 1)->exists()) {
+        if (! $user->services()->where('service_id', 1)->exists()) {
             $user->services()->create([
                 'status' => true,
                 'premium' => false,
@@ -77,7 +77,7 @@ class NewUserAction
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            $this->createLog($user, "Inscription au service: Accès de base");
+            $this->createLog($user, 'Inscription au service: Accès de base');
         }
 
         $user->services()->create([
@@ -92,14 +92,14 @@ class NewUserAction
         $this->createLog($user, "Inscription au service: {$service->name}");
     }
 
-    public function addUserProfil(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user)
+    public function addUserProfil(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user): void
     {
         $user->profil()->firstOrCreate(['user_id' => $user->id]);
     }
 
-    public function addUserRailway(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, ?object $service)
+    public function addUserRailway(\Illuminate\Database\Eloquent\Model|\LaravelIdea\Helper\App\Models\User\_IH_User_QB|\Illuminate\Database\Eloquent\Builder|User $user, ?object $service): void
     {
-        if(!$user->services()->where('service_id', $service->id)->exists()) {
+        if (! $user->services()->where('service_id', $service->id)->exists()) {
             $user->railway()->create([
                 'user_id' => $user->id,
                 'argent' => 0,

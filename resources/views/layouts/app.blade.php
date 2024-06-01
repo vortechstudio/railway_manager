@@ -21,10 +21,13 @@ License: For each use you must have a valid license purchased only from above li
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
-    <link defer href="{{ asset('/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link defer href="{{ asset('/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        {!! file_get_contents(public_path('css/critical.css')) !!}
+    </style>
+    <link defer media="print" onload="this.media='all'" href="/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link defer media="print" onload="this.media='all'" href="/css/style.bundle.css" rel="stylesheet" type="text/css" />
     @livewireStyles
-    @vite(['resources/css/app.css', 'resources/sass/app.scss'])
+    @vite(['resources/sass/app.scss'])
     @yield("styles")
     @stack("styles")
     @laravelPWA
@@ -157,9 +160,9 @@ License: For each use you must have a valid license purchased only from above li
 <script>var hostUrl = "assets/";</script>
 @livewireScriptConfig
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-<script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
-<script src="{{ asset('/js/scripts.bundle.js') }}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script async src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
+<script  src="{{ asset('/js/scripts.bundle.js') }}"></script>
+<script async src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />

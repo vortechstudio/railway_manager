@@ -15,6 +15,7 @@ php artisan view:clear
 php artisan clear
 php artisan release:update
 php artisan webpush:vapid
+php artisan system updateReward
 
 php artisan up
 

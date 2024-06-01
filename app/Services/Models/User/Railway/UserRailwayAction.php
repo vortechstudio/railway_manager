@@ -12,7 +12,7 @@ class UserRailwayAction
     {
     }
 
-    public function addExperience(int $experienceAdd)
+    public function addExperience(int $experienceAdd): void
     {
         $this->userRailway->xp += $experienceAdd;
         $this->userRailway->save();
