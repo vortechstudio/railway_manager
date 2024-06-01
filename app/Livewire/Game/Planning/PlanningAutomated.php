@@ -8,20 +8,21 @@ use Livewire\Component;
 class PlanningAutomated extends Component
 {
     use LivewireAlert;
+
     public bool $automated_planning;
 
-    public function mount()
+    public function mount(): void
     {
         $this->automated_planning = auth()->user()->railway->automated_planning;
     }
 
-    public function updatedAutomatedPlanning()
+    public function updatedAutomatedPlanning(): void
     {
         auth()->user()->railway()->update([
-            'automated_planning' => $this->automated_planning
+            'automated_planning' => $this->automated_planning,
         ]);
 
-        $this->alert('success', "Configuration changer !");
+        $this->alert('success', 'Configuration changer !');
         $this->redirectRoute('network.planning.editing');
     }
 

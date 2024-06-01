@@ -5,6 +5,7 @@ namespace App\Services;
 class WeatherService
 {
     private string $api_key;
+
     public function __construct()
     {
         $this->api_key = config('services.weather.api_key');

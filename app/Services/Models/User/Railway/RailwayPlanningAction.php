@@ -11,7 +11,7 @@ class RailwayPlanningAction
     {
     }
 
-    public function prepareVoyageur()
+    public function prepareVoyageur(): void
     {
         match ($this->planning->userRailwayEngine->railwayEngine->type_transport->value) {
             'ter', 'other' => $this->prepareUniqueVoyageur(),
@@ -19,7 +19,7 @@ class RailwayPlanningAction
         };
     }
 
-    private function prepareUniqueVoyageur()
+    private function prepareUniqueVoyageur(): void
     {
         $this->planning->passengers()->create([
             'type' => 'unique',
@@ -28,7 +28,7 @@ class RailwayPlanningAction
         ]);
     }
 
-    private function prepareDoubleVoyageur()
+    private function prepareDoubleVoyageur(): void
     {
         $this->planning->passengers()->create([
             'type' => 'first',

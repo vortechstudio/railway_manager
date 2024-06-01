@@ -9,13 +9,14 @@ use App\Services\Models\User\Railway\UserRailwayDeliveryAction;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Vortechstudio\Helpers\Facades\Helpers;
 
 class DeliveryList extends Component
 {
     use LivewireAlert;
+
     public $delivery;
-    public function accelerate(int $delivery_id)
+
+    public function accelerate(int $delivery_id): void
     {
         $this->delivery = UserRailwayDelivery::find($delivery_id);
         $this->alert('question', 'Etes-vous sur de vouloir accélérer cette livraison pour '.$this->delivery->end_at->diffInMinutes(now()).' Tpoint ?', [
@@ -33,9 +34,9 @@ class DeliveryList extends Component
     }
 
     #[On('confirmed')]
-    public function confirmed()
+    public function confirmed(): void
     {
-        if((new CheckoutAction())->checkoutTpoint($this->delivery->end_at->diffInMinutes(now()))) {
+        if ((new CheckoutAction())->checkoutTpoint($this->delivery->end_at->diffInMinutes(now()))) {
             (new UserRailwayDeliveryAction($this->delivery))->delivered();
             match ($this->delivery->type->value) {
                 'hub' => (new UserRailwayAction($this->delivery->user->railway))->addExperience(200),
@@ -48,6 +49,7 @@ class DeliveryList extends Component
             $this->dispatch('refreshToolbar');
         }
     }
+
     public function render()
     {
         return view('livewire.game.core.delivery-list');

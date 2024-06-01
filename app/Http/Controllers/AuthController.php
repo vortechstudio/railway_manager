@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
-use Log;
-use Str;
-use Vortechstudio\Helpers\Facades\Helpers;
 
 class AuthController extends Controller
 {
@@ -33,7 +30,7 @@ class AuthController extends Controller
     /**
      * Redirects the user to the authentication page of the specified social media provider.
      *
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The redirect response to the authentication page
      */
     public function redirect(string $provider)
@@ -44,7 +41,7 @@ class AuthController extends Controller
     /**
      * Callback method that handles the authentication callback from different social media providers.
      *
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return mixed The result of the verification process for the user
      *
      * @throws \Exception If the specified provider is not supported
@@ -67,8 +64,8 @@ class AuthController extends Controller
     /**
      * Verify the user and handle the necessary actions based on the authentication process.
      *
-     * @param object $user The user object returned by the social media provider
-     * @param string $provider The social media provider (e.g. google, facebook, steam, etc.)
+     * @param  object  $user  The user object returned by the social media provider
+     * @param  string  $provider  The social media provider (e.g. google, facebook, steam, etc.)
      * @return \Illuminate\Http\RedirectResponse The response to redirect the user
      */
     private function verifyUser(object $user, string $provider)
@@ -77,16 +74,18 @@ class AuthController extends Controller
         $user = User::query()->where('email', $gUser->email)->first();
         $service = (new RailwayService())->getRailwayService();
 
-        if (!$user) {
+        if (! $user) {
             $user = (new NewUserAction())->createUser($gUser, $provider, $service);
+
             return redirect()->route('auth.setup-account', [$provider, $user->email]);
         }
 
-        if (!$user->services()->where('service_id', $service->id)->exists()) {
+        if (! $user->services()->where('service_id', $service->id)->exists()) {
             (new NewUserAction())->addUserService($user, $service);
         } else {
-            if (!$user->railway->installed){
+            if (! $user->railway->installed) {
                 Auth::login($user);
+
                 return redirect()->route('auth.install');
             }
         }
@@ -108,9 +107,9 @@ class AuthController extends Controller
     /**
      * Submit method for setting up an account.
      *
-     * @param \Illuminate\Http\Request $request The HTTP request object
-     * @param string $provider The social media provider
-     * @param string $email The user's email address
+     * @param  \Illuminate\Http\Request  $request  The HTTP request object
+     * @param  string  $provider  The social media provider
+     * @param  string  $email  The user's email address
      * @return \Illuminate\Http\RedirectResponse Redirects user to the home route
      */
     public function setupAccountSubmit(Request $request, string $provider, string $email)
@@ -125,7 +124,7 @@ class AuthController extends Controller
             $this->updateUserRailway($user, $request);
             $this->createUserSocialCompanyBonus($user);
             $this->loginAndSendWelcomeMessage($user, $provider);
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
 
@@ -140,12 +139,12 @@ class AuthController extends Controller
     /**
      * Confirm the user's password before granting access.
      *
-     * @param \Illuminate\Http\Request $request The HTTP request object
+     * @param  \Illuminate\Http\Request  $request  The HTTP request object
      * @return \Illuminate\Http\RedirectResponse The redirect response to the intended page
      */
     public function confirmPassword(Request $request)
     {
-        if (!\Hash::check($request->password, $request->user()->password)) {
+        if (! \Hash::check($request->password, $request->user()->password)) {
             toastr()
                 ->addError('Mot de passe erronée', "Vérification d'accès !");
         }
@@ -199,12 +198,12 @@ class AuthController extends Controller
         }
     }
 
-    private function updateUserPassword(User $user, mixed $password)
+    private function updateUserPassword(User $user, mixed $password): void
     {
         $user->update(['password' => Hash::make($password)]);
     }
 
-    private function updateUserRailway(User $user, Request $request)
+    private function updateUserRailway(User $user, Request $request): void
     {
         $user->railway()->updateOrCreate([
             'uuid' => rand(10000000, 99999999),
@@ -221,7 +220,7 @@ class AuthController extends Controller
         ]);
     }
 
-    private function createUserSocialCompanyBonus(User $user)
+    private function createUserSocialCompanyBonus(User $user): void
     {
         $user->railway_social()->create(['user_id' => $user->id]);
         $user->railway_company()->create([
@@ -239,7 +238,7 @@ class AuthController extends Controller
         $user->railway_bonus()->create(['user_id' => $user->id]);
     }
 
-    private function loginAndSendWelcomeMessage(User $user)
+    private function loginAndSendWelcomeMessage(User $user): void
     {
         (new Compta())->create(
             $user,
@@ -255,7 +254,7 @@ class AuthController extends Controller
         (new NewUserAction())->createLog($user, "Connexion au service {$service->name}");
         (new MailboxAction())->newMessage(
             user: $user,
-            subject: "Bienvenue sur railway Manager",
+            subject: 'Bienvenue sur railway Manager',
             message: "<p>Cher joueur,</p>
 
 <p>Nous sommes ravis de vous accueillir dans le monde passionnant de Railway Manager. Vous venez d'entrer dans une communauté de passionnés de trains et de simulations stratégiques.</p>

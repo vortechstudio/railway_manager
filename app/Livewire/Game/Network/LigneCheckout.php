@@ -18,21 +18,30 @@ use Vortechstudio\Helpers\Facades\Helpers;
 class LigneCheckout extends Component
 {
     use LivewireAlert;
+
     public $hubs;
+
     public Collection $lignes;
+
     public RailwayLigne $ligne;
 
     public $selectedHubValue;
+
     public $railway_ligne_id;
 
     public $price_base;
+
     public $subvention_percent;
+
     public $subvention_amount;
+
     public $flux_ligne_percent;
+
     public $flux_ligne_amount;
+
     public $amount_paid;
 
-    public function mount()
+    public function mount(): void
     {
         $this->lignes = collect();
         $this->flux_ligne_percent = RailwayFluxMarket::where('date', Carbon::today())->first()->flux_ligne;
@@ -43,14 +52,14 @@ class LigneCheckout extends Component
         return view('livewire.game.network.ligne-checkout');
     }
 
-    public function updatedSelectedHubValue()
+    public function updatedSelectedHubValue(): void
     {
         $this->lignes = (new RailwayLigne)
             ->where('railway_hub_id', $this->selectedHubValue)
             ->get();
     }
 
-    public function updatedRailwayLigneId()
+    public function updatedRailwayLigneId(): void
     {
         $this->ligne = RailwayLigne::find($this->railway_ligne_id);
         $this->price_base = $this->ligne->price;
@@ -59,10 +68,11 @@ class LigneCheckout extends Component
         $this->flux_ligne_amount = ($this->price_base - $this->subvention_amount) * $this->flux_ligne_percent / 100;
         $this->amount_paid = $this->price_base - $this->subvention_amount - $this->flux_ligne_amount;
     }
+
     #[On('confirmed')]
-    public function check()
+    public function check(): void
     {
-        if(auth()->user()->userRailwayLigne()->where('railway_ligne_id', $this->railway_ligne_id)->exists()) {
+        if (auth()->user()->userRailwayLigne()->where('railway_ligne_id', $this->railway_ligne_id)->exists()) {
             $this->alert('warning', 'Cette ligne est déjà acquise par votre compagnie');
         } else {
             (new Compta())->create(
@@ -77,7 +87,7 @@ class LigneCheckout extends Component
             $userLigne = auth()->user()->userRailwayLigne()->create([
                 'date_achat' => Carbon::now(),
                 'nb_depart_jour' => 0,
-                'quai' => rand(1,25),
+                'quai' => rand(1, 25),
                 'active' => false,
                 'user_railway_hub_id' => auth()->user()->userRailwayHub()->where('railway_hub_id', $this->selectedHubValue)->first()->id,
                 'railway_ligne_id' => $this->railway_ligne_id,
@@ -93,7 +103,7 @@ class LigneCheckout extends Component
                 'end_at' => now()->addMinutes(5 / auth()->user()->railway_company->livraison),
                 'user_id' => auth()->user()->id,
                 'model' => UserRailwayLigne::class,
-                'model_id' => $userLigne->id
+                'model_id' => $userLigne->id,
             ]);
 
             $this->alert('success', 'La ligne à bien été acheter avec succes !');
@@ -103,7 +113,7 @@ class LigneCheckout extends Component
         }
     }
 
-    public function checkout()
+    public function checkout(): void
     {
         $this->alert('question', 'Etes-vous sur de vouloir acheter cette ligne pour '.Helpers::eur($this->amount_paid).' ?', [
             'showConfirmButton' => true,

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Network;
 
 use App\Http\Controllers\Controller;
-use App\Models\Railway\Ligne\RailwayLigne;
 use App\Models\User\Railway\UserRailwayLigne;
 
 class LineController extends Controller
@@ -20,6 +19,7 @@ class LineController extends Controller
     public function buy()
     {
         $hubs = auth()->user()->userRailwayHub()->with('railwayHub')->where('active', true)->get();
+
         return view('games.network.line.buy', [
             'hubs' => $hubs,
         ]);

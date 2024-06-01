@@ -10,7 +10,6 @@ use App\Models\Railway\Engine\RailwayEngine;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
-use App\Services\Models\User\Railway\UserRailwayEngineAction;
 use Illuminate\Database\Eloquent\Builder;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -20,26 +19,36 @@ use Vortechstudio\Helpers\Facades\Helpers;
 class EngineSellList extends Component
 {
     use LivewireAlert;
+
     public $selectedType;
+
     public $selectedEngine;
+
     public $engines;
+
     public RailwayEngine $engineData;
+
     public bool $validateConfig = false;
+
     public int $qte = 1;
+
     public $user_railway_hub_id;
+
     public $globalAmount = 0;
 
     //filter
     public $type_energy;
+
     public $type_train;
+
     public $price_order;
 
-    public function mount()
+    public function mount(): void
     {
         $this->engines = RailwayEngine::all();
     }
 
-    public function updated()
+    public function updated(): void
     {
         $this->engines = RailwayEngine::with('technical', 'price')
             ->when($this->selectedType, function (Builder $query) {
@@ -58,13 +67,13 @@ class EngineSellList extends Component
             ->get();
     }
 
-    public function updatedSelectedEngine()
+    public function updatedSelectedEngine(): void
     {
         $this->engineData = RailwayEngine::find($this->selectedEngine);
         $subtotal = $this->engineData->price->achat * $this->qte;
         $totalAmount = 0;
         $amount_reduction = 0;
-        if($this->engineData->price->in_reduction) {
+        if ($this->engineData->price->in_reduction) {
             $amount_reduction += $subtotal * $this->engineData->price->percent_reduction / 100;
             $totalAmount += $subtotal - $amount_reduction;
         } else {
@@ -77,12 +86,12 @@ class EngineSellList extends Component
         $this->globalAmount = $totalAmount - $amount_flux - $amount_subvention;
     }
 
-    public function validateConfig()
+    public function validateConfig(): void
     {
         $this->validateConfig = true;
     }
 
-    public function checkout()
+    public function checkout(): void
     {
         $this->alert('question', 'Etes-vous sur de vouloir acheter ce matériel roulant pour '.Helpers::eur($this->globalAmount).' ?', [
             'showConfirmButton' => true,
@@ -99,7 +108,7 @@ class EngineSellList extends Component
     }
 
     #[On('confirmed')]
-    public function confirmed()
+    public function confirmed(): void
     {
         try {
             (new Compta())->create(
@@ -119,10 +128,10 @@ class EngineSellList extends Component
                 'date_achat' => now(),
                 'user_id' => auth()->user()->id,
                 'railway_engine_id' => $this->engineData->id,
-                'user_railway_hub_id' => $this->user_railway_hub_id
+                'user_railway_hub_id' => $this->user_railway_hub_id,
             ]);
 
-            $r = rand(15,30);
+            $r = rand(15, 30);
             $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
 
             $delivery = auth()->user()->userRailwayDelivery()->create([
@@ -132,7 +141,7 @@ class EngineSellList extends Component
                 'end_at' => $end_at,
                 'user_id' => auth()->id(),
                 'model' => UserRailwayEngine::class,
-                'model_id' => $user_engine->id
+                'model_id' => $user_engine->id,
             ]);
 
             dispatch(new DeliveryJob($delivery));
@@ -146,13 +155,13 @@ class EngineSellList extends Component
                 'timer' => null,
                 'position' => 'center',
             ]);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             (new ErrorDispatchHandle())->handle($e);
         }
     }
 
     #[On('redirect')]
-    public function res()
+    public function res(): void
     {
         $this->redirectRoute('train.buy');
     }

@@ -33,7 +33,7 @@ class TravelCommand extends Command
         };
     }
 
-    private function prepare()
+    private function prepare(): void
     {
         $plannings = RailwayPlanning::where('date_depart', [now()->addMinutes(20)->startOfMinute(), now()->addMinutes(20)->endOfMinute()])
             ->where('status', 'initialized')
@@ -41,11 +41,11 @@ class TravelCommand extends Command
             ->get();
 
         foreach ($plannings as $planning) {
-            if((new UserRailwayEngineAction($planning->userRailwayEngine))->verifEngine()) {
+            if ((new UserRailwayEngineAction($planning->userRailwayEngine))->verifEngine()) {
                 $planning->update(['status' => 'cancelled']);
                 $planning->logs()->create([
                     'message' => "Rame {$planning->userRailwayEngine->number} indisponible",
-                    'railway_planning_id' => $planning->id
+                    'railway_planning_id' => $planning->id,
                 ]);
                 $planning->user->notify(new SendMessageAdminNotification(
                     title: "Matériel Indisponible pour le trajet: {$planning->userRailwayLigne->railwayLigne->name}",
@@ -60,7 +60,7 @@ class TravelCommand extends Command
                     $planning->userRailwayEngine()->update(['status' => 'travel']);
                     $planning->logs()->create([
                         'message' => "Départ de la rame {$planning->userRailwayEngine->number} en direction de la gare de départ",
-                        'railway_planning_id' => $planning->id
+                        'railway_planning_id' => $planning->id,
                     ]);
                     $planning->user->notify(new SendMessageAdminNotification(
                         title: "Trajet {$planning->userRailwayEngine->number} en cours",
@@ -75,7 +75,7 @@ class TravelCommand extends Command
         }
     }
 
-    private function departure()
+    private function departure(): void
     {
         $plannings = RailwayPlanning::whereBetween('date_depart', [now()->startOfMinute(), now()->endOfMinute()])
             ->get();
@@ -83,10 +83,10 @@ class TravelCommand extends Command
         foreach ($plannings as $planning) {
             $planning->logs()->create([
                 'message' => "Rame {$planning->userRailwayEngine->number} prêt au départ pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}",
-                'railway_planning_id' => $planning->id
+                'railway_planning_id' => $planning->id,
             ]);
             $planning->user->notify(new SendMessageAdminNotification(
-                title: "Attention au départ",
+                title: 'Attention au départ',
                 sector: 'alert',
                 type: 'info',
                 message: "Rame {$planning->userRailwayEngine->number} prêt au départ pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}"
@@ -94,7 +94,7 @@ class TravelCommand extends Command
         }
     }
 
-    private function transit()
+    private function transit(): void
     {
         $plannings = RailwayPlanning::whereBetween('date_depart', [now()->subMinutes(2)->startOfMinute(), now()->subMinutes(2)->endOfMinute()])
             ->get();
@@ -104,10 +104,10 @@ class TravelCommand extends Command
                 $planning->update(['status' => 'travel']);
                 $planning->logs()->create([
                     'message' => "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}",
-                    'railway_planning_id' => $planning->id
+                    'railway_planning_id' => $planning->id,
                 ]);
                 $planning->user->notify(new SendMessageAdminNotification(
-                    title: "En transit",
+                    title: 'En transit',
                     sector: 'alert',
                     type: 'info',
                     message: "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}"
@@ -118,7 +118,7 @@ class TravelCommand extends Command
         }
     }
 
-    private function inStation()
+    private function inStation(): void
     {
         $stations = RailwayPlanningStation::whereBetween('arrival_at', [now()->startOfMinute(), now()->endOfMinute()])
             ->get();
@@ -126,11 +126,11 @@ class TravelCommand extends Command
         try {
             foreach ($stations as $station) {
                 $station->railwayPlanning->update([
-                    'status' => 'in_station'
+                    'status' => 'in_station',
                 ]);
 
-                if($station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->start->id || $station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->end->id) {
-                    if($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
+                if ($station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->start->id || $station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->end->id) {
+                    if ($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'unique',
                             'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
@@ -155,23 +155,23 @@ class TravelCommand extends Command
                     'railway_planning_id' => $station->railwayPlanning->id,
                 ]);
             }
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
     }
 
-    private function inStationDeparture()
+    private function inStationDeparture(): void
     {
         $stations = RailwayPlanningStation::whereBetween('departure_at', [now()->startOfMinute(), now()->endOfMinute()])
             ->get();
 
         foreach ($stations as $station) {
             $station->update([
-                'status' => 'done'
+                'status' => 'done',
             ]);
 
             $station->railwayPlanning->update([
-                'status' => 'travel'
+                'status' => 'travel',
             ]);
 
             $station->railwayPlanning->logs()->create([
@@ -181,14 +181,14 @@ class TravelCommand extends Command
         }
     }
 
-    private function inStationArrival()
+    private function inStationArrival(): void
     {
         $stations = RailwayPlanningStation::whereBetween('arrival_at', [now()->addMinutes(2)->startOfMinute(), now()->addMinutes(2)->endOfMinute()])
             ->get();
 
         foreach ($stations as $station) {
             $station->update([
-                'status' => 'arrival'
+                'status' => 'arrival',
             ]);
 
             $station->railwayPlanning->logs()->create([
@@ -198,17 +198,16 @@ class TravelCommand extends Command
         }
     }
 
-    private function arrival()
+    private function arrival(): void
     {
         $plannings = RailwayPlanning::where('status', 'travel')
             ->orWhere('status', 'in_station')
             ->get();
 
         foreach ($plannings as $planning) {
-            if($planning->date_arrived < now()) {
+            if ($planning->date_arrived < now()) {
                 $planning->update(['status' => 'arrival']);
-                $ca_other = rand(0, $planning->passengers()->sum('nb_passengers')) * \Helpers::randomFloat(1,20);
-
+                $ca_other = rand(0, $planning->passengers()->sum('nb_passengers')) * \Helpers::randomFloat(1, 20);
 
                 $planning->travel()->update([
                     'ca_billetterie' => $this->resultatBilletterie($planning),
@@ -250,12 +249,12 @@ class TravelCommand extends Command
                 );
 
                 $planning->userRailwayEngine->update([
-                    'status' => 'free'
+                    'status' => 'free',
                 ]);
 
                 $planning->logs()->create([
-                    'message' => "Arrivée du train en gare de ".$planning->userRailwayLigne->railwayLigne->end->name,
-                    "railway_planning_id" => $planning->id,
+                    'message' => 'Arrivée du train en gare de '.$planning->userRailwayLigne->railwayLigne->end->name,
+                    'railway_planning_id' => $planning->id,
                 ]);
 
                 $planning->user->notify(new SendMessageAdminNotification(
@@ -287,7 +286,7 @@ class TravelCommand extends Command
     private function feeElectrique(RailwayPlanning $planning)
     {
         $amount = RailwaySetting::where('name', 'price_electricity')->first()->value * $planning->userRailwayLigne->railwayLigne->distance;
-        if($planning->userRailwayEngine->railwayEngine->type_energy->value == 'electrique' || $planning->userRailwayEngine->railwayEngine->type_energy->value == 'hybrid') {
+        if ($planning->userRailwayEngine->railwayEngine->type_energy->value == 'electrique' || $planning->userRailwayEngine->railwayEngine->type_energy->value == 'hybrid') {
             (new Compta())->create(
                 user: $planning->user,
                 title: "Frais électrique pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
@@ -305,7 +304,7 @@ class TravelCommand extends Command
     private function feeGasoil(mixed $planning)
     {
         $amount = RailwaySetting::where('name', 'price_diesel')->first()->value * $planning->userRailwayLigne->railwayLigne->distance;
-        if($planning->userRailwayEngine->railwayEngine->type_energy->value == 'diesel' || $planning->userRailwayEngine->railwayEngine->type_energy->value == 'hybrid') {
+        if ($planning->userRailwayEngine->railwayEngine->type_energy->value == 'diesel' || $planning->userRailwayEngine->railwayEngine->type_energy->value == 'hybrid') {
             (new Compta())->create(
                 user: $planning->user,
                 title: "Frais gasoil pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
@@ -319,5 +318,4 @@ class TravelCommand extends Command
             return 0;
         }
     }
-
 }

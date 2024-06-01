@@ -11,6 +11,7 @@ use Livewire\Component;
 class EngineList extends Component
 {
     use LivewireAlert;
+
     public $type;
 
     public UserRailwayHub $hub;
@@ -21,6 +22,7 @@ class EngineList extends Component
 
     //Form Assign Ligne
     public $user_railway_engine_id;
+
     public $user_railway_ligne_id;
 
     public function mount(): void
@@ -32,21 +34,21 @@ class EngineList extends Component
         };
     }
 
-    public function selectedEngine(int $engine_id)
+    public function selectedEngine(int $engine_id): void
     {
         $this->user_railway_engine_id = $engine_id;
     }
 
-    public function updatedUserRailwayLigneId()
+    public function updatedUserRailwayLigneId(): void
     {
         try {
             auth()->user()->userRailwayLigne()->find($this->user_railway_ligne_id)->update([
                 'user_railway_engine_id' => $this->user_railway_engine_id,
             ]);
-            $this->alert('success', "Rame assigné !");
+            $this->alert('success', 'Rame assigné !');
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', "Une erreur à eu lieu !");
+            $this->alert('error', 'Une erreur à eu lieu !');
         }
     }
 
