@@ -101,19 +101,10 @@
                         <div class="col-md-4">
                             <a href="{{ route('trophy.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
-                    <span class="symbol symbol-75px">
-                        <img src="{{ Storage::url('icons/railway/trophy.png') }}" class="w-75px" alt>
-                    </span>
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/trophy.png') }}" class="w-75px" alt>
+                                </span>
                                 <span class="fs-semibold fs-3">Succès</span>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href=""
-                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
-                    <span class="symbol symbol-75px">
-                        <img src="{{ Storage::url('icons/railway/hub.png') }}" class="w-75px" alt>
-                    </span>
-                                <span class="fs-semibold fs-3">Hub</span>
                             </a>
                         </div>
                         <div class="col-md-4">
@@ -123,6 +114,69 @@
                                     <img src="{{ Storage::url('icons/railway/gatcha.png') }}" class="w-75px" alt>
                                 </span>
                                 <span class="fs-semibold fs-3">Concession</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('network.index') }}"
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/network.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Réseaux</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/depot_color.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Matériels</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/hq.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Compagnie</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/flask.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Compétences</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/gateway.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Services</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/financial.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Finances</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href=""
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                                <span class="symbol symbol-75px">
+                                    <img src="{{ Storage::url('icons/railway/marketing.png') }}" class="w-75px" alt>
+                                </span>
+                                <span class="fs-semibold fs-3">Marketing</span>
                             </a>
                         </div>
                         <div class="col-md-4">
