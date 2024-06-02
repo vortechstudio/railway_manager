@@ -5,6 +5,7 @@ namespace App\Livewire\Game\Engine;
 use App\Actions\ErrorDispatchHandle;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
+use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -42,9 +43,11 @@ class EngineList extends Component
     public function updatedUserRailwayLigneId(): void
     {
         try {
-            auth()->user()->userRailwayLigne()->find($this->user_railway_ligne_id)->update([
+            $ligne = auth()->user()->userRailwayLigne()->find($this->user_railway_ligne_id);
+            $ligne->update([
                 'user_railway_engine_id' => $this->user_railway_engine_id,
             ]);
+            (new UserRailwayLigneAction($ligne))->createTarif();
             $this->alert('success', 'Rame assigné !');
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);

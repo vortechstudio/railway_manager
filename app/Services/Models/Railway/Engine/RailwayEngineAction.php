@@ -75,4 +75,15 @@ class RailwayEngineAction
             return intval(($mass * $this->engine->technical->velocity) / ($coefEssieux * $coefTypeEngine * $coefTypeEnergy * $coefTypeMotor) / 4);
         }
     }
+
+    public function getComposition(string $type_tarif)
+    {
+        return match ($this->engine->type_transport->value) {
+            'ter', 'other' => $this->engine->technical->nb_marchandise,
+            'tgv', 'ic' => match ($type_tarif) {
+                'first' => intval($this->engine->technical->nb_marchandise - ($this->engine->technical->nb_marchandise * 20 / 100)),
+                'second' => intval($this->engine->technical->nb_marchandise - ($this->engine->technical->nb_marchandise * 80 / 100)),
+            }
+        };
+    }
 }

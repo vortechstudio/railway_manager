@@ -95,7 +95,7 @@ class UserRailway extends Model
 
         $new_reputation = match ($type) {
             'engine' => $this->addReputForEngine($coefficient, $reputation),
-            'hubs' => $this->addReputForHubs($coefficient, $reputation),
+            'hub' => $this->addReputForHubs($coefficient, $reputation),
             'ligne' => $this->addReputForLigne($coefficient, $reputation),
             'quest' => $this->addReputForQuest($model_id, $coefficient, $reputation),
             'research' => $this->addReputForResearch($coefficient, $reputation),

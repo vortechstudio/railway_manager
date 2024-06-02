@@ -5650,6 +5650,40 @@ i.text-blue-grey-1000 {
   background-color: #557c01 !important;
 }
 
+.train {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.car {
+  margin-bottom: 20px;
+}
+
+.seat-row {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.seat {
+  width: 10px;
+  height: 10px;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.aile {
+  width: 20px;
+  height: 40px;
+}
+
 .bg-striped {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-size: 3rem 3rem;
