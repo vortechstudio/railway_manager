@@ -130,10 +130,10 @@
                             </div>
                             <div class="d-flex justify-content-around align-items-center">
                                 <div class="d-flex flex-column align-items-center">
-                                    <button class="btn btn-sm btn-primary">Check A</button>
+                                    <button wire:click="welcoming" class="btn btn-sm btn-primary">Check A</button>
                                     <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getAmountMaintenancePrev()) }}</span>
                                 </div>
-                                <div class="d-flex flex-column align-items-center">
+                                <div wire:click="welcoming" class="d-flex flex-column align-items-center">
                                     <button class="btn btn-sm btn-primary">Check D</button>
                                     <span>{{ Helpers::eur((new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getAmountMaintenanceCur()) }}</span>
                                 </div>
