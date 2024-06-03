@@ -103,6 +103,21 @@ class UserRailwayEngineAction
         return $calDistanceParcoure >= $this->engine->max_runtime && $this->engine->status == 'free';
     }
 
+    public function getRentabilityPercent(): float|int
+    {
+        return (($this->getResultat() - $this->engine->railwayEngine->price->achat) / $this->engine->railwayEngine->price->achat) * 100;
+    }
+
+    public function getAmountMaintenancePrev()
+    {
+        return floatval($this->engine->railwayEngine->price->maintenance * \Helpers::minToHoursDecimal($this->engine->railwayEngine->duration_maintenance->diffInMinutes(now()->startOfDay())) / 4);
+    }
+
+    public function getAmountMaintenanceCur()
+    {
+        return floatval($this->engine->railwayEngine->price->maintenance * \Helpers::minToHoursDecimal($this->engine->railwayEngine->duration_maintenance->diffInMinutes(now()->startOfDay())));
+    }
+
     private function formatStatusDefault()
     {
         return match ($this->engine->status->value) {

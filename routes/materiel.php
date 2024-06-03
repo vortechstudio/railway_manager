@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('train')->as('train.')->group(function () {
     Route::get('/', [TrainController::class, 'index'])->name('index');
+    Route::get('/{id}', [TrainController::class, 'show'])->name('show');
     Route::get('buy', [TrainController::class, 'buy'])->name('buy');
     Route::get('buy/checkout', [TrainController::class, 'checkout'])->name('checkout');
     Route::get('buy/rental', [TrainController::class, 'rental'])->name('rental');

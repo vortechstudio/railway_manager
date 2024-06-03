@@ -21,7 +21,7 @@ class UserRailwayEngine extends Model
     protected $connection = 'railway';
 
     protected $casts = [
-        'date_achat' => 'timestamp',
+        'date_achat' => 'datetime',
         'status' => RailwayEngineStatusEnum::class,
     ];
 
@@ -79,7 +79,7 @@ class UserRailwayEngine extends Model
         $color = (new UserRailwayEngineAction($this))->getStatusFormat('color');
         $text = (new UserRailwayEngineAction($this))->getStatusFormat();
 
-        return "<span class='badge badge-sm bg-{$color}-500'><i class='{$icon} text-white me-2'></i> {$text}</span>";
+        return "<span class='badge badge-sm bg-{$color}-500 text-white'><i class='{$icon} text-white me-2'></i> {$text}</span>";
     }
 
     public function getUtilisationAttribute()

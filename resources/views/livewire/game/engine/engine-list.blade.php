@@ -21,12 +21,12 @@
                                     <span class="text-white">Assigner à une ligne</span>
                                 </button>
                             @endif
-                            <button class="btn btn-flex bg-blue-600 bg-hover-primary">
+                            <a href="{{ route('train.show', $engine->id) }}" class="btn btn-flex bg-blue-600 bg-hover-primary">
                                 <span class="symbol symbol-35px me-2">
                                     <img src="{{ Storage::url('icons/railway/train.png') }}" alt="">
                                 </span>
                                 <span class="text-white">Détail de la rame</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <div class="d-flex align-items-center p-5">
