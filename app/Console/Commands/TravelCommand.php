@@ -133,18 +133,18 @@ class TravelCommand extends Command
                     if ($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'unique',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     } else {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'first',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_first)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_first)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'second',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     }
