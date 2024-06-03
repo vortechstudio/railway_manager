@@ -14,6 +14,7 @@
 @section("content")
     <div class="container-xxl">
         <div id="kt_app_content" class="app-content">
+            <x-game.engine-menu />
             @livewire('game.engine.engine-rental-list')
         </div>
     </div>

@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 
 class TrainController extends Controller
 {
+    public function index()
+    {
+        return view('games.materiel.train.index');
+    }
     public function buy()
     {
         return view('games.materiel.train.buy');
