@@ -53,6 +53,11 @@ class UserRailwayEngine extends Model
         return $this->belongsTo(UserRailwayHub::class, 'user_railway_hub_id');
     }
 
+    public function userRailwayRental()
+    {
+        return $this->hasMany(UserRailwayRental::class);
+    }
+
     public function plannings()
     {
         return $this->hasMany(RailwayPlanning::class);

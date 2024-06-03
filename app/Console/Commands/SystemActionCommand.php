@@ -199,13 +199,13 @@ class SystemActionCommand extends Command
     private function tarifToday(): void
     {
         foreach (UserRailwayLigne::where('active', true)->get() as $ligne) {
-            if (!$ligne->tarifs()->whereDate('date_tarif', Carbon::today())->exists()) {
+            if (! $ligne->tarifs()->whereDate('date_tarif', Carbon::today())->exists()) {
                 (new UserRailwayLigneAction($ligne))->createTarif();
             }
         }
     }
 
-    private function updateReward()
+    private function updateReward(): void
     {
         $service = (new RailwayService())->getRailwayService();
         $service_id = $service->id;
@@ -218,17 +218,17 @@ class SystemActionCommand extends Command
             if ($user->railway()->exists()) {
                 (new MailboxAction())->newMessage(
                     user: $user,
-                    subject: "Compensation de mise à jour",
+                    subject: 'Compensation de mise à jour',
                     message: $this->contentMessageUpdate($user, $response),
                     type: 'account',
                     rewards: [
                         [
-                            "type" => "argent",
-                            "value" => "200000"
+                            'type' => 'argent',
+                            'value' => '200000',
                         ],
                         [
-                            "type" => "tpoint",
-                            "value" => "50"
+                            'type' => 'tpoint',
+                            'value' => '50',
                         ],
                     ]
                 );

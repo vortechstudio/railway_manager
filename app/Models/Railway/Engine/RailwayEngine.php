@@ -51,7 +51,7 @@ class RailwayEngine extends Model
 
     public function rentals()
     {
-        return $this->belongsToMany(RailwayRental::class, 'railway_engine_rentals', 'railway_rental_id', 'railway_engine_id');
+        return $this->belongsToMany(RailwayRental::class, 'railway_engine_rentals');
     }
 
     public function users()

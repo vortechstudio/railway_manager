@@ -95,7 +95,6 @@ class LigneCheckout extends Component
                 'user_id' => auth()->user()->id,
             ]);
             $userLigne->update(['nb_depart_jour' => (new UserRailwayLigneAction($userLigne))->calcNbDepartJour()]);
-            (new UserRailwayLigneAction($userLigne))->createTarif();
 
             $delivery = auth()->user()->userRailwayDelivery()->create([
                 'type' => 'ligne',
