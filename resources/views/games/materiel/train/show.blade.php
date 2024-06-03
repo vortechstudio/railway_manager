@@ -59,6 +59,14 @@
                 <div class="tab-pane fade active show" id="details" role="tabpanel">
                     @livewire('game.engine.engine-detail', ['engine' => $engine])
                 </div>
+                <div class="tab-pane fade" id="assignation" role="tabpanel">
+                    @if($engine->status->value != 'free')
+                        <x-base.is-null
+                            text="Cette rame est actuellement utiliser sur le reseaux" />
+                    @else
+                        @livewire('game.engine.engine-assign', ['engine' => $engine])
+                    @endif
+                </div>
             </div>
         </div>
     </div>
