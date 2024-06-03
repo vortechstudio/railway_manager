@@ -1,3 +1,21 @@
+# [0.12.0](https://github.com/vortechstudio/railway_manager/compare/v0.11.0...v0.12.0) (2024-06-03)
+
+
+### Bug Fixes
+
+* **Network:** Ajout de la condition pour vérifier l'existence de la ligne utilisateur ([aa5a58f](https://github.com/vortechstudio/railway_manager/commit/aa5a58f8e4a6b52fa29f71d4837f1281c52eb65a))
+* **Network:** Ajout de la création de tarif lors de l'achat d'une ligne ([d9342d5](https://github.com/vortechstudio/railway_manager/commit/d9342d53ef05541b0066706e8fcb84b66bfb1b18))
+* **Trophy:** Ajout de l'événement NewUserEvent ([b4f5497](https://github.com/vortechstudio/railway_manager/commit/b4f54977aaa6c2c86704a28c2b2c829b13fd88af))
+* **Trophy:** Ajustement de la mise en page du trophée ([03eba00](https://github.com/vortechstudio/railway_manager/commit/03eba00bd57f4d8ff0875775b80706dd4285c69b))
+
+
+### Features
+
+* **Boutique:** Ajout de la gestion des Travel Points et de la relation polymorphique pour les articles du magasin ([4012326](https://github.com/vortechstudio/railway_manager/commit/401232614b82c075638d17f2538b46be29ef80fb))
+* **General:** Ajout de nouvelles sections dans le menu utilisateur ([cc74742](https://github.com/vortechstudio/railway_manager/commit/cc7474229203440d93ef1eaad139132b99690985))
+* **Materiel:** Ajout de la gestion des locations de matériel roulant et de la composition des trains ([3b4b537](https://github.com/vortechstudio/railway_manager/commit/3b4b537225eae9850e6158f91f9e89f0ad928ad7))
+* **PlanningAutomated:** Ajout de l'automatisation du planning ([8bd9372](https://github.com/vortechstudio/railway_manager/commit/8bd93721ce2c5f957c0237eebf0c480ba04efe3e))
+
 # [0.11.0](https://github.com/vortechstudio/railway_manager/compare/v0.10.0...v0.11.0) (2024-06-01)
 
 
