@@ -12,7 +12,7 @@ class RailwayEnginePrice extends Model
     protected $connection = 'railway';
 
     protected $appends = [
-        'amount_caution'
+        'amount_caution',
     ];
 
     public function engine()

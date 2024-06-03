@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('user_railway_rentals', function (Blueprint $table) {
+        Schema::connection('railway')->create('user_railway_rentals', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date_contract');
             $table->integer('duration_contract');
@@ -23,6 +23,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('user_railway_rentals');
+        Schema::connection('railway')->dropIfExists('user_railway_rentals');
     }
 };

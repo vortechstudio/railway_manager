@@ -8,7 +8,6 @@ use App\Actions\Railway\EngineAction;
 use App\Jobs\DeliveryJob;
 use App\Models\Railway\Config\RailwayRental;
 use App\Models\Railway\Engine\RailwayEngine;
-use App\Models\Railway\Gare\RailwayHub;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
@@ -24,32 +23,45 @@ class EngineRentalList extends Component
     use LivewireAlert;
 
     public $selectRental;
+
     public $selectEngine;
+
     public $selectDeliveryHub;
+
     public $engines;
+
     public $rentals;
+
     public RailwayEngine $engineData;
+
     public RailwayRental $rental;
 
     //filter Engine
     public $type_energy;
+
     public $type_transport;
+
     public $type_train;
+
     public $price_order;
 
     // Cart
     public $caution;
+
     public $qteSemaine;
+
     public $amountOfSemaine;
+
     public $frais;
+
     public $amountGlobal;
 
-    public function mount()
+    public function mount(): void
     {
         $this->rentals = RailwayRental::all();
     }
 
-    public function updated()
+    public function updated(): void
     {
         $this->engines = RailwayRental::find($this->selectRental)->engines()->with('technical', 'price')
             ->when($this->type_transport, function (Builder $query) {
@@ -69,27 +81,27 @@ class EngineRentalList extends Component
 
     }
 
-    public function updatedSelectRental()
+    public function updatedSelectRental(): void
     {
         $this->engines = RailwayRental::find($this->selectRental)->engines()->get();
         $this->rental = RailwayRental::find($this->selectRental);
     }
 
-    public function updatedSelectEngine()
+    public function updatedSelectEngine(): void
     {
         $this->engineData = RailwayEngine::find($this->selectEngine);
         $this->caution = intval($this->engineData->price->achat - ($this->engineData->price->achat * 60 / 100));
     }
 
-    public function updatedQteSemaine()
+    public function updatedQteSemaine(): void
     {
         $this->frais = (new RailwayEnginePriceAction($this->engineData->price))->calcFrais($this->qteSemaine);
         $this->amountGlobal = $this->engineData->price->location + $this->caution;
     }
 
-    public function checkout()
+    public function checkout(): void
     {
-        $this->alert('question', 'Etes-vous sur de vouloir louer ce matériel roulant pour ' . Helpers::eur($this->amountGlobal) . ' ?', [
+        $this->alert('question', 'Etes-vous sur de vouloir louer ce matériel roulant pour '.Helpers::eur($this->amountGlobal).' ?', [
             'showConfirmButton' => true,
             'confirmButtonText' => 'Louer le matériel',
             'onConfirmed' => 'confirmed',
@@ -104,7 +116,7 @@ class EngineRentalList extends Component
     }
 
     #[On('confirmed')]
-    public function confirmed()
+    public function confirmed(): void
     {
         try {
             (new Compta())->create(
@@ -125,7 +137,7 @@ class EngineRentalList extends Component
                 'user_id' => auth()->user()->id,
                 'railway_engine_id' => $this->engineData->id,
                 'user_railway_hub_id' => $this->selectDeliveryHub,
-                'status' => 'free'
+                'status' => 'free',
             ]);
             $r = rand(15, 30);
             $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
@@ -158,7 +170,7 @@ class EngineRentalList extends Component
     }
 
     #[On('redirect')]
-    public function res()
+    public function res(): void
     {
         $this->redirectRoute('train.buy');
     }
@@ -169,12 +181,12 @@ class EngineRentalList extends Component
         ?>
         <table class="table table-row-bordered rounded-3 bg-yellow-300">
             <tbody>
-                <?php for ($i=0; $i <= $this->qteSemaine; $i++): ?>
+                <?php for ($i = 0; $i <= $this->qteSemaine; $i++) { ?>
                 <tr>
                     <td><?= now()->addWeeks($i)->format('d/m/Y') ?></td>
                     <td><?= Helpers::eur($this->engineData->price->location) ?></td>
                 </tr>
-                <?php endfor; ?>
+                <?php } ?>
             </tbody>
         </table>
         <?php

@@ -19,6 +19,7 @@ class RailwayEnginePriceAction
     {
         $timeMaintenance = (new RailwayEngineTechnicalAction($this->price->engine->technical))->calcDurationMaintenancePrev();
         $calc = (($this->price->maintenance * $timeMaintenance->diffInHours(now()->startOfDay())) * $durationSemaine) / 5;
+
         return floatval($calc);
     }
 }
