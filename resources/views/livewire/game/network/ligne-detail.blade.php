@@ -20,7 +20,7 @@
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                             <span>Rame affecté: </span>
-                            <span class="fw-bold">{{ $ligne->userRailwayEngine->count() }}</span>
+                            <span class="fw-bold">{{ $ligne->userRailwayEngine()->count() }}</span>
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                             <span>Nombre de trajet hebdomadaire: </span>
@@ -35,6 +35,14 @@
                         <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                             <span>Distance: </span>
                             <span class="fw-bold">{{ $ligne->railwayLigne->distance }} Km</span>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                            <span>Temps de trajet: </span>
+                            <span class="fw-bold">{{ now()->startOfDay()->addMinutes($ligne->railwayLigne->time_min)->format('H:i:s') }}</span>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                            <span>Prochain départ: </span>
+                            <span class="fw-bold">{{ $ligne->plannings()->whereBetween('date_depart', [now(), now()->endOfDay()])->orderBy('date_depart', 'asc')->first()->date_depart->format('H:i:s') }}</span>
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                             <span>Hub d'arrivée: </span>
