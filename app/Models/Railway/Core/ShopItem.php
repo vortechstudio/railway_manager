@@ -38,6 +38,11 @@ class ShopItem extends Model
         return $this->belongsToMany(ShopPackage::class, 'package_item');
     }
 
+    public function model()
+    {
+        return $this->morphTo('model', null, 'model_id', 'id');
+    }
+
     public function getImage()
     {
         if (\Storage::exists('icons/railway/shop/items/'.\Str::slug($this->name).'.png')) {
