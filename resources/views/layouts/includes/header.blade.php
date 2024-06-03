@@ -71,6 +71,8 @@
                 @if($user->unreadNotifications()->count() > 0 || $user->userRailwayDelivery()->get()->count() > 0)
                 <livewire:core.user-notification />
                 @endif
+
+                @livewire('core.user-planning-progress')
                 <!--begin::Chat-->
                 <div class="app-navbar-item ms-1 ms-lg-5">
                     <!--begin::Menu wrapper-->
