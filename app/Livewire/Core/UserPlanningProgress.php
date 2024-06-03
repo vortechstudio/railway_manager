@@ -11,7 +11,7 @@ class UserPlanningProgress extends Component
 
     public function mount()
     {
-        $this->plannings = RailwayPlanning::whereBetween('date_depart', [now(), now()->endOfDay()])
+        $this->plannings = auth()->user()->railway_plannings()->whereBetween('date_depart', [now(), now()->endOfDay()])
             ->where('status', 'departure')
             ->orWhere('status', 'travel')
             ->orWhere('status', 'in_station')

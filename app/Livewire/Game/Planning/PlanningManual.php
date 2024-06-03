@@ -67,7 +67,7 @@ class PlanningManual extends Component
     public function render()
     {
         return view('livewire.game.planning.planning-manual', [
-            'engines' => auth()->user()->railway_engines()->with('railwayEngine', 'constructors')->where('available', true)->orWhere('active', true)->get(),
+            'engines' => auth()->user()->railway_engines()->with('railwayEngine', 'constructors')->get(),
         ]);
     }
 }
