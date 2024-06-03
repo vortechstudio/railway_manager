@@ -63,7 +63,7 @@ class LigneStationAction
     {
         $timeInSecond = $distance / $vitesse;
         $calc = ($timeInSecond * 60) / 1.8;
-        if($calc == 0 || $calc <= 1) {
+        if ($calc == 0 || $calc <= 1) {
             return 1;
         } else {
             return intval($calc);

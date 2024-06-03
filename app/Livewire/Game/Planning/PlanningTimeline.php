@@ -7,10 +7,10 @@ use Livewire\Component;
 class PlanningTimeline extends Component
 {
     public $datas;
+
     public $plannings;
 
-
-    public function mount()
+    public function mount(): void
     {
         $this->datas = auth()->user()->railway_plannings()->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])->get();
 

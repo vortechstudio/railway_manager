@@ -14,7 +14,7 @@
 
 @section("content")
     <div id="kt_app_content" class="app-content h-sm-100 h-lg-700px rounded-3 d-flex flex-column flex-lg-row justify-content-center align-items-center bg-trophy firefly">
-        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-200px mb-7 me-lg-10">
+        <div class="d-flex flex-column gap-7 gap-lg-10 w-lg-200px mb-7 me-lg-10">
             @foreach(\Spatie\LaravelOptions\Options::forEnum(\App\Enums\Railway\Core\AchievementSectorEnum::class)->toArray() as $type)
                 <a href="{{ route('trophy.show', $type['value']) }}" class="{{ $type['value'] == $sector ? '' : 'hover-scale' }} mb-5">
                     <span class="symbol symbol-sm-60px symbol-lg-150px symbol-circle bg-gray-300 bg-opacity-25 bg-active-primary bg-active-opacity-100 {{ $type['value'] == $sector ? 'active scale-up' : '' }}">

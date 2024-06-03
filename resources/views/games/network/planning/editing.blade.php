@@ -45,6 +45,9 @@
 
                     @endif
                 </div>
+                <div class="col-sm-12 col-lg-2 mb-3">
+                    @livewire('game.planning.planning-automated')
+                </div>
             </div>
         </div>
     </div>

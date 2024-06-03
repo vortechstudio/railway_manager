@@ -21,6 +21,7 @@ use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMessage;
+use App\Models\User\Railway\UserRailwayRental;
 use App\Models\User\Railway\UserRailwayReward;
 use App\Models\User\Railway\UserRailwaySocial;
 use Illuminate\Database\Eloquent\Builder;
@@ -199,6 +200,11 @@ class User extends Authenticatable
     public function railway_incidents()
     {
         return $this->hasMany(RailwayIncident::class);
+    }
+
+    public function userRailwayRentals()
+    {
+        return $this->hasMany(UserRailwayRental::class);
     }
 
     public function scopeNotifiable(Builder $query)

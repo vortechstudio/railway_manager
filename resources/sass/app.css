@@ -1,4 +1,6 @@
 @import "leaflet/dist/leaflet.css";
+@import "../css/fonts/tabler-icons.css";
+@import "../css/shop.css";
 .animate__animated.animate__delay-0 {
   -webkit-animation-delay: 1s;
   animation-delay: 0ms;
@@ -5648,6 +5650,40 @@ i.text-blue-grey-1000 {
   background-color: #557c01 !important;
 }
 
+.train {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.car {
+  margin-bottom: 20px;
+}
+
+.seat-row {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.seat {
+  width: 10px;
+  height: 10px;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.aile {
+  width: 20px;
+  height: 40px;
+}
+
 .bg-striped {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-size: 3rem 3rem;
@@ -5655,6 +5691,59 @@ i.text-blue-grey-1000 {
 
 .strike {
   text-decoration: line-through;
+}
+
+body {
+  font-family: "Twemoji Country Flags", Inter, Helvetica, "sans-serif";
+}
+
+.animated-background {
+  background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
+  background-size: 400% 400%;
+  animation: animate-background 10s infinite ease-in-out;
+  height: 100vh;
+}
+
+@keyframes animate-background {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+.bg-trophy {
+  background: rgb(128, 120, 254);
+  background: radial-gradient(circle, rgb(128, 120, 254) 0%, rgb(20, 107, 134) 63%, rgb(1, 153, 189) 100%);
+}
+
+.panelZoom {
+  transition: transform 2s !important;
+}
+
+.panelZoom:hover {
+  -ms-transform: scale(1.5) !important; /* IE 9 */
+  -webkit-transform: scale(1.5) !important; /* Safari 3-8 */
+  transform: scale(1.5) !important;
+}
+
+.scale-up {
+  transform: scale(1.1) !important;
+}
+
+.backgroundGradient {
+  height: 100vh;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.shadow-left-sm {
+  box-shadow: black 0px 8px 25px 19px !important;
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -5,7 +5,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
                 'resources/sass/app.scss',
                 'resources/js/app.js',
                 'resources/js/login-effect.js',
@@ -19,6 +18,11 @@ export default defineConfig({
             transformMixedEsModules: true
         },
         rollupOptions: {
+            input: [
+                'resources/sass/app.scss',
+                'resources/js/app.js',
+                'resources/js/login-effect.js',
+            ],
             output:{
                 manualChunks(id) {
                     if (id.includes('node_modules')) {

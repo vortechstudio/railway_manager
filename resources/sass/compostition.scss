@@ -1,0 +1,33 @@
+.train {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #333;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.car {
+    margin-bottom: 20px;
+}
+
+.seat-row {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.seat {
+    width: 10px;
+    height: 10px;
+    background-color: #3498db;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.aile {
+    width: 20px;
+    height: 40px;
+}

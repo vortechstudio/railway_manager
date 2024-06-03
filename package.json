@@ -3,12 +3,14 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "critical": "node extractCritical.js"
     },
     "devDependencies": {
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/git": "^10.0.1",
         "axios": "^1.6.4",
+        "critical": "^7.1.2",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0.0",
         "pusher-js": "^8.4.0-rc2",

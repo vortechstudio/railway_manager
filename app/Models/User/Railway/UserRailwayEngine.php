@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayEngine extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
 
     protected $connection = 'railway';
@@ -50,6 +51,11 @@ class UserRailwayEngine extends Model
     public function userRailwayHub()
     {
         return $this->belongsTo(UserRailwayHub::class, 'user_railway_hub_id');
+    }
+
+    public function userRailwayRental()
+    {
+        return $this->hasMany(UserRailwayRental::class);
     }
 
     public function plannings()

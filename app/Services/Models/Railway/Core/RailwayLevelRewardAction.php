@@ -11,7 +11,7 @@ class RailwayLevelRewardAction
     {
     }
 
-    public function rewarding()
+    public function rewarding(): void
     {
         $message = Message::create([
             'message_subject' => 'Nouvelle récompense de niveau',

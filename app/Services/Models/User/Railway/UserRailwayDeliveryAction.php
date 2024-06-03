@@ -26,7 +26,7 @@ class UserRailwayDeliveryAction
         return $this->delivery->end_at->diffInSeconds($this->delivery->start_at);
     }
 
-    public function delivered()
+    public function delivered(): void
     {
         $model = $this->delivery->model::find($this->delivery->model_id);
         $model->update([
