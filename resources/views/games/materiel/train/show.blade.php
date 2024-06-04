@@ -67,6 +67,9 @@
                         @livewire('game.engine.engine-assign', ['engine' => $engine])
                     @endif
                 </div>
+                <div class="tab-pane fade" id="configuration" role="tabpanel">
+                    @livewire('game.engine.engine-config-tab', ['engine' => $engine])
+                </div>
             </div>
         </div>
     </div>
