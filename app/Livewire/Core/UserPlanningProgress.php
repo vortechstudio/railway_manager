@@ -3,6 +3,7 @@
 namespace App\Livewire\Core;
 
 use App\Models\Railway\Planning\RailwayPlanning;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class UserPlanningProgress extends Component
@@ -12,9 +13,11 @@ class UserPlanningProgress extends Component
     public function mount()
     {
         $this->plannings = auth()->user()->railway_plannings()->whereBetween('date_depart', [now(), now()->endOfDay()])
-            ->where('status', 'departure')
-            ->orWhere('status', 'travel')
-            ->orWhere('status', 'in_station')
+            ->where(function (Builder $query) {
+                $query->where('status', 'departure')
+                    ->orWhere('status', 'travel')
+                    ->orWhere('status', 'in_station');
+            })
             ->orderBy('date_depart')
             ->get();
     }
