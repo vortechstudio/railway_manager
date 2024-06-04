@@ -15,4 +15,5 @@ class RailwayEngineTechnicalAction
         return now()->startOfDay()->addMinutes($diff);
     }
 
+
 }

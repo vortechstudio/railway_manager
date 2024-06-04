@@ -1,20 +1,25 @@
 <div>
     <div class="row">
         <div class="col-sm-12 col-lg-9 mb-5">
-            <livewire:game.core.map type="hub" :user_hub_id="$hub->id" />
+            <livewire:game.core.map type="hub" :user_hub_id="$hub->id"/>
         </div>
         <div class="col-sm-12 col-lg-3 mb-5">
             @php
-            $planning = $hub->plannings()
-                ->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])
-                ->where('status', 'initialized')
-                ->orWhere('status', 'departure')
-                ->orWhere('status', 'retarded')
-                ->orWhere('status', 'canceled')->first();
-            \Carbon\Carbon::setLocale('fr');
+                use Illuminate\Database\Eloquent\Builder;$planning = $hub->plannings()
+                    ->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])
+                    ->where(function (Builder $query) {
+                        $query->where('status', 'initialized')
+                        ->orWhere('status', 'departure')
+                        ->orWhere('status', 'retarded')
+                        ->orWhere('status', 'canceled');
+                    })
+                    ->orderBy('date_depart', 'desc')
+                    ->first();
+                \Carbon\Carbon::setLocale('fr');
             @endphp
             @if(isset($planning))
-                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-blue-200 mb-5">
+                <div
+                    class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-blue-200 mb-5">
                     <div class="card-header">
                         <h3 class="card-title">Prochain départ</h3>
                         <div class="card-toolbar">
@@ -24,7 +29,8 @@
                                     <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
                                 </div>
                             @elseif($planning->status->value == 'retarded')
-                                <div class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
+                                <div
+                                    class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
                                     <div class="animate__animated animate__flash animate__infinite">
                                         <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
                                         <span class="fs-4 text-blue-800 fw-semibold"> Retardé</span>
@@ -47,7 +53,8 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
+                            <span
+                                class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
                             <span class="fw-bold fs-3">{{ $planning->date_depart->format('H:i') }}</span>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -68,54 +75,56 @@
                 \Carbon\Carbon::setLocale('fr');
             @endphp
             @isset($planning)
-            <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-green-200">
-                <div class="card-header">
-                    <h3 class="card-title">Prochain Arrivée</h3>
-                    <div class="card-toolbar">
-                        @if($planning->status->value == 'initialized')
-                            <div class="d-flex align-items-center rounded-3 border border-1 border-primary p-1">
-                                <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
-                            </div>
-                        @elseif($planning->status->value == 'retarded')
-                            <div class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
-                                <div class="animate__animated animate__flash animate__infinite">
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-center border-0 bg-green-200">
+                    <div class="card-header">
+                        <h3 class="card-title">Prochain Arrivée</h3>
+                        <div class="card-toolbar">
+                            @if($planning->status->value == 'initialized')
+                                <div class="d-flex align-items-center rounded-3 border border-1 border-primary p-1">
                                     <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                    <span class="fs-4 text-blue-800 fw-semibold"> Retardé</span>
+                                    <span class="fs-4 text-blue-800 fw-semibold"> à l'heure</span>
                                 </div>
-                            </div>
-                        @elseif($planning->status->value == 'canceled')
-                            <div class="d-flex align-items-center rounded-3 bg-red-600 border border-red-900 p-2">
-                                <div class="">
-                                    <i class="fa-solid fa-clock-four text-white me-2 fs-3"></i>
-                                    <span class="fs-4 text-white fw-semibold"> Annulé</span>
+                            @elseif($planning->status->value == 'retarded')
+                                <div
+                                    class="d-flex align-items-center rounded-3 bg-orange-600 border border-orange-900 p-2">
+                                    <div class="animate__animated animate__flash animate__infinite">
+                                        <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
+                                        <span class="fs-4 text-blue-800 fw-semibold"> Retardé</span>
+                                    </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="d-flex align-items-center rounded-3 border border-primary p-1">
-                                <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
-                                <span class="fs-4 text-blue-800 fw-semibold"> Départ Imminent</span>
-                            </div>
-                        @endif
+                            @elseif($planning->status->value == 'canceled')
+                                <div class="d-flex align-items-center rounded-3 bg-red-600 border border-red-900 p-2">
+                                    <div class="">
+                                        <i class="fa-solid fa-clock-four text-white me-2 fs-3"></i>
+                                        <span class="fs-4 text-white fw-semibold"> Annulé</span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="d-flex align-items-center rounded-3 border border-primary p-1">
+                                    <i class="fa-solid fa-clock-four text-blue-800 me-2 fs-3"></i>
+                                    <span class="fs-4 text-blue-800 fw-semibold"> Départ Imminent</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span
+                                class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
+                            <span class="fw-bold fs-3">{{ $planning->date_depart->format('H:i') }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
+                            <span class="fw-bold fs-3">{{ $planning->date_arrived->format('H:i') }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img src="{{ $planning->userRailwayLigne->railwayLigne->icon }}" class="w-40px" alt="">
+                            <span>{{ $planning->number_travel }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->start->name }}</span>
-                        <span class="fw-bold fs-3">{{ $planning->date_depart->format('H:i') }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bold fs-3">{{ $planning->userRailwayLigne->railwayLigne->end->name }}</span>
-                        <span class="fw-bold fs-3">{{ $planning->date_arrived->format('H:i') }}</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <img src="{{ $planning->userRailwayLigne->railwayLigne->icon }}" class="w-40px" alt="">
-                        <span>{{ $planning->number_travel }}</span>
-                    </div>
-                </div>
-            </div>
             @endisset
         </div>
     </div>
@@ -129,17 +138,21 @@
         <div class="card-body">
             <div class="d-flex align-items-center mb-2">
                 <span class="badge bg-orange-600 text-white me-3">Hub</span>
-                <span class="fw-bold fs-3">{{ $hub->railwayHub->gare->name }} / <x-icon name="flag-country-{{ \Str::limit(\Str::lower($hub->railwayHub->gare->pays), 2, '') }}" class="w-25px h-25px" /> France</span>
+                <span class="fw-bold fs-3">{{ $hub->railwayHub->gare->name }} / <x-icon
+                        name="flag-country-{{ \Str::limit(\Str::lower($hub->railwayHub->gare->pays), 2, '') }}"
+                        class="w-25px h-25px"/> France</span>
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                         <span>Date d'achat: </span>
-                        <span class="fw-bold">{{ \Carbon\Carbon::parse($hub->date_achat)->format('d/m/Y à H:i') }}</span>
+                        <span
+                            class="fw-bold">{{ \Carbon\Carbon::parse($hub->date_achat)->format('d/m/Y à H:i') }}</span>
                     </div>
                     <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                         <span>Passagers Annuel: </span>
-                        <span class="fw-bold">{{ $hub->getSumPassengers('unique', now()->startOfYear(), now()) + $hub->getSumPassengers('first', now()->startOfYear(), now()) + $hub->getSumPassengers('second', now()->startOfYear(), now()) }}</span>
+                        <span
+                            class="fw-bold">{{ $hub->getSumPassengers('unique', now()->startOfYear(), now()) + $hub->getSumPassengers('first', now()->startOfYear(), now()) + $hub->getSumPassengers('second', now()->startOfYear(), now()) }}</span>
                     </div>
                     <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                         <span>Performance du HUB: </span>
@@ -216,11 +229,13 @@
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                                 <span>Frais Electrique: </span>
-                                <span class="text-danger">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getFraisElectrique()) }}</span>
+                                <span
+                                    class="text-danger">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getFraisElectrique()) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                                 <span>Frais Gasoil: </span>
-                                <span class="text-danger">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getFraisCarburant()) }}</span>
+                                <span
+                                    class="text-danger">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getFraisCarburant()) }}</span>
                             </div>
                         </div>
                     </div>
@@ -262,7 +277,8 @@
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                                 <span>Cout des incidents (30 jours): </span>
-                                <span class="">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getAmountIncident(now()->subDays(30), now())) }}</span>
+                                <span
+                                    class="">{{ \Vortechstudio\Helpers\Facades\Helpers::eur($hub->getAmountIncident(now()->subDays(30), now())) }}</span>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-1">
                                 <span>Trajet non effectuer: </span>

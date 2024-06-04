@@ -277,7 +277,7 @@ class TravelCommand extends Command
         $sum = 0;
 
         foreach ($tarifs as $tarif) {
-            $sum += $tarif->price * $planning->passengers()->where('type', $tarif->type == 'unique' ? 'second' : $tarif->type)->sum('nb_passengers');
+            $sum += $tarif->price * $planning->passengers()->where('type', $tarif->type_tarif)->sum('nb_passengers');
         }
 
         return $sum;
