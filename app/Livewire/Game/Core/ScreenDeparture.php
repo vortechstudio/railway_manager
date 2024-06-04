@@ -19,7 +19,7 @@ class ScreenDeparture extends Component
         $this->plannings = match ($this->type) {
             default => auth()->user()->railway_plannings()
                 ->with('userRailwayHub', 'userRailwayLigne', 'userRailwayEngine')
-                ->whereDate('date_depart', Carbon::today())
+                ->whereBetween('date_depart', [now(), now()->endOfDay()])
                 ->where('status', 'initialized')
                 ->orWhere('status', 'departure')
                 ->orWhere('status', 'retarded')

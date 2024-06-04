@@ -229,4 +229,9 @@ class UserRailwayLigneAction
 
         return round(floatval($calc * 40 / 100), 2);
     }
+
+    public function consommationPuissance()
+    {
+        return round(floatval($this->ligne->userRailwayEngine->railwayEngine->technical->puissance / Helpers::minToHoursDecimal($this->ligne->railwayLigne->time_min)), 2);
+    }
 }

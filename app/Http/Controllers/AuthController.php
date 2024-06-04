@@ -72,7 +72,7 @@ class AuthController extends Controller
     private function verifyUser(object $user, string $provider)
     {
         $gUser = $user;
-        $user = User::query()->where('email', $gUser->email)->first();
+        $user = User::query()->where('name', $gUser->name)->first();
         $service = (new RailwayService())->getRailwayService();
 
         if (! $user) {
