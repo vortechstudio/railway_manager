@@ -76,6 +76,9 @@
                 <div class="tab-pane fade" id="trajets" role="tabpanel">
                     @livewire('game.planning.planning-list-by-date', ['type' => 'engine', 'engine' => $engine])
                 </div>
+                <div class="tab-pane fade" id="incidents" role="tabpanel">
+                    @livewire('game.engine.incident-list', ['type' => 'engine', 'engine' => $engine])
+                </div>
             </div>
         </div>
     </div>
