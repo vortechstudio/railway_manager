@@ -62,12 +62,6 @@ class TravelCommand extends Command
                         'message' => "Départ de la rame {$planning->userRailwayEngine->number} en direction de la gare de départ",
                         'railway_planning_id' => $planning->id,
                     ]);
-                    $planning->user->notify(new SendMessageAdminNotification(
-                        title: "Trajet {$planning->userRailwayEngine->number} en cours",
-                        sector: 'alert',
-                        type: 'info',
-                        message: "Départ de la rame {$planning->userRailwayEngine->number} en direction de la gare de départ"
-                    ));
                 } catch (\Exception $exception) {
                     (new ErrorDispatchHandle())->handle($exception);
                 }
@@ -106,12 +100,6 @@ class TravelCommand extends Command
                     'message' => "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}",
                     'railway_planning_id' => $planning->id,
                 ]);
-                $planning->user->notify(new SendMessageAdminNotification(
-                    title: 'En transit',
-                    sector: 'alert',
-                    type: 'info',
-                    message: "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}"
-                ));
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
