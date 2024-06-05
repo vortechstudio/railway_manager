@@ -17,7 +17,10 @@ class UserRailwayHubAction
     public function getCA(?Carbon $from = null, ?Carbon $to = null)
     {
         return UserRailwayMouvement::where('user_railway_hub_id', $this->hub->id)
-            ->where('type_amount', 'revenue')
+            ->where(function (Builder $query) {
+                $query->where('type_mvm', 'billetterie')
+                    ->orWhere('type_mvm', 'rent_trajet_aux');
+            })
             ->when($from && $to, function (Builder $query) use ($from, $to) {
                 return $query->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()]);
             })
@@ -29,8 +32,12 @@ class UserRailwayHubAction
         $billetterie = $this->calcSumAmount('billetterie', $from, $to);
         $rent_aux = $this->calcSumAmount('rent_trajet_aux', $from, $to);
         $cout = $this->calcSumAmount('cout_trajet', $from, $to);
+        $taxe = $this->calcSumAmount('taxe', $from, $to);
 
-        return ($billetterie + $rent_aux) - $cout;
+        $total_rent = $billetterie + $rent_aux;
+        $total_cout = $cout + $taxe;
+
+        return $total_rent - $total_cout;
     }
 
     public function getCout(?Carbon $from = null, ?Carbon $to = null)
@@ -148,7 +155,6 @@ class UserRailwayHubAction
     private function calcSumAmount(?string $type, ?Carbon $from, ?Carbon $to)
     {
         return $this->hub->mouvements()
-            ->where('user_railway_hub_id', $this->hub->id)
             ->when($type, function (Builder $query) use ($type) {
                 $query->where('type_mvm', $type);
             })

@@ -2,9 +2,12 @@
 
 namespace App\Actions;
 
+use App\Models\Railway\Planning\RailwayPlanning;
+use Cloudstudio\Ollama\Facades\Ollama;
+
 class IncidentAction
 {
-    public $ollama;
+    public \Cloudstudio\Ollama\Ollama $ollama;
 
     public function __construct()
     {
@@ -69,14 +72,34 @@ class IncidentAction
     ');
     }
 
-    public function newIncident()
+    public function newIncident(RailwayPlanning $planning)
     {
         $response = $this->ollama->model('llama3')
             ->options(['temperature' => 1.2])
-            ->prompt("Ligne Les Sables d'olonne (09:35) - Nantes (11:02) parcourue par le TER 785000 de type électrique ayant actuellement 0min de retard et 65 personne à son bord. Arret: La mothe achard / La roche sur yon / Montaigu Vendée / Clisson")
+            ->prompt("Ligne {$planning->userRailwayLigne->railwayLigne->start->name} ({$planning->date_depart->format('H:i')}) - {$planning->userRailwayLigne->railwayLigne->end->name} ({$planning->date_arrived->format('H:i')}) parcourue par le {$planning->userRailwayEngine->railwayEngine->type_transport->name} {$planning->userRailwayEngine->number} de type {$planning->userRailwayEngine->railwayEngine->type_energy->value} ayant actuellement {$planning->retarded_time}min de retard et {$planning->passengers()->sum('nb_passengers')} personne à son bord. Arret: {$this->displayStations($planning)}")
             ->stream(false)
             ->ask();
 
         return \Vortechstudio\Helpers\Facades\Helpers::searchJsonOnString($response['response']);
+    }
+
+    public function getAmountReparation(int $niveau)
+    {
+        return match ($niveau) {
+            1 => fake()->randomFloat(2, 100,1500),
+            2 => fake()->randomFloat(2, 1501,9999),
+            3 => fake()->randomFloat(2, 10000,59999),
+        };
+    }
+
+    private function displayStations(RailwayPlanning $planning)
+    {
+        ob_start();
+        foreach ($planning->stations as $station):
+        ?>
+        <?= $station->name; ?>,
+        <?php
+        endforeach;
+        return ob_get_clean();
     }
 }

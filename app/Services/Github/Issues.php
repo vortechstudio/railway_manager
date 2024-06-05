@@ -2,29 +2,21 @@
 
 namespace App\Services\Github;
 
+use App\Actions\ErrorDispatchHandle;
+use App\Models\Support\Tickets\Ticket;
 use Cloudstudio\Ollama\Facades\Ollama;
-use Github\AuthMethod;
-use Github\Client;
+use Github\Exception\MissingArgumentException;
 use Monolog\Level;
 use Monolog\LogRecord;
 
-class Issues
+class Issues extends Github
 {
-    private $owner;
-
-    private $repo;
-
-    protected $client;
-
-    protected $gpt;
+    protected \Cloudstudio\Ollama\Ollama $gpt;
 
     public function __construct(
         public LogRecord $record
     ) {
-        $this->owner = config('updater.github_username');
-        $this->repo = config('updater.github_repository');
-        $this->client = new Client();
-        $this->client->authenticate(config('updater.github_token'), null, AuthMethod::ACCESS_TOKEN);
+        parent::__construct();
         $this->gpt = Ollama::agent('Tu est un expert en laravel 10 / livewire 3 et AlpineJS. Tu est également un expert en Git et tu connais github pour le provisionnement des repos. Tu est français.');
     }
 
