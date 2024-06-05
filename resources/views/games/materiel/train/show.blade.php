@@ -70,6 +70,9 @@
                 <div class="tab-pane fade" id="configuration" role="tabpanel">
                     @livewire('game.engine.engine-config-tab', ['engine' => $engine])
                 </div>
+                <div class="tab-pane fade" id="sell" role="tabpanel">
+                    @livewire('game.engine.engine-sell-tab', ['engine' => $engine])
+                </div>
             </div>
         </div>
     </div>
