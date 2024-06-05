@@ -19,27 +19,26 @@ class IncidentCommand extends Command
     public function handle(): void
     {
         match ($this->argument('action')) {
-            "before" => $this->before(),
-            "after" => $this->after(),
+            'before' => $this->before(),
+            'after' => $this->after(),
         };
     }
 
-    private function before()
+    private function before(): void
     {
         $plannings = RailwayPlanning::whereBetween('date_depart', [now()->startOfMinute(), now()->addMinutes(10)->endOfMinute()])
             ->where('status', '!=', 'cancelled')
             ->get();
 
-
-        if($plannings->count() > 0) {
+        if ($plannings->count() > 0) {
             foreach ($plannings as $planning) {
                 $probability = $this->calculateIncidentProbability($planning->userRailwayEngine);
-                if($this->shouldTriggerIncident($probability)) {
+                if ($this->shouldTriggerIncident($probability)) {
                     $incident = (new IncidentAction())->newIncident($planning);
                     $this->createIncident($planning, $incident);
                     $retarded_time = $incident['retarded_time'];
 
-                    if($incident['niveau'] <= 2) {
+                    if ($incident['niveau'] <= 2) {
                         $this->retardedIncident($planning, $incident, $retarded_time);
                     } else {
                         $this->cancelledIncident($planning, $incident);
@@ -49,14 +48,14 @@ class IncidentCommand extends Command
         }
     }
 
-    private function after()
+    private function after(): void
     {
         $plannings = RailwayPlanning::where(function (Builder $query) {
             $query->where('status', 'travel')
                 ->orWhere('status', 'in_station');
         })->get();
 
-        if($plannings->count() > 0) {
+        if ($plannings->count() > 0) {
             foreach ($plannings as $planning) {
                 $probability = $this->calculateIncidentProbability($planning->userRailwayEngine);
                 if ($this->shouldTriggerIncident($probability)) {
@@ -64,7 +63,7 @@ class IncidentCommand extends Command
                     $this->createIncident($planning, $incident);
                     $retarded_time = $incident['retarded_time'];
 
-                    if($incident['niveau'] <= 2) {
+                    if ($incident['niveau'] <= 2) {
                         $this->retardedIncident($planning, $incident, $retarded_time);
                     } else {
                         $this->cancelledIncident($planning, $incident);
@@ -87,11 +86,11 @@ class IncidentCommand extends Command
             'railway_planning_id' => $planning->id,
             'user_railway_engine_id' => $planning->userRailwayEngine->id,
             'user_railway_hub_id' => $planning->userRailwayHub->id,
-            'amount_reparation' => (new IncidentAction())->getAmountReparation($incident['niveau'])
+            'amount_reparation' => (new IncidentAction())->getAmountReparation($incident['niveau']),
         ]);
     }
 
-    private function retardedIncident(RailwayPlanning $planning, array $incident ,int $retarded_time)
+    private function retardedIncident(RailwayPlanning $planning, array $incident, int $retarded_time): void
     {
         $planning->retarded_time += $retarded_time;
         $planning->status = 'retarded';
@@ -119,7 +118,7 @@ class IncidentCommand extends Command
         ));
     }
 
-    private function cancelledIncident(RailwayPlanning $planning, array $incident)
+    private function cancelledIncident(RailwayPlanning $planning, array $incident): void
     {
         $planning->status = 'cancelled';
         $planning->save();
@@ -129,7 +128,7 @@ class IncidentCommand extends Command
 
         foreach ($planning->stations()->where('status', '!=', 'done')->get() as $station) {
             $station->update([
-                'status' => 'done'
+                'status' => 'done',
             ]);
         }
 

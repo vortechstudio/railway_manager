@@ -7,6 +7,7 @@ class RailwayEngineTechnicalAction
     public function __construct(private \App\Models\Railway\Engine\RailwayEngineTechnical $technical)
     {
     }
+
     public function calcDurationMaintenancePrev(): \Illuminate\Support\Carbon
     {
         $durationMaintMin = $this->technical->engine->duration_maintenance->diffInMinutes(now()->startOfDay());
@@ -14,6 +15,4 @@ class RailwayEngineTechnicalAction
 
         return now()->startOfDay()->addMinutes($diff);
     }
-
-
 }

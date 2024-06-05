@@ -14,17 +14,20 @@ use Vortechstudio\Helpers\Facades\Helpers;
 class EngineSellTab extends Component
 {
     use LivewireAlert;
+
     public UserRailwayEngine $engine;
+
     public $totalSelling = 0.00;
+
     public $totalFlux = 0.00;
 
-    public function mount()
+    public function mount(): void
     {
         $this->totalFlux = $this->engine->simulateSelling() * $this->engine->flux_market / 100;
         $this->totalSelling = $this->engine->simulateSelling() + $this->totalFlux;
     }
 
-    public function checkout()
+    public function checkout(): void
     {
         $this->alert('question', 'Etes-vous sur de vouloir vendre cette rame pour '.Helpers::eur($this->totalSelling).' ?', [
             'showConfirmButton' => true,
@@ -41,7 +44,7 @@ class EngineSellTab extends Component
     }
 
     #[On('confirmed')]
-    public function confirmed()
+    public function confirmed(): void
     {
         try {
             $count_planning = $this->engine->plannings()->where(function (Builder $query) {
@@ -51,8 +54,8 @@ class EngineSellTab extends Component
                     ->orWhere('status', 'in_station');
             })->count();
 
-            if($count_planning > 0) {
-                $this->alert('warning', 'Impossible de vendre une rame en cours d\'utilisation !');;
+            if ($count_planning > 0) {
+                $this->alert('warning', 'Impossible de vendre une rame en cours d\'utilisation !');
             }
 
             (new Compta())->create(

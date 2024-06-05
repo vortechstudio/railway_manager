@@ -15,13 +15,15 @@ class TrainController extends Controller
     public function show(int $user_railway_engine_id)
     {
         $engine = UserRailwayEngine::find($user_railway_engine_id);
-        if($engine->user->id !== auth()->user()->id) {
+        if ($engine->user->id !== auth()->user()->id) {
             toastr()
                 ->addError('Accès non autoriser');
+
             return redirect()->back();
         }
+
         return view('games.materiel.train.show', [
-            'engine' => $engine
+            'engine' => $engine,
         ]);
     }
 

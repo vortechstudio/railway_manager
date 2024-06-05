@@ -6,16 +6,16 @@ use App\Actions\Railway\EngineAction;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
-use App\Services\Models\User\Railway\UserRailwayEngineAction;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class EngineAssign extends Component
 {
     use LivewireAlert;
+
     public UserRailwayEngine $engine;
 
-    public function assign(int $user_railway_hub_id)
+    public function assign(int $user_railway_hub_id): void
     {
         UserRailwayHub::find($user_railway_hub_id)->userRailwayEngine()->delete();
         UserRailwayHub::find($user_railway_hub_id)->userRailwayEngine()->create([
@@ -29,7 +29,7 @@ class EngineAssign extends Component
             'status' => 'free',
             'active' => true,
         ]);
-        $this->alert('success', "Rame réassocié avec succès");
+        $this->alert('success', 'Rame réassocié avec succès');
     }
 
     public function render()

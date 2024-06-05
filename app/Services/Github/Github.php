@@ -8,8 +8,11 @@ use Github\Client;
 class Github
 {
     protected string $owner;
+
     protected string $repo;
+
     protected Client $client;
+
     public function __construct()
     {
         $this->owner = config('updater.github_username');

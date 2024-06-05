@@ -13,9 +13,10 @@ use Livewire\Component;
 class EngineConfigTab extends Component
 {
     use LivewireAlert;
+
     public UserRailwayEngine $engine;
 
-    public function generateNumber()
+    public function generateNumber(): void
     {
         $this->alert('question', "La génération d'un nouveau numéro vous coutera <strong>2 Tpoint</strong>, êtes-vous sur de vouloir générer un nouveau numéro ?", [
             'showConfirmButton' => true,
@@ -32,18 +33,18 @@ class EngineConfigTab extends Component
     }
 
     #[On('confirmedNumber')]
-    public function confirmedNumber()
+    public function confirmedNumber(): void
     {
-        if((new CheckoutAction())->checkoutTpoint(2)) {
+        if ((new CheckoutAction())->checkoutTpoint(2)) {
             try {
                 $this->engine->update([
                     'number' => (new EngineAction())->generateMissionCode($this->engine->railwayEngine, $this->engine->userRailwayHub),
                 ]);
-                $this->alert('success', "Le numéro de rame à été générer avec succès !");
-                $this->dispatch("refreshToolbar");
-            }catch (\Exception $exception) {
+                $this->alert('success', 'Le numéro de rame à été générer avec succès !');
+                $this->dispatch('refreshToolbar');
+            } catch (\Exception $exception) {
                 (new ErrorDispatchHandle())->handle($exception);
-                $this->alert('error', "Une erreur à eu lieu !");
+                $this->alert('error', 'Une erreur à eu lieu !');
             }
         }
     }
