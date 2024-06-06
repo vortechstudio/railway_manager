@@ -86,20 +86,21 @@ class IncidentAction
     public function getAmountReparation(int $niveau)
     {
         return match ($niveau) {
-            1 => fake()->randomFloat(2, 100,1500),
-            2 => fake()->randomFloat(2, 1501,9999),
-            3 => fake()->randomFloat(2, 10000,59999),
+            1 => fake()->randomFloat(2, 100, 1500),
+            2 => fake()->randomFloat(2, 1501, 9999),
+            3 => fake()->randomFloat(2, 10000, 59999),
         };
     }
 
     private function displayStations(RailwayPlanning $planning)
     {
         ob_start();
-        foreach ($planning->stations as $station):
-        ?>
+        foreach ($planning->stations as $station) {
+            ?>
         <?= $station->name; ?>,
         <?php
-        endforeach;
+        }
+
         return ob_get_clean();
     }
 }

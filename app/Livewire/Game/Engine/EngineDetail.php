@@ -9,10 +9,11 @@ use Livewire\Component;
 
 class EngineDetail extends Component
 {
-    use LivewireAlert, FeatureBodyTrait;
+    use FeatureBodyTrait, LivewireAlert;
+
     public UserRailwayEngine $engine;
 
-    public function welcoming()
+    public function welcoming(): void
     {
         $this->alert('warning', 'Système de Maintenance', [
             'toast' => false,

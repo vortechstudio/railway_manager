@@ -2,10 +2,7 @@
 
 namespace App\Services\Github;
 
-use App\Actions\ErrorDispatchHandle;
-use App\Models\Support\Tickets\Ticket;
 use Cloudstudio\Ollama\Facades\Ollama;
-use Github\Exception\MissingArgumentException;
 use Monolog\Level;
 use Monolog\LogRecord;
 

@@ -56,11 +56,11 @@
                     <div class="d-flex flex-column animate__animated animate__fadeInUpBig animate__delay-3s">
                         <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-top-2 shadow text-white p-2">
                             <span>Trésorerie Structurelle</span>
-                            <span data-kt-countup="true" data-kt-countup-value="4500" data-kt-countup-suffix="€">0</span>
+                            <span data-kt-countup="true" data-kt-countup-value="{{ (new \App\Services\Models\User\Railway\UserRailwayCompanyAction($user->railway_company))->getTresorerieStructurel() }}" data-kt-countup-suffix="€">0</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center bg-gray-400 text-white p-2">
                             <span>Résultat d'exploitation</span>
-                            <span data-kt-countup="true" data-kt-countup-value="94500" data-kt-countup-suffix="€">0</span>
+                            <span data-kt-countup="true" data-kt-countup-value="{{ (new \App\Services\Models\User\Railway\UserRailwayCompanyAction($user->railway_company))->getResultat() }}" data-kt-countup-suffix="€">0</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center bg-gray-600 rounded-bottom-2 shadow text-white p-2">
                             <span>Nombre de Quêtes effectuer</span>

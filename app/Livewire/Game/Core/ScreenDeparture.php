@@ -3,7 +3,6 @@
 namespace App\Livewire\Game\Core;
 
 use App\Models\User\Railway\UserRailwayLigne;
-use Carbon\Carbon;
 use Livewire\Component;
 
 class ScreenDeparture extends Component

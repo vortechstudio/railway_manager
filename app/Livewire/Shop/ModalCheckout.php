@@ -10,7 +10,6 @@ use App\Models\Railway\Core\ShopItem;
 use App\Models\Railway\Engine\RailwayEngine;
 use App\Models\User\User;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
-use App\Services\Models\User\Railway\UserRailwayEngineAction;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Stripe\Checkout\Session;
@@ -42,10 +41,9 @@ class ModalCheckout extends Component
         if ($item->section == 'engine') {
             $engine = RailwayEngine::where('name', 'like', '%'.$item->name.'%')->first();
 
-
             // Ajout du matériel roulant dans le compte client
 
-            if((new CheckoutAction())->checkoutTpoint($item->price)) {
+            if ((new CheckoutAction())->checkoutTpoint($item->price)) {
                 auth()->user()->railway_engines()->create([
                     'number' => (new EngineAction())->generateMissionCode($engine, auth()->user()->userRailwayHub()->where('active', true)->first()),
                     'max_runtime' => (new RailwayEngineAction($engine))->maxRuntime(),
@@ -60,7 +58,6 @@ class ModalCheckout extends Component
             } else {
                 $this->alert("Vous n'avez pas assez de Travel Point pour cette achat !");
             }
-
 
             $this->dispatch('closeModal', 'modalCheckout');
             $this->dispatch('showModalPassCheckout', [
