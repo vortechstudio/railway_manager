@@ -3,7 +3,7 @@
         <div class="col-sm-12 col-lg-8 mb-5">
             <div class="mb-10">
                 <label for="selectedHubValue" class="form-label required">Hub</label>
-                <select wire:model.live="selectedHubValue" name="selectedHubValue" id="selectedHubValue" class="form-select"  required>
+                <select wire:model.live="selectedHubValue" data-control="select2" name="selectedHubValue" id="selectedHubValue" class="form-select"  required>
                     <option>-- Veuillez choisir un de vos hubs --</option>
                     @foreach($this->hubs as $hub)
                         <option value="{{ $hub->railway_hub_id }}">{{ $hub->railwayHub->gare->name }}</option>
@@ -13,7 +13,7 @@
             @if($selectedHubValue)
             <div class="mb-10">
                 <label for="railway_ligne_id" class="form-label required">Ligne</label>
-                <select wire:model.live="railway_ligne_id" name="railway_ligne_id" id="railway_ligne_id" class="form-select"  required>
+                <select wire:model.live="railway_ligne_id" data-control="select2" name="railway_ligne_id" id="railway_ligne_id" class="form-select"  required>
                     <option>-- Selectionner une ligne --</option>
                     @foreach($this->lignes as $ligne)
                         @if(!auth()->user()->userRailwayLigne()->where('railway_ligne_id', $ligne->id)->exists())
@@ -67,3 +67,5 @@
         </div>
     </div>
 </form>
+
+<x-scripts.pluginForm />
