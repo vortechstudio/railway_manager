@@ -1,5 +1,10 @@
 PHONY: prepare
 
+helpers:
+	php artisan ide-helper:generate
+	php artisan ide-helper:models -M
+	php artisan ide-helper:meta
+
 prepare:
 	npm run build
 	./vendor/bin/pint app/
