@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Storage;
 use Str;
 
+/**
+ * @mixin IdeHelperRailwayRental
+ */
 class RailwayRental extends Model
 {
     use SoftDeletes;

@@ -5,6 +5,9 @@ namespace App\Models\Railway\Core;
 use App\Enums\Config\MessageRewardTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperMessageReward
+ */
 class MessageReward extends Model
 {
     protected $connection = 'mysql';

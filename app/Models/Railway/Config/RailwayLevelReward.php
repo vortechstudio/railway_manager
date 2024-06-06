@@ -6,6 +6,9 @@ use App\Enums\Railway\Config\LevelRewardTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin IdeHelperRailwayLevelReward
+ */
 class RailwayLevelReward extends Model
 {
     public $timestamps = false;

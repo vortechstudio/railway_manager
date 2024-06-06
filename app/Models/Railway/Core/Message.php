@@ -7,6 +7,9 @@ use App\Models\Config\Service;
 use App\Models\User\Railway\UserRailwayMessage;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperMessage
+ */
 class Message extends Model
 {
     public $timestamps = false;

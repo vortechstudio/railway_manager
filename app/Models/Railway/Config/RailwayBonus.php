@@ -7,6 +7,9 @@ use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Storage;
 
+/**
+ * @mixin IdeHelperRailwayBonus
+ */
 class RailwayBonus extends Model
 {
     protected $guarded = [];

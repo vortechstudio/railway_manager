@@ -4,6 +4,9 @@ namespace App\Models\Social\Post;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPostImage
+ */
 class PostImage extends Model
 {
     protected $guarded = [];

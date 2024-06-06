@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Storage;
 use Str;
 
+/**
+ * @mixin IdeHelperRailwayBanque
+ */
 class RailwayBanque extends Model
 {
     use SoftDeletes;

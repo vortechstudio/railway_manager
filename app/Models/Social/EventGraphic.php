@@ -7,6 +7,9 @@ use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin IdeHelperEventGraphic
+ */
 class EventGraphic extends Model
 {
     protected $guarded = [];

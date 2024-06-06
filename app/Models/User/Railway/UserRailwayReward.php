@@ -5,6 +5,9 @@ namespace App\Models\User\Railway;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperUserRailwayReward
+ */
 class UserRailwayReward extends Model
 {
     protected $guarded = [];

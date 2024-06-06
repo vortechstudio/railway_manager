@@ -5,6 +5,9 @@ namespace App\Models\Railway\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin IdeHelperRailwayLevel
+ */
 class RailwayLevel extends Model
 {
     public $timestamps = false;

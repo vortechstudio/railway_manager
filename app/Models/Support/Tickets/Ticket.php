@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\LaravelOptions\Options;
 
+/**
+ * @mixin IdeHelperTicket
+ */
 class Ticket extends Model
 {
     use SoftDeletes;

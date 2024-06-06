@@ -10,6 +10,9 @@ use App\Models\User\Railway\UserRailwayLigne;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperRailwayLigne
+ */
 class RailwayLigne extends Model
 {
     use SoftDeletes;

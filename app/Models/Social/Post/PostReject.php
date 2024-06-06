@@ -4,6 +4,9 @@ namespace App\Models\Social\Post;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPostReject
+ */
 class PostReject extends Model
 {
     protected $guarded = [];

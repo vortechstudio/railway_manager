@@ -9,6 +9,9 @@ use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Storage;
 
+/**
+ * @mixin IdeHelperCercle
+ */
 class Cercle extends Model
 {
     protected $guarded = [];

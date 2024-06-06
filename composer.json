@@ -51,6 +51,7 @@
         "vstudio/versionbuildaction": "^1.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.0",
         "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
