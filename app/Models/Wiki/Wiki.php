@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pharaonic\Laravel\Pages\HasPages;
 
+/**
+ * @mixin IdeHelperWiki
+ */
 class Wiki extends Model
 {
     use HasPages, SoftDeletes;

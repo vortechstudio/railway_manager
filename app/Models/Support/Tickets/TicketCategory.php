@@ -5,6 +5,9 @@ namespace App\Models\Support\Tickets;
 use App\Models\Config\Service;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperTicketCategory
+ */
 class TicketCategory extends Model
 {
     protected $guarded = [];

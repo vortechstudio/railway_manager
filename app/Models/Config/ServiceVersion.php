@@ -4,6 +4,9 @@ namespace App\Models\Config;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperServiceVersion
+ */
 class ServiceVersion extends Model
 {
     protected $guarded = [];

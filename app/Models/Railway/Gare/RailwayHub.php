@@ -6,6 +6,9 @@ use App\Enums\Railway\Gare\HubStatusEnum;
 use App\Models\Railway\Ligne\RailwayLigne;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRailwayHub
+ */
 class RailwayHub extends Model
 {
     protected $guarded = [];

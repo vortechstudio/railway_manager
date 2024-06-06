@@ -7,6 +7,9 @@ use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin IdeHelperUserRailwayAchievement
+ */
 class UserRailwayAchievement extends Model
 {
     protected $guarded = [];

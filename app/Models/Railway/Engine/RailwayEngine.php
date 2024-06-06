@@ -11,6 +11,9 @@ use App\Models\User\Railway\UserRailwayEngine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperRailwayEngine
+ */
 class RailwayEngine extends Model
 {
     use SoftDeletes;

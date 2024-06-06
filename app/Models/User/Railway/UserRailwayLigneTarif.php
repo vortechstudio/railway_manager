@@ -6,6 +6,9 @@ use App\Enums\Railway\Users\RailwayLigneTarifTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin IdeHelperUserRailwayLigneTarif
+ */
 class UserRailwayLigneTarif extends Model
 {
     public $timestamps = false;

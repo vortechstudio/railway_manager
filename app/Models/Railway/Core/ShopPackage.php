@@ -5,6 +5,9 @@ namespace App\Models\Railway\Core;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperShopPackage
+ */
 class ShopPackage extends Model
 {
     use SoftDeletes;

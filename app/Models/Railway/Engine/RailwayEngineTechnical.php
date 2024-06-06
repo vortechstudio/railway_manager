@@ -6,6 +6,9 @@ use App\Enums\Railway\Engine\EngineTechMarchEnum;
 use App\Enums\Railway\Engine\EngineTechMotorEnum;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRailwayEngineTechnical
+ */
 class RailwayEngineTechnical extends Model
 {
     protected $guarded = [];

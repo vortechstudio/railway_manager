@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @mixin IdeHelperRailwayIncident
+ */
 class RailwayIncident extends Model
 {
     protected $guarded = [];

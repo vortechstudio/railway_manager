@@ -3,6 +3,8 @@
 namespace App\Livewire\Account;
 
 use App\Actions\Compta;
+use App\Models\User\User;
+use Illuminate\Support\Collection;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -26,35 +28,47 @@ class Mailboxes extends Component
 
     public function claim(int $message_id): void
     {
-        $message = auth()->user()->railway_messages()->find($message_id);
 
         try {
+            $user = User::find(auth()->id());
+            $message = $user->railway_messages()->find($message_id);
+            $rewards = collect();
             foreach ($message->message->rewards as $reward) {
                 match ($reward->reward_type->value) {
                     'argent' => (new Compta())->create(
-                        auth()->user(),
+                        $user,
                         'Bonus: '.$reward->reward_value,
                         $reward->reward_value,
                         'revenue',
                         'divers',
                         false,
                     ),
-                    'tpoint' => auth()->user()->railway->update(['tpoint' => auth()->user()->railway->tpoint + $reward->reward_value]),
+                    'tpoint' => $user->railway->update(['tpoint' => $user->railway->tpoint + $reward->reward_value]),
                 };
-                $this->dispatch('showModalReward', [
-                    'id' => 'modalReward',
-                    'reward_type' => $reward->reward_type,
-                    'reward_value' => number_format($reward->reward_value, 0, ',', ' '),
+
+                $rewards->push([
+                    'type' => $reward->reward_type->value,
+                    'value' => $reward->reward_value,
                 ]);
-                $this->dispatch('refreshToolbar');
             }
 
-            $message->reward_collected = true;
-            $message->save();
+            $message->update([
+                'reward_collected' => true,
+            ]);
+
+            $this->dispatch('refreshToolbar');
+            $this->alert('success', 'Récompense récupérée', [
+                'html' => $this->blockReward($rewards),
+                'toast' => false,
+                'allowOutsideClick' => true,
+                'timer' => null,
+                'position' => 'center',
+            ]);
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors de l'attribution de la récompense");
         }
+
     }
 
     public function allDelete(): void
@@ -72,6 +86,25 @@ class Mailboxes extends Component
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', 'Erreur lors de la suppression des messages');
         }
+    }
+
+    public function blockReward(Collection $rewards)
+    {
+        $html = "<div class='d-flex flex-wrap justify-content-center align-items-center w-100 mx-auto gap-5 my-5'>";
+
+
+        foreach ($rewards as $reward) {
+            $html .= "<div class='d-flex flex-wrap justify-content-center align-items-center'>";
+            $html .= "<div class='symbol symbol-150px border border-primary p-5 mb-2 animate__animated animate__flipInX animate__delay-1s'>";
+            $html .= "<img class='' src='" . \Storage::url("icons/railway/{$reward['type']}.png") . "' alt=''>";
+            $html .= "</div>";
+            $html .= "<span class='badge badge-lg badge-light animate__animated animate__fadeInDown animate__delay-1s'>" . htmlspecialchars($reward['value']) . "</span>";
+            $html .= "</div>";
+        }
+
+        $html .= "</div>";
+
+        return $html;
     }
 
     public function render()

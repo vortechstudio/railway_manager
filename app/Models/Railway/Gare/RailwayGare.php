@@ -7,6 +7,9 @@ use App\Models\Railway\Ligne\RailwayLigneStation;
 use App\Services\Models\Railway\Gare\GareAction;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRailwayGare
+ */
 class RailwayGare extends Model
 {
     public $timestamps = false;

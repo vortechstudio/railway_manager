@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pharaonic\Laravel\Taggable\Traits\Taggable;
 
+/**
+ * @mixin IdeHelperPost
+ */
 class Post extends Model
 {
     protected $guarded = [];

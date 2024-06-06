@@ -33,6 +33,9 @@ use Laravel\Sanctum\NewAccessToken;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
     use AuthenticationLoggable, HasApiTokens, HasFactory, HasPushSubscriptions, Notifiable;

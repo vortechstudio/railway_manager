@@ -6,6 +6,9 @@ use App\Services\Models\User\Railway\RailwayPlanningTravelAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin IdeHelperRailwayPlanningTravel
+ */
 class RailwayPlanningTravel extends Model
 {
     public $timestamps = false;
