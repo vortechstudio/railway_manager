@@ -74,13 +74,11 @@
 
                 @livewire('core.user-planning-progress')
                 <!--begin::Chat-->
-                <div class="app-navbar-item ms-1 ms-lg-5">
-                    <!--begin::Menu wrapper-->
+                <!--<div class="app-navbar-item ms-1 ms-lg-5">
                     <div class="btn btn-icon btn-custom btn-color-gray-600 btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative" id="kt_drawer_chat_toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Communiquer avec votre conseiller">
                         <i class="ki-outline ki-messages fs-1"></i>
                     </div>
-                    <!--end::Menu wrapper-->
-                </div>
+                </div>-->
                 <!--end::Chat-->
                 <livewire:core.user-menu />
                 <!--begin::Header menu toggle-->
