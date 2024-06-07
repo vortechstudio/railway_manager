@@ -1,3 +1,37 @@
+# [0.13.0](https://github.com/vortechstudio/railway_manager/compare/v0.12.0...v0.13.0) (2024-06-07)
+
+
+### Bug Fixes
+
+* **Account:** Dynamisation des valeurs de trésorerie et de résultat d'exploitation ([435ea3f](https://github.com/vortechstudio/railway_manager/commit/435ea3fa932498404cca2b56f460230a71621253))
+* **Auth:** Correction de la vérification de l'utilisateur par nom au lieu de l'email et ajustement de la plage de dates de départ ([a0f228f](https://github.com/vortechstudio/railway_manager/commit/a0f228f186d9eb6396be4438995cc8fc5775a958))
+* Correct syntax error in the blade file of `leveling-table` ([6a7d6a8](https://github.com/vortechstudio/railway_manager/commit/6a7d6a87d543184a0d953b2f70af8f43b7a06d8f))
+* **General:** Ajout de la condition pour gérer l'absence de station initiale ([f02485e](https://github.com/vortechstudio/railway_manager/commit/f02485ea787186662bab9a880ad47ca41a46e1e8))
+* **General:** Désactive chat et ajuste scripts async ([d1bec84](https://github.com/vortechstudio/railway_manager/commit/d1bec84d926c8c5efde48302e457bd9b4c2748c9))
+* **General:** Supprime async sur scripts.bundle.js pour compatibilité ([bc0d645](https://github.com/vortechstudio/railway_manager/commit/bc0d645471953c8745a0c0682abbc28bd16675d0))
+* **Network Ligne:** Intègre Select2 pour champs de sélection hubs et lignes ([f502795](https://github.com/vortechstudio/railway_manager/commit/f50279532c19237d4f31491279c3c5332f4dbfb5))
+* **Network:** Amélioration de la requête de plannings et ajustement des calculs de revenus et coûts ([44a26d6](https://github.com/vortechstudio/railway_manager/commit/44a26d699292ef0721e7fbd1ffeffffcda03fff1))
+* **Network:** Correction de l'affichage des détails de la ligne et ajustement de la requête de départ ([bd79676](https://github.com/vortechstudio/railway_manager/commit/bd7967693a1581ad6f9902e8e030c28a3b7adb66))
+* **Planification:** Ajustement de la logique de calcul du nombre de passagers ([020ad8a](https://github.com/vortechstudio/railway_manager/commit/020ad8a339d8e9a7f5893947fe526b485afaef8f))
+* **Planning:** Correction de la logique de récupération des plannings et des moteurs disponibles ([4ff0cdc](https://github.com/vortechstudio/railway_manager/commit/4ff0cdce086008dda748575161d69543781a31a5))
+* **UserPlanningProgress:** Correction de la logique de filtrage des plannings par statut ([1d924ee](https://github.com/vortechstudio/railway_manager/commit/1d924eeb702ec1c9b95278d3695d57f9e22b92ea))
+
+
+### Features
+
+* **Engine:** Ajout de l'onglet de vente des rames avec la fonctionnalité de simulation et de confirmation de vente ([801f9a4](https://github.com/vortechstudio/railway_manager/commit/801f9a4561362b4b8e4caa4e99418b6997d7146a))
+* **Engine:** Ajout de la fonctionnalité d'assignation des rames à un hub et de la vue associée ([0842d16](https://github.com/vortechstudio/railway_manager/commit/0842d1664b8aec9b31e8f5ad1c44ea6e2a40d242))
+* **General:** Ajout de la classe 'lozad' aux images pour lazy loading ([1117c3f](https://github.com/vortechstudio/railway_manager/commit/1117c3f2c2a0617e15618b7e5b6e034d4c15fc99))
+* **General:** Ajout de la vue et du composant Livewire pour le suivi des trajets en cours ([f33ab42](https://github.com/vortechstudio/railway_manager/commit/f33ab42c54580ec9fd20d6ec90e49efb45cd5858))
+* **Materiel:** Ajout de l'onglet de configuration des rames avec la fonctionnalité de génération de numéro ([d3397f8](https://github.com/vortechstudio/railway_manager/commit/d3397f8497db67131d5f7b34cfc76adb3c118404))
+* **Materiel:** Ajout de la fonctionnalité de notification de maintenance et refactorisation des routes du train ([5b5085d](https://github.com/vortechstudio/railway_manager/commit/5b5085d45c6b8778a40c6c5d5c3fbdc186c75cfb))
+* **Materiel:** Ajout de la gestion des incidents par moteur et intégration de l'onglet des incidents dans la vue des trains ([f6223f5](https://github.com/vortechstudio/railway_manager/commit/f6223f5e26a0b498aeb18bf782096452eb20fdd6))
+* **Materiel:** Ajout de la gestion des plannings par moteur et intégration de l'onglet de trajets dans la vue des trains ([9a3b1aa](https://github.com/vortechstudio/railway_manager/commit/9a3b1aa1d7128cca58408054306d4d8c93240202))
+* **Materiel:** Ajout de la vue de gestion des rames et du menu d'actions pour les trains ([ae5b7e2](https://github.com/vortechstudio/railway_manager/commit/ae5b7e29104bb0cb08f144b4df47a1cbbddf743c))
+* **Materiel:** Ajout de la vue détaillée des rames et de la fonctionnalité de visualisation des détails d'une rame ([0db4f1b](https://github.com/vortechstudio/railway_manager/commit/0db4f1b571b26bff3f7081c4bdabbcdf7049fe29))
+* **Messagerie:** Optimisation récupération récompenses ([02444ea](https://github.com/vortechstudio/railway_manager/commit/02444ea889796f8e85ed46c23bab58e834027fc7))
+* **Planification:** Ajout de la commande d'incident pour gérer les incidents avant et après le départ ([aad368a](https://github.com/vortechstudio/railway_manager/commit/aad368a1b88865ccc710943ff554dfc25666156b))
+
 # [0.12.0](https://github.com/vortechstudio/railway_manager/compare/v0.11.0...v0.12.0) (2024-06-03)
 
 
