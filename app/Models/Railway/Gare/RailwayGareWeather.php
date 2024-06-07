@@ -4,9 +4,6 @@ namespace App\Models\Railway\Gare;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperRailwayGareWeather
- */
 class RailwayGareWeather extends Model
 {
     protected $guarded = [];

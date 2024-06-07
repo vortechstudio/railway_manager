@@ -6,9 +6,6 @@ use App\Models\Railway\Core\ShopCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperShop
- */
 class Shop extends Model
 {
     public $timestamps = false;

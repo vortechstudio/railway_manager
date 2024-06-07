@@ -7,9 +7,6 @@ use App\Models\Railway\Core\Message;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperUserRailwayMessage
- */
 class UserRailwayMessage extends Model
 {
     protected $guarded = [];

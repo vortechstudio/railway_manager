@@ -6,9 +6,6 @@ use App\Models\Railway\Gare\RailwayGare;
 use App\Models\Railway\Planning\RailwayPlanningStation;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperRailwayLigneStation
- */
 class RailwayLigneStation extends Model
 {
     protected $guarded = [];

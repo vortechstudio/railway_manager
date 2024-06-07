@@ -11,9 +11,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperUserRailwayHub
- */
 class UserRailwayHub extends Model
 {
     public $timestamps = false;

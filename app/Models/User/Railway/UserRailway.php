@@ -8,9 +8,6 @@ use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperUserRailway
- */
 class UserRailway extends Model
 {
     public $timestamps = false;

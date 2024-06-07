@@ -6,9 +6,6 @@ use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @mixin IdeHelperPostComment
- */
 class PostComment extends Model
 {
     use SoftDeletes;

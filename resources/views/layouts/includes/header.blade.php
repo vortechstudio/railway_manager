@@ -65,6 +65,11 @@
             <!--end::Menu wrapper-->
             <!--begin::Navbar-->
             <div class="app-navbar flex-shrink-0">
+                <div class="app-navbar-item ms-1 ms-lg-5">
+                    <a href="{{ route('account.leveling') }}" class="btn btn-icon btn-custom btn-color-gray-600 btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative" id="kt_drawer_chat_toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Récompense de niveau">
+                        <img src="{{ Storage::url('icons/railway/level-up.png') }}" class="img-fluid" alt="">
+                    </a>
+                </div>
                 <!--begin::Notifications-->
                 <livewire:core.user-annonce />
                 <!--end::Notifications-->

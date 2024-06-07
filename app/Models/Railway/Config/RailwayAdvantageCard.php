@@ -7,9 +7,6 @@ use App\Enums\Railway\Config\AdvantageCardTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @mixin IdeHelperRailwayAdvantageCard
- */
 class RailwayAdvantageCard extends Model
 {
     use SoftDeletes;

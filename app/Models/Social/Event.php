@@ -8,9 +8,6 @@ use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Pharaonic\Laravel\Taggable\Traits\Taggable;
 
-/**
- * @mixin IdeHelperEvent
- */
 class Event extends Model
 {
     use Taggable;

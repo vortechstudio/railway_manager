@@ -4,9 +4,6 @@ namespace App\Models\Railway\Config;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperRailwayBanqueFlux
- */
 class RailwayBanqueFlux extends Model
 {
     protected $guarded = [];

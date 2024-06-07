@@ -5,9 +5,6 @@ namespace App\Models\Wiki;
 use App\Models\Social\Cercle;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperWikiCategory
- */
 class WikiCategory extends Model
 {
     protected $guarded = [];

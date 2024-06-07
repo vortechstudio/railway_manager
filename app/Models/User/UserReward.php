@@ -6,9 +6,6 @@ use App\Models\Railway\Config\RailwayLevelReward;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperUserReward
- */
 class UserReward extends Model
 {
     public $timestamps = false;

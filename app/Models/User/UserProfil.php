@@ -4,9 +4,6 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperUserProfil
- */
 class UserProfil extends Model
 {
     protected $guarded = [];

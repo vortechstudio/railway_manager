@@ -5,9 +5,6 @@ namespace App\Models\Support\Tickets;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperTicketMessage
- */
 class TicketMessage extends Model
 {
     protected $guarded = [];

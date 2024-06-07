@@ -5,9 +5,6 @@ namespace App\Models\Railway\Research;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @mixin IdeHelperRailwayResearchProject
- */
 class RailwayResearchProject extends Model
 {
     use SoftDeletes;

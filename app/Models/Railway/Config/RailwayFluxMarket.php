@@ -4,9 +4,6 @@ namespace App\Models\Railway\Config;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperRailwayFluxMarket
- */
 class RailwayFluxMarket extends Model
 {
     public $timestamps = false;

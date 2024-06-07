@@ -4,9 +4,6 @@ namespace App\Models\Wiki;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperWikiLog
- */
 class WikiLog extends Model
 {
     protected $guarded = [];

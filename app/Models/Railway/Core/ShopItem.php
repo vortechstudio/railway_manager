@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Vortechstudio\Helpers\Facades\Helpers;
 
-/**
- * @mixin IdeHelperShopItem
- */
 class ShopItem extends Model
 {
     use SoftDeletes;

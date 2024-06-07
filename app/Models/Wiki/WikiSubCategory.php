@@ -4,9 +4,6 @@ namespace App\Models\Wiki;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperWikiSubCategory
- */
 class WikiSubCategory extends Model
 {
     protected $guarded = [];
