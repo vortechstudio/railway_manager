@@ -14,7 +14,7 @@ class TrophyPanel extends Component
     {
         return view('livewire.trophy.trophy-panel', [
             'countTotalSector' => Achievement::where('sector', $this->sector)->count(),
-            'countUserTotalSector' => User::find(9)->railway_achievements()
+            'countUserTotalSector' => User::find(auth()->id())->railway_achievements()
                 ->with('achievement')
                 ->join('achievements', 'achievements.id', '=', 'user_railway_achievements.achievement_id')
                 ->where('achievements.sector', $this->sector)

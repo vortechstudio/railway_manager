@@ -17,16 +17,8 @@
                 <div class="d-flex flex-column w-50 me-5">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <span class="text-light fs-2 fw-bold">{{ $achievement->name }}</span>
-                        <div>
-                            <span class="fs-4 text-gray-400">10/{{ $achievement->goal }}</span>
-                            <i class="fa-solid fa-search"></i>
-                        </div>
                     </div>
-                    <div class="d-flex align-items-end">
-                        <div class="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
-                            <div class="bg-yellow-300 rounded h-8px" role="progressbar" style="width: 72%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
+                    <span class="text-gray-500 fs-4 fst-italic">{{ $achievement->description}}
                 </div>
                 <div class="symbol symbol-90px shop-bg-or">
                     <img src="{{ Storage::url('icons/railway/'.$achievement->rewards()->first()->type_reward->value.'.png') }}" alt="">
