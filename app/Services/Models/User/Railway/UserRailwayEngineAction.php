@@ -3,6 +3,7 @@
 namespace App\Services\Models\User\Railway;
 
 use App\Actions\Railway\EngineSelectAction;
+use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
 use Carbon\Carbon;
@@ -86,10 +87,11 @@ class UserRailwayEngineAction
     public function simulateSelling()
     {
         $usure = $this->getTotalUsure();
+        $base = $this->engine->railwayEngine->price->achat / 2;
         if ($usure == 0) {
-            return $this->engine->railwayEngine->price->achat / 2;
+            return $base;
         } else {
-            return ($this->engine->railwayEngine->price->achat / 2) * $usure / 100;
+            return $base + (($this->engine->railwayEngine->price->achat / 2) * $usure / 100);
         }
 
     }
@@ -101,6 +103,27 @@ class UserRailwayEngineAction
             ->sum('kilometer');
 
         return $calDistanceParcoure >= $this->engine->max_runtime && $this->engine->status == 'free';
+    }
+
+    public function getRentabilityPercent(): float|int
+    {
+        return (($this->getResultat() - $this->engine->railwayEngine->price->achat) / $this->engine->railwayEngine->price->achat) * 100;
+    }
+
+    public function getAmountMaintenancePrev()
+    {
+        return floatval($this->engine->railwayEngine->price->maintenance * \Helpers::minToHoursDecimal($this->engine->railwayEngine->duration_maintenance->diffInMinutes(now()->startOfDay())) / 4);
+    }
+
+    public function getAmountMaintenanceCur()
+    {
+        return floatval($this->engine->railwayEngine->price->maintenance * \Helpers::minToHoursDecimal($this->engine->railwayEngine->duration_maintenance->diffInMinutes(now()->startOfDay())));
+    }
+
+    public function getActualFluctuation()
+    {
+        return RailwayFluxMarket::whereDate('date', Carbon::today())
+            ->first()->flux_engine;
     }
 
     private function formatStatusDefault()

@@ -151,7 +151,7 @@ License: For each use you must have a valid license purchased only from above li
     </div>
     <!--end::Page-->
 </div>
-<livewire:core.user-chat-assistant />
+<!--livewire:core.user-chat-assistant-->
 <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
     <i class="ki-outline ki-arrow-up"></i>
 </div>
@@ -160,8 +160,8 @@ License: For each use you must have a valid license purchased only from above li
 <script>var hostUrl = "assets/";</script>
 @livewireScriptConfig
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-<script async src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
-<script  src="{{ asset('/js/scripts.bundle.js') }}"></script>
+<script src="{{ asset('/plugins/global/plugins.bundle.js') }}"></script>
+<script src="{{ asset('/js/scripts.bundle.js') }}"></script>
 <script async src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 @vite(['resources/js/app.js'])

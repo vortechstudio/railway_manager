@@ -62,12 +62,6 @@ class TravelCommand extends Command
                         'message' => "Départ de la rame {$planning->userRailwayEngine->number} en direction de la gare de départ",
                         'railway_planning_id' => $planning->id,
                     ]);
-                    $planning->user->notify(new SendMessageAdminNotification(
-                        title: "Trajet {$planning->userRailwayEngine->number} en cours",
-                        sector: 'alert',
-                        type: 'info',
-                        message: "Départ de la rame {$planning->userRailwayEngine->number} en direction de la gare de départ"
-                    ));
                 } catch (\Exception $exception) {
                     (new ErrorDispatchHandle())->handle($exception);
                 }
@@ -106,12 +100,6 @@ class TravelCommand extends Command
                     'message' => "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}",
                     'railway_planning_id' => $planning->id,
                 ]);
-                $planning->user->notify(new SendMessageAdminNotification(
-                    title: 'En transit',
-                    sector: 'alert',
-                    type: 'info',
-                    message: "Rame {$planning->userRailwayEngine->number} en transit pour la gare de {$planning->userRailwayLigne->railwayLigne->end->name}"
-                ));
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
@@ -133,18 +121,18 @@ class TravelCommand extends Command
                     if ($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'unique',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     } else {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'first',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_first)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_first)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'second',
-                            'nb_passengers' => max($station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise, rand(0, $station->railwayLigneStation->gare->passenger_second)),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     }
@@ -277,7 +265,7 @@ class TravelCommand extends Command
         $sum = 0;
 
         foreach ($tarifs as $tarif) {
-            $sum += $tarif->price * $planning->passengers()->where('type', $tarif->type == 'unique' ? 'second' : $tarif->type)->sum('nb_passengers');
+            $sum += $tarif->price * $planning->passengers()->where('type', $tarif->type_tarif)->sum('nb_passengers');
         }
 
         return $sum;

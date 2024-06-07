@@ -3,7 +3,6 @@
 namespace App\Livewire\Game\Core;
 
 use App\Models\User\Railway\UserRailwayLigne;
-use Carbon\Carbon;
 use Livewire\Component;
 
 class ScreenDeparture extends Component
@@ -19,7 +18,7 @@ class ScreenDeparture extends Component
         $this->plannings = match ($this->type) {
             default => auth()->user()->railway_plannings()
                 ->with('userRailwayHub', 'userRailwayLigne', 'userRailwayEngine')
-                ->whereDate('date_depart', Carbon::today())
+                ->whereBetween('date_depart', [now(), now()->endOfDay()])
                 ->where('status', 'initialized')
                 ->orWhere('status', 'departure')
                 ->orWhere('status', 'retarded')
@@ -29,7 +28,7 @@ class ScreenDeparture extends Component
                 ->get(),
             'ligne' => $this->ligne->plannings()
                 ->with('userRailwayHub', 'userRailwayLigne', 'userRailwayEngine')
-                ->whereDate('date_depart', Carbon::today())
+                ->whereBetween('date_depart', [now(), now()->endOfDay()])
                 ->where('status', 'initialized')
                 ->orWhere('status', 'departure')
                 ->orWhere('status', 'retarded')

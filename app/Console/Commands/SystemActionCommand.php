@@ -26,7 +26,7 @@ class SystemActionCommand extends Command
             'planning_today' => $this->planningToday(),
             'update_weather' => $this->updateWeather(),
             'tarif_today' => $this->tarifToday(),
-            'updateReward' => $this->updateReward()
+            'updateReward' => $this->updateReward(),
         };
     }
 

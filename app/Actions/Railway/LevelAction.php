@@ -5,6 +5,7 @@ namespace App\Actions\Railway;
 use App\Enums\Railway\Config\LevelRewardTypeEnum;
 use App\Models\Railway\Config\RailwayLevel;
 use App\Models\Railway\Config\RailwayLevelReward;
+use App\Models\Railway\Engine\RailwayEngine;
 
 class LevelAction
 {
@@ -45,12 +46,14 @@ class LevelAction
 
         $bases->push([
             'type' => \Str::lower(LevelRewardTypeEnum::ENGINE->name),
-            'value' => 0,
+            'value' => 1,
+            'model' => RailwayEngine::class,
+            'model_id' => RailwayEngine::all()->random()->first()->id
         ]);
 
         $bases->push([
             'type' => \Str::lower(LevelRewardTypeEnum::ENGINE_R->name),
-            'value' => 0,
+            'value' => 1,
         ]);
 
         $bases->push([
@@ -88,7 +91,7 @@ class LevelAction
             RailwayLevelReward::create([
                 'name' => \Str::ucfirst($reward['type']),
                 'type' => LevelRewardTypeEnum::tryFrom(\Str::lower($reward['type']))->value,
-                'action' => 'reward_'.$reward['type'],
+                'action' => 'reward_' . $reward['type'],
                 'action_count' => $reward['value'],
             ]);
         }
@@ -109,7 +112,7 @@ class LevelAction
         for ($i = 0; $i <= $niv_max; $i++) {
             RailwayLevel::create([
                 'id' => $i,
-                'exp_required' => $xp_start * ($i + config('railway.coef_level')),
+                'exp_required' => $xp_start + ($xp_start * (config('railway.coef_level') * $i)),
                 'railway_level_reward_id' => RailwayLevelReward::all()->random()->id,
             ]);
         }

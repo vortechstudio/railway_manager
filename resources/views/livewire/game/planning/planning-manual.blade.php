@@ -61,7 +61,7 @@
                             <select wire:model="user_railway_engine_id" name="user_railway_engine_id" id="user_railway_engine_id" class="form-select" data-control="select2" data-placeholder="---  Selectionner un type de matériel ---" required>
                                 <option></option>
                                 @foreach($engines as $engine)
-                                    <option value="{{ $engine->id }}">{{ $engine->number }} / {{ $engine->railwayEngine->name }} / {{ $engine->userRailwayLigne->railwayLigne->name }}</option>
+                                    <option value="{{ $engine->id }}">{{ $engine->number }} / {{ $engine->railwayEngine->name }}</option>
                                 @endforeach
                             </select>
                         </div>

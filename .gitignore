@@ -19,3 +19,6 @@ yarn-error.log
 /composer.phar
 Changelog.md
 /ollama_review.txt
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php

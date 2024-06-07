@@ -4,6 +4,7 @@ namespace App\Livewire\Core;
 
 use App\Actions\ErrorDispatchHandle;
 use App\Jobs\UpgradeTicketPriorityJob;
+use App\Services\Github\Tracker;
 use App\Services\RailwayService;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -44,6 +45,8 @@ class UserMenu extends Component
                 'user_id' => auth()->id(),
                 'ticket_id' => $ticket->id,
             ]);
+
+            (new Tracker())->createIssueOfTicket($ticket);
 
             dispatch(new UpgradeTicketPriorityJob($ticket));
             $this->dispatch('closeDrawer', 'drawer_bug_tracker');

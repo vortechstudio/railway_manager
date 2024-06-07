@@ -14,6 +14,7 @@
 @section("content")
     <div class="container-xxl">
         <div id="kt_app_content" class="app-content">
+            <x-game.engine-menu />
             <div class="card shadow-sm h-550px">
                 <div class="card-body">
                     <div class="d-flex flex-row justify-content-center align-items-center p-5 mx-auto gap-5">

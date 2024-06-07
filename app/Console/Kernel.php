@@ -24,6 +24,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('travel in_station_arrival')->everyMinute();
         $schedule->command('travel in_station_departure')->everyMinute();
         $schedule->command('travel arrival')->everyMinute();
+
+        $schedule->command('incident before')->everyFiveMinutes();
+        $schedule->command('incident after')->everyFifteenMinutes();
     }
 
     /**

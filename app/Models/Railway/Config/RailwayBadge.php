@@ -5,6 +5,9 @@ namespace App\Models\Railway\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperRailwayBadge
+ */
 class RailwayBadge extends Model
 {
     use SoftDeletes;

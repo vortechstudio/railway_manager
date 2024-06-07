@@ -21,7 +21,7 @@ class UserRailwayEngine extends Model
     protected $connection = 'railway';
 
     protected $casts = [
-        'date_achat' => 'timestamp',
+        'date_achat' => 'datetime',
         'status' => RailwayEngineStatusEnum::class,
     ];
 
@@ -31,6 +31,8 @@ class UserRailwayEngine extends Model
         'resultat',
         'actual_usure',
         'indice_ancien',
+        'flux_market',
+        'actual_usure_color',
     ];
 
     public function user(): BelongsTo
@@ -79,7 +81,7 @@ class UserRailwayEngine extends Model
         $color = (new UserRailwayEngineAction($this))->getStatusFormat('color');
         $text = (new UserRailwayEngineAction($this))->getStatusFormat();
 
-        return "<span class='badge badge-sm bg-{$color}-500'><i class='{$icon} text-white me-2'></i> {$text}</span>";
+        return "<span class='badge badge-sm bg-{$color}-500 text-white'><i class='{$icon} text-white me-2'></i> {$text}</span>";
     }
 
     public function getUtilisationAttribute()
@@ -97,6 +99,18 @@ class UserRailwayEngine extends Model
         return (new UserRailwayEngineAction($this))->getTotalUsure();
     }
 
+    public function getActualUsureColorAttribute()
+    {
+        $usure = (new UserRailwayEngineAction($this))->getTotalUsure();
+        if ($usure == 0 || $usure <= 33.33) {
+            return 'success';
+        } elseif ($usure > 33.33 && $usure <= 66.66) {
+            return 'warning';
+        } else {
+            return 'danger';
+        }
+    }
+
     public function getIndiceAncienAttribute()
     {
         return (new UserRailwayEngineAction($this))->getIndiceAncien();
@@ -105,5 +119,10 @@ class UserRailwayEngine extends Model
     public function simulateSelling()
     {
         return (new UserRailwayEngineAction($this))->simulateSelling();
+    }
+
+    public function getFluxMarketAttribute()
+    {
+        return (new UserRailwayEngineAction($this))->getActualFluctuation();
     }
 }
