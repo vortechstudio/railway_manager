@@ -4,9 +4,6 @@ namespace App\Models\Social;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperPoll
- */
 class Poll extends Model
 {
     protected $guarded = [];

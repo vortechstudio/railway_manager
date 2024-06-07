@@ -5,9 +5,6 @@ namespace App\Models\Railway\Planning;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperRailwayPlannningLog
- */
 class RailwayPlannningLog extends Model
 {
     protected $guarded = [];

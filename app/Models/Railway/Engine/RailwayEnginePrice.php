@@ -5,9 +5,6 @@ namespace App\Models\Railway\Engine;
 use App\Services\Models\Railway\Engine\RailwayEnginePriceAction;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperRailwayEnginePrice
- */
 class RailwayEnginePrice extends Model
 {
     protected $guarded = [];

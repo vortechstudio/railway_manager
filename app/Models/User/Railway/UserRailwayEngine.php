@@ -12,9 +12,6 @@ use App\Services\Models\User\Railway\UserRailwayEngineAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperUserRailwayEngine
- */
 class UserRailwayEngine extends Model
 {
     public $timestamps = false;

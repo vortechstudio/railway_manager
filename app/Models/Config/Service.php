@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Pharaonic\Laravel\Pages\HasPages;
 
-/**
- * @mixin IdeHelperService
- */
 class Service extends Model
 {
     use HasPages, SoftDeletes;

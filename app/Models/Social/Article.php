@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Pharaonic\Laravel\Categorizable\Traits\Categorizable;
 use Storage;
 
-/**
- * @mixin IdeHelperArticle
- */
 class Article extends Model
 {
     use Categorizable, HasFactory;

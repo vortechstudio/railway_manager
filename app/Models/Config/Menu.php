@@ -2,9 +2,6 @@
 
 namespace App\Models\Config;
 
-/**
- * @mixin IdeHelperMenu
- */
 class Menu extends \Pharaonic\Laravel\Menus\Models\Menu
 {
     protected $connection = 'mysql';

@@ -6,9 +6,6 @@ use App\Models\Config\Service;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @mixin IdeHelperUserService
- */
 class UserService extends Model
 {
     use SoftDeletes;
