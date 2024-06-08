@@ -14,7 +14,7 @@
 @section("content")
     <div id="kt_app_content" class="app-content h-500px rounded-3 d-flex flex-column justify-content-center align-items-center bg-trophy firefly">
         <div class="d-flex justify-content-evenly align-items-center w-100 mx-auto">
-            @foreach(\Spatie\LaravelOptions\Options::forEnum(\App\Enums\Railway\Core\AchievementSectorEnum::class)->toArray() as $sector)
+            @foreach(\Spatie\LaravelOptions\Options::forEnum(\App\Enums\Railway\Core\AchievementTypeEnum::class)->toArray() as $sector)
                 <a href="{{ route('trophy.show', $sector['value']) }}" class="d-flex flex-column justify-content-center animate__animated animate__slideInDown panelZoom">
                     <div class="symbol symbol-200px mb-2">
                         <img src="{{ Storage::url('icons/railway/success/'.$sector['value'].'.png') }}" alt="">
