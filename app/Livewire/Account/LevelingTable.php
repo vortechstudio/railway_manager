@@ -8,10 +8,12 @@ use App\Models\Railway\Config\RailwayLevelReward;
 use App\Models\User\User;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
 use App\Services\Models\User\Railway\UserRailwayEngineAction;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class LevelingTable extends Component
 {
+    use LivewireAlert;
     public User $user;
 
     public function mount()
@@ -22,6 +24,9 @@ class LevelingTable extends Component
     public function claim(int $level_id)
     {
         $level = RailwayLevel::find($level_id);
+        if($level->id >= $this->user->railway->level) {
+            $this->alert("error", "Vous ne pouvez-pas recupérer cette récompense actuellement !");
+        }
         match($level->reward->type->value) {
             'argent' => $this->rewardArgent($level->reward),
             'audit_int' => $this->rewardAuditInt($level->reward),
@@ -34,6 +39,12 @@ class LevelingTable extends Component
             'simulation' => $this->rewardSimulation($level->reward),
             'tpoint' => $this->rewardTpoint($level->reward),
         };
+
+        $this->user->railway_rewards()->create([
+            'user_id' => $this->user->id,
+            'model' => RailwayLevelReward::class,
+            'model_id' => $level->reward->id,
+        ]);
 
         $this->alert('success', 'Récompense récupérée', [
             'html' => $this->blockReward($level->reward),
@@ -120,7 +131,7 @@ class LevelingTable extends Component
 
         $html .= "<div class='d-flex flex-wrap justify-content-center align-items-center'>";
         $html .= "<div class='symbol symbol-150px border border-primary p-5 mb-2 animate__animated animate__flipInX animate__delay-1s'>";
-        $html .= "<img class='' src='" . \Storage::url("icons/railway/{$reward->type}.png") . "' alt=''>";
+        $html .= "<img class='' src='" . \Storage::url("icons/railway/{$reward->type->value}.png") . "' alt=''>";
         $html .= "</div>";
         $html .= "<span class='badge badge-lg badge-light animate__animated animate__fadeInDown animate__delay-1s'>" . htmlspecialchars($reward->action_count) . "</span>";
         $html .= "</div>";
