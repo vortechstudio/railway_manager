@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class RailwayAchievement extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
 
     protected $casts = [
@@ -66,17 +67,19 @@ class RailwayAchievement extends Model
                 ->where('goal', $goal)
                 ->first();
 
-            if($achievement && !$achievement->isUnlockedFor($user)) {
+            if ($achievement && ! $achievement->isUnlockedFor($user)) {
                 $user->railway_achievements()->create([
                     'user_id' => $user->id,
-                    'railway_achievement_id' => $achievement->id
+                    'railway_achievement_id' => $achievement->id,
                 ]);
+
                 return $achievement;
             }
 
             return null;
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
+
             return null;
         }
     }

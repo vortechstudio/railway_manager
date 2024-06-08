@@ -2,14 +2,13 @@
 
 namespace App\Services\Models\User;
 
+use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
 use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Config\Service;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
-use Illuminate\Http\Request;
-use App\Actions\Account\MailboxAction;
 
 class NewUserSetupAction
 {
@@ -17,21 +16,21 @@ class NewUserSetupAction
     {
     }
 
-    public function updateUserPassword(string $newPassword)
+    public function updateUserPassword(string $newPassword): void
     {
         try {
             $this->user->update([
-                'password' => \Hash::make($newPassword)
+                'password' => \Hash::make($newPassword),
             ]);
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
     }
 
-    public function updateUserRailway(array $data)
+    public function updateUserRailway(array $data): void
     {
         try {
-            if($this->user->railway()->first()) {
+            if ($this->user->railway()->first()) {
                 $this->user->railway()->update([
                     'uuid' => rand(10000000, 99999999),
                     'installed' => true,
@@ -66,7 +65,7 @@ class NewUserSetupAction
         }
     }
 
-    public function createUserSocialCompanyBonus()
+    public function createUserSocialCompanyBonus(): void
     {
         try {
             $this->user->railway_social()->create(['user_id' => $this->user->id]);
@@ -90,7 +89,7 @@ class NewUserSetupAction
         }
     }
 
-    public function loginAndSendWelcomeMessage()
+    public function loginAndSendWelcomeMessage(): void
     {
         (new Compta())->create(
             user: $this->user,

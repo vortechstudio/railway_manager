@@ -17,10 +17,8 @@ class RailwayAchievementAction
     /**
      * Register the listeners for the subscriber.
      * Ne pas oublier de rajouter un $event->listen a chaque demande achievable
-     *
-     * @param Dispatcher $events
      */
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen('eloquent.saved: App\Models\User\Railway\UserRailway', [$this, 'Welcome']);
         $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayHub', [$this, 'unDebutATous']);
@@ -29,63 +27,64 @@ class RailwayAchievementAction
         $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayMouvement', [$this, 'magnatFerroviaire']);
     }
 
-    public function Welcome($event)
+    public function Welcome($event): void
     {
         $user = User::find($event->user_id);
         $this->achievement->unlockActionFor($user, 'welcome');
         $this->notifyAchievementUnlock($user);
     }
 
-    public function unDebutATous($event)
+    public function unDebutATous($event): void
     {
         $user = User::find($event->user_id);
         $this->achievement->unlockActionFor($user, 'un-debut-a-tous', 1);
         $this->notifyAchievementUnlock($user);
     }
 
-    public function entrepreneur($event)
+    public function entrepreneur($event): void
     {
         $compagnie = UserRailwayCompany::find($event->user_railway_company_id);
         $user = $compagnie->user;
         $amount = $compagnie->mouvements()->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])->where('type_amount', 'revenue')->sum('amount');
 
-        if($amount >= $this->achievement->goal) {
+        if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'entrepreneur', 1500000);
             $this->notifyAchievementUnlock($user);
         }
     }
 
-    public function jeRentabiliseMaSociete($event)
+    public function jeRentabiliseMaSociete($event): void
     {
         $compagnie = UserRailwayCompany::find($event->user_railway_company_id);
         $user = $compagnie->user;
         $amount = $compagnie->mouvements()->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])->where('type_amount', 'revenue')->sum('amount');
 
-        if($amount >= $this->achievement->goal) {
+        if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'je-rentabilise-ma-societe', 3000000);
             $this->notifyAchievementUnlock($user);
         }
     }
-    public function magnatFerroviaire($event)
+
+    public function magnatFerroviaire($event): void
     {
         $compagnie = UserRailwayCompany::find($event->user_railway_company_id);
         $user = $compagnie->user;
         $amount = $compagnie->mouvements()->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])->where('type_amount', 'revenue')->sum('amount');
 
-        if($amount >= $this->achievement->goal) {
+        if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'magnat-ferroviaire', 10000000);
             $this->notifyAchievementUnlock($user);
         }
     }
 
-    public function notifyAchievementUnlock(User $user)
+    public function notifyAchievementUnlock(User $user): void
     {
         if ($this->achievement) {
             $user->notify(new SendMessageAdminNotification(
                 title: 'Nouveau succès débloquer !',
                 sector: 'alert',
                 type: 'success',
-                message: "Un nouveau succès à été débloquer !"
+                message: 'Un nouveau succès à été débloquer !'
             ));
         }
     }

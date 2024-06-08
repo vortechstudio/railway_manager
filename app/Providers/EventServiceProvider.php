@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Actions\Railway\AchievementAction;
 use App\Events\Model\User\UserLevelledUp;
 use App\Listeners\Model\User\UserLevelledUpListener;
 use App\Services\Models\Railway\Core\RailwayAchievementAction;
