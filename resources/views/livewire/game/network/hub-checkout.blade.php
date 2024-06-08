@@ -9,7 +9,9 @@
                         <select wire:model.live="selectedHub" id="selectedHub" data-control="select2" class="form-select" required>
                             <option value="0">-- Aucune valeur --</option>
                             @foreach($hubs as $hub)
-                                <option value="{{ $hub->id }}">{{ $hub->gare->name }}</option>
+                                @if(!auth()->user()->userRailwayHub()->where('railway_hub_id', $hub->id)->exists())
+                                    <option value="{{ $hub->id }}">{{ $hub->gare->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
