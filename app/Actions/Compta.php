@@ -51,12 +51,14 @@ class Compta
     private function updateBalanceAndValorisation(User $user, float $amountVal, bool $valorisation): void
     {
         try {
-            $user->railway->argent += $amountVal;
-            $user->railway->save();
+            $railway = $user->railway;
+            $railway->argent += $amountVal;
+            $railway->save();
 
             if ($valorisation) {
-                $user->railway_company->valorisation += $amountVal;
-                $user->railway_company->save();
+                $railway_company = $user->railway_company;
+                $railway_company->valorisation += $amountVal;
+                $railway_company->save();
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
