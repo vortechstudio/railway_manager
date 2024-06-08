@@ -7,6 +7,7 @@ git pull origin master
 
 composer install --prefer-dist --no-interaction
 npm install
+npm run build
 
 php artisan cache:clear
 php artisan route:clear
