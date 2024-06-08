@@ -71,14 +71,14 @@ class AchievementAction
         }
     }
 
-    private function level_upAction()
+    private function level_upAction(): void
     {
         $user = User::find(auth()->id());
 
-        if($user->railway->level == $this->achievement->goal) {
+        if ($user->railway->level == $this->achievement->goal) {
             \Auth::user()->railway_achievements()->create([
                 'achievement_id' => $this->achievement->id,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
             \Auth::user()->notify(new SendMessageNotification(

@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayAchievement extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'completed_at' => 'datetime',
     ];

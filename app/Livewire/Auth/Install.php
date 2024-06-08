@@ -9,11 +9,14 @@ use Livewire\Component;
 class Install extends Component
 {
     public string $name_company = '';
+
     public string $desc_company = '';
+
     public string $name_secretary = '';
+
     public bool $tos = false;
 
-    public function save()
+    public function save(): void
     {
         try {
             (new NewUserSetupAction(auth()->user()))->updateUserRailway($this->all());

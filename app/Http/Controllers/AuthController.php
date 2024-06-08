@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Account\MailboxAction;
-use App\Actions\Compta;
-use App\Actions\ErrorDispatchHandle;
 use App\Actions\NewUserAction;
-use App\Events\Model\User\Railway\NewUserEvent;
-use App\Models\Railway\Config\RailwaySetting;
 use App\Models\User\User;
 use App\Services\RailwayService;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller

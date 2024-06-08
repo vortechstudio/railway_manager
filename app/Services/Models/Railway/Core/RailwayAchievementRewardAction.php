@@ -10,14 +10,14 @@ class RailwayAchievementRewardAction
     {
     }
 
-    public function claim()
+    public function claim(): void
     {
         match ($this->reward->type->value) {
-            "argent" => $this->claimArgent()
+            'argent' => $this->claimArgent()
         };
     }
 
-    private function claimArgent()
+    private function claimArgent(): void
     {
         auth()->user()->railway->argent += $this->reward->quantity;
         auth()->user()->railway->save();

@@ -11,17 +11,19 @@ use Livewire\Component;
 class TrophyPanel extends Component
 {
     use LivewireAlert;
+
     public string $sector;
+
     protected $listeners = ['refreshTrophy' => '$refresh'];
 
-    public function claim(int $achievement_id)
+    public function claim(int $achievement_id): void
     {
         $achievement = RailwayAchievement::find($achievement_id);
 
         foreach ($achievement->rewards as $reward) {
             (new RailwayAchievementRewardAction($reward))->claim();
             auth()->user()->railway_achievements()->where('railway_achievement_id', $achievement_id)->first()->update([
-                'reward_claimed_at' => now()
+                'reward_claimed_at' => now(),
             ]);
         }
 

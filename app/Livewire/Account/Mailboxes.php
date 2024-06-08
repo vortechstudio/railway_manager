@@ -92,17 +92,16 @@ class Mailboxes extends Component
     {
         $html = "<div class='d-flex flex-wrap justify-content-center align-items-center w-100 mx-auto gap-5 my-5'>";
 
-
         foreach ($rewards as $reward) {
             $html .= "<div class='d-flex flex-wrap justify-content-center align-items-center'>";
             $html .= "<div class='symbol symbol-150px border border-primary p-5 mb-2 animate__animated animate__flipInX animate__delay-1s'>";
-            $html .= "<img class='' src='" . \Storage::url("icons/railway/{$reward['type']}.png") . "' alt=''>";
-            $html .= "</div>";
-            $html .= "<span class='badge badge-lg badge-light animate__animated animate__fadeInDown animate__delay-1s'>" . htmlspecialchars($reward['value']) . "</span>";
-            $html .= "</div>";
+            $html .= "<img class='' src='".\Storage::url("icons/railway/{$reward['type']}.png")."' alt=''>";
+            $html .= '</div>';
+            $html .= "<span class='badge badge-lg badge-light animate__animated animate__fadeInDown animate__delay-1s'>".htmlspecialchars($reward['value']).'</span>';
+            $html .= '</div>';
         }
 
-        $html .= "</div>";
+        $html .= '</div>';
 
         return $html;
     }

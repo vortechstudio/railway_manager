@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Achievement extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'type' => AchievementTypeEnum::class,
     ];

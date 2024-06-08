@@ -9,13 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayAchievementReward extends Model
 {
     protected $guarded = [];
+
     protected $connection = 'railway';
+
     protected $casts = [
         'type' => AchievementRewardTypeEnum::class,
     ];
+
     protected $appends = [
         'icons',
     ];
+
     public function railwayAchievement(): BelongsTo
     {
         return $this->belongsTo(RailwayAchievement::class);
