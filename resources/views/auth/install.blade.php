@@ -69,46 +69,7 @@
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
                     <!--begin::Form-->
-                    <form method="POST" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="index.html" action="{{ route('auth.install.submit') }}">
-                        @csrf
-                        <!--begin::Heading-->
-                        <div class="text-center mb-11">
-                            <!--begin::Title-->
-                            <h1 class="text-gray-900 fw-bolder mb-3">Configuration de votre espace</h1>
-                            <!--end::Title-->
-
-                        </div>
-                        <!--begin::Heading-->
-                        <!--begin::Login options-->
-                        <div class="row g-3 mb-9">
-
-                            <div class="col-md-12">
-
-                                <x-base.title
-                                    title="Votre compagnie" />
-
-                                <x-form.input
-                                    name="name_company"
-                                    label="Nom de votre compagnie" />
-                                <x-form.textarea
-                                    name="desc_company"
-                                    label="Description de votre compagnie" />
-
-                                <x-form.input
-                                    name="name_secretary"
-                                    label="Nom de votre secretaire" />
-
-                                <x-form.checkbox
-                                    name="accept_tos"
-                                    value="1"
-                                    label="J'accepte les conditions générales d'utilisations de Railway Manager"
-                                    required="true" />
-                            </div>
-
-                            <x-form.button />
-                        </div>
-                        <!--end::Login options-->
-                    </form>
+                    @livewire('auth.install')
                     <!--end::Form-->
                 </div>
                 <!--end::Wrapper-->
