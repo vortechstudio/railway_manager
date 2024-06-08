@@ -6,9 +6,6 @@ use App\Enums\Railway\Core\AchievementRewardTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperAchieveReward
- */
 class AchieveReward extends Model
 {
     use HasFactory;

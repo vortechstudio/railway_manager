@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->boolean('completed')->default(false);
             $table->dateTime('completed_at')->nullable();
             $table->foreignId('user_id');
+            $table->dateTime('reward_claimed_at')->nullable();
             $table->foreignId('railway_achievement_id');
             $table->timestamps();
         });
