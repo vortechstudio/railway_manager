@@ -108,6 +108,7 @@
 <!--end::Global Javascript Bundle-->
 <!--begin::Custom Javascript(used for this page only)-->
 @livewireScriptConfig
+@vite(['resources/js/app.js'])
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
