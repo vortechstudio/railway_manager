@@ -14,6 +14,7 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    @livewireStyles
     @vite('resources/sass/app.scss')
     <!--end::Global Stylesheets Bundle-->
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
@@ -106,7 +107,7 @@
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 <!--begin::Custom Javascript(used for this page only)-->
-@livewireScripts
+@livewireScriptConfig
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
