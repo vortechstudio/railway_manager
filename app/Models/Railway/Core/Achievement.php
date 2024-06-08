@@ -8,6 +8,9 @@ use App\Enums\Railway\Core\AchievementSectorEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperAchievement
+ */
 class Achievement extends Model
 {
     use HasFactory;
