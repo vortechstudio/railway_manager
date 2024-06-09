@@ -77,7 +77,7 @@ class AuthController extends Controller
         if (! $user->services()->where('service_id', $service->id)->exists()) {
             (new NewUserAction())->addUserService($user, $service);
         } else {
-            if (!$user->railway || ! $user->railway->installed) {
+            if (! $user->railway || ! $user->railway->installed) {
                 Auth::login($user);
 
                 return redirect()->route('auth.install');
