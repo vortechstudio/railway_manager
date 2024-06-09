@@ -26,12 +26,12 @@ class ShopCategory extends Model
         return $this->belongsTo(Shop::class, 'shop_id');
     }
 
-    public function railway_items()
+    public function items()
     {
         return $this->hasMany(ShopItem::class);
     }
 
-    public function railway_packages()
+    public function packages()
     {
         return $this->hasMany(ShopPackage::class);
     }

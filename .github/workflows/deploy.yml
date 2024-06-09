@@ -14,11 +14,11 @@ jobs:
     steps:
       - name: Appel du webhook
         if: github.event_name == 'push'
-        run: curl -X POST ${{ secrets.WEBHOOK_STAGING }}
+        run: curl -k -X POST ${{ secrets.WEBHOOK_STAGING }}
 
   on_publish_release:
     runs-on: ubuntu-latest
     steps:
       - name: Appel du webhook
         if: github.event_name == 'release'
-        run: curl -X POST ${{ secrets.WEBHOOK_PRODUCTION }}
+        run: curl -k -X POST ${{ secrets.WEBHOOK_PRODUCTION }}
