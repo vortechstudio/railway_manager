@@ -2,6 +2,7 @@
 
 namespace App\Models\Railway\Core;
 
+use App\Enums\Config\Shop\ShopItemCurrencyTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,6 +16,10 @@ class ShopPackage extends Model
 
     protected $connection = 'mysql';
 
+    protected $casts = [
+        'currency_type' => ShopItemCurrencyTypeEnum::class,
+    ];
+
     public function category()
     {
         return $this->belongsTo(ShopCategory::class, 'shop_category_id');
@@ -22,6 +27,6 @@ class ShopPackage extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ShopItem::class, 'package_items', 'package_id', 'item_id');
+        return $this->belongsToMany(ShopItem::class, 'package_item', 'shop_package_id', 'shop_item_id');
     }
 }

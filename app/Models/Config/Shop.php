@@ -19,7 +19,7 @@ class Shop extends Model
         return $this->belongsTo(Service::class, 'service_id');
     }
 
-    public function railway_categories()
+    public function categories()
     {
         return $this->hasMany(ShopCategory::class);
     }
