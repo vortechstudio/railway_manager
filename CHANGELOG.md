@@ -1,3 +1,26 @@
+# [0.14.0](https://github.com/vortechstudio/railway_manager/compare/v0.13.0...v0.14.0) (2024-06-10)
+
+
+### Bug Fixes
+
+* **Authentification:** Modifie la condition de vérification de l'installation de railway ([d59ed4c](https://github.com/vortechstudio/railway_manager/commit/d59ed4c4fd39b5eca671d4d707b6cdc1e78b0f09))
+* **Authentification:** Optimisation de la vérification de l'installation Railway ([1780d8d](https://github.com/vortechstudio/railway_manager/commit/1780d8ddc17f7c1df11456a4cfc5d7c93e86abd7))
+* **Authentification:** Réorganisation de l'authentification et de l'initialisation du compte. ([34a7135](https://github.com/vortechstudio/railway_manager/commit/34a7135bd4b16af0068715d886e547d8c3d58207))
+
+
+### Features
+
+* **Gestion du matériel:** Ajout gestion incidents et maintenance trains ([94541c4](https://github.com/vortechstudio/railway_manager/commit/94541c464dc045c1d57e6640a9a2134b97301dfa))
+* **Levelling:** Ajoute validation et enregistrement des récompenses ([e6ddef1](https://github.com/vortechstudio/railway_manager/commit/e6ddef14e3a2931c3e9ab3d5a17080b2ec3352d7))
+* **Levelling:** Modification de la condition pour réclamer des niveaux ([71d3bdf](https://github.com/vortechstudio/railway_manager/commit/71d3bdf722ed0198a2f5e549954ec331cadd1f82))
+* **Materiel:** Ajoute la gestion des jobs de maintenance ([aeb5aa4](https://github.com/vortechstudio/railway_manager/commit/aeb5aa426d43fb0ae11ea7f3df13bf2a15100e3f))
+* **Network Hub:** Ajout de vérification de si le joueur possède déjà un hub pour l'option de gare ([43d185a](https://github.com/vortechstudio/railway_manager/commit/43d185ab0e8643cc759e1823365411f5496684b0))
+* **Network Hub:** Remplacement de livewire par leaflet pour la carte des hubs ([42cb6a5](https://github.com/vortechstudio/railway_manager/commit/42cb6a5fefd860f6a2ef182ff85fefd7a250e173))
+* **Network Ligne:** Ajoute infos ligne et mise à jour affichage dans la page d'achat ([9d419ea](https://github.com/vortechstudio/railway_manager/commit/9d419eaf1f2989afeb72fdf0f7572580969e9462))
+* **Railway:** Ajouter fonctionnalités et migrations pour système de Succès ([cab85e1](https://github.com/vortechstudio/railway_manager/commit/cab85e17b65b6eff65e997748d742b318e9c431e))
+* **Trophée:** Ajout notification et fix authentification ([6326ab0](https://github.com/vortechstudio/railway_manager/commit/6326ab0b07177fc550a0dd26167b963288d89cb3))
+* **Trophée:** ajoute fonction de récompenses d'accomplissement, modifie les modèles et vues ([a4e9d5f](https://github.com/vortechstudio/railway_manager/commit/a4e9d5f4bbca76807063654a9b83dd2659128c5b))
+
 # [0.13.0](https://github.com/vortechstudio/railway_manager/compare/v0.12.0...v0.13.0) (2024-06-07)
 
 
