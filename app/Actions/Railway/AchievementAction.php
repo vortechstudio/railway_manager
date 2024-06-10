@@ -4,6 +4,8 @@ namespace App\Actions\Railway;
 
 use App\Models\Railway\Core\Achievement;
 use App\Models\Railway\Core\AchieveReward;
+use App\Models\User\User;
+use App\Notifications\Users\SendMessageNotification;
 use Illuminate\Support\Facades\Auth;
 
 class AchievementAction
@@ -17,6 +19,7 @@ class AchievementAction
         if (Auth::check()) {
             $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayHub', [$this, $this->checkoutHubAction()]);
             $events->listen('App\Events\Model\User\Railway\NewUserEvent', [$this, $this->welcomeAction()]);
+            $events->listen('App\Events\Model\User\UserLevelledUp', [$this, $this->level_upAction()]);
         }
     }
 
@@ -46,7 +49,7 @@ class AchievementAction
     private function checkoutHubAction()
     {
         dd(auth()->user());
-        if (auth()->user()->userRailwayHub()->get()->count() == $this->achievement->goal) {
+        if (\Auth::user()->userRailwayHub()->get()->count() == $this->achievement->goal) {
             \Auth::user()->railway_achievements()->create([
                 'user_id' => auth()->id(),
                 'achievement_id' => $this->achievement->id,
@@ -65,6 +68,25 @@ class AchievementAction
             }
 
             return true;
+        }
+    }
+
+    private function level_upAction(): void
+    {
+        $user = User::find(auth()->id());
+
+        if ($user->railway->level == $this->achievement->goal) {
+            \Auth::user()->railway_achievements()->create([
+                'achievement_id' => $this->achievement->id,
+                'user_id' => $user->id,
+            ]);
+
+            \Auth::user()->notify(new SendMessageNotification(
+                title: 'Récompense disponible',
+                sector: 'alert',
+                type: 'success',
+                message: 'Vous avez débloqué un nouveau succès !'
+            ));
         }
     }
 }

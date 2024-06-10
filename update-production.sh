@@ -8,6 +8,7 @@ git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
 composer install --prefer-dist --no-interaction
 npm install
+npm run build
 
 php artisan cache:clear
 php artisan route:clear
@@ -17,6 +18,7 @@ php artisan clear
 php artisan release:update
 php artisan webpush:vapid
 php artisan system updateReward
+php artisan horizon:terminate
 
 php artisan up
 

@@ -2,7 +2,7 @@
 
 namespace App\Models\User\Railway;
 
-use App\Models\Railway\Core\Achievement;
+use App\Models\Railway\Core\RailwayAchievement;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,13 +13,17 @@ class UserRailwayAchievement extends Model
 
     protected $connection = 'railway';
 
-    public function achievement(): BelongsTo
+    protected $casts = [
+        'completed_at' => 'datetime',
+    ];
+
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Achievement::class, 'achievement_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function user()
+    public function railwayAchievement(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(RailwayAchievement::class);
     }
 }

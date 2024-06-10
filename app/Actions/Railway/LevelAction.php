@@ -48,7 +48,7 @@ class LevelAction
             'type' => \Str::lower(LevelRewardTypeEnum::ENGINE->name),
             'value' => 1,
             'model' => RailwayEngine::class,
-            'model_id' => RailwayEngine::all()->random()->first()->id
+            'model_id' => RailwayEngine::all()->random()->first()->id,
         ]);
 
         $bases->push([
@@ -91,7 +91,7 @@ class LevelAction
             RailwayLevelReward::create([
                 'name' => \Str::ucfirst($reward['type']),
                 'type' => LevelRewardTypeEnum::tryFrom(\Str::lower($reward['type']))->value,
-                'action' => 'reward_' . $reward['type'],
+                'action' => 'reward_'.$reward['type'],
                 'action_count' => $reward['value'],
             ]);
         }

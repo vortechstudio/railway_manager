@@ -23,6 +23,51 @@
                 </select>
             </div>
             @endif
+            @if($railway_ligne_id !== null)
+                <div class="card shadow-sm bg-gray-300">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Distance</span>
+                                    <span class="fs-2 fw-bold">{{ $infoLigne->first()['distance'] }} Km</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Temps de parcoure</span>
+                                    <span class="fs-2 fw-bold">{{ Helpers::minToHours($infoLigne->first()['temp_parcoure']) }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Type de ligne</span>
+                                    <span class="fs-2 fw-bold">{{ $infoLigne->first()['type'] }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Nombre de station</span>
+                                    <span class="fs-2 fw-bold">{{ $infoLigne->first()['nb_stations'] }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Gare de Départ</span>
+                                    <span class="fs-2 fw-bold">{{ $infoLigne->first()['gare_depart'] }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 mb-2">
+                                <div class="d-flex justify-content-between align-items-center bg-white text-black rounded shadow-lg p-5">
+                                    <span class="fs-2">Gare Terminus</span>
+                                    <span class="fs-2 fw-bold">{{ $infoLigne->first()['gare_arrivee'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
         <div class="order-sm-first order-lg-last col-sm-12 col-lg-4 mb-5">
 
@@ -39,7 +84,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Ligne: {{ $ligne->name }}</span>
+                            <span>Ligne: {{ $nameLigne }}</span>
                             <span>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($price_base) }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">

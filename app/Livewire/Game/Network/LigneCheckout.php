@@ -41,6 +41,10 @@ class LigneCheckout extends Component
 
     public $amount_paid;
 
+    public string $nameLigne = '';
+
+    public ?Collection $infoLigne;
+
     public function mount(): void
     {
         $this->lignes = collect();
@@ -62,11 +66,22 @@ class LigneCheckout extends Component
     public function updatedRailwayLigneId(): void
     {
         $this->ligne = RailwayLigne::find($this->railway_ligne_id);
+        $this->nameLigne = $this->ligne->name;
         $this->price_base = $this->ligne->price;
         $this->subvention_percent = auth()->user()->userRailwayLigne()->count() > 1 ? auth()->user()->railway_company->subvention : 85;
         $this->subvention_amount = $this->price_base * $this->subvention_percent / 100;
         $this->flux_ligne_amount = ($this->price_base - $this->subvention_amount) * $this->flux_ligne_percent / 100;
         $this->amount_paid = $this->price_base - $this->subvention_amount - $this->flux_ligne_amount;
+
+        $this->infoLigne = collect()->push([
+            'name' => $this->nameLigne,
+            'distance' => $this->ligne->distance,
+            'temp_parcoure' => $this->ligne->time_min,
+            'type' => $this->ligne->type->name,
+            'gare_depart' => $this->ligne->start->name,
+            'gare_arrivee' => $this->ligne->end->name,
+            'nb_stations' => $this->ligne->stations->count(),
+        ]);
     }
 
     #[On('confirmed')]

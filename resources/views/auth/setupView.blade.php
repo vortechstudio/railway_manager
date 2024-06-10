@@ -14,6 +14,7 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    @livewireStyles
     @vite('resources/sass/app.scss')
     <!--end::Global Stylesheets Bundle-->
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
@@ -69,53 +70,7 @@
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
                     <!--begin::Form-->
-                    <form method="POST" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="index.html" action="{{ route('auth.setup-account.submit', [$provider, $email]) }}">
-                        @csrf
-                        <!--begin::Heading-->
-                        <div class="text-center mb-11">
-                            <!--begin::Title-->
-                            <h1 class="text-gray-900 fw-bolder mb-3">Configuration de votre espace</h1>
-                            <!--end::Title-->
-
-                        </div>
-                        <!--begin::Heading-->
-                        <!--begin::Login options-->
-                        <div class="row g-3 mb-9">
-
-                            <div class="col-md-12">
-                                <x-form.input
-                                    type="password"
-                                    name="password"
-                                    label="Définission du mot de passe"
-                                    required="true" />
-
-                                <div class="separator my-3"></div>
-
-                                <x-base.title
-                                    title="Votre compagnie" />
-
-                                <x-form.input
-                                    name="name_company"
-                                    label="Nom de votre compagnie" />
-                                <x-form.textarea
-                                    name="desc_company"
-                                    label="Description de votre compagnie" />
-
-                                <x-form.input
-                                    name="name_secretary"
-                                    label="Nom de votre secretaire" />
-
-                                <x-form.checkbox
-                                    name="accept_tos"
-                                    value="1"
-                                    label="J'accepte les conditions générales d'utilisations de Railway Manager"
-                                    required="true" />
-                            </div>
-
-                            <x-form.button />
-                        </div>
-                        <!--end::Login options-->
-                    </form>
+                    @livewire('auth.setup-view', ['provider' => $provider, 'email' => $email])
                     <!--end::Form-->
                 </div>
                 <!--end::Wrapper-->
@@ -152,7 +107,8 @@
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 <!--begin::Custom Javascript(used for this page only)-->
-@livewireScripts
+@livewireScriptConfig
+@vite(['resources/js/app.js'])
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>

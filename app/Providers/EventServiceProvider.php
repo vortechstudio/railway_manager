@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Actions\Railway\AchievementAction;
 use App\Events\Model\User\UserLevelledUp;
 use App\Listeners\Model\User\UserLevelledUpListener;
+use App\Services\Models\Railway\Core\RailwayAchievementAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -31,11 +31,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserLevelledUp::class => [
             UserLevelledUpListener::class,
-        ]
+        ],
     ];
 
     protected $subscribe = [
-        AchievementAction::class,
+        RailwayAchievementAction::class,
     ];
 
     /**

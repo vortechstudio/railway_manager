@@ -18,6 +18,7 @@ use App\Models\User\Railway\UserRailwayBonus;
 use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\Railway\UserRailwayDelivery;
 use App\Models\User\Railway\UserRailwayEngine;
+use App\Models\User\Railway\UserRailwayEngineTechnicentre;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\Railway\UserRailwayMessage;
@@ -205,6 +206,11 @@ class User extends Authenticatable
     public function userRailwayRentals()
     {
         return $this->hasMany(UserRailwayRental::class);
+    }
+
+    public function userRailwayEngineTechnicentre()
+    {
+        return $this->hasMany(UserRailwayEngineTechnicentre::class);
     }
 
     public function scopeNotifiable(Builder $query)
