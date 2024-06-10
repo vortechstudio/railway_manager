@@ -4,6 +4,7 @@ php artisan down
 
 git reset --hard
 git pull origin master
+git checkout master
 
 composer install --prefer-dist --no-interaction
 npm install
@@ -17,7 +18,6 @@ php artisan clear
 php artisan release:update
 php artisan webpush:vapid
 php artisan system updateReward
-php artisan horizon:terminate
 
 php artisan up
 
