@@ -20,3 +20,7 @@ Route::prefix('train')->as('train.')->group(function () {
     Route::get('/buy/checkout', [TrainController::class, 'checkout'])->name('checkout');
     Route::get('/buy/rental', [TrainController::class, 'rental'])->name('rental');
 });
+
+Route::prefix('technicentre')->as('technicentre.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Materiel\TechnicentreController::class, 'index'])->name('index');
+});
