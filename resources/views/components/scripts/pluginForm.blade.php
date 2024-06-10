@@ -34,6 +34,22 @@
                     })
                 }
             })
+            document.querySelectorAll('[data-control="uiSlider"]').forEach(slider => {
+                noUiSlider.create(slider, {
+                    start: [0],
+                    tooltips: [true],
+                    step: parseInt(slider.dataset.pan),
+                    range: {
+                        "min": parseInt(slider.dataset.min),
+                        "max": parseInt(slider.dataset.max)
+                    }
+                })
+
+                slider.noUiSlider.on('set', values => {
+                    Livewire.dispatch(`${slider.getAttribute('id')}Updated`, values)
+                })
+
+            })
         })
     </script>
 @endpush

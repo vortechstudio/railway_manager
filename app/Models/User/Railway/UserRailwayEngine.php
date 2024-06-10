@@ -75,6 +75,11 @@ class UserRailwayEngine extends Model
         return $this->hasMany(RailwayIncident::class);
     }
 
+    public function technicentres()
+    {
+        return $this->hasMany(UserRailwayEngineTechnicentre::class);
+    }
+
     public function getStatusBadgeAttribute()
     {
         $icon = (new UserRailwayEngineAction($this))->getStatusFormat('icon');
