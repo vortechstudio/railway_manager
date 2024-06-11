@@ -12,7 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserRailwayEngineTechnicentre extends Model
 {
     protected $guarded = [];
+
     public $timestamps = false;
+
     protected $connection = 'railway';
 
     protected $casts = [

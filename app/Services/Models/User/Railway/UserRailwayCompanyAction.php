@@ -108,7 +108,7 @@ class UserRailwayCompanyAction
         $sum = 0;
         foreach (auth()->user()->userRailwayHub as $hub) {
             $plannings = $hub->plannings()
-                ->when($from && $to, fn(Builder $query) => $query->whereBetween('date_depart', [$from->startOfDay(), $to->endOfDay()]))
+                ->when($from && $to, fn (Builder $query) => $query->whereBetween('date_depart', [$from->startOfDay(), $to->endOfDay()]))
                 ->get();
 
             foreach ($plannings as $planning) {
@@ -127,6 +127,7 @@ class UserRailwayCompanyAction
         foreach (auth()->user()->userRailwayLigne as $ligne) {
             $sum += $ligne->railwayLigne->distance;
         }
+
         return $sum;
     }
 }
