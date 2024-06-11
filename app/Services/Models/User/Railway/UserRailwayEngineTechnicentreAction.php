@@ -14,23 +14,23 @@ class UserRailwayEngineTechnicentreAction
     public function delivered()
     {
         match ($this->engineTechnicentre->type) {
-            "engine_prev" => $this->deliveredEnginePrev(),
-            "engine_cur" => $this->deliveredEngineCur(),
+            'engine_prev' => $this->deliveredEnginePrev(),
+            'engine_cur' => $this->deliveredEngineCur(),
         };
     }
 
     public function getTypeStyle(string $style): string
     {
         return match ($this->engineTechnicentre->type->value) {
-            "engine_prev" => match ($style) {
-                "text" => "Maintenance Préventive",
-                "color" => "blue-500",
-                "icon" => "fa-calendar"
+            'engine_prev' => match ($style) {
+                'text' => 'Maintenance Préventive',
+                'color' => 'blue-500',
+                'icon' => 'fa-calendar'
             },
-            "engine_cur" => match ($style) {
-                "text" => "Maintenance Curative",
-                "color" => "red-500",
-                "icon" => "fa-cogs"
+            'engine_cur' => match ($style) {
+                'text' => 'Maintenance Curative',
+                'color' => 'red-500',
+                'icon' => 'fa-cogs'
             },
         };
     }
@@ -42,27 +42,10 @@ class UserRailwayEngineTechnicentreAction
         ]);
 
         $this->engineTechnicentre->user->notify(new SendMessageAdminNotification(
-            title: "Maintenance Préventive terminer",
+            title: 'Maintenance Préventive terminer',
             sector: 'alert',
             type: 'info',
             message: "La Maintenance Préventive pour la rame {$this->engineTechnicentre->userRailwayEngine->number} / {$this->engineTechnicentre->userRailwayEngine->railwayEngine->name} est terminer"
-        ));
-
-        $this->engineTechnicentre->delete();
-    }
-
-    private function deliveredEngineCur()
-    {
-        $this->engineTechnicentre->userRailwayEngine->update([
-            'use_percent' => 0,
-            'older' => $this->engineTechnicentre->userRailwayEngine->older - 1,
-        ]);
-
-        $this->engineTechnicentre->user->notify(new SendMessageAdminNotification(
-            title: "Maintenance Curative terminer",
-            sector: 'alert',
-            type: 'info',
-            message: "La Maintenance Curative pour la rame {$this->engineTechnicentre->userRailwayEngine->number} / {$this->engineTechnicentre->userRailwayEngine->railwayEngine->name} est terminer"
         ));
 
         $this->engineTechnicentre->delete();

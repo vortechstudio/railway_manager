@@ -25,7 +25,7 @@ class RailwayAchievementReward extends Model
         return $this->belongsTo(RailwayAchievement::class);
     }
 
-    public function getIconAttribute()
+    public function getIconsAttribute()
     {
         return \Storage::url('icons/railway/'.$this->type->value.'.png');
     }

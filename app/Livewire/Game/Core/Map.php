@@ -41,6 +41,7 @@ class Map extends Component
             'lignes' => $this->defineForLignes(),
             'station' => $this->defineStation(),
             default => $this->defineDefault(),
+            'allLong' => $this->defineAllLong(),
         };
     }
 
@@ -233,5 +234,9 @@ class Map extends Component
             'maxZoom' => 18,
         ];
 
+    }
+
+    private function defineAllLong()
+    {
     }
 }
