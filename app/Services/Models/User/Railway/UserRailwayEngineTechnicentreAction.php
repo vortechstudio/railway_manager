@@ -50,21 +50,4 @@ class UserRailwayEngineTechnicentreAction
 
         $this->engineTechnicentre->delete();
     }
-
-    private function deliveredEngineCur()
-    {
-        $this->engineTechnicentre->userRailwayEngine->update([
-            'use_percent' => 0,
-            'older' => $this->engineTechnicentre->userRailwayEngine->older - 1,
-        ]);
-
-        $this->engineTechnicentre->user->notify(new SendMessageAdminNotification(
-            title: "Maintenance Curative terminer",
-            sector: 'alert',
-            type: 'info',
-            message: "La Maintenance Curative pour la rame {$this->engineTechnicentre->userRailwayEngine->number} / {$this->engineTechnicentre->userRailwayEngine->railwayEngine->name} est terminer"
-        ));
-
-        $this->engineTechnicentre->delete();
-    }
 }

@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('company')->as('company.')->group(function () {
-    Route::get('/customize', function () {
-        return redirect()->route('account.profil');
-    });
+    Route::get('/', \App\Http\Controllers\Company\CompanyController::class)->name('index');
     Route::get('/profile', \App\Http\Controllers\Company\ProfilController::class)->name('profil');
     Route::get('/rank', \App\Http\Controllers\Company\RankController::class)->name('rank');
 });

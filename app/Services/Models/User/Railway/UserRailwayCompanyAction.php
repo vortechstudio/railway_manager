@@ -102,4 +102,31 @@ class UserRailwayCompanyAction
 
         return $billetterie - $cout;
     }
+
+    public function getTotalPassengers(?Carbon $from = null, ?Carbon $to = null)
+    {
+        $sum = 0;
+        foreach (auth()->user()->userRailwayHub as $hub) {
+            $plannings = $hub->plannings()
+                ->when($from && $to, fn(Builder $query) => $query->whereBetween('date_depart', [$from->startOfDay(), $to->endOfDay()]))
+                ->get();
+
+            foreach ($plannings as $planning) {
+                foreach ($planning->passengers as $passenger) {
+                    $sum += $passenger->nb_passengers;
+                }
+            }
+        }
+
+        return $sum;
+    }
+
+    public function getKilometrageTotal()
+    {
+        $sum = 0;
+        foreach (auth()->user()->userRailwayLigne as $ligne) {
+            $sum += $ligne->railwayLigne->distance;
+        }
+        return $sum;
+    }
 }
