@@ -5,7 +5,7 @@ on:
 
 jobs:
   update-pr:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       URL_BASE: http://${{ secrets.URL_OLLAMA_SERVER }}:11434/api/generate
