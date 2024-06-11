@@ -1,3 +1,19 @@
+# [0.15.0](https://github.com/vortechstudio/railway_manager/compare/v0.14.0...v0.15.0) (2024-06-11)
+
+
+### Bug Fixes
+
+* **Materiel Achat:** Correction de la logique de calcule et de livraison en prenant en compte la quantité commander de rame. ([36d6f30](https://github.com/vortechstudio/railway_manager/commit/36d6f306afa76de5aad8c10c3b9f7455410765fd))
+* **Messagerie:** Correction de la possibilité de demander plusieurs fois une récompense dans la messagerie. ([88451bc](https://github.com/vortechstudio/railway_manager/commit/88451bc8a908a3e8ce964a8370c0eb09ecfae454))
+* **Messagerie:** Corrige l'ordre de collecte et d'affichage des récompenses ([0e05eb2](https://github.com/vortechstudio/railway_manager/commit/0e05eb2703efc8fc31c86fb96cfcc57d69623d32))
+
+
+### Features
+
+* **Compagnie Classement:** Ajout vue classement ([5fb530a](https://github.com/vortechstudio/railway_manager/commit/5fb530a43687fe2256d3f9a1acd73611e684230c))
+* **Compagnie:** Ajout vue de la compagnie et fonctionnalités associées ([f186697](https://github.com/vortechstudio/railway_manager/commit/f18669711d2de516dde69cb12f3b1e4c169f63b6))
+* **Company Profil:** Ajout de la page de profil de la compagnie ([c33a922](https://github.com/vortechstudio/railway_manager/commit/c33a9221ba925b8ecb16bb7acbb91a60ea4e28ca))
+
 # [0.14.0](https://github.com/vortechstudio/railway_manager/compare/v0.13.0...v0.14.0) (2024-06-10)
 
 
