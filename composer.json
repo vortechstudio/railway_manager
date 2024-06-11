@@ -36,6 +36,7 @@
         "predis/predis": "^2.2",
         "pusher/pusher-php-server": "^7.2",
         "rappasoft/laravel-authentication-log": "^4.0",
+        "romanzipp/laravel-queue-monitor": "^5.2",
         "salahhusa9/laravel-updater": "^1.0",
         "silviolleite/laravelpwa": "^2.0",
         "socialiteproviders/battlenet": "^4.1",
