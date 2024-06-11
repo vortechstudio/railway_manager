@@ -37,39 +37,41 @@ class Mailboxes extends Component
                     'toast' => false,
                     'position' => 'center'
                 ]);
-            }
-            $rewards = collect();
-            foreach ($message->message->rewards as $reward) {
-                match ($reward->reward_type->value) {
-                    'argent' => (new Compta())->create(
-                        $user,
-                        'Bonus: '.$reward->reward_value,
-                        $reward->reward_value,
-                        'revenue',
-                        'divers',
-                        false,
-                    ),
-                    'tpoint' => $user->railway->update(['tpoint' => $user->railway->tpoint + $reward->reward_value]),
-                };
+            } else {
+                $rewards = collect();
+                foreach ($message->message->rewards as $reward) {
+                    match ($reward->reward_type->value) {
+                        'argent' => (new Compta())->create(
+                            $user,
+                            'Bonus: '.$reward->reward_value,
+                            $reward->reward_value,
+                            'revenue',
+                            'divers',
+                            false,
+                        ),
+                        'tpoint' => $user->railway->update(['tpoint' => $user->railway->tpoint + $reward->reward_value]),
+                    };
 
-                $rewards->push([
-                    'type' => $reward->reward_type->value,
-                    'value' => $reward->reward_value,
+                    $rewards->push([
+                        'type' => $reward->reward_type->value,
+                        'value' => $reward->reward_value,
+                    ]);
+                }
+
+                $message->update([
+                    'reward_collected' => true,
+                ]);
+
+                $this->dispatch('refreshToolbar');
+                $this->alert('success', 'Récompense récupérée', [
+                    'html' => $this->blockReward($rewards),
+                    'toast' => false,
+                    'allowOutsideClick' => true,
+                    'timer' => null,
+                    'position' => 'center',
                 ]);
             }
 
-            $message->update([
-                'reward_collected' => true,
-            ]);
-
-            $this->dispatch('refreshToolbar');
-            $this->alert('success', 'Récompense récupérée', [
-                'html' => $this->blockReward($rewards),
-                'toast' => false,
-                'allowOutsideClick' => true,
-                'timer' => null,
-                'position' => 'center',
-            ]);
         } catch (\Exception $exception) {
             \Log::emergency($exception->getMessage(), [$exception]);
             $this->alert('error', "Erreur lors de l'attribution de la récompense");
