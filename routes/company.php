@@ -18,5 +18,6 @@ Route::prefix('company')->as('company.')->group(function () {
         return redirect()->route('account.profil');
     });
     Route::get('/profile', \App\Http\Controllers\Company\ProfilController::class)->name('profil');
+    Route::get('/rank', \App\Http\Controllers\Company\RankController::class)->name('rank');
 });
 
