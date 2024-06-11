@@ -70,6 +70,21 @@ class EngineSellList extends Component
     public function updatedSelectedEngine(): void
     {
         $this->engineData = RailwayEngine::find($this->selectedEngine);
+        $this->recalculate();
+    }
+
+    public function validateConfig(): void
+    {
+        $this->validateConfig = true;
+    }
+
+    public function updatedQte()
+    {
+        $this->recalculate();
+    }
+
+    public function recalculate()
+    {
         $subtotal = $this->engineData->price->achat * $this->qte;
         $totalAmount = 0;
         $amount_reduction = 0;
@@ -84,11 +99,6 @@ class EngineSellList extends Component
         $amount_flux = $totalAmount * $flux_percent / 100;
         $amount_subvention = $totalAmount * auth()->user()->railway_company->subvention / 100;
         $this->globalAmount = $totalAmount - $amount_flux - $amount_subvention;
-    }
-
-    public function validateConfig(): void
-    {
-        $this->validateConfig = true;
     }
 
     public function checkout(): void
@@ -121,31 +131,34 @@ class EngineSellList extends Component
             );
             $hub = UserRailwayHub::find($this->user_railway_hub_id);
 
-            $user_engine = auth()->user()->railway_engines()->create([
-                'number' => (new EngineAction())->generateMissionCode($this->engineData, $hub),
-                'max_runtime' => (new RailwayEngineAction($this->engineData))->maxRuntime(),
-                'available' => true,
-                'date_achat' => now(),
-                'user_id' => auth()->user()->id,
-                'railway_engine_id' => $this->engineData->id,
-                'user_railway_hub_id' => $this->user_railway_hub_id,
-                'status' => 'free',
-            ]);
+            for ($i=1; $i <= $this->qte; $i++) {
+                $user_engine = auth()->user()->railway_engines()->create([
+                    'number' => (new EngineAction())->generateMissionCode($this->engineData, $hub),
+                    'max_runtime' => (new RailwayEngineAction($this->engineData))->maxRuntime(),
+                    'available' => true,
+                    'date_achat' => now(),
+                    'user_id' => auth()->user()->id,
+                    'railway_engine_id' => $this->engineData->id,
+                    'user_railway_hub_id' => $this->user_railway_hub_id,
+                    'status' => 'free',
+                ]);
 
-            $r = rand(15, 30);
-            $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
+                $r = rand(15, 30);
+                $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
 
-            $delivery = auth()->user()->userRailwayDelivery()->create([
-                'type' => 'engine',
-                'designation' => "Rame: {$this->engineData->name}",
-                'start_at' => now(),
-                'end_at' => $end_at,
-                'user_id' => auth()->id(),
-                'model' => UserRailwayEngine::class,
-                'model_id' => $user_engine->id,
-            ]);
+                $delivery = auth()->user()->userRailwayDelivery()->create([
+                    'type' => 'engine',
+                    'designation' => "Rame: {$this->engineData->name}",
+                    'start_at' => now(),
+                    'end_at' => $end_at,
+                    'user_id' => auth()->id(),
+                    'model' => UserRailwayEngine::class,
+                    'model_id' => $user_engine->id,
+                ]);
 
-            dispatch(new DeliveryJob($delivery));
+                dispatch(new DeliveryJob($delivery));
+            }
+
             $this->dispatch('refreshToolbar');
             $this->alert('success', "L'achat a bien été effectué.<br />N'oubliez pas d'assigner cette rame à une ligne.", [
                 'showConfirmButton' => true,
@@ -164,7 +177,7 @@ class EngineSellList extends Component
     #[On('redirect')]
     public function res(): void
     {
-        $this->redirectRoute('train.buy');
+        $this->redirectRoute('train.index');
     }
 
     public function render()
