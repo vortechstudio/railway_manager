@@ -12,14 +12,14 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: TimonVS/pr-labeler-action@v5
         with:
           repo-token: ${{ secrets.ACCESS_TOKEN }}
 
   pr_updater:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

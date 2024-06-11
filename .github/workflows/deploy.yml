@@ -10,14 +10,14 @@ on:
 
 jobs:
   on_push_master:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Appel du webhook
         if: github.event_name == 'push'
         run: curl -k -X POST ${{ secrets.WEBHOOK_STAGING }}
 
   on_publish_release:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Appel du webhook
         if: github.event_name == 'release'
