@@ -6,6 +6,7 @@ namespace App\Models\User;
 use App\Models\Railway\Planning\RailwayIncident;
 use App\Models\Railway\Planning\RailwayPlanning;
 use App\Models\Railway\Planning\RailwayPlanningConstructor;
+use App\Models\Railway\Research\RailwayResearches;
 use App\Models\Social\Article;
 use App\Models\Social\Event;
 use App\Models\Social\Post\Post;
@@ -201,6 +202,14 @@ class User extends Authenticatable
     public function railway_incidents()
     {
         return $this->hasMany(RailwayIncident::class);
+    }
+
+    public function railway_researches()
+    {
+        $connection = $this->getConnection()->getDatabaseName();
+        return $this->belongsToMany(RailwayResearches::class, $connection.'.research_user', 'user_id')
+            ->withPivot('is_unlocked', 'current_level')
+            ->withTimestamps();
     }
 
     public function userRailwayRentals()
