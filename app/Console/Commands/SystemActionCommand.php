@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Actions\Account\MailboxAction;
+use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
+use App\Models\User\Railway\UserRailway;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
@@ -27,6 +29,7 @@ class SystemActionCommand extends Command
             'update_weather' => $this->updateWeather(),
             'tarif_today' => $this->tarifToday(),
             'updateReward' => $this->updateReward(),
+            'transfertResearch' => $this->transfertResearch()
         };
     }
 
@@ -251,5 +254,15 @@ class SystemActionCommand extends Command
         </span>
         <?php
         return ob_get_clean();
+    }
+
+    private function transfertResearch()
+    {
+        $set = RailwaySetting::where('name', 'exchange_tpoint')->first();
+        foreach (UserRailway::all() as $user) {
+            $user->update([
+                'research' => $user->research + ($user->user->railway_company->research_coast_base * $set->value),
+            ]);
+        }
     }
 }

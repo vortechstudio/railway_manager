@@ -8,6 +8,8 @@ use App\Actions\ErrorDispatchHandle;
 use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Config\Service;
 use App\Models\Railway\Config\RailwaySetting;
+use App\Models\Railway\Research\RailwayResearches;
+use App\Models\User\ResearchUser;
 use App\Models\User\User;
 
 class NewUserSetupAction
@@ -60,6 +62,17 @@ class NewUserSetupAction
                 ]);
             }
 
+            foreach (RailwayResearches::all() as $research) {
+                ResearchUser::updateOrCreate(['user_railway_id' => $this->user->railway->id], [
+                    'user_railway_id' => $this->user->railway->id,
+                    'railway_research_id' => $research->id,
+                    'current_level' => 0,
+                    'is_unlocked' => ! $research->parent_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
@@ -103,7 +116,7 @@ class NewUserSetupAction
         \Auth::login($this->user);
         $service = Service::where('name', 'like', '%Railway Manager%')->first();
         $this->createLog($this->user, "Connexion au service: {$service->name}");
-        event(new NewUserEvent($this->user));
+        event(new NewUserEvent($this->user->railway));
         (new MailboxAction())->newMessage(
             user: $this->user,
             subject: 'Bienvenue sur railway Manager',

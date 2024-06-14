@@ -14,8 +14,11 @@ use Livewire\Component;
 class EngineMaintenance extends Component
 {
     use LivewireAlert;
+
     public $engineTechnicentres;
+
     public UserRailwayEngineTechnicentre $maintenance;
+
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function mount()
@@ -43,7 +46,7 @@ class EngineMaintenance extends Component
     #[On('confirmed')]
     public function confirmed()
     {
-        if((new CheckoutAction())->checkoutTpoint($this->maintenance->end_at->diffInMinutes(now()))) {
+        if ((new CheckoutAction())->checkoutTpoint($this->maintenance->end_at->diffInMinutes(now()))) {
             (new UserRailwayEngineTechnicentreAction($this->maintenance))->delivered();
             (new Compta())->create(
                 user: $this->maintenance->user,
@@ -61,6 +64,7 @@ class EngineMaintenance extends Component
             $this->alert('warning', "Vous n'avez pas assez de Travel Point");
         }
     }
+
     public function render()
     {
         return view('livewire.game.engine.engine-maintenance');

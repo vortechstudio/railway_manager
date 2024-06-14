@@ -2,6 +2,7 @@
 
 namespace App\Services\Models\Railway\Core;
 
+use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Railway\Core\RailwayAchievement;
 use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\User;
@@ -20,11 +21,11 @@ class RailwayAchievementAction
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen('eloquent.saved: App\Models\User\Railway\UserRailway', [$this, 'Welcome']);
-        $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayHub', [$this, 'unDebutATous']);
-        $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayMouvement', [$this, 'entrepreneur']);
-        $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayMouvement', [$this, 'jeRentabiliseMaSociete']);
-        $events->listen('eloquent.saved: App\Models\User\Railway\UserRailwayMouvement', [$this, 'magnatFerroviaire']);
+        $events->listen(NewUserEvent::class, [$this, 'Welcome']);
+        $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayHub', [$this, 'unDebutATous']);
+        $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayMouvement', [$this, 'entrepreneur']);
+        $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayMouvement', [$this, 'jeRentabiliseMaSociete']);
+        $events->listen('eloquent.created: App\Models\User\Railway\UserRailwayMouvement', [$this, 'magnatFerroviaire']);
     }
 
     public function Welcome($event): void
@@ -37,8 +38,10 @@ class RailwayAchievementAction
     public function unDebutATous($event): void
     {
         $user = User::find($event->user_id);
-        $this->achievement->unlockActionFor($user, 'un-debut-a-tous', 1);
-        $this->notifyAchievementUnlock($user);
+        if ($user->userRailwayHub()->count() == 1) {
+            $this->achievement->unlockActionFor($user, 'un-debut-a-tous', 1);
+            $this->notifyAchievementUnlock($user);
+        }
     }
 
     public function entrepreneur($event): void

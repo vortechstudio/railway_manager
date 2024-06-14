@@ -131,7 +131,7 @@ class EngineSellList extends Component
             );
             $hub = UserRailwayHub::find($this->user_railway_hub_id);
 
-            for ($i=1; $i <= $this->qte; $i++) {
+            for ($i = 1; $i <= $this->qte; $i++) {
                 $user_engine = auth()->user()->railway_engines()->create([
                     'number' => (new EngineAction())->generateMissionCode($this->engineData, $hub),
                     'max_runtime' => (new RailwayEngineAction($this->engineData))->maxRuntime(),

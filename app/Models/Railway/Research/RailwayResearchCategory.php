@@ -8,7 +8,12 @@ class RailwayResearchCategory extends Model
 {
     protected $guarded = [];
 
+    public $timestamps = false;
+
     protected $connection = 'railway';
 
-    public $timestamps = false;
+    public function railwayResearches()
+    {
+        return $this->hasMany(RailwayResearches::class);
+    }
 }

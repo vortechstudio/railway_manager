@@ -52,6 +52,7 @@ Route::middleware(['nolocked'])->group(function() {
         include('network.php');
         include('materiel.php');
         include('company.php');
+        include('research.php');
     });
 });
 

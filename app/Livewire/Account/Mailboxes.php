@@ -32,10 +32,10 @@ class Mailboxes extends Component
         try {
             $user = User::find(auth()->id());
             $message = $user->railway_messages()->find($message_id);
-            if($message->reward_collected) {
-                $this->alert('error', "Vous avez déjà récupérer cette récompense !", [
+            if ($message->reward_collected) {
+                $this->alert('error', 'Vous avez déjà récupérer cette récompense !', [
                     'toast' => false,
-                    'position' => 'center'
+                    'position' => 'center',
                 ]);
             } else {
                 $rewards = collect();
