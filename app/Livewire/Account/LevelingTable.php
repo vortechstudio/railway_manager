@@ -3,6 +3,7 @@
 namespace App\Livewire\Account;
 
 use App\Actions\Railway\EngineAction;
+use App\Livewire\Core\Toolbar;
 use App\Models\Railway\Config\RailwayLevel;
 use App\Models\Railway\Config\RailwayLevelReward;
 use App\Models\User\User;
@@ -53,6 +54,7 @@ class LevelingTable extends Component
             'timer' => null,
             'position' => 'center',
         ]);
+        $this->dispatch('refreshToolbar')->to(Toolbar::class);
     }
 
     public function rewardArgent(RailwayLevelReward $reward): void

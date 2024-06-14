@@ -38,7 +38,7 @@ class RailwayAchievementAction
     public function unDebutATous($event): void
     {
         $user = User::find($event->user_id);
-        if($user->userRailwayHub()->count() == 1) {
+        if ($user->userRailwayHub()->count() == 1) {
             $this->achievement->unlockActionFor($user, 'un-debut-a-tous', 1);
             $this->notifyAchievementUnlock($user);
         }

@@ -15,4 +15,16 @@ class CheckoutAction
             return true;
         }
     }
+
+    public function checkoutResearch(int $amount)
+    {
+        if ($amount >= auth()->user()->railway->research) {
+            return false;
+        } else {
+            auth()->user()->railway->research -= $amount;
+            auth()->user()->railway->save();
+
+            return true;
+        }
+    }
 }

@@ -27,8 +27,9 @@ return new class extends Migration
             $table->decimal('remb_mensual', 16)->default(0);
             $table->integer('subvention')->default(0);
             $table->decimal('rate_research', 16)->default(1);
-            $table->double('credit_impot', 16)->default(0);
-            $table->double('research_coast_base', 16)->default(0);
+            $table->decimal('credit_impot', 16)->default(0);
+            $table->decimal('research_coast_base', 16)->default(0);
+            $table->decimal('research_coast_max', 16)->default(25000);
             $table->foreignId('user_id');
         });
     }

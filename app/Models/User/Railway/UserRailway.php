@@ -4,6 +4,7 @@ namespace App\Models\User\Railway;
 
 use App\Models\Railway\Config\RailwayLevel;
 use App\Models\Railway\Config\RailwayQuest;
+use App\Models\Railway\Research\RailwayResearches;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,20 @@ class UserRailway extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function railway_researches()
+    {
+        $connection = $this->getConnection()->getDatabaseName();
+
+        return $this->belongsToMany(RailwayResearches::class, $connection.'.research_user', 'user_railway_id')
+            ->withPivot('is_unlocked', 'current_level')
+            ->withTimestamps();
+    }
+
+    public function userResearchDelivery()
+    {
+        return $this->hasMany(UserResearchDelivery::class);
     }
 
     /**

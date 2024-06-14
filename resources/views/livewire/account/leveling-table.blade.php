@@ -1,7 +1,7 @@
 <div class="d-flex flex-wrap justify-content-center align-items-center w-100 gap-5">
     @foreach(\App\Models\Railway\Config\RailwayLevel::where('id', '!=' , 0)->get() as $level)
         @if(!$user->railway_rewards()->where('model', \App\Models\Railway\Config\RailwayLevelReward::class)->where('model_id', $level->reward->id)->exists())
-            <a class="card shadow-sm w-20 h-400px @if($level->id > $user->railway->level) bg-gray-600 opacity-50 @endif border border-3 border" @if($level->id <= $user->railway->level) disabled @endif @if($level->id <= $user->railway->level) wire:click="claim({{ $level->id }})" @endif>
+            <a class="card shadow-sm w-20 h-400px @if($level->id > $user->railway->level) bg-gray-600 opacity-50 @endif border border-3 border" @if($level->id <= $user->railway->level) disabled  wire:click="claim({{ $level->id }})" @endif >
                 <div class="card-body d-flex flex-column justify-content-center align-items-center m-auto">
                     <div class="symbol symbol-200px position-relative" >
                         <img src="{{ Storage::url('icons/railway/star.png') }}" alt="">
