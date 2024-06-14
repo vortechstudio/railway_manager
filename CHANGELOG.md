@@ -1,3 +1,17 @@
+# [0.16.0](https://github.com/vortechstudio/railway_manager/compare/v0.15.0...v0.16.0) (2024-06-14)
+
+
+### Bug Fixes
+
+* **Récompense de Niveau:** Optimisation de l'affichage des niveaux ([f446d03](https://github.com/vortechstudio/railway_manager/commit/f446d03fce5f8f7dd049afbfb038b86eb6773cbe))
+
+
+### Features
+
+* **Recherche & Développement:** Ajout primaire du système de recherche & développement ([c66ebc6](https://github.com/vortechstudio/railway_manager/commit/c66ebc634c7717f08d3f5f224e1b4fbefa91975a))
+* **Researches:** Implémentation système de recherche Railway ([67accc3](https://github.com/vortechstudio/railway_manager/commit/67accc3e6fcb41c556cb372d9c1448d4d33cc57a))
+* **Succès:** Correction du problème de notification intempestif ([7a0363f](https://github.com/vortechstudio/railway_manager/commit/7a0363f0a126ba75c52af461d25ab6898bc487cd))
+
 # [0.15.0](https://github.com/vortechstudio/railway_manager/compare/v0.14.0...v0.15.0) (2024-06-11)
 
 
