@@ -203,6 +203,7 @@ class UserRailwayLigneAction
     private function calcDemande()
     {
         $calc = ($this->ligne->userRailwayHub->railwayHub->gare->freq_base / 365) / $this->ligne->userRailwayHub->railwayHub->gare->time_day_work;
+        $calc = $calc + ($calc * auth()->user()->railway->distract_level_coef / 100);
 
         return intval($calc);
     }
