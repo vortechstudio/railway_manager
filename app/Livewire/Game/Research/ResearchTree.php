@@ -4,16 +4,11 @@ namespace App\Livewire\Game\Research;
 
 use App\Actions\ErrorDispatchHandle;
 use App\Actions\Railway\CheckoutAction;
-use App\Actions\Railway\ResearchTrigger\AccessFret;
-use App\Actions\Railway\ResearchTrigger\ResearchConvBas;
-use App\Actions\Railway\ResearchTrigger\ResearchConvRud;
 use App\Jobs\ResearchJob;
 use App\Models\Railway\Research\RailwayResearchCategory;
 use App\Models\Railway\Research\RailwayResearches;
 use App\Models\User\ResearchUser;
 use App\Models\UserResearchDelivery;
-use Auth;
-use Illuminate\Database\Query\Builder;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -29,27 +24,28 @@ class ResearchTree extends Component
             ->first();
 
         try {
-            if((new CheckoutAction())->checkoutResearch($research->cost)) {
+            if ((new CheckoutAction())->checkoutResearch($research->cost)) {
                 $delivery = UserResearchDelivery::create([
-                    "start_at" => now(),
-                    "end_at" => now()->addMinutes($research->time_base),
-                    'designation' => $research->name.' - Niveau '.$user_search->current_level+1,
+                    'start_at' => now(),
+                    'end_at' => now()->addMinutes($research->time_base),
+                    'designation' => $research->name.' - Niveau '.$user_search->current_level + 1,
                     'research_user_id' => $user_search->id,
                     'user_railway_id' => auth()->user()->railway->id,
                 ]);
 
                 dispatch(new ResearchJob($delivery, $research, $user_search));
-                $this->alert('success', "La recherche à été lançé");
+                $this->alert('success', 'La recherche à été lançé');
 
             } else {
-                $this->alert("error", "Vous n'avez pas les fonds nécessaires pour lançé cette recherche !", ['toast' => false]);
+                $this->alert('error', "Vous n'avez pas les fonds nécessaires pour lançé cette recherche !", ['toast' => false]);
             }
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
             $this->alert('error', 'Une erreur à eu lieu');
         }
     }
+
     public function render()
     {
         $categories = RailwayResearchCategory::with('railwayResearches.childrens')->get();

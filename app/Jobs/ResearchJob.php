@@ -9,7 +9,6 @@ use App\Actions\Railway\ResearchTrigger\ResearchConvRud;
 use App\Models\Railway\Research\RailwayResearches;
 use App\Models\User\Railway\UserRailway;
 use App\Models\User\ResearchUser;
-use App\Models\User\User;
 use App\Models\UserResearchDelivery;
 use App\Notifications\SendMessageAdminNotification;
 use Illuminate\Bus\Queueable;
@@ -32,9 +31,9 @@ class ResearchJob implements ShouldQueue
             if ($this->delivery->exists()) {
                 $trigger = $this->researches->triggers()->where('action_count', $this->researchUser->current_level)->first();
                 match ($trigger->action) {
-                    "accessFret" => (new AccessFret())->handle(),
-                    "researchConvRud" => (new ResearchConvRud())->handle($trigger, $this->researchUser->current_level),
-                    "researchConvBase" => (new ResearchConvBas())->handle($trigger, $this->researchUser->current_level),
+                    'accessFret' => (new AccessFret())->handle(),
+                    'researchConvRud' => (new ResearchConvRud())->handle($trigger, $this->researchUser->current_level),
+                    'researchConvBase' => (new ResearchConvBas())->handle($trigger, $this->researchUser->current_level),
                 };
                 $railway = new UserRailway();
                 $railway->find($this->researchUser->user_railway_id)->addReputation('research', null);

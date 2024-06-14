@@ -17,13 +17,21 @@ class EngineMaintenanceGroupForm extends Component
     use LivewireAlert;
 
     public string $type = '';
+
     public string $type_string = '';
+
     public int $selectedUsure = 0;
+
     public int $selectedAncien = 0;
+
     public array $selectedEngines = [];
+
     public int|float $amount_prev = 0;
+
     public int|float $amount_cur = 0;
+
     public int|float $totalAmount = 0;
+
     public $engines;
 
     public function mount()
@@ -48,16 +56,16 @@ class EngineMaintenanceGroupForm extends Component
     public function updatedType()
     {
         $this->type_string = match ($this->type) {
-            "engine_prev" => "Maintenance Préventive",
-            "engine_cur" => "Maintenance Curative"
+            'engine_prev' => 'Maintenance Préventive',
+            'engine_cur' => 'Maintenance Curative'
         };
     }
 
     public function updateEngineList()
     {
         $this->engines = auth()->user()->railway_engines()
-            ->when($this->selectedUsure, fn(Builder $query) => $query->where('use_percent', $this->selectedUsure))
-            ->when($this->selectedAncien, fn(Builder $query) => $query->where('older', $this->selectedAncien))
+            ->when($this->selectedUsure, fn (Builder $query) => $query->where('use_percent', $this->selectedUsure))
+            ->when($this->selectedAncien, fn (Builder $query) => $query->where('older', $this->selectedAncien))
             ->get();
     }
 
@@ -75,14 +83,14 @@ class EngineMaintenanceGroupForm extends Component
     public function repair()
     {
         $this->validate([
-            'type' => "required"
+            'type' => 'required',
         ]);
         $count_select = count($this->selectedEngines);
         $this->totalAmount = match ($this->type) {
-            "engine_prev" => $this->amount_prev,
-            "engine_cur" => $this->amount_cur,
+            'engine_prev' => $this->amount_prev,
+            'engine_cur' => $this->amount_cur,
         };
-        $this->alert('question', "Etes vous sûr de vouloir effectuer une {$this->type_string} sur {$count_select} rames pour " . \Helpers::eur($this->totalAmount) . " ?", [
+        $this->alert('question', "Etes vous sûr de vouloir effectuer une {$this->type_string} sur {$count_select} rames pour ".\Helpers::eur($this->totalAmount).' ?', [
             'toast' => false,
             'position' => 'center',
             'showConfirmButton' => true,
@@ -92,7 +100,7 @@ class EngineMaintenanceGroupForm extends Component
             'cancelButtonText' => 'Annuler',
             'timer' => null,
             'html' => $this->getTableAmount(),
-            'width' => '50%'
+            'width' => '50%',
         ]);
     }
 
@@ -112,12 +120,12 @@ class EngineMaintenanceGroupForm extends Component
                     'user_railway_engine_id' => $engine,
                     'user_id' => auth()->id(),
                     'status' => 'progressed',
-                    'amount_du' => $this->totalAmount * 70 / 100
+                    'amount_du' => $this->totalAmount * 70 / 100,
                 ]);
 
                 (new Compta())->create(
                     user: auth()->user(),
-                    title: "Acompte sur maintenance",
+                    title: 'Acompte sur maintenance',
                     amount: $this->totalAmount * 30 / 100,
                     type_amount: 'charge',
                     type_mvm: 'maintenance_engine',
@@ -126,7 +134,7 @@ class EngineMaintenanceGroupForm extends Component
                     user_railway_hub_id: $eng->userRailwayHub->id,
                 );
                 dispatch(new MaintenanceJob($tech, $this->totalAmount * 70 / 100))->delay($start_at->addMinutes($end_at));
-                $this->alert('success', "La maintenance des rames à bien été programmer");
+                $this->alert('success', 'La maintenance des rames à bien été programmer');
                 $this->redirectRoute('technicentre.index');
                 $this->dispatch('refreshComponent')->to(EngineMaintenance::class);
                 $this->dispatch('refreshToolbar')->to(Toolbar::class);

@@ -261,7 +261,7 @@ class SystemActionCommand extends Command
         $set = RailwaySetting::where('name', 'exchange_tpoint')->first();
         foreach (UserRailway::all() as $user) {
             $user->update([
-                'research' => $user->research + ($user->user->railway_company->research_coast_base * $set->value)
+                'research' => $user->research + ($user->user->railway_company->research_coast_base * $set->value),
             ]);
         }
     }

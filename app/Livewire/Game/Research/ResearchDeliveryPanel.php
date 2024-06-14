@@ -10,6 +10,7 @@ use Livewire\Component;
 class ResearchDeliveryPanel extends Component
 {
     use LivewireAlert;
+
     public UserRailwayDelivery $delivery;
 
     public function accelerate(int $delivery_id)

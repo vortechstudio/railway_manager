@@ -14,7 +14,7 @@ use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class UpgradeTicketPriorityJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, IsMonitored;
+    use Dispatchable, InteractsWithQueue, IsMonitored, Queueable, SerializesModels;
 
     public function __construct(public Ticket $ticket)
     {
