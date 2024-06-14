@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RailwayResearchTrigger extends Model
 {
     protected $guarded = [];
+
     public $timestamps = false;
+
     protected $connection = 'railway';
 
     public function railwayResearches(): BelongsTo
