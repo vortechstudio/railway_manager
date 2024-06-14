@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Gare\Engine;
 
-use App\Models\Railway\Planning\RailwayIncident;
 use Livewire\Component;
 
 class IncidentGraph extends Component
