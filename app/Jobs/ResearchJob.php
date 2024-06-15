@@ -39,6 +39,7 @@ class ResearchJob implements ShouldQueue
                 };
                 $railway = new UserRailway();
                 $railway->find($this->researchUser->user_railway_id)->addReputation('research', null);
+                $this->nextChild();
                 $railway->find($this->researchUser->user_railway_id)
                     ->user
                     ->notify(new SendMessageAdminNotification(
@@ -53,6 +54,18 @@ class ResearchJob implements ShouldQueue
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
+    }
 
+    private function nextChild()
+    {
+        if($this->researchUser->current_level == $this->researches->level) {
+            $child = $this->researches->childrens()->first();
+            ResearchUser::where('railway_research_id', $child->id)
+                ->where('user_railway_id', $this->researchUser->user_railway_id)
+                ->first()
+                ->update([
+                    'is_unlocked' => true
+                ]);
+        }
     }
 }
