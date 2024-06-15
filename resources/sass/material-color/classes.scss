@@ -3,19 +3,19 @@
 @each $color-name, $color-variants in $material-colors {
     @each $color-variant, $hex-value in $color-variants {
         .text-#{$color-name}-#{$color-variant} {
-            color: #{$hex-value}
+            color: #{$hex-value} !important;
         }
         i.text-#{$color-name}-#{$color-variant} {
-            color: #{$hex-value}
+            color: #{$hex-value} !important;
         }
         .bg-#{$color-name}-#{$color-variant} {
-            background-color: #{$hex-value};
+            background-color: #{$hex-value} !important;
         }
         .bg-hover-#{$color-name}-#{$color-variant} {
-            background-color: #{$hex-value} - 100;
+            background-color: #{$hex-value} - 100 !important;
         }
         .border-#{$color-name}-#{$color-variant} {
-            border-color: #{$hex-value}
+            border-color: #{$hex-value} !important;
         }
     }
 }
