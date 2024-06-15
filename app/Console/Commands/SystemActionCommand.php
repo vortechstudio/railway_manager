@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Actions\Account\MailboxAction;
+use App\Actions\Compta;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
@@ -259,10 +260,20 @@ class SystemActionCommand extends Command
     private function transfertResearch()
     {
         $set = RailwaySetting::where('name', 'exchange_tpoint')->first();
+        $date = Carbon::today();
         foreach (UserRailway::all() as $user) {
+            $amount_transfert = $user->research + ($user->user->railway_company->research_coast_base * $set->value);
             $user->update([
-                'research' => $user->research + ($user->user->railway_company->research_coast_base * $set->value),
+                'research' => $amount_transfert,
             ]);
+            (new Compta())->create(
+                user: $user->user,
+                title: "Transfert R&D - {$date}",
+                amount: $amount_transfert,
+                type_amount: 'charge',
+                type_mvm: 'research',
+                valorisation: false,
+            );
         }
     }
 }
