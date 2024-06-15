@@ -26,6 +26,7 @@ License: For each use you must have a valid license purchased only from above li
     </style>
     <link defer media="print" onload="this.media='all'" href="/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link defer media="print" onload="this.media='all'" href="/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css" />
     @livewireStyles
     @vite(['resources/sass/app.scss'])
     @yield("styles")
@@ -164,6 +165,7 @@ License: For each use you must have a valid license purchased only from above li
 <script src="{{ asset('/js/scripts.bundle.js') }}"></script>
 <script async src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />
 <x-scripts.versionDetect />
