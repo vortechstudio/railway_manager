@@ -126,7 +126,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
+                            <a href="{{ route('train.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/depot_color.png') }}" class="w-75px" alt>
@@ -135,7 +135,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
+                            <a href="{{ route('company.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/hq.png') }}" class="w-75px" alt>
@@ -144,7 +144,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
+                            <a href="{{ route('research.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/flask.png') }}" class="w-75px" alt>
@@ -153,8 +153,8 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
-                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                            <a
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-gray-200 bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 disabled" role="link" aria-disabled="true">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/gateway.png') }}" class="w-75px" alt>
                                 </span>
@@ -162,8 +162,8 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
-                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                            <a
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-gray-200 bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 disabled" aria-disabled="true">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/financial.png') }}" class="w-75px" alt>
                                 </span>
@@ -171,8 +171,8 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href=""
-                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
+                            <a
+                               class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-gray-200 bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 disabled" aria-disabled="true">
                                 <span class="symbol symbol-75px">
                                     <img src="{{ Storage::url('icons/railway/marketing.png') }}" class="w-75px" alt>
                                 </span>
