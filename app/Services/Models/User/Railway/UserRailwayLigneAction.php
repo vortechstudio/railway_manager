@@ -218,12 +218,19 @@ class UserRailwayLigneAction
         ]);
     }
 
-    private function calcDemande()
+    public function calcDemande()
     {
-        $calc = ($this->ligne->userRailwayHub->railwayHub->gare->freq_base / 365) / $this->ligne->userRailwayHub->railwayHub->gare->time_day_work;
-        $calc = $calc + ($calc * auth()->user()->railway->distract_level_coef / 100);
+        $sum_offer = 0;
 
-        return intval($calc);
+        foreach ($this->ligne->userRailwayEngine()->get() as $engine) {
+            $sum_offer += $engine->railwayEngine->technical->nb_marchandise;
+        }
+
+        $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
+        $prix_electrique = RailwaySetting::where('name', 'price_electricity')->first()->value;
+        $energie = ($this->ligne->railwayLigne->distance * $prix_kilometer) + ($this->ligne->railwayLigne->time_min / 60) * ($prix_electrique) / $this->ligne->user->railway_company->frais;
+        $demande = ($sum_offer * $this->ligne->user->railway_company->tarification) * ($energie / 5) / $this->ligne->railwayLigne->stations()->count();
+        return intval($demande);
     }
 
     private function calcOffre()
