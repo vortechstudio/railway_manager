@@ -168,6 +168,24 @@ class UserRailwayLigneAction
         };
     }
 
+    public function consommationPuissance()
+    {
+        return round(floatval($this->ligne->userRailwayEngine->railwayEngine->technical->puissance / Helpers::minToHoursDecimal($this->ligne->railwayLigne->time_min)), 2);
+    }
+
+    public function getLevelNextStatus(string $status)
+    {
+        return match ($status) {
+            'nb_depart_jour' => $this->ligne->nb_depart_jour + ($this->ligne->nb_depart_jour * $this->getLevelingLigneCoef('nb_depart_jour') / 100),
+        };
+    }
+    private function getLevelingLigneCoef(string $system)
+    {
+        return match ($system) {
+            'nb_depart_jour' => $this->ligne->level <= 10 ? 30 : ($this->ligne->level <= 20 ? 25 : ($this->ligne->level <= 30 ? 17 : ($this->ligne->level <= 40 ? 12 : 5))),
+        };
+    }
+
     private function generateTarifTer(): void
     {
         $this->ligne->tarifs()->create([
@@ -229,10 +247,5 @@ class UserRailwayLigneAction
         $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
 
         return round(floatval($calc * 40 / 100), 2);
-    }
-
-    public function consommationPuissance()
-    {
-        return round(floatval($this->ligne->userRailwayEngine->railwayEngine->technical->puissance / Helpers::minToHoursDecimal($this->ligne->railwayLigne->time_min)), 2);
     }
 }

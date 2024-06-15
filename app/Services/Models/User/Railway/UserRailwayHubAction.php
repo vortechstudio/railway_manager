@@ -140,6 +140,26 @@ class UserRailwayHubAction
         return ($this->hub->railwayHub->price_base / 2) + $this->getResultat(now()->subDays(7), now());
     }
 
+    public function getLevelingHubCoef(string $system)
+    {
+        return match ($system) {
+            'ligne_limit' => 15,
+            'commerce' => 12,
+            'publicity' => 10,
+            'parking' => 19
+        };
+    }
+
+    public function getNextLevelStatus(string $status)
+    {
+        return match ($status) {
+            'ligne_limit' => $this->hub->ligne_limit + ($this->hub->ligne_limit * $this->getLevelingHubCoef('ligne_limit') / 100),
+            'commerce' => $this->hub->commerce_limit + ($this->hub->commerce_limit * $this->getLevelingHubCoef('commerce') / 100),
+            'publicity' => $this->hub->publicity_limit + ($this->hub->publicity_limit * $this->getLevelingHubCoef('publicity') / 100),
+            'parking' => $this->hub->parking_limit + ($this->hub->parking_limit * $this->getLevelingHubCoef('parking') / 100),
+        };
+    }
+
     private function countPassengersByType($plannings, $type_passager)
     {
         $sum = 0;
