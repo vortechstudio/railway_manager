@@ -89,6 +89,13 @@ class LigneCheckout extends Component
     {
         if (auth()->user()->userRailwayLigne()->where('railway_ligne_id', $this->railway_ligne_id)->exists()) {
             $this->alert('warning', 'Cette ligne est déjà acquise par votre compagnie');
+        } elseif(auth()->user()->userRailwayLigne()->count() > auth()->user()->userRailwayHub()->find($this->selectedHubValue)->ligne_limit) {
+            $this->alert('error', 'Limite atteinte', [
+                'title' => 'Limite atteinte',
+                'text' => "Le nombre de ligne pour ce hub à été atteint, Veuillez augmenté le niveau de votre hub !",
+                'toast' => false,
+                'position' => 'center'
+            ]);
         } else {
             (new Compta())->create(
                 user: auth()->user(),
