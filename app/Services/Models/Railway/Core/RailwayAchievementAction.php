@@ -30,7 +30,7 @@ class RailwayAchievementAction
 
     public function Welcome($event): void
     {
-        $user = User::find($event->user_id);
+        $user = User::find($event->user->id);
         $this->achievement->unlockActionFor($user, 'welcome');
         $this->notifyAchievementUnlock($user);
     }
