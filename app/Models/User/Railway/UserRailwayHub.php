@@ -67,6 +67,11 @@ class UserRailwayHub extends Model
         return $this->hasMany(UserRailwayHubCommerce::class);
     }
 
+    public function publicities()
+    {
+        return $this->hasMany(UserRailwayHubPublicity::class);
+    }
+
     public function getCA(?Carbon $from = null, ?Carbon $to = null)
     {
         return (new UserRailwayHubAction($this))->getCA($from, $to);

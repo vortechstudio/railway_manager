@@ -7,11 +7,13 @@ use App\Actions\Compta;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayHubCommerce;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
 use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
+use App\Services\Models\User\Railway\UserRailwayAction;
 use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
 use App\Services\WeatherService;
@@ -34,7 +36,8 @@ class SystemActionCommand extends Command
             'updateReward' => $this->updateReward(),
             'transfertResearch' => $this->transfertResearch(),
             'rent_commerce' => $this->rentCommerce(),
-            'ca_daily_calculate' => $this->caDailyCalculate()
+            'ca_daily_calculate' => $this->caDailyCalculate(),
+            'rent_publicities' => $this->rentPublicities()
         };
     }
 
@@ -283,22 +286,25 @@ class SystemActionCommand extends Command
 
     private function rentCommerce()
     {
-        foreach (User::all() as $user) {
+        foreach (UserRailwayHub::all() as $hub) {
             $amount = 0;
-            foreach (UserRailwayHubCommerce::all() as $hub) {
+            $count_commerce = 0;
+            foreach ($hub->commerces as $commerce) {
                 (new Compta())->create(
-                    user: $hub->userRailwayHub->user,
-                    title: 'Paiement de la societe '.$hub->societe,
-                    amount: $hub->ca_daily,
+                    user: $hub->user,
+                    title: 'Paiement de la societe '.$commerce->societe,
+                    amount: $commerce->ca_daily,
                     type_amount: 'revenue',
                     type_mvm: 'commerce',
                     valorisation: false,
-                    user_railway_hub_id: $hub->userRailwayHub->id
+                    user_railway_hub_id: $commerce->userRailwayHub->id
                 );
-                $amount += $hub->ca_daily;
+                $amount += $commerce->ca_daily;
+                $count_commerce++;
             }
             $amount = \Helpers::eur($amount);
-            $user->notify(new SendMessageAdminNotification(
+            (new UserRailwayAction($hub->user->railway))->addExperience(25 * $count_commerce);
+            $hub->user->notify(new SendMessageAdminNotification(
                 title: 'Paiement des Contrats Commercials',
                 sector: 'alert',
                 type: 'info',
@@ -317,6 +323,38 @@ class SystemActionCommand extends Command
                     ]);
                 }
             }
+        }
+    }
+
+    private function rentPublicities()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $amount = 0;
+            $count_publicity = 0;
+
+            foreach ($hub->publicities as $publicity) {
+                (new Compta())->create(
+                    user: $hub->user,
+                    title: 'Paiement publicitaire: '.$publicity->societe,
+                    amount: $publicity->ca_daily,
+                    type_amount: 'revenue',
+                    type_mvm: 'publicite',
+                    valorisation: false,
+                    user_railway_hub_id: $hub->id,
+                );
+
+                $amount += $publicity->ca_daily;
+                $count_publicity++;
+            }
+
+            $amount = \Helpers::eur($amount);
+            (new UserRailwayAction($hub->user->railway))->addExperience(25 * $count_publicity);
+            $hub->user->notify(new SendMessageAdminNotification(
+                'Paiement des contrats publicitaires',
+                sector: 'alert',
+                type: 'info',
+                message: "L'ensemble des publicités de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
         }
     }
 }
