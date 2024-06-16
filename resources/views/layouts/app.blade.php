@@ -169,6 +169,7 @@ License: For each use you must have a valid license purchased only from above li
 @vite(['resources/js/app.js'])
 <x-livewire-alert::scripts />
 <x-scripts.versionDetect />
+<x-scripts.introJsVersion />
 @yield("scripts")
 @stack("scripts")
 <!--end::Global Javascript Bundle-->

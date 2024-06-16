@@ -179,6 +179,7 @@ class UserRailwayLigneAction
             'nb_depart_jour' => $this->ligne->nb_depart_jour + ($this->ligne->nb_depart_jour * $this->getLevelingLigneCoef('nb_depart_jour') / 100),
         };
     }
+
     private function getLevelingLigneCoef(string $system)
     {
         return match ($system) {
@@ -230,6 +231,7 @@ class UserRailwayLigneAction
         $prix_electrique = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $energie = ($this->ligne->railwayLigne->distance * $prix_kilometer) + ($this->ligne->railwayLigne->time_min / 60) * ($prix_electrique) / $this->ligne->user->railway_company->frais;
         $demande = ($sum_offer * $this->ligne->user->railway_company->tarification) * ($energie / 5) / $this->ligne->railwayLigne->stations()->count();
+
         return intval($demande);
     }
 

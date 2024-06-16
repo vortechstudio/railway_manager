@@ -11,7 +11,9 @@ use Livewire\Component;
 class HubRentParkingPanel extends Component
 {
     public UserRailwayHub $hub;
+
     public float|int $caTomorrow = 0;
+
     public float|int $caToday = 0;
 
     public function mount()
@@ -30,6 +32,7 @@ class HubRentParkingPanel extends Component
             ->sum('amount');
         $this->caToday = ($price_parking * 20) * $nb_voyageur_hub;
     }
+
     public function render()
     {
         return view('livewire.game.network.hub-rent-parking-panel');

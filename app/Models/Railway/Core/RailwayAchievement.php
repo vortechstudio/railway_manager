@@ -76,7 +76,6 @@ class RailwayAchievement extends Model
 
                 $this->notifyAchievementUnlock($user);
 
-
                 return $achievement;
             }
 

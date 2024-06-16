@@ -15,12 +15,17 @@ use Livewire\Component;
 class ResearchInfraLigneCard extends Component
 {
     use LivewireAlert;
+
     public UserRailwayLigne $ligne;
 
     public string $alertLigne = '';
+
     public bool $blocked = false;
+
     public int $baseAmount = 10000;
+
     public int $newAmount = 0;
+
     public int $newLevel;
 
     public function mount()
@@ -31,7 +36,7 @@ class ResearchInfraLigneCard extends Component
         $this->blockAndAlertIfLevelIsLow(40);
         if ($this->ligne->level == 50) {
             $this->blocked = true;
-            $this->alertLigne = "Niveau Maximal atteint";
+            $this->alertLigne = 'Niveau Maximal atteint';
         }
     }
 
@@ -43,7 +48,7 @@ class ResearchInfraLigneCard extends Component
         $this->blockAndAlertIfLevelIsLow(40);
         if ($this->ligne->level == 50) {
             $this->blocked = true;
-            $this->alertLigne = "Niveau Maximal atteint";
+            $this->alertLigne = 'Niveau Maximal atteint';
         }
     }
 
@@ -52,7 +57,7 @@ class ResearchInfraLigneCard extends Component
         $nextLevel = $this->ligne->level + 1;
         $this->newAmount = $this->baseAmount + ($this->baseAmount * (1.320 * $nextLevel) / 100);
 
-        $this->alert('question', "Passage au niveau supérieur", [
+        $this->alert('question', 'Passage au niveau supérieur', [
             'title' => "Passage au niveau supérieur {$this->ligne->level} => {$nextLevel}",
             'toast' => false,
             'position' => 'center',
@@ -71,7 +76,7 @@ class ResearchInfraLigneCard extends Component
     public function udpateSystemLigne()
     {
         try {
-            if((new CheckoutAction())->checkoutArgent($this->newAmount)) {
+            if ((new CheckoutAction())->checkoutArgent($this->newAmount)) {
                 (new Compta())->create(
                     user: auth()->user(),
                     title: 'Amélioration de ligne: '.$this->ligne->railwayLigne->name,
@@ -85,7 +90,7 @@ class ResearchInfraLigneCard extends Component
 
                 $this->ligne->update([
                     'level' => $this->ligne->level + 1,
-                    'nb_depart_jour' => intval((new UserRailwayLigneAction($this->ligne))->getLevelNextStatus('nb_depart_jour'))
+                    'nb_depart_jour' => intval((new UserRailwayLigneAction($this->ligne))->getLevelNextStatus('nb_depart_jour')),
                 ]);
                 $this->newLevel = $this->ligne->level;
 
@@ -95,7 +100,7 @@ class ResearchInfraLigneCard extends Component
                     'showCancelButton' => true,
                     'cancelButtonText' => 'OK',
                     'position' => 'center',
-                    'html' => $this->getUpdateTextLevel()
+                    'html' => $this->getUpdateTextLevel(),
                 ]);
                 $this->dispatch('refreshToolbar')->to(Toolbar::class);
             } else {
@@ -103,7 +108,7 @@ class ResearchInfraLigneCard extends Component
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', "Une erreur à eu lieu");
+            $this->alert('error', 'Une erreur à eu lieu');
         }
     }
 
@@ -120,7 +125,8 @@ class ResearchInfraLigneCard extends Component
         return ob_get_clean();
     }
 
-    private function blockAndAlertIfLevelIsLow($requiredLevel) {
+    private function blockAndAlertIfLevelIsLow($requiredLevel)
+    {
         $userLevel = auth()->user()->railway->level;
         if ($userLevel <= $requiredLevel && $this->ligne->level == $requiredLevel) {
             $this->blocked = true;

@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-center align-items-center">
+            <div class="d-flex flex-center align-items-center" data-id="level">
                 <div class="symbol symbol-200px symbol-circle">
                     <div class="symbol-label bg-primary text-white fs-5qx">{{ $hub->level }}</div>
                 </div>

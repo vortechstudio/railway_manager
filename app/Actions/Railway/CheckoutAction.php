@@ -18,7 +18,7 @@ class CheckoutAction
 
     public function checkoutArgent(int $amount)
     {
-        if($amount >= auth()->user()->railway->argent) {
+        if ($amount >= auth()->user()->railway->argent) {
             return false;
         } else {
             return true;

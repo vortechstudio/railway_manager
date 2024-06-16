@@ -9,7 +9,7 @@ class UpdateDistraction
 {
     public function handle(RailwayResearchTrigger $trigger, int $current_level)
     {
-        $lvl = $current_level+1;
+        $lvl = $current_level + 1;
         match ($lvl) {
             1 => auth()->user()->railway_company->update(['distraction' => 2]),
             2 => auth()->user()->railway_company->update(['distraction' => 3]),

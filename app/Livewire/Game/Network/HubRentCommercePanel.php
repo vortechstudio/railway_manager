@@ -13,10 +13,15 @@ use Livewire\Component;
 class HubRentCommercePanel extends Component
 {
     use LivewireAlert;
+
     public UserRailwayHub $hub;
+
     public Collection $contracts;
+
     public int $totalSlot = 0;
+
     public int $occupiedSlot = 0;
+
     public int $revoqueContractId = 0;
 
     public function mount()
@@ -50,13 +55,13 @@ class HubRentCommercePanel extends Component
                     'start_at' => now(),
                     'end_at' => now()->addDays($contract_duration),
                     'ca_daily' => $ca_prev,
-                    'user_railway_hub_id' => $this->hub->id
+                    'user_railway_hub_id' => $this->hub->id,
                 ]);
 
                 $this->hub->commerce_actual += $nb_slot;
                 $this->hub->save();
 
-                $this->alert('success', "Contrat commercial établie");
+                $this->alert('success', 'Contrat commercial établie');
             }
             $this->dispatch('closeModal', 'modalContracts');
         } catch (\Exception $exception) {
@@ -96,7 +101,7 @@ class HubRentCommercePanel extends Component
         try {
             (new Compta())->create(
                 user: auth()->user(),
-                title: 'Pénalité pour révocation du contrat commercial: ' . $contract->societe,
+                title: 'Pénalité pour révocation du contrat commercial: '.$contract->societe,
                 amount: $indem,
                 type_amount: 'charger',
                 type_mvm: 'commerce',
@@ -108,12 +113,13 @@ class HubRentCommercePanel extends Component
             $this->hub->save();
 
             $contract->delete();
-            $this->alert('success', "Le contrat à été révoqué avec succès");
+            $this->alert('success', 'Le contrat à été révoqué avec succès');
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', "Une erreur à eu lieu !");
+            $this->alert('error', 'Une erreur à eu lieu !');
         }
     }
+
     public function render()
     {
         return view('livewire.game.network.hub-rent-commerce-panel');

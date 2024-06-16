@@ -28,5 +28,5 @@ enum MvmTypeMvmEnum: string
     case VENTE_LIGNE = 'vente_ligne';
     case VENTE_ENGINE = 'vente_engine';
     case INCIDENT = 'incident';
-    case RESEARCH = "research";
+    case RESEARCH = 'research';
 }

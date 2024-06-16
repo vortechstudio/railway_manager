@@ -7,7 +7,6 @@ use App\Jobs\DeliveryJob;
 use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\Railway\Ligne\RailwayLigne;
 use App\Models\User\Railway\UserRailwayLigne;
-use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -89,12 +88,12 @@ class LigneCheckout extends Component
     {
         if (auth()->user()->userRailwayLigne()->where('railway_ligne_id', $this->railway_ligne_id)->exists()) {
             $this->alert('warning', 'Cette ligne est déjà acquise par votre compagnie');
-        } elseif(auth()->user()->userRailwayLigne()->count() > auth()->user()->userRailwayHub()->find($this->selectedHubValue)->ligne_limit) {
+        } elseif (auth()->user()->userRailwayLigne()->count() > auth()->user()->userRailwayHub()->find($this->selectedHubValue)->ligne_limit) {
             $this->alert('error', 'Limite atteinte', [
                 'title' => 'Limite atteinte',
-                'text' => "Le nombre de ligne pour ce hub à été atteint, Veuillez augmenté le niveau de votre hub !",
+                'text' => 'Le nombre de ligne pour ce hub à été atteint, Veuillez augmenté le niveau de votre hub !',
                 'toast' => false,
-                'position' => 'center'
+                'position' => 'center',
             ]);
         } else {
             (new Compta())->create(
@@ -116,7 +115,7 @@ class LigneCheckout extends Component
                 'user_railway_engine_id' => null,
                 'user_id' => auth()->user()->id,
             ]);
-            $userLigne->update(['nb_depart_jour' => rand(4,9)]);
+            $userLigne->update(['nb_depart_jour' => rand(4, 9)]);
 
             $delivery = auth()->user()->userRailwayDelivery()->create([
                 'type' => 'ligne',

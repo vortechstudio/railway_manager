@@ -27,5 +27,4 @@ class UserRailwayAction
             (new RailwayLevelRewardAction($reward))->rewarding();
         }
     }
-
 }

@@ -58,13 +58,13 @@ class ResearchJob implements ShouldQueue
 
     private function nextChild()
     {
-        if($this->researchUser->current_level == $this->researches->level) {
+        if ($this->researchUser->current_level == $this->researches->level) {
             $child = $this->researches->childrens()->first();
             ResearchUser::where('railway_research_id', $child->id)
                 ->where('user_railway_id', $this->researchUser->user_railway_id)
                 ->first()
                 ->update([
-                    'is_unlocked' => true
+                    'is_unlocked' => true,
                 ]);
         }
     }
