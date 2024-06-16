@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('system ca_daily_calculate')->describe('Met à jour les CA des commerces');
         })->description('Effectue les paiements des différents commerces de users');
         $schedule->command('system rent_publicities')->daily()->description('Met à jour les CA des publicités');
+        $schedule->command('system rent_parking')->daily()->description('Met à jour les CA des parkings');
 
         $schedule->command('travel prepare')->everyMinute();
         $schedule->command('travel departure')->everyMinute();
