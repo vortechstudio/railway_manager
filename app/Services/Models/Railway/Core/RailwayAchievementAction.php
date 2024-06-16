@@ -6,7 +6,6 @@ use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Railway\Core\RailwayAchievement;
 use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\User;
-use App\Notifications\SendMessageAdminNotification;
 use Illuminate\Events\Dispatcher;
 
 class RailwayAchievementAction
@@ -74,6 +73,4 @@ class RailwayAchievementAction
             $this->achievement->unlockActionFor($user, 'magnat-ferroviaire', 10000000);
         }
     }
-
-
 }

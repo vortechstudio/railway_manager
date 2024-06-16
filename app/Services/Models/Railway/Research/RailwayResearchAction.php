@@ -15,7 +15,7 @@ class RailwayResearchAction
         $triggers = $this->researches->triggers;
         $current_level = $this->researches->users()->withPivot(['current_level', 'is_unlocked'])->where('user_id', auth()->user()->id)->first()->pivot->current_level;
         $is_unlocked = $this->researches->users()->withPivot(['current_level', 'is_unlocked'])->where('user_id', auth()->user()->id)->first()->pivot->is_unlocked;
-        $next_level = $current_level+1;
+        $next_level = $current_level + 1;
         $next_label_level = $next_level >= $current_level ? $triggers->last()->name : ($current_level == 0 ? $triggers->first()->name : $triggers->where('action_count', $next_level)->first()->name);
         ob_start();
         ?>
@@ -26,11 +26,11 @@ class RailwayResearchAction
                 </div>
                 <div class="d-flex flex-column">
                     <span><?= $this->researches->name ?></span>
-                    <?php if($is_unlocked): ?>
+                    <?php if ($is_unlocked) { ?>
                     <span class="text-blue-200"><?= $next_label_level ?></span>
-                    <?php else: ?>
+                    <?php } else { ?>
                         <span class="text-red-200">Pré requis non rempli</span>
-                    <?php endif; ?>
+                    <?php } ?>
                 </div>
             </div>
             <div class="separator my-5"></div>

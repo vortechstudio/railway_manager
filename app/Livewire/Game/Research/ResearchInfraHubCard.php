@@ -15,12 +15,19 @@ use Livewire\Component;
 class ResearchInfraHubCard extends Component
 {
     use LivewireAlert;
+
     public UserRailwayHub $hub;
+
     public string $alertHub = '';
+
     public int $last_level = 0;
+
     public bool $blocked = false;
+
     public int $baseAmount = 25000;
+
     public int $newAmount = 0;
+
     public int $newLevel;
 
     public function mount()
@@ -31,7 +38,7 @@ class ResearchInfraHubCard extends Component
         $this->blockAndAlertIfLevelIsLow(40);
         if ($this->hub->level == 50) {
             $this->blocked = true;
-            $this->alertHub = "Niveau Maximal atteint";
+            $this->alertHub = 'Niveau Maximal atteint';
         }
         $this->last_level = $this->hub->level;
     }
@@ -44,7 +51,7 @@ class ResearchInfraHubCard extends Component
         $this->blockAndAlertIfLevelIsLow(40);
         if ($this->hub->level == 50) {
             $this->blocked = true;
-            $this->alertHub = "Niveau Maximal atteint";
+            $this->alertHub = 'Niveau Maximal atteint';
         }
     }
 
@@ -53,7 +60,7 @@ class ResearchInfraHubCard extends Component
         $nextLevel = $this->hub->level + 1;
         $this->newAmount = $this->baseAmount + ($this->baseAmount * (1.785 * $nextLevel) / 100);
 
-        $this->alert('question', "Passage au niveau supérieur", [
+        $this->alert('question', 'Passage au niveau supérieur', [
             'title' => "Passage au niveau supérieur {$this->hub->level} => {$nextLevel}",
             'toast' => false,
             'position' => 'center',
@@ -72,7 +79,7 @@ class ResearchInfraHubCard extends Component
     public function udpateSystemHub()
     {
         try {
-            if((new CheckoutAction())->checkoutArgent($this->newAmount)) {
+            if ((new CheckoutAction())->checkoutArgent($this->newAmount)) {
                 (new Compta())->create(
                     user: auth()->user(),
                     title: 'Amélioration du hub: '.$this->hub->railwayHub->gare->name,
@@ -98,7 +105,7 @@ class ResearchInfraHubCard extends Component
                     'showCancelButton' => true,
                     'cancelButtonText' => 'OK',
                     'position' => 'center',
-                    'html' => $this->getUpdateTextLevel()
+                    'html' => $this->getUpdateTextLevel(),
                 ]);
                 $this->dispatch('refreshToolbar')->to(Toolbar::class);
             } else {
@@ -106,7 +113,7 @@ class ResearchInfraHubCard extends Component
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', "Une erreur à eu lieu");
+            $this->alert('error', 'Une erreur à eu lieu');
         }
     }
 
@@ -123,7 +130,8 @@ class ResearchInfraHubCard extends Component
         return ob_get_clean();
     }
 
-    private function blockAndAlertIfLevelIsLow($requiredLevel) {
+    private function blockAndAlertIfLevelIsLow($requiredLevel)
+    {
         $userLevel = auth()->user()->railway->level;
         if ($userLevel <= $requiredLevel && $this->hub->level == $requiredLevel) {
             $this->blocked = true;
