@@ -36,7 +36,8 @@ class SystemActionCommand extends Command
             'updateReward' => $this->updateReward(),
             'transfertResearch' => $this->transfertResearch(),
             'rent_commerce' => $this->rentCommerce(),
-            'ca_daily_calculate' => $this->caDailyCalculate()
+            'ca_daily_calculate' => $this->caDailyCalculate(),
+            'rent_publicities' => $this->rentPublicities()
         };
     }
 
@@ -322,6 +323,38 @@ class SystemActionCommand extends Command
                     ]);
                 }
             }
+        }
+    }
+
+    private function rentPublicities()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $amount = 0;
+            $count_publicity = 0;
+
+            foreach ($hub->publicities as $publicity) {
+                (new Compta())->create(
+                    user: $hub->user,
+                    title: 'Paiement publicitaire: '.$publicity->societe,
+                    amount: $publicity->ca_daily,
+                    type_amount: 'revenue',
+                    type_mvm: 'publicite',
+                    valorisation: false,
+                    user_railway_hub_id: $hub->id,
+                );
+
+                $amount += $publicity->ca_daily;
+                $count_publicity++;
+            }
+
+            $amount = \Helpers::eur($amount);
+            (new UserRailwayAction($hub->user->railway))->addExperience(25 * $count_publicity);
+            $hub->user->notify(new SendMessageAdminNotification(
+                'Paiement des contrats publicitaires',
+                sector: 'alert',
+                type: 'info',
+                message: "L'ensemble des publicités de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
         }
     }
 }

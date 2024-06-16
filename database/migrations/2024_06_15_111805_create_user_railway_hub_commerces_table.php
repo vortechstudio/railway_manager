@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->integer('nb_slot_commerce');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
+            $table->decimal('ca_daily', 16);
             $table->foreignId('user_railway_hub_id');
         });
     }
