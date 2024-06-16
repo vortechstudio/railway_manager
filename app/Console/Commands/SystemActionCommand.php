@@ -37,7 +37,8 @@ class SystemActionCommand extends Command
             'transfertResearch' => $this->transfertResearch(),
             'rent_commerce' => $this->rentCommerce(),
             'ca_daily_calculate' => $this->caDailyCalculate(),
-            'rent_publicities' => $this->rentPublicities()
+            'rent_publicities' => $this->rentPublicities(),
+            'rent_parking' => $this->rentParking()
         };
     }
 
@@ -354,6 +355,38 @@ class SystemActionCommand extends Command
                 sector: 'alert',
                 type: 'info',
                 message: "L'ensemble des publicités de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
+        }
+    }
+
+    private function rentParking()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $price_parking = RailwaySetting::where('name', 'price_parking')->first()->value;
+            $nb_passengers = 0;
+
+            foreach ($hub->plannings()->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])->get() as $planning) {
+                $nb_passengers += $planning->passengers()->sum('nb_passengers');
+            }
+            $ca_parking = ($price_parking * 20) * $nb_passengers;
+
+            (new Compta())->create(
+                user: $hub->user,
+                title: 'Revenue journalier du parking du hub: '.$hub->railwayHub->gare->name,
+                amount: $ca_parking,
+                type_amount: 'revenue',
+                type_mvm: 'parking',
+                valorisation: false,
+                user_railway_hub_id: $hub->id
+            );
+
+            (new UserRailwayAction($hub->user->railway))->addExperience(100);
+            $amount = \Helpers::eur($ca_parking);
+            $hub->user->notify(new SendMessageAdminNotification(
+                'Revenue des parkings',
+                sector: 'alert',
+                type: 'info',
+                message: "Le parking du hub {$hub->railwayHub->gare->name} vous à rapporter {$amount} aujourd'hui"
             ));
         }
     }
