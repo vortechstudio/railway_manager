@@ -1,3 +1,30 @@
+# [0.17.0](https://github.com/vortechstudio/railway_manager/compare/v0.16.0...v0.17.0) (2024-06-16)
+
+
+### Bug Fixes
+
+* **Authentification:** Correction de la génération des arbres de recherches lors de l'inscription du joueur. ([4944203](https://github.com/vortechstudio/railway_manager/commit/494420394d1996fcfc80b614a4db8485c26eb2ad))
+* **General:** Refonte des calculs en vue d'optimiser l'allocation des ressources ([3544954](https://github.com/vortechstudio/railway_manager/commit/3544954bc2e5f1d458aff43f7a0904fdd5f426ec))
+* **Menu Utilisateur:** Ajout des liens vers les modules accessible et masquage des non accessible ([3960a3a](https://github.com/vortechstudio/railway_manager/commit/3960a3a1e0914b884ac8142e2222d07638214405))
+* **Planning:** Ajoute nom de la ligne à l'option de sélection de la rame ([34f4177](https://github.com/vortechstudio/railway_manager/commit/34f4177bb3cb72126e3f8fe7e1bf5bcad42a09e4))
+* **R&D:** Correction de la fonction de transfert journalier pour le montant d'allocation de R&D. ([9087e6c](https://github.com/vortechstudio/railway_manager/commit/9087e6cdb9eab61f592673ee9481e7f7485f2494))
+* **R&D:** Corrections mineurs ([85ea4a4](https://github.com/vortechstudio/railway_manager/commit/85ea4a47c97b012f3bf76e866a90a069382bea65))
+
+
+### Features
+
+* **IntroJs:** Ajout de scripts introJs pour des routes spécifiques et incorporation dans le layout principal ([453d9cf](https://github.com/vortechstudio/railway_manager/commit/453d9cfd97b70e11f95df47e0464a0ab1150d5fc))
+* **Network Hub:** ajout experience utilisateur lors du paiement journalier des revenues des commerces ([1422102](https://github.com/vortechstudio/railway_manager/commit/1422102550ddb1adbcf0a4ccc8f8803cd675ef30))
+* **Network Hubs:** Ajout modules de gestion des contrats publicitaires et commerciaux ([b6e6138](https://github.com/vortechstudio/railway_manager/commit/b6e613882e8f248eebef0afc3a61697cd7da3bf2))
+* **Network Hubs:** Ajoute gestion des contrats commerciaux pour les hubs ([f4427c8](https://github.com/vortechstudio/railway_manager/commit/f4427c8c2c6da498d7bc145fd18fff8bb27e34a4))
+* **Network Hubs:** Ajouter le panel de location de parking ([a4d162b](https://github.com/vortechstudio/railway_manager/commit/a4d162bd464335f26f3e2c2b48ae55f9d1f6dc3a))
+* **Network Ligne:** Ajout de la prise en charge de la limite de ligne par hub ([9a2b431](https://github.com/vortechstudio/railway_manager/commit/9a2b4317a3d5cf9752de3ef7b4417a0ea9ade9d7))
+* **Network Planning:** Ajout de la limite de départ par jour par ligne ([51985cb](https://github.com/vortechstudio/railway_manager/commit/51985cb218999f4212c32475c09e85d9ad210506))
+* **R&D:** Ajout de la fonction de passage automatique à l'enfant de la recherche si il existe. ([9dfacdc](https://github.com/vortechstudio/railway_manager/commit/9dfacdce5859e11794fc1aaa0208fdc624c31adf))
+* **R&D:** Ajoute d'amélioration d'infrastructure pour Hubs et Lignes ([5651452](https://github.com/vortechstudio/railway_manager/commit/56514521818c96adf48fc5346d2c775be03cc2dc))
+* **Railway R&D:** Ajoute la mise à jour de distraction dans UpdateDistraction ([7738477](https://github.com/vortechstudio/railway_manager/commit/773847747d5a62eb536fad763fdd7ecc3cef634b))
+* **Railway R&D:** Ajouter et calculer le coefficient de distraction ([a255df9](https://github.com/vortechstudio/railway_manager/commit/a255df9281cdb36a6f65efee2ba081504559fe8e))
+
 # [0.16.0](https://github.com/vortechstudio/railway_manager/compare/v0.15.0...v0.16.0) (2024-06-14)
 
 
