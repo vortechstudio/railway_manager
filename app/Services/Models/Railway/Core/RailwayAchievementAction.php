@@ -6,7 +6,6 @@ use App\Events\Model\User\Railway\NewUserEvent;
 use App\Models\Railway\Core\RailwayAchievement;
 use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\User;
-use App\Notifications\SendMessageAdminNotification;
 use Illuminate\Events\Dispatcher;
 
 class RailwayAchievementAction
@@ -30,9 +29,8 @@ class RailwayAchievementAction
 
     public function Welcome($event): void
     {
-        $user = User::find($event->user_id);
+        $user = User::find($event->user->id);
         $this->achievement->unlockActionFor($user, 'welcome');
-        $this->notifyAchievementUnlock($user);
     }
 
     public function unDebutATous($event): void
@@ -40,7 +38,6 @@ class RailwayAchievementAction
         $user = User::find($event->user_id);
         if ($user->userRailwayHub()->count() == 1) {
             $this->achievement->unlockActionFor($user, 'un-debut-a-tous', 1);
-            $this->notifyAchievementUnlock($user);
         }
     }
 
@@ -52,7 +49,6 @@ class RailwayAchievementAction
 
         if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'entrepreneur', 1500000);
-            $this->notifyAchievementUnlock($user);
         }
     }
 
@@ -64,7 +60,6 @@ class RailwayAchievementAction
 
         if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'je-rentabilise-ma-societe', 3000000);
-            $this->notifyAchievementUnlock($user);
         }
     }
 
@@ -76,19 +71,6 @@ class RailwayAchievementAction
 
         if ($amount >= $this->achievement->goal) {
             $this->achievement->unlockActionFor($user, 'magnat-ferroviaire', 10000000);
-            $this->notifyAchievementUnlock($user);
-        }
-    }
-
-    public function notifyAchievementUnlock(User $user): void
-    {
-        if ($this->achievement) {
-            $user->notify(new SendMessageAdminNotification(
-                title: 'Nouveau succès débloquer !',
-                sector: 'alert',
-                type: 'success',
-                message: 'Un nouveau succès à été débloquer !'
-            ));
         }
     }
 }

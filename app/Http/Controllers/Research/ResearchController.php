@@ -10,4 +10,9 @@ class ResearchController extends Controller
     {
         return view('games.research.index');
     }
+
+    public function infrastructure()
+    {
+        return view('games.research.infrastructure');
+    }
 }

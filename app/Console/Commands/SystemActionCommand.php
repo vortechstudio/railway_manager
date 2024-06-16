@@ -3,12 +3,16 @@
 namespace App\Console\Commands;
 
 use App\Actions\Account\MailboxAction;
+use App\Actions\Compta;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
+use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
+use App\Services\Models\User\Railway\UserRailwayAction;
 use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
 use App\Services\WeatherService;
@@ -29,7 +33,11 @@ class SystemActionCommand extends Command
             'update_weather' => $this->updateWeather(),
             'tarif_today' => $this->tarifToday(),
             'updateReward' => $this->updateReward(),
-            'transfertResearch' => $this->transfertResearch()
+            'transfertResearch' => $this->transfertResearch(),
+            'rent_commerce' => $this->rentCommerce(),
+            'ca_daily_calculate' => $this->caDailyCalculate(),
+            'rent_publicities' => $this->rentPublicities(),
+            'rent_parking' => $this->rentParking()
         };
     }
 
@@ -259,10 +267,126 @@ class SystemActionCommand extends Command
     private function transfertResearch()
     {
         $set = RailwaySetting::where('name', 'exchange_tpoint')->first();
+        $date = Carbon::today();
         foreach (UserRailway::all() as $user) {
+            $amount_transfert = $user->research + ($user->user->railway_company->research_coast_base * $set->value);
             $user->update([
-                'research' => $user->research + ($user->user->railway_company->research_coast_base * $set->value),
+                'research' => $amount_transfert,
             ]);
+            (new Compta())->create(
+                user: $user->user,
+                title: "Transfert R&D - {$date}",
+                amount: $amount_transfert,
+                type_amount: 'charge',
+                type_mvm: 'research',
+                valorisation: false,
+            );
+        }
+    }
+
+    private function rentCommerce()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $amount = 0;
+            $count_commerce = 0;
+            foreach ($hub->commerces as $commerce) {
+                (new Compta())->create(
+                    user: $hub->user,
+                    title: 'Paiement de la societe '.$commerce->societe,
+                    amount: $commerce->ca_daily,
+                    type_amount: 'revenue',
+                    type_mvm: 'commerce',
+                    valorisation: false,
+                    user_railway_hub_id: $commerce->userRailwayHub->id
+                );
+                $amount += $commerce->ca_daily;
+                $count_commerce++;
+            }
+            $amount = \Helpers::eur($amount);
+            (new UserRailwayAction($hub->user->railway))->addExperience(25 * $count_commerce);
+            $hub->user->notify(new SendMessageAdminNotification(
+                title: 'Paiement des Contrats Commercials',
+                sector: 'alert',
+                type: 'info',
+                message: "L'ensemble des commerces de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
+        }
+    }
+
+    private function caDailyCalculate()
+    {
+        foreach (User::all() as $user) {
+            foreach ($user->userRailwayHub as $hub) {
+                foreach ($hub->commerces as $commerce) {
+                    $commerce->update([
+                        'ca_daily' => $commerce->ca_daily + ($commerce->ca_daily * $user->railway_company->rent_aux / 100) * $commerce->nb_slot_commerce,
+                    ]);
+                }
+            }
+        }
+    }
+
+    private function rentPublicities()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $amount = 0;
+            $count_publicity = 0;
+
+            foreach ($hub->publicities as $publicity) {
+                (new Compta())->create(
+                    user: $hub->user,
+                    title: 'Paiement publicitaire: '.$publicity->societe,
+                    amount: $publicity->ca_daily,
+                    type_amount: 'revenue',
+                    type_mvm: 'publicite',
+                    valorisation: false,
+                    user_railway_hub_id: $hub->id,
+                );
+
+                $amount += $publicity->ca_daily;
+                $count_publicity++;
+            }
+
+            $amount = \Helpers::eur($amount);
+            (new UserRailwayAction($hub->user->railway))->addExperience(25 * $count_publicity);
+            $hub->user->notify(new SendMessageAdminNotification(
+                'Paiement des contrats publicitaires',
+                sector: 'alert',
+                type: 'info',
+                message: "L'ensemble des publicités de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
+        }
+    }
+
+    private function rentParking()
+    {
+        foreach (UserRailwayHub::all() as $hub) {
+            $price_parking = RailwaySetting::where('name', 'price_parking')->first()->value;
+            $nb_passengers = 0;
+
+            foreach ($hub->plannings()->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])->get() as $planning) {
+                $nb_passengers += $planning->passengers()->sum('nb_passengers');
+            }
+            $ca_parking = ($price_parking * 20) * $nb_passengers;
+
+            (new Compta())->create(
+                user: $hub->user,
+                title: 'Revenue journalier du parking du hub: '.$hub->railwayHub->gare->name,
+                amount: $ca_parking,
+                type_amount: 'revenue',
+                type_mvm: 'parking',
+                valorisation: false,
+                user_railway_hub_id: $hub->id
+            );
+
+            (new UserRailwayAction($hub->user->railway))->addExperience(100);
+            $amount = \Helpers::eur($ca_parking);
+            $hub->user->notify(new SendMessageAdminNotification(
+                'Revenue des parkings',
+                sector: 'alert',
+                type: 'info',
+                message: "Le parking du hub {$hub->railwayHub->gare->name} vous à rapporter {$amount} aujourd'hui"
+            ));
         }
     }
 }

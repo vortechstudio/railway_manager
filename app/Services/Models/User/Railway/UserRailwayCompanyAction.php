@@ -130,4 +130,15 @@ class UserRailwayCompanyAction
 
         return $sum;
     }
+
+    public function getDistractCoefOfLevel()
+    {
+        return match ($this->company->distraction) {
+            2 => 8,
+            3 => 10,
+            4 => 13,
+            5 => 15,
+            default => 5,
+        };
+    }
 }

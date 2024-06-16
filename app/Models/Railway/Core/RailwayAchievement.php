@@ -7,6 +7,7 @@ use App\Enums\Railway\Core\AchievementLevelEnum;
 use App\Enums\Railway\Core\AchievementTypeEnum;
 use App\Models\User\Railway\UserRailwayAchievement;
 use App\Models\User\User;
+use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Core\RailwayAchievementAction;
 use Illuminate\Database\Eloquent\Model;
 
@@ -73,6 +74,8 @@ class RailwayAchievement extends Model
                     'railway_achievement_id' => $achievement->id,
                 ]);
 
+                $this->notifyAchievementUnlock($user);
+
                 return $achievement;
             }
 
@@ -81,6 +84,18 @@ class RailwayAchievement extends Model
             (new ErrorDispatchHandle())->handle($exception);
 
             return null;
+        }
+    }
+
+    public function notifyAchievementUnlock(User $user): void
+    {
+        if ($this->achievement) {
+            $user->notify(new SendMessageAdminNotification(
+                title: 'Nouveau succès débloquer !',
+                sector: 'alert',
+                type: 'success',
+                message: 'Un nouveau succès à été débloquer !'
+            ));
         }
     }
 }

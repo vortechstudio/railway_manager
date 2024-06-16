@@ -6,6 +6,7 @@ use App\Actions\ErrorDispatchHandle;
 use App\Actions\Railway\ResearchTrigger\AccessFret;
 use App\Actions\Railway\ResearchTrigger\ResearchConvBas;
 use App\Actions\Railway\ResearchTrigger\ResearchConvRud;
+use App\Actions\Railway\ResearchTrigger\UpdateDistraction;
 use App\Models\Railway\Research\RailwayResearches;
 use App\Models\User\Railway\UserRailway;
 use App\Models\User\ResearchUser;
@@ -34,9 +35,11 @@ class ResearchJob implements ShouldQueue
                     'accessFret' => (new AccessFret())->handle(),
                     'researchConvRud' => (new ResearchConvRud())->handle($trigger, $this->researchUser->current_level),
                     'researchConvBase' => (new ResearchConvBas())->handle($trigger, $this->researchUser->current_level),
+                    'updateDistraction' => (new UpdateDistraction())->handle($trigger, $this->researchUser->current_level),
                 };
                 $railway = new UserRailway();
                 $railway->find($this->researchUser->user_railway_id)->addReputation('research', null);
+                $this->nextChild();
                 $railway->find($this->researchUser->user_railway_id)
                     ->user
                     ->notify(new SendMessageAdminNotification(
@@ -51,6 +54,18 @@ class ResearchJob implements ShouldQueue
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
         }
+    }
 
+    private function nextChild()
+    {
+        if ($this->researchUser->current_level == $this->researches->level) {
+            $child = $this->researches->childrens()->first();
+            ResearchUser::where('railway_research_id', $child->id)
+                ->where('user_railway_id', $this->researchUser->user_railway_id)
+                ->first()
+                ->update([
+                    'is_unlocked' => true,
+                ]);
+        }
     }
 }

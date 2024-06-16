@@ -29,6 +29,15 @@ class PlanningManual extends Component
         $heure_depart = Carbon::createFromTime($hour_ex[0], $hour_ex[1], 0);
         $heure_arrive = Carbon::createFromTime($hour_ex[0], $hour_ex[1], 0)->addMinutes($engine->userRailwayLigne->railwayLigne->time_min);
 
+        if ($engine->constructors()->count() > $engine->userRailwayLigne->nb_depart_jour) {
+            $this->alert('error', 'Limite Atteinte', [
+                'title' => 'Limite Atteinte',
+                'text' => 'Vous avez atteint le nombre de départ par jour pour cette ligne, la planification est indisponible !',
+                'toast' => false,
+                'position' => 'center',
+            ]);
+        }
+
         if ($engine->constructors()->exists()) {
             $first = $engine->constructors()->first();
             $last = $engine->constructors()->orderBy('id', 'desc')->first();
