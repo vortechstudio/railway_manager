@@ -28,6 +28,9 @@
         <div class="tab-pane fade" id="publicities" role="tabpanel">
             @livewire('game.network.hub-rent-publicity-panel', ['hub' => $hub])
         </div>
+        <div class="tab-pane fade" id="parkings" role="tabpanel">
+            @livewire('game.network.hub-rent-parking-panel', ['hub' => $hub])
+        </div>
     </div>
 
 </div>
