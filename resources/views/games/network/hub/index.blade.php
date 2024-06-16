@@ -43,6 +43,11 @@
                             <i class="fa-solid fa-route text-white fs-2x"></i>
                         </a>
                     </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Rentes">
+                        <a href="#rents" class="nav-link border-0 bg-active-light text-active-dark" data-bs-toggle="tab">
+                            <i class="fa-solid fa-shop text-white fs-2x"></i>
+                        </a>
+                    </li>
                     <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Vendre le hub">
                         <a href="#selling" class="nav-link border-0 bg-active-danger text-active-light" data-bs-toggle="tab">
                             <i class="fa-solid fa-shopping-cart text-white fs-2x"></i>
@@ -63,6 +68,9 @@
                 </div>
                 <div class="tab-pane fade" id="travels" role="tabpanel">
                     <livewire:game.planning.planning-list-by-date type="hub" :hub="$hub" />
+                </div>
+                <div class="tab-pane fade" id="rents" role="tabpanel">
+                    @livewire('game.network.hub-rent-panel', ['hub' => $hub])
                 </div>
                 <div class="tab-pane fade" id="selling" role="tabpanel">
                     @livewire('game.network.hub-selling', ['hub' => $hub])

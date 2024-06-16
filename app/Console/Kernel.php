@@ -17,6 +17,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('system update_weather')->everySixHours()->description('Met à jour la météo des gares');
         $schedule->command('system tarif_today')->daily()->description('Met à jour les tarif des lignes');
         $schedule->command('system transfertResearch')->daily()->description('Met à jour les bases de recherche');
+        $schedule->command('system rent_commerce')->daily()->after(function ($schedule) {
+            $schedule->command('system ca_daily_calculate')->describe('Met à jour les CA des commerces');
+        })->description('Effectue les paiements des différents commerces de users');
 
         $schedule->command('travel prepare')->everyMinute();
         $schedule->command('travel departure')->everyMinute();

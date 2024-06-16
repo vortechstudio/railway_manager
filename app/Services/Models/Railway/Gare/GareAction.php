@@ -32,14 +32,14 @@ class GareAction
     {
         $distraction = auth()->user()->railway_company->distraction ?? 1;
 
-        return $this->calculate(25 * $distraction);
+        return $this->calculate(40 * $distraction);
     }
 
     public function calcNbSlotParking(): int
     {
         $confort = auth()->user()->railway_company->confort ?? 1;
 
-        return $this->calculate(10 * $confort);
+        return $this->calculate((50 * $confort));
     }
 
     public function calcTimeDayWork()

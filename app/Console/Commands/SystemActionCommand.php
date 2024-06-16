@@ -7,8 +7,10 @@ use App\Actions\Compta;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayHubCommerce;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
+use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
 use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
@@ -30,7 +32,9 @@ class SystemActionCommand extends Command
             'update_weather' => $this->updateWeather(),
             'tarif_today' => $this->tarifToday(),
             'updateReward' => $this->updateReward(),
-            'transfertResearch' => $this->transfertResearch()
+            'transfertResearch' => $this->transfertResearch(),
+            'rent_commerce' => $this->rentCommerce(),
+            'ca_daily_calculate' => $this->caDailyCalculate()
         };
     }
 
@@ -274,6 +278,45 @@ class SystemActionCommand extends Command
                 type_mvm: 'research',
                 valorisation: false,
             );
+        }
+    }
+
+    private function rentCommerce()
+    {
+        foreach (User::all() as $user) {
+            $amount = 0;
+            foreach (UserRailwayHubCommerce::all() as $hub) {
+                (new Compta())->create(
+                    user: $hub->userRailwayHub->user,
+                    title: 'Paiement de la societe '.$hub->societe,
+                    amount: $hub->ca_daily,
+                    type_amount: 'revenue',
+                    type_mvm: 'commerce',
+                    valorisation: false,
+                    user_railway_hub_id: $hub->userRailwayHub->id
+                );
+                $amount += $hub->ca_daily;
+            }
+            $amount = \Helpers::eur($amount);
+            $user->notify(new SendMessageAdminNotification(
+                title: 'Paiement des Contrats Commercials',
+                sector: 'alert',
+                type: 'info',
+                message: "L'ensemble des commerces de vos hubs vous ont rapporter: {$amount} aujourd'hui"
+            ));
+        }
+    }
+
+    private function caDailyCalculate()
+    {
+        foreach (User::all() as $user) {
+            foreach ($user->userRailwayHub as $hub) {
+                foreach ($hub->commerces as $commerce) {
+                    $commerce->update([
+                        'ca_daily' => $commerce->ca_daily + ($commerce->ca_daily * $user->railway_company->rent_aux / 100) * $commerce->nb_slot_commerce,
+                    ]);
+                }
+            }
         }
     }
 }
