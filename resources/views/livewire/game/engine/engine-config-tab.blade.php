@@ -42,7 +42,7 @@
                 <div class="col-sm-12 col-lg-9 mb-5">
                     <div class="d-flex flex-wrap border border-3 rounded-4 p-5 gap-5">
                         @if($engine->railwayEngine->type_transport->value == 'ter' || $engine->railwayEngine->type_transport->value == 'other')
-                            @for($p = 0; $p <= $engine->railwayEngine->technical->nb_marchandise; $p++)
+                            @for($p = 0; $p <= $engine->siege; $p++)
                                 <span class="bullet bg-color-ter h-10px w-10px"></span>
                             @endfor
                         @else

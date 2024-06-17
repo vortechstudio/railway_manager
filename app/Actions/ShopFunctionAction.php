@@ -17,4 +17,17 @@ class ShopFunctionAction
             return false;
         }
     }
+    public function executeResearchMat(\Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|\App\Models\Railway\Core\ShopItem|array|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item, \App\Models\User\User $user)
+    {
+        try {
+            $user->railway->research_mat += $item->qte;
+            $user->railway->save();
+
+            return true;
+        } catch (\Exception $exception) {
+            (new ErrorDispatchHandle())->handle($exception);
+
+            return false;
+        }
+    }
 }

@@ -43,7 +43,7 @@
                                     <td>{{ $planning->userRailwayEngine->number }} / {{ $planning->userRailwayEngine->railwayEngine->name }}</td>
                                     <td>{{ $planning->userRailwayLigne->railwayLigne->start->abr }}/{{ $planning->userRailwayLigne->railwayLigne->end->abr }}</td>
                                     <td>{{ \Carbon\Carbon::parse($planning->date_depart)->format('H:i') }} / {{ \Carbon\Carbon::parse($planning->date_arrived)->format('H:i') }}</td>
-                                    <td>{{ $planning->userRailwayEngine->railwayEngine->technical->nb_marchandise }} P</td>
+                                    <td>{{ $planning->userRailwayEngine->siege }} P</td>
                                     <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($planning->travel->getCA()) }}</td>
                                     <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($planning->travel->getResultat()) }}</td>
                                     <td>

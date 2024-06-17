@@ -14,7 +14,7 @@
 @section("content")
     <div class="container-xxl">
         <div id="kt_app_content" class="app-content">
-
+            @livewire('game.research.research-engine')
         </div>
     </div>
 @endsection
