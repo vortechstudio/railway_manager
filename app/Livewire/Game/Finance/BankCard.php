@@ -11,6 +11,8 @@ class BankCard extends Component
     use LivewireAlert;
     public RailwayBanque $banque;
 
+    protected $listeners = ['refresh' => '$refresh'];
+
     public function render()
     {
         return view('livewire.game.finance.bank-card');

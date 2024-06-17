@@ -2,6 +2,7 @@
 
 namespace App\Models\User\Railway;
 
+use App\Enums\Railway\Config\RailwayBanqueStatusEnum;
 use App\Enums\Railway\Users\RailwayEmpruntTypeEnum;
 use App\Models\Railway\Config\RailwayBanque;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,7 @@ class UserRailwayEmprunt extends Model
     protected $casts = [
         'date' => 'datetime',
         'type_emprunt' => RailwayEmpruntTypeEnum::class,
+        'status' => RailwayBanqueStatusEnum::class,
     ];
 
     public function railwayBanque(): BelongsTo
@@ -26,5 +28,10 @@ class UserRailwayEmprunt extends Model
     public function userRailway()
     {
         return $this->belongsTo(UserRailway::class);
+    }
+
+    public function userRailwayEmpruntTables()
+    {
+        return $this->hasMany(UserRailwayEmpruntTable::class);
     }
 }
