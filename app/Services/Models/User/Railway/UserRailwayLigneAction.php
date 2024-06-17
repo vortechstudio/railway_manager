@@ -224,7 +224,7 @@ class UserRailwayLigneAction
         $sum_offer = 0;
 
         foreach ($this->ligne->userRailwayEngine()->get() as $engine) {
-            $sum_offer += $engine->siege;
+            $sum_offer += $engine->railwayEngine->technical->nb_marchandise;
         }
 
         $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
@@ -237,7 +237,7 @@ class UserRailwayLigneAction
 
     private function calcOffre()
     {
-        return $this->ligne->userRailwayEngine->siege;
+        return $this->ligne->userRailwayEngine->railwayEngine->technical->nb_marchandise;
     }
 
     private function calcTarifFirst()
