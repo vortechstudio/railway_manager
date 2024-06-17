@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-sm-12 col-lg-4 mb-5 h-700px rounded-3 bg-gray-100 bg-opacity-15">
         <ul class="d-flex flex-column h-100 nav nav-tabs hover-scroll-y">
-            @foreach($shop->railway_categories as $category)
-                @if(count($category->railway_items) > 0)
+            @foreach($shop->categories as $category)
+                @if(count($category->items) > 0)
                 <li class="nav-item w-100">
                     <a wire:click.prevent="selectCategory({{ $category->id }})" href="#items_{{ Str::snake($category->name) }}" class="nav-link min-h-150px p-5 bg-active-dark bg-active-opacity-100 bg-dark bg-opacity-10 {{ $shop_category_id == $category->id ? 'active' : '' }}" data-bs-toggle="tab">
                         <span class="d-flex align-items-center">
@@ -19,12 +19,12 @@
     </div>
     <div class="col-sm-12 col-lg-8 mb-5 h-700px">
         <div class="tab-content">
-            @foreach($shop->railway_categories as $category)
-                @if(count($category->railway_items) > 0)
+            @foreach($shop->categories as $category)
+                @if(count($category->items) > 0)
                 <div class="tab-pane fade {{ $shop_category_id == $category->id ? 'show active' : '' }}" id="items_{{ Str::snake($category->name) }}" role="tabpanel">
                     <div class="h-100 w-100 hover-scroll-y hover-scroll-x">
                         <div class="row">
-                            @foreach($category->railway_items as $item)
+                            @foreach($category->items as $item)
                                 <div class="col-4 mb-5">
                                     <a wire:click.prevent="checkout({{ $item->id }})" href="" class="card shadow-sm shop-bg-{{ $item->rarity }} bg-hover-opacity-50 ribbon ribbon-top-end">
                                         <div class="d-flex justify-content-center p-5">

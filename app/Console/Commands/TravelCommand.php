@@ -121,18 +121,18 @@ class TravelCommand extends Command
                     if ($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'unique',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->siege),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     } else {
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'first',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_first)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_first)), $station->railwayPlanning->userRailwayEngine->siege),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                         $station->railwayPlanning->passengers()->create([
                             'type' => 'second',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
+                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->siege),
                             'railway_planning_id' => $station->railwayPlanning->id,
                         ]);
                     }
@@ -253,6 +253,8 @@ class TravelCommand extends Command
                 ));
 
                 (new UserRailwayAction($planning->user->railway))->addExperience(100);
+                $planning->user->railway->research_mat += intval(0.0458 * $planning->userRailwayLigne->railwayLigne->distance);
+                $planning->user->railway->save();
             }
         }
     }
