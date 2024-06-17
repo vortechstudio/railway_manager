@@ -48,6 +48,8 @@ Route::middleware(['nolocked'])->group(function() {
             Route::get('{sector}', [\App\Http\Controllers\TrophyController::class, 'show'])->name('show');
         });
 
+        Route::get('services', \App\Http\Controllers\ServiceController::class)->name('services');
+
         include('account.php');
         include('network.php');
         include('materiel.php');
