@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Config\Service;
+
 class RailwayService
 {
     public function getRailwayService()

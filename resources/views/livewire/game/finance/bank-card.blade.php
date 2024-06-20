@@ -17,11 +17,11 @@
                                 <span class="fw-bold">Effectuer une opération</span>
                                 <div class="separator"></div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <a href="" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
+                                    <a href="{{ route('finance.bank.show', $banque->id) }}" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
                                        title="Détail des emprunts"><i class="fa-solid fa-list-check fs-2"></i> </a>
                                     <button  data-id="express" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
                                        title="Emprunt Express"><i class="fa-solid fa-briefcase-clock fs-2"></i> </button>
-                                    <button data-id="marcher" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
+                                    <button data-id="market" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
                                        title="Emprunt sur le marché financier"><i class="fa-solid fa-chart-line fs-2"></i>
                                     </button>
                                 </div>
@@ -59,11 +59,11 @@
                                 <span class="fw-bold mb-1">Vos emprunts en cours</span>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span>Emprunt Express</span>
-                                    <div class="fw-bold">{{ Helpers::eur($banque->userRailwayEmprunts()->where('type_emprunt', 'express')->where('user_railway_id', auth()->user()->railway->id)->sum('amount_emprunt')) }}</div>
+                                    <div class="fw-bold">{{ Helpers::eur($empruntExpress) }}</div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span>Sur le marché financier</span>
-                                    <div class="fw-bold">{{ Helpers::eur($banque->userRailwayEmprunts()->where('type_emprunt', 'marche')->where('user_railway_id', auth()->user()->railway->id)->sum('amount_emprunt')) }}</div>
+                                    <div class="fw-bold">{{ Helpers::eur($empruntMarket) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -76,6 +76,7 @@
         </div>
     </div>
     @livewire('game.finance.bank-form-express', ['banque' => $banque])
+    @livewire('game.finance.bank-form-market', ['banque' => $banque])
 </div>
 @push('scripts')
     @php
@@ -92,11 +93,16 @@
     @endphp
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script>
-
-
         document.querySelectorAll('[data-id="express"]').forEach(btn => {
             btn.addEventListener('click', e => {
                 let expressModal = new bootstrap.Modal(document.querySelector('#express'))
+                expressModal.show()
+            })
+        })
+
+        document.querySelectorAll('[data-id="market"]').forEach(btn => {
+            btn.addEventListener('click', e => {
+                let expressModal = new bootstrap.Modal(document.querySelector('#market'))
                 expressModal.show()
             })
         })

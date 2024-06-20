@@ -11,7 +11,7 @@
     </div>
     <div class="d-flex flex-end justify-content-end align-items-center gap-3 mb-5">
         <a href="{{ route('finance.bank.index') }}" class="btn btn-flush">
-        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['finance.bank.index'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Banque">
+        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['finance.bank.index', 'finance.bank.show', 'finance.bank.repay'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Banque">
             <img src="{{ Storage::url('icons/railway/bank.png') }}" alt="">
         </span>
         </a>

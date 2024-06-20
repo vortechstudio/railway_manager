@@ -6,31 +6,34 @@ use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
 use App\Livewire\Core\Toolbar;
 use App\Models\Railway\Config\RailwayBanque;
+use App\Models\User\Railway\UserRailwayEmprunt;
+use App\Services\Models\User\Railway\UserRailwayEmpruntAction;
 use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class BankFormExpress extends Component
+class BankFormMarket extends Component
 {
     use LivewireAlert;
-
     public RailwayBanque $banque;
 
-    // Form
-    public int $amount_request;
-    public int $emprunt_duration;
+    // form
+    public int $duration_emprunt;
+    public int|float $amount_request;
+    public int|float $croissance;
 
+
+    // calcul
     public int|float $charge;
     public int|float $amountTotal;
     public int|float $amountHebdo;
 
     public function save()
     {
-        $this->charge = ($this->amount_request * $this->banque->latest_flux / 100) * $this->emprunt_duration;
+        $this->charge = ($this->amount_request * (new UserRailwayEmpruntAction())->getLatestFluxOfMarket($this->banque, auth()->user()->railway) / 100) * $this->duration_emprunt;
         $this->amountTotal = $this->amount_request + $this->charge;
-        $this->amountHebdo = $this->amountTotal / $this->emprunt_duration;
-
+        $this->amountHebdo = $this->amountTotal / $this->duration_emprunt;
         $this->alert('question', "Estimation de l'offre d'emprunt", [
             'toast' => false,
             'width' => '50%',
@@ -51,37 +54,27 @@ class BankFormExpress extends Component
     public function confirmed()
     {
         try {
-            $pending = auth()->user()->railway->userRailwayEmprunts()->where('type_emprunt', 'express')->where('railway_banque_id', $this->banque->id)->where('status', '!=', 'terminated')->sum('amount_emprunt');
-            $reste = $this->banque->express_base - $pending;
-
-            if ($this->amount_request > $this->banque->express_base) {
+            if($this->amount_request > $this->banque->public_base) {
                 $this->alert('warning', "Montant supérieur à la limite autorisé");
-            } elseif ($this->amount_request > $reste) {
+            } elseif($this->amount_request > auth()->user()->railway->userRailwayEmprunts()->where('type_emprunt', 'marche')->sum('amount_emprunt')) {
                 $this->alert('error', 'Limite de prêt express atteinte !');
             } else {
-                $pret = auth()->user()->railway->userRailwayEmprunts()->create([
+                $pret = UserRailwayEmprunt::create([
                     'number' => \Helpers::randomNumerique(9),
-                    'type_emprunt' => 'express',
+                    'type_emprunt' => 'marche',
                     'date' => Carbon::today(),
                     'amount_emprunt' => $this->amountTotal,
-                    'taux_emprunt' => $this->banque->latest_flux,
+                    'taux_emprunt' => (new UserRailwayEmpruntAction())->getLatestFluxOfMarket($this->banque, auth()->user()->railway),
                     'charge' => $this->charge,
-                    'duration' => $this->emprunt_duration,
+                    'duration' => $this->duration_emprunt,
                     'amount_hebdo' => $this->amountHebdo,
                     'status' => 'pending',
                     'railway_banque_id' => $this->banque->id,
+                    'croissance' => $this->croissance,
                     'user_railway_id' => auth()->user()->railway->id,
                 ]);
 
-                (new Compta())->create(
-                    user: auth()->user(),
-                    title: "Emprunt Express {$pret->number} du {$pret->date->format('d/m/Y')}",
-                    amount: $this->amount_request,
-                    type_amount: 'revenue',
-                    type_mvm: 'pret',
-                );
-
-                for ($i = 1; $i <= $this->emprunt_duration; $i++) {
+                for ($i = 1; $i < $this->duration_emprunt; $i++) {
                     $pret->userRailwayEmpruntTables()->create([
                         'date' => now()->addWeeks($i)->startOfDay(),
                         'amount' => $this->amountHebdo,
@@ -90,28 +83,35 @@ class BankFormExpress extends Component
                     ]);
                 }
 
+                (new Compta())->create(
+                    user: auth()->user(),
+                    title: "Emprunt sur les marchés financiers N° {$pret->number} du {$pret->date->format('d/m/Y')}",
+                    amount: $this->amount_request,
+                    type_amount: 'revenue',
+                    type_mvm: 'pret',
+                );
                 $this->alert('success', "Votre pret {$pret->number} à été créer avec succès");
                 $this->dispatch('refresh')->to(BankCard::class);
                 $this->dispatch('refreshToolbar')->to(Toolbar::class);
             }
+
             $this->dispatch('closeModal', 'express');
+
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);
-            $this->alert('error', 'Une erreur à eu lieu !');
+            $this->alert('error', 'Une erreur est survenue !');
         }
     }
 
     public function render()
     {
-        return view('livewire.game.finance.bank-form-express');
+        return view('livewire.game.finance.bank-form-market');
     }
 
     private function getEstimateInfo(): bool|string
     {
         ob_start();
         ?>
-        <p>Notre banquier accepte de vous prêter cette somme pour un taux hebdomadaire s'élevant à
-            <strong><?= $this->banque->latest_flux ?> %</strong></p>
         <div class="d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center bg-gray-200 rounded-2 p-5 mb-1">
                 <span>Somme demandée</span>
@@ -119,7 +119,7 @@ class BankFormExpress extends Component
             </div>
             <div class="d-flex justify-content-between align-items-center bg-gray-200 rounded-2 p-5 mb-1">
                 <span>Taux Hebdomadaire</span>
-                <span><?= $this->banque->latest_flux ?></span>
+                <span><?= (new UserRailwayEmpruntAction())->getLatestFluxOfMarket($this->banque, auth()->user()->railway) ?> %</span>
             </div>
             <div class="d-flex justify-content-between align-items-center bg-gray-200 rounded-2 p-5 mb-1">
                 <span>Charge Financière</span>

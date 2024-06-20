@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::connection('railway')->create('user_railway_emprunt_tables', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date');
-            $table->decimal('amount');
+            $table->decimal('amount', 16);
             $table->string('status');
             $table->foreignId('user_railway_emprunt_id');
         });

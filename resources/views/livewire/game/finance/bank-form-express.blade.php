@@ -21,7 +21,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-lg-6">
                                             @php
-                                                $pending = auth()->user()->railway->userRailwayEmprunts()->where('railway_banque_id', $banque->id)->sum('amount_emprunt');
+                                                $pending = auth()->user()->railway->userRailwayEmprunts()->where('type_emprunt', 'express')->where('railway_banque_id', $banque->id)->where('status', '!=', 'terminated')->sum('amount_emprunt');
                                                 $reste = $banque->express_base - $pending;
                                             @endphp
                                             <div class="d-flex flex-column mb-5">

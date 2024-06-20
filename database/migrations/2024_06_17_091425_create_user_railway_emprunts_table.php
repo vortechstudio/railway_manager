@@ -12,11 +12,11 @@ return new class extends Migration {
             $table->bigInteger('number');
             $table->string('type_emprunt');
             $table->dateTime('date');
-            $table->decimal('amount_emprunt');
+            $table->decimal('amount_emprunt', 16);
             $table->float('taux_emprunt');
-            $table->decimal('charge');
+            $table->decimal('charge', 16);
             $table->integer('duration');
-            $table->decimal('amount_hebdo');
+            $table->decimal('amount_hebdo', 16);
             $table->string('status');
             $table->foreignId('railway_banque_id');
             $table->foreignId('user_railway_id');

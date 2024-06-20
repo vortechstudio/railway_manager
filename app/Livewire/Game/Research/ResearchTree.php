@@ -7,8 +7,8 @@ use App\Actions\Railway\CheckoutAction;
 use App\Jobs\ResearchJob;
 use App\Models\Railway\Research\RailwayResearchCategory;
 use App\Models\Railway\Research\RailwayResearches;
+use App\Models\User\Railway\UserResearchDelivery;
 use App\Models\User\ResearchUser;
-use App\Models\UserResearchDelivery;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
