@@ -46,6 +46,11 @@ class UserRailway extends Model
         return $this->hasMany(UserResearchDelivery::class);
     }
 
+    public function userRailwayEmprunts()
+    {
+        return $this->hasMany(UserRailwayEmprunt::class);
+    }
+
     /**
      * Retrieves the XP percentage attribute for the model.
      *
