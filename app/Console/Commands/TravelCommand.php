@@ -202,7 +202,7 @@ class TravelCommand extends Command
                     'ca_other' => $ca_other,
                     'fee_electrique' => $this->feeElectrique($planning),
                     'fee_gasoil' => $this->feeGasoil($planning),
-                    'fee_other' => $planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price,
+                    'fee_other' => ($planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price / $planning->userRailwayLigne->railwayLigne->distance) * 10 ,
                 ]);
 
                 $planning->userRailwayEngine->use_percent += (new UserRailwayEngineAction($planning->userRailwayEngine))->getTotalUsure();
@@ -229,7 +229,7 @@ class TravelCommand extends Command
                 (new Compta())->create(
                     user: $planning->user,
                     title: "Taxe de passage en gare pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
-                    amount: $planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price,
+                    amount: ($planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price / $planning->userRailwayLigne->railwayLigne->distance) * 10,
                     type_amount: 'charge',
                     type_mvm: 'taxe',
                     user_railway_ligne_id: $planning->userRailwayLigne->id,
