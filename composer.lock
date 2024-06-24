@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e896c0f75ddb0e4e62546e10a2648ec",
+    "content-hash": "299b1edcd3a670760540b34bcfa11a0f",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -2017,25 +2017,25 @@
         },
         {
             "name": "ivanomatteo/laravel-device-tracking",
-            "version": "0.2.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ivanomatteo/laravel-device-tracking.git",
-                "reference": "10c28802956b7ad5b4d98a4ad454007bb2fc2602"
+                "reference": "ecdce9c07846761a4bf360d909868ba43684afdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivanomatteo/laravel-device-tracking/zipball/10c28802956b7ad5b4d98a4ad454007bb2fc2602",
-                "reference": "10c28802956b7ad5b4d98a4ad454007bb2fc2602",
+                "url": "https://api.github.com/repos/ivanomatteo/laravel-device-tracking/zipball/ecdce9c07846761a4bf360d909868ba43684afdb",
+                "reference": "ecdce9c07846761a4bf360d909868ba43684afdb",
                 "shasum": ""
             },
             "require": {
-                "hisorange/browser-detect": "^4.2",
-                "php": ">=7.1"
+                "hisorange/browser-detect": "^4.5",
+                "php": ">=8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^4.0",
-                "phpunit/phpunit": "^8.0"
+                "orchestra/testbench": "^7.15",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "extra": {
@@ -2044,7 +2044,7 @@
                         "IvanoMatteo\\LaravelDeviceTracking\\LaravelDeviceTrackingServiceProvider"
                     ],
                     "aliases": {
-                        "DeviceTracker": "IvanoMatteo\\LaravelDeviceTracking\\LaravelDeviceTrackingFacade"
+                        "DeviceTracker": "IvanoMatteo\\LaravelDeviceTracking\\Facades\\DeviceTracker"
                     }
                 }
             },
@@ -2072,9 +2072,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ivanomatteo/laravel-device-tracking/issues",
-                "source": "https://github.com/ivanomatteo/laravel-device-tracking/tree/0.2.1"
+                "source": "https://github.com/ivanomatteo/laravel-device-tracking/tree/1.0.0"
             },
-            "time": "2022-06-13T10:45:07+00:00"
+            "time": "2024-06-19T15:18:05+00:00"
         },
         {
             "name": "jantinnerezo/livewire-alert",
