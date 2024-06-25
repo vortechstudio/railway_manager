@@ -7,12 +7,14 @@ use App\Actions\Compta;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
 use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
 use App\Services\Models\User\Railway\UserRailwayAction;
+use App\Services\Models\User\Railway\UserRailwayCompanyAction;
 use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
 use App\Services\WeatherService;
@@ -37,7 +39,8 @@ class SystemActionCommand extends Command
             'rent_commerce' => $this->rentCommerce(),
             'ca_daily_calculate' => $this->caDailyCalculate(),
             'rent_publicities' => $this->rentPublicities(),
-            'rent_parking' => $this->rentParking()
+            'rent_parking' => $this->rentParking(),
+            'prlv_impot' => $this->prlvImpot()
         };
     }
 
@@ -387,6 +390,13 @@ class SystemActionCommand extends Command
                 type: 'info',
                 message: "Le parking du hub {$hub->railwayHub->gare->name} vous à rapporter {$amount} aujourd'hui"
             ));
+        }
+    }
+
+    private function prlvImpot()
+    {
+        foreach (UserRailwayCompany::all() as $company) {
+            (new UserRailwayCompanyAction($company))->calcLatestImpot(now()->subDays(7), now()->subDay());
         }
     }
 }

@@ -6,10 +6,13 @@ use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
 use App\Actions\Railway\EngineAction;
 use App\Jobs\DeliveryJob;
+use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Engine\RailwayEngine;
 use App\Models\User\Railway\UserRailwayEngine;
 use App\Models\User\Railway\UserRailwayHub;
+use App\Models\User\Railway\UserRailwayLigne;
 use App\Services\Models\Railway\Engine\RailwayEngineAction;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -40,17 +43,21 @@ class EngineSellList extends Component
     public $type_energy;
 
     public $type_train;
+    public ?int $user_railway_ligne_id;
+
+    public UserRailwayLigne $userRailwayLigne;
 
     public $price_order;
+    public int $potentialDemande = 0;
 
     public function mount(): void
     {
         $this->engines = RailwayEngine::all();
     }
 
-    public function updated(): void
+    public function query()
     {
-        $this->engines = RailwayEngine::with('technical', 'price')
+        return RailwayEngine::with('technical', 'price')
             ->when($this->selectedType, function (Builder $query) {
                 $query->where('type_transport', $this->selectedType);
             })
@@ -63,14 +70,41 @@ class EngineSellList extends Component
             ->when($this->price_order, function (Builder $query) {
                 $query->join('railway_engine_prices', 'railway_engine_prices.railway_engine_id', '=', 'railway_engines.id')
                     ->orderBy('railway_engine_prices.achat', $this->price_order);
-            })
-            ->get();
+            });
+    }
+
+    public function updated(): void
+    {
+        $this->engines = $this->query()->get();
     }
 
     public function updatedSelectedEngine(): void
     {
         $this->engineData = RailwayEngine::find($this->selectedEngine);
         $this->recalculate();
+    }
+
+    public function updatedUserRailwayLigneId()
+    {
+        $this->userRailwayLigne = UserRailwayLigne::find($this->user_railway_ligne_id);
+
+        $FreqBase = 0;
+        foreach ($this->userRailwayLigne->railwayLigne->stations as $station) {
+            $FreqBase += $station->gare->freq_base;
+        }
+        $avgPlace = intval(($FreqBase / $this->userRailwayLigne->railwayLigne->stations()->count()) / 365 / 24);
+
+        $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
+        $prix_electrique = RailwaySetting::where('name', 'price_electricity')->first()->value;
+        $energie =($this->userRailwayLigne->railwayLigne->distance * $prix_kilometer) + ($this->userRailwayLigne->railwayLigne->time_min / 60) * ($prix_electrique) / $this->userRailwayLigne->user->railway_company->frais;
+        $this->potentialDemande = intval(($avgPlace * auth()->user()->railway_company->tarification) * ($energie / 5) / $this->userRailwayLigne->railwayLigne->stations()->count());
+
+        $this->engines = $this->query()
+            ->when($this->user_railway_ligne_id, function (Builder $query) {
+                $query->join('railway_engine_technicals', 'railway_engine_technicals.railway_engine_id', '=', 'railway_engines.id')
+                    ->where('railway_engine_technicals.nb_marchandise', '<=', $this->potentialDemande);
+            })
+            ->get();
     }
 
     public function validateConfig(): void
@@ -141,6 +175,7 @@ class EngineSellList extends Component
                     'railway_engine_id' => $this->engineData->id,
                     'user_railway_hub_id' => $this->user_railway_hub_id,
                     'status' => 'free',
+                    'siege' => $this->engineData->technical->nb_marchandise
                 ]);
 
                 $r = rand(15, 30);

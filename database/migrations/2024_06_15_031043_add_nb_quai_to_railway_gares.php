@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::connection('railway')->table('railway_gares', function (Blueprint $table) {
-            $table->integer('nb_quai');
+            $table->integer('nb_quai')->nullable();
         });
     }
 

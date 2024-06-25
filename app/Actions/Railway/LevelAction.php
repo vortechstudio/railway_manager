@@ -44,17 +44,6 @@ class LevelAction
             'value' => intval(round(rand(2, 10), 0, PHP_ROUND_HALF_UP)),
         ]);
 
-        $bases->push([
-            'type' => \Str::lower(LevelRewardTypeEnum::ENGINE->name),
-            'value' => 1,
-            'model' => RailwayEngine::class,
-            'model_id' => RailwayEngine::all()->random()->first()->id,
-        ]);
-
-        $bases->push([
-            'type' => \Str::lower(LevelRewardTypeEnum::ENGINE_R->name),
-            'value' => 1,
-        ]);
 
         $bases->push([
             'type' => \Str::lower(LevelRewardTypeEnum::IMPOT->name),

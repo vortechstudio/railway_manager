@@ -4,6 +4,15 @@ namespace App\Actions\Railway;
 
 class GareAction
 {
+    public function getFrequence(string $type_gare)
+    {
+        return match ($type_gare) {
+            'halte' => rand(3500,150000),
+            'small' => rand(20000, 350000),
+            'medium' => rand(80000, 650000),
+            'large', 'terminus' => rand(100000,3500000),
+        };
+    }
     /**
      * Returns the number of habitants based on the type of gare and frequency
      *

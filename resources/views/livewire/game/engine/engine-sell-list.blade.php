@@ -93,8 +93,37 @@
                             </label>
                         </div>
                     </div>
+                    <div>
+                        <label for="user_railway_ligne_id" class="form-label">Ligne Témoins</label>
+                        <select wire:model.live="user_railway_ligne_id" name="user_railway_ligne_id" id="user_railway_ligne_id" class="form-select">
+                            <option></option>
+                            @foreach(\App\Models\User\Railway\UserRailwayLigne::where('active', true)->get() as $ligne)
+                                @if($ligne->railwayLigne->type->value == $selectedType)
+                                    <option value="{{ $ligne->id }}">{{ $ligne->railwayLigne->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="d-flex flex-column gap-5">
+                @isset($user_railway_ligne_id)
+                    <div class="card shadow-sm bg-gray-100 mb-5">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6 mb-5">
+                                    <div class="d-flex justify-content-between bg-white rounded-2 p-5 mb-1">
+                                        <span>Demande Potentiel</span>
+                                        <span>{{ $potentialDemande }} P</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between bg-white rounded-2 p-5 mb-1">
+                                        <span>Distance</span>
+                                        <span>{{ $userRailwayLigne->railwayLigne->distance }} Km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endisset
+                <div class="d-flex flex-column gap-5 h-500px scroll">
                     @foreach($engines as $engine)
                         <input type="radio" class="btn-check" wire:model.live="selectedEngine" name="selectedEngine" value="{{ $engine->id }}" id="engine_{{ Str::snake($engine->name) }}"/>
                         <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex mb-5" for="engine_{{ Str::snake($engine->name) }}">

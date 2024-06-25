@@ -162,7 +162,7 @@ class UserRailwayLigneAction
 
     public function createTarif(): void
     {
-        match ($this->ligne->userRailwayEngine->railwayEngine->type_transport->value) {
+        match ($this->ligne->railwayLigne->type->value) {
             'ter', 'other' => $this->generateTarifTer(),
             'tgv', 'intercity' => $this->generateTarifTGV(),
         };
@@ -221,10 +221,15 @@ class UserRailwayLigneAction
 
     public function calcDemande()
     {
-        $sum_offer = 0;
-
-        foreach ($this->ligne->userRailwayEngine()->get() as $engine) {
-            $sum_offer += $engine->railwayEngine->technical->nb_marchandise;
+        $latestTarif = $this->ligne->tarifs()->orderBy('date_tarif', 'desc');
+        if($latestTarif->exists()) {
+            if(fake()->boolean()) {
+                $sum_offer = $latestTarif->sum('demande') + rand(1,100);
+            } else {
+                $sum_offer = $latestTarif->sum('demande') - rand(1,100);
+            }
+        } else {
+            $sum_offer = rand(100,600);
         }
 
         $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
@@ -245,6 +250,9 @@ class UserRailwayLigneAction
         $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
         $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+        if($calc >= 100) {
+            $calc = $calc / 100;
+        }
 
         return round(floatval($calc * 60 / 100), 2);
     }
@@ -254,6 +262,10 @@ class UserRailwayLigneAction
         $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
         $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+
+        if($calc >= 100) {
+            $calc = $calc / 100;
+        }
 
         return round(floatval($calc * 40 / 100), 2);
     }
