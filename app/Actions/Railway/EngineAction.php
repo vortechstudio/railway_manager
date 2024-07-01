@@ -50,21 +50,22 @@ class EngineAction extends EngineSelectAction
         return $calc;
     }
 
-    /**
-     * Calculates the price of maintenance based on the duration and the value of essieux.
-     *
-     * @param  int  $duration  The duration of maintenance in months.
-     * @param  float|int  $val_essieux  The value of essieux.
-     * @return float|int The calculated price of maintenance.
-     */
-    public function calcPriceMaintenance(int $duration, float|int $val_essieux): float|int
-    {
-        $calc = $duration * $val_essieux;
-        if ($calc >= 100) {
-            return $calc / 10;
-        }
 
-        return $calc;
+    /**
+     * Calculate the price for maintenance.
+     *
+     * @param string $type_transport The type of transport.
+     * @param string $type_train The type of train.
+     * @param string $type_motor The type of motor.
+     * @return float|int The calculated price for maintenance.
+     */
+    public function calcPriceMaintenance(string $type_transport, string $type_train, string $type_motor): float|int
+    {
+        $base_maintenance = (new EngineSelectAction())->selectorTypeTransport($type_transport, 'base_maintenance');
+        $coef_train = (new EngineSelectAction())->selectorTypeTrain($type_train, 'coef');
+        $coef_motor = (new EngineSelectAction())->selectorTypeMotor($type_motor, 'coef');
+
+        return $base_maintenance * $coef_train * $coef_motor;
     }
 
     /**

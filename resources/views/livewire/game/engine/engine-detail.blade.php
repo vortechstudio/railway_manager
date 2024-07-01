@@ -94,10 +94,10 @@
                 <div class="col-sm-12 col-lg-6 mb-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <span>Sièges:</span>
-                        @if($engine->railwayEngine->type_transport == 'tgv' || $engine->railwayEngine->type_transport == 'ic')
+                        @if($engine->railwayEngine->type_transport->value == 'tgv' || $engine->railwayEngine->type_transport->value == 'ic')
                             <div class="h-8px mx-3 w-100 bg-light-primary rounded progress">
-                                <div class="bg-color-tgv h-8px" role="progressbar" style="width: {{ ($engine->siege * 20 / 100) * 100 / $engine->siege }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                <div class="bg-color-ter h-8px" role="progressbar" style="width: {{ ($engine->siege * 80 / 100) * 100 / $engine->siege }}%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="bg-color-tgv h-8px" role="progressbar" style="width: {{ ($engine->siege * 20 / 100) * 100 / $engine->siege }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="tooltip" data-bs-title="{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('first') }} P"></div>
+                                <div class="bg-color-ter h-8px" role="progressbar" style="width: {{ ($engine->siege * 80 / 100) * 100 / $engine->siege }}%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="tooltip" data-bs-title="{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P"></div>
                             </div>
                         @else
                             <div class="h-8px mx-3 w-100 bg-light-primary rounded" data-bs-toggle="tooltip" data-bs-title="{{ ($engine->siege) * 100 / $engine->siege }}%">

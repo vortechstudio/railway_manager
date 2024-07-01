@@ -162,7 +162,7 @@ class UserRailwayLigneAction
 
     public function createTarif(): void
     {
-        match ($this->ligne->userRailwayEngine->railwayEngine->type_transport->value) {
+        match ($this->ligne->railwayLigne->type->value) {
             'ter', 'other' => $this->generateTarifTer(),
             'tgv', 'intercity' => $this->generateTarifTGV(),
         };
@@ -194,7 +194,7 @@ class UserRailwayLigneAction
             'type_tarif' => 'unique',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifSecond(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('unique'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
     }
@@ -206,7 +206,7 @@ class UserRailwayLigneAction
             'type_tarif' => 'first',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifFirst(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('first'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
         $this->ligne->tarifs()->create([
@@ -214,30 +214,19 @@ class UserRailwayLigneAction
             'type_tarif' => 'second',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifSecond(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('second'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
     }
 
     public function calcDemande()
     {
-        $sum_offer = 0;
-
-        foreach ($this->ligne->userRailwayEngine()->get() as $engine) {
-            $sum_offer += $engine->railwayEngine->technical->nb_marchandise;
-        }
-
-        $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
-        $prix_electrique = RailwaySetting::where('name', 'price_electricity')->first()->value;
-        $energie = ($this->ligne->railwayLigne->distance * $prix_kilometer) + ($this->ligne->railwayLigne->time_min / 60) * ($prix_electrique) / $this->ligne->user->railway_company->frais;
-        $demande = ($sum_offer * $this->ligne->user->railway_company->tarification) * ($energie / 5) / $this->ligne->railwayLigne->stations()->count();
-
-        return intval($demande);
+        return rand($this->ligne->min_passengers, $this->ligne->max_passengers);
     }
 
     private function calcOffre()
     {
-        return $this->ligne->userRailwayEngine->railwayEngine->technical->nb_marchandise;
+        return $this->ligne->userRailwayEngine->siege;
     }
 
     private function calcTarifFirst()
@@ -245,6 +234,9 @@ class UserRailwayLigneAction
         $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
         $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+        if($calc >= 100) {
+            $calc = $calc / 100;
+        }
 
         return round(floatval($calc * 60 / 100), 2);
     }
@@ -254,6 +246,10 @@ class UserRailwayLigneAction
         $price_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
         $price_electricity = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $calc = ($price_kilometer * $this->ligne->railwayLigne->distance) * ($this->ligne->railwayLigne->distance * ($price_electricity / 3)) / 10;
+
+        if($calc >= 100) {
+            $calc = $calc / 100;
+        }
 
         return round(floatval($calc * 40 / 100), 2);
     }

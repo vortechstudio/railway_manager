@@ -15,13 +15,13 @@
             <img src="{{ Storage::url('icons/railway/bank.png') }}" alt="">
         </span>
         </a>
-        <a href="" class="btn btn-flush">
-        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['company.rank'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comptabilité">
+        <a href="{{ route('finance.accounting.index') }}" class="btn btn-flush">
+        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['finance.accounting.index'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comptabilité">
             <img src="{{ Storage::url('icons/railway/accounting.png') }}" alt="">
         </span>
         </a>
-        <a href="" class="btn btn-flush">
-        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['company.index'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Finance">
+        <a href="{{ route('finance.index') }}" class="btn btn-flush">
+        <span class="symbol symbol-40px symbol-circle bg-active-primary @if(route_is(['finance.index'])) active @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Finance">
             <img src="{{ Storage::url('icons/railway/financial.png') }}" alt="">
         </span>
         </a>

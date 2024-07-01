@@ -56,8 +56,8 @@ class BankFormMarket extends Component
         try {
             if($this->amount_request > $this->banque->public_base) {
                 $this->alert('warning', "Montant supérieur à la limite autorisé");
-            } elseif($this->amount_request > auth()->user()->railway->userRailwayEmprunts()->where('type_emprunt', 'marche')->sum('amount_emprunt')) {
-                $this->alert('error', 'Limite de prêt express atteinte !');
+            } elseif(auth()->user()->railway->userRailwayEmprunts()->where('type_emprunt', 'marche')->sum('amount_emprunt') > $this->amount_request) {
+                $this->alert('error', 'Limite de prêt public atteint !');
             } else {
                 $pret = UserRailwayEmprunt::create([
                     'number' => \Helpers::randomNumerique(9),

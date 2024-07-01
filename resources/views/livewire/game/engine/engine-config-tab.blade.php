@@ -60,16 +60,16 @@
                         @if($engine->railwayEngine->type_transport->value == 'ter' || $engine->railwayEngine->type_transport->value == 'other')
                             <div class="d-flex align-items-center">
                                 <span class="bullet bullet-dot bg-color-ter h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Unique"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('second') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P</span>
                             </div>
                         @else
                             <div class="d-flex align-items-center mb-2">
                                 <span class="bullet bullet-dot bg-color-tgv h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Première"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('first') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('first') }} P</span>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <span class="bullet bullet-dot bg-color-ter h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Seconde"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('second') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P</span>
                             </div>
                         @endif
                     </div>

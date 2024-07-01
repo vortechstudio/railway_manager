@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('finance')->as('finance.')->group(function () {
+    Route::get('/', \App\Http\Controllers\Finance\FinanceController::class)->name('index');
     Route::prefix('bank')->as('bank.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Finance\BanqueController::class, 'index'])->name('index');
         Route::get('/{id}', [\App\Http\Controllers\Finance\BanqueController::class, 'show'])->name('show');
         Route::get('/{id}/emprunt/{emprunt_id}/repay', [\App\Http\Controllers\Finance\BanqueController::class, 'repay'])->name('repay');
     });
+
+    Route::prefix('comptabilite')->as('accounting.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Finance\AccountingController::class, 'index'])->name('index');
+    });
+
+
 });

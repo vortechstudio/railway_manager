@@ -57,31 +57,37 @@ class EngineSelectAction
             'id' => 'ter',
             'value' => 'TER',
             'image' => \Storage::url('icons/railway/transport/logo_ter.svg'),
+            'base_maintenance' => 15000,
         ]);
         $arr->push([
             'id' => 'tgv',
             'value' => 'TGV',
             'image' => \Storage::url('icons/railway/transport/logo_tgv.svg'),
+            'base_maintenance' => 45000,
         ]);
         $arr->push([
             'id' => 'intercity',
             'value' => 'Intercité',
             'image' => \Storage::url('icons/railway/transport/logo_intercite.svg'),
+            'base_maintenance' => 30000,
         ]);
         $arr->push([
             'id' => 'tram',
             'value' => 'TRAM',
             'image' => \Storage::url('icons/railway/transport/logo_tram.svg'),
+            'base_maintenance' => 6500,
         ]);
         $arr->push([
             'id' => 'metro',
             'value' => 'Metro',
             'image' => \Storage::url('icons/railway/transport/logo_metro.svg'),
+            'base_maintenance' => 10000,
         ]);
         $arr->push([
             'id' => 'other',
             'value' => 'Autre',
             'image' => \Storage::url('icons/railway/transport/default.png'),
+            'base_maintenance' => 5000,
         ]);
 
         if ($search != null) {
@@ -152,7 +158,7 @@ class EngineSelectAction
             'value' => 'Monnaie Virtuel',
         ]);
         $argc->push([
-            'id' => 'euro',
+            'id' => 'reel',
             'value' => 'Monnaie Réel',
         ]);
 
