@@ -126,17 +126,6 @@ class UserRailwayEngineAction
             ->first()->flux_engine;
     }
 
-    public function getComposition(string $type_tarif)
-    {
-        return match ($this->engine->railwayEngine->type_transport->value) {
-            "ter", "other" => $this->engine->siege,
-            "tgv", "ic" => match ($type_tarif) {
-                "first" => intval($this->engine->siege - ($this->engine->siege * 20 / 100)),
-                "second" => intval($this->engine->siege - ($this->engine->siege * 80 / 100)),
-            }
-        };
-    }
-
     private function formatStatusDefault()
     {
         return match ($this->engine->status->value) {
