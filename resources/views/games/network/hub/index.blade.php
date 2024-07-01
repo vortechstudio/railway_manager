@@ -60,7 +60,6 @@
                     <livewire:game.network.hub-detail-panel :hub="$hub" />
                 </div>
                 <div class="tab-pane fade" id="lignes" role="tabpanel">
-                    <livewire:game.core.map type="lignes" :user_hub_id="$hub->id" />
                     <livewire:game.network.ligne-list type="hub" :hub="$hub" />
                 </div>
                 <div class="tab-pane fade" id="rames" role="tabpanel">
@@ -79,4 +78,11 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+
+    </script>
+@endpush
+
 
