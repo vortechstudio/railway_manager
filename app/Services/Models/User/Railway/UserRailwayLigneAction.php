@@ -194,7 +194,7 @@ class UserRailwayLigneAction
             'type_tarif' => 'unique',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifSecond(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('unique'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
     }
@@ -206,7 +206,7 @@ class UserRailwayLigneAction
             'type_tarif' => 'first',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifFirst(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('first'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
         $this->ligne->tarifs()->create([
@@ -214,7 +214,7 @@ class UserRailwayLigneAction
             'type_tarif' => 'second',
             'demande' => $this->calcDemande(),
             'offre' => $this->calcOffre(),
-            'price' => $this->calcTarifSecond(),
+            'price' => (new UserRailwayLigneTarifAction(null, $this->ligne))->calculatePriceDaily('second'),
             'user_railway_ligne_id' => $this->ligne->id,
         ]);
     }
@@ -226,7 +226,7 @@ class UserRailwayLigneAction
 
     private function calcOffre()
     {
-        return $this->ligne->userRailwayEngine->railwayEngine->technical->nb_marchandise;
+        return $this->ligne->userRailwayEngine->siege;
     }
 
     private function calcTarifFirst()
