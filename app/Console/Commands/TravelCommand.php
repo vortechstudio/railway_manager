@@ -55,7 +55,6 @@ class TravelCommand extends Command
                 ));
             } else {
                 try {
-                    (new RailwayPlanningAction($planning))->prepareVoyageur();
                     $planning->update(['status' => 'departure']);
                     $planning->userRailwayEngine()->update(['status' => 'travel']);
                     $planning->logs()->create([
@@ -119,22 +118,53 @@ class TravelCommand extends Command
 
                 if ($station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->start->id || $station->railwayLigneStation->id != $station->railwayPlanning->userRailwayLigne->railwayLigne->end->id) {
                     if ($station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'ter' || $station->railwayPlanning->userRailwayEngine->railwayEngine->type_transport->value == 'other') {
-                        $station->railwayPlanning->passengers()->create([
-                            'type' => 'unique',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
-                            'railway_planning_id' => $station->railwayPlanning->id,
-                        ]);
+                        $actualPassengers = $station->railwayPlanning->passengers()->where('type', 'unique')->sum('nb_passengers');
+                        $limitPassengerEngine = $station->railwayPlanning->userRailwayLigne->userRailwayEngine->siege;
+                        if ($limitPassengerEngine > $actualPassengers) {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'unique',
+                                'nb_passengers' => rand(0, $limitPassengerEngine - $actualPassengers),
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        } else {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'unique',
+                                'nb_passengers' => 0,
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        }
                     } else {
-                        $station->railwayPlanning->passengers()->create([
-                            'type' => 'first',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_first)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
-                            'railway_planning_id' => $station->railwayPlanning->id,
-                        ]);
-                        $station->railwayPlanning->passengers()->create([
-                            'type' => 'second',
-                            'nb_passengers' => min(max(1, rand(0, $station->railwayLigneStation->gare->passenger_second)), $station->railwayPlanning->userRailwayEngine->railwayEngine->technical->nb_marchandise),
-                            'railway_planning_id' => $station->railwayPlanning->id,
-                        ]);
+                        $actualPassengersFirst = $station->railwayPlanning->passengers()->where('type', 'first')->sum('nb_passengers');
+                        $limitPassengerFirstEngine = $station->railwayPlanning->userRailwayLigne->userRailwayEngine->siege * 20 / 100;
+                        if($limitPassengerFirstEngine > $actualPassengersFirst) {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'first',
+                                'nb_passengers' => rand(0, $limitPassengerFirstEngine - $actualPassengersFirst),
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        } else {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'first',
+                                'nb_passengers' => 0,
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        }
+
+                        $actualPassengersSecond = $station->railwayPlanning->passengers()->where('type', 'second')->sum('nb_passengers');
+                        $limitPassengerSecondEngine = $station->railwayPlanning->userRailwayLigne->userRailwayEngine->siege * 80 / 100;
+                        if($limitPassengerSecondEngine > $actualPassengersSecond) {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'second',
+                                'nb_passengers' => rand(0, $limitPassengerSecondEngine - $actualPassengersSecond),
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        } else {
+                            $station->railwayPlanning->passengers()->create([
+                                'type' => 'second',
+                                'nb_passengers' => 0,
+                                'railway_planning_id' => $station->railwayPlanning->id,
+                            ]);
+                        }
                     }
                 }
 
@@ -202,7 +232,7 @@ class TravelCommand extends Command
                     'ca_other' => $ca_other,
                     'fee_electrique' => $this->feeElectrique($planning),
                     'fee_gasoil' => $this->feeGasoil($planning),
-                    'fee_other' => $planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price,
+                    'fee_other' => ($planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price / $planning->userRailwayLigne->railwayLigne->distance) * 10 ,
                 ]);
 
                 $planning->userRailwayEngine->use_percent += (new UserRailwayEngineAction($planning->userRailwayEngine))->getTotalUsure();
@@ -229,7 +259,7 @@ class TravelCommand extends Command
                 (new Compta())->create(
                     user: $planning->user,
                     title: "Taxe de passage en gare pour la ligne: {$planning->userRailwayLigne->railwayLigne->name}",
-                    amount: $planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price,
+                    amount: ($planning->userRailwayLigne->railwayLigne->hub->taxe_hub_price / $planning->userRailwayLigne->railwayLigne->distance) * 10,
                     type_amount: 'charge',
                     type_mvm: 'taxe',
                     user_railway_ligne_id: $planning->userRailwayLigne->id,
@@ -253,6 +283,8 @@ class TravelCommand extends Command
                 ));
 
                 (new UserRailwayAction($planning->user->railway))->addExperience(100);
+                $planning->user->railway->research_mat += intval(0.0458 * $planning->userRailwayLigne->railwayLigne->distance);
+                $planning->user->railway->save();
             }
         }
     }

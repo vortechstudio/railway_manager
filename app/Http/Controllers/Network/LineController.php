@@ -9,7 +9,7 @@ class LineController extends Controller
 {
     public function show(int $line_id)
     {
-        $ligne = UserRailwayLigne::find($line_id);
+        $ligne = UserRailwayLigne::with('railwayLigne', 'railwayLigne.stations', 'railwayLigne.stations.gare')->find($line_id);
 
         return view('games.network.line.index', [
             'ligne' => $ligne,

@@ -65,7 +65,7 @@ class ShopItem extends Model
     {
         $user = \Auth::user();
         // Vérification des montants
-        $amount_ok = match ($this->currency_type) {
+        $amount_ok = match ($this->currency_type->value) {
             'argent' => $user->railway->argent >= $this->price,
             'tpoint' => $user->railway->tpoint >= $this->price,
             'reel' => true

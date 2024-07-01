@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Game\Network;
 
+use App\Models\User\Railway\UserRailwayHub;
 use Livewire\Component;
 
 class HubDetailPanel extends Component
 {
-    public $hub;
+    public UserRailwayHub $hub;
 
     public function render()
     {

@@ -50,7 +50,7 @@
                 <div class="col-sm-12 col-lg-6 mb-5">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Capacité:</span>
-                        <span class="fw-bold">{{ $engine->railwayEngine->technical->nb_marchandise }} P</span>
+                        <span class="fw-bold">{{ $engine->siege }} P</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Consommation du la ligne actuel:</span>
@@ -94,14 +94,14 @@
                 <div class="col-sm-12 col-lg-6 mb-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <span>Sièges:</span>
-                        @if($engine->railwayEngine->type_transport == 'tgv' || $engine->railwayEngine->type_transport == 'ic')
+                        @if($engine->railwayEngine->type_transport->value == 'tgv' || $engine->railwayEngine->type_transport->value == 'ic')
                             <div class="h-8px mx-3 w-100 bg-light-primary rounded progress">
-                                <div class="bg-color-tgv h-8px" role="progressbar" style="width: {{ ($engine->railwayEngine->technical->nb_marchandise * 20 / 100) * 100 / $engine->railwayEngine->technical->nb_marchandise }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                <div class="bg-color-ter h-8px" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="bg-color-tgv h-8px" role="progressbar" style="width: {{ ($engine->siege * 20 / 100) * 100 / $engine->siege }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="tooltip" data-bs-title="{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('first') }} P"></div>
+                                <div class="bg-color-ter h-8px" role="progressbar" style="width: {{ ($engine->siege * 80 / 100) * 100 / $engine->siege }}%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="tooltip" data-bs-title="{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P"></div>
                             </div>
                         @else
-                            <div class="h-8px mx-3 w-100 bg-light-primary rounded" data-bs-toggle="tooltip" data-bs-title="{{ ($engine->railwayEngine->technical->nb_marchandise) * 100 / $engine->railwayEngine->technical->nb_marchandise }}%">
-                                <div class="bg-color-ter rounded h-8px" role="progressbar" style="width: {{ ($engine->railwayEngine->technical->nb_marchandise) * 100 / $engine->railwayEngine->technical->nb_marchandise }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="h-8px mx-3 w-100 bg-light-primary rounded" data-bs-toggle="tooltip" data-bs-title="{{ ($engine->siege) * 100 / $engine->siege }}%">
+                                <div class="bg-color-ter rounded h-8px" role="progressbar" style="width: {{ ($engine->siege) * 100 / $engine->siege }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         @endif
                     </div>
@@ -159,7 +159,7 @@
             },
             radar: {
                 indicator: [
-                    {name: 'Sièges', max: {{ \App\Models\Railway\Engine\RailwayEngineTechnical::max('nb_marchandise') }}},
+                    {name: 'Sièges', max: {{ \App\Models\User\Railway\UserRailwayEngine::max('siege') }}},
                     {name: 'Vitesse', max: {{ \App\Models\Railway\Engine\RailwayEngineTechnical::max('velocity') }}},
                     {name: 'Consommation', max: {{ \App\Models\Railway\Engine\RailwayEngineTechnical::max('puissance') }}},
                 ]
@@ -170,7 +170,7 @@
                     type: 'radar',
                     data: [
                         {
-                            value: [{{ $engine->railwayEngine->technical->nb_marchandise }},{{ $engine->railwayEngine->technical->velocity }},{{ $engine->railwayEngine->technical->puissance }}],
+                            value: [{{ $engine->siege }},{{ $engine->railwayEngine->technical->velocity }},{{ $engine->railwayEngine->technical->puissance }}],
                             name: 'Complétion de la rame'
                         }
                     ]

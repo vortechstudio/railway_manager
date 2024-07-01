@@ -4,15 +4,18 @@ namespace App\Console\Commands;
 
 use App\Actions\Account\MailboxAction;
 use App\Actions\Compta;
+use App\Actions\ErrorDispatchHandle;
 use App\Models\Railway\Config\RailwaySetting;
 use App\Models\Railway\Gare\RailwayGare;
 use App\Models\User\Railway\UserRailway;
+use App\Models\User\Railway\UserRailwayCompany;
 use App\Models\User\Railway\UserRailwayHub;
 use App\Models\User\Railway\UserRailwayLigne;
 use App\Models\User\User;
 use App\Notifications\SendMessageAdminNotification;
 use App\Services\Models\Railway\Ligne\RailwayLigneStationAction;
 use App\Services\Models\User\Railway\UserRailwayAction;
+use App\Services\Models\User\Railway\UserRailwayCompanyAction;
 use App\Services\Models\User\Railway\UserRailwayLigneAction;
 use App\Services\RailwayService;
 use App\Services\WeatherService;
@@ -37,7 +40,8 @@ class SystemActionCommand extends Command
             'rent_commerce' => $this->rentCommerce(),
             'ca_daily_calculate' => $this->caDailyCalculate(),
             'rent_publicities' => $this->rentPublicities(),
-            'rent_parking' => $this->rentParking()
+            'rent_parking' => $this->rentParking(),
+            'prlv_impot' => $this->prlvImpot()
         };
     }
 
@@ -104,60 +108,64 @@ class SystemActionCommand extends Command
                 } else {
                     foreach ($user->railway_planning_constructors as $constructor) {
                         if (in_array($dayWork, json_decode($constructor->day_of_week))) {
-                            $planning = $constructor->userRailwayEngine->plannings()->create([
-                                'date_depart' => now()->setTime($constructor->start_at->hour, $constructor->start_at->minute),
-                                'status' => 'initialized',
-                                'kilometer' => $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->distance,
-                                'date_arrived' => now()->setTime($constructor->end_at->hour, $constructor->end_at->minute),
-                                'user_railway_hub_id' => $constructor->userRailwayEngine->userRailwayHub->id,
-                                'user_railway_ligne_id' => $constructor->userRailwayEngine->userRailwayLigne->id,
-                                'user_railway_engine_id' => $constructor->userRailwayEngine->id,
-                                'user_id' => $user->id,
-                            ]);
+                            try {
+                                $planning = $constructor->userRailwayEngine->plannings()->create([
+                                    'date_depart' => now()->setTime($constructor->start_at->hour, $constructor->start_at->minute),
+                                    'status' => 'initialized',
+                                    'kilometer' => $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->distance,
+                                    'date_arrived' => now()->setTime($constructor->end_at->hour, $constructor->end_at->minute),
+                                    'user_railway_hub_id' => $constructor->userRailwayEngine->userRailwayHub->id,
+                                    'user_railway_ligne_id' => $constructor->userRailwayEngine->userRailwayLigne->id,
+                                    'user_railway_engine_id' => $constructor->userRailwayEngine->id,
+                                    'user_id' => $user->id,
+                                ]);
 
-                            $planning->travel()->create([
-                                'ca_billetterie' => 0,
-                                'ca_other' => 0,
-                                'fee_electrique' => 0,
-                                'fee_gasoil' => 0,
-                                'fee_other' => 0,
-                                'railway_planning_id' => $planning->id,
-                            ]);
+                                $planning->travel()->create([
+                                    'ca_billetterie' => 0,
+                                    'ca_other' => 0,
+                                    'fee_electrique' => 0,
+                                    'fee_gasoil' => 0,
+                                    'fee_other' => 0,
+                                    'railway_planning_id' => $planning->id,
+                                ]);
 
-                            foreach ($planning->userRailwayLigne->railwayLigne->stations as $station) {
+                                foreach ($planning->userRailwayLigne->railwayLigne->stations as $station) {
 
-                                if ($station->gare->id == $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->start->id) {
-                                    $planning->stations()->create([
-                                        'name' => $station->gare->name,
-                                        'departure_at' => $planning->date_depart,
-                                        'arrival_at' => $planning->date_depart->subMinutes(2),
-                                        'railway_planning_id' => $planning->id,
-                                        'railway_ligne_station_id' => $station->id,
-                                    ]);
-                                } elseif ($station->gare->id == $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->end->id) {
-                                    $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
-                                    $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
-                                    $planning->stations()->create([
-                                        'name' => $station->gare->name,
-                                        'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
-                                        'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
-                                        'railway_planning_id' => $planning->id,
-                                        'railway_ligne_station_id' => $station->id,
-                                    ]);
-                                    $planning->update([
-                                        'date_arrived' => $previous_station->departure_at->addMinutes($station->time),
-                                    ]);
-                                } else {
-                                    $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
-                                    $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
-                                    $planning->stations()->create([
-                                        'name' => $station->gare->name,
-                                        'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
-                                        'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
-                                        'railway_planning_id' => $planning->id,
-                                        'railway_ligne_station_id' => $station->id,
-                                    ]);
+                                    if ($station->gare->id == $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->start->id) {
+                                        $planning->stations()->create([
+                                            'name' => $station->gare->name,
+                                            'departure_at' => $planning->date_depart,
+                                            'arrival_at' => $planning->date_depart->subMinutes(2),
+                                            'railway_planning_id' => $planning->id,
+                                            'railway_ligne_station_id' => $station->id,
+                                        ]);
+                                    } elseif ($station->gare->id == $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->end->id) {
+                                        $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
+                                        $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
+                                        $planning->stations()->create([
+                                            'name' => $station->gare->name,
+                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
+                                            'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
+                                            'railway_planning_id' => $planning->id,
+                                            'railway_ligne_station_id' => $station->id,
+                                        ]);
+                                        $planning->update([
+                                            'date_arrived' => $previous_station->departure_at->addMinutes($station->time),
+                                        ]);
+                                    } else {
+                                        $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
+                                        $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
+                                        $planning->stations()->create([
+                                            'name' => $station->gare->name,
+                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
+                                            'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
+                                            'railway_planning_id' => $planning->id,
+                                            'railway_ligne_station_id' => $station->id,
+                                        ]);
+                                    }
                                 }
+                            }catch (\Exception $exception) {
+                                (new ErrorDispatchHandle())->handle($exception);
                             }
                         }
                     }
@@ -364,7 +372,7 @@ class SystemActionCommand extends Command
             $price_parking = RailwaySetting::where('name', 'price_parking')->first()->value;
             $nb_passengers = 0;
 
-            foreach ($hub->plannings()->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])->get() as $planning) {
+            foreach ($hub->plannings()->whereBetween('date_depart', [now()->subDay()->startOfDay(), now()->subDay()->endOfDay()])->get() as $planning) {
                 $nb_passengers += $planning->passengers()->sum('nb_passengers');
             }
             $ca_parking = ($price_parking * 20) * $nb_passengers;
@@ -387,6 +395,13 @@ class SystemActionCommand extends Command
                 type: 'info',
                 message: "Le parking du hub {$hub->railwayHub->gare->name} vous à rapporter {$amount} aujourd'hui"
             ));
+        }
+    }
+
+    private function prlvImpot()
+    {
+        foreach (UserRailwayCompany::all() as $company) {
+            (new UserRailwayCompanyAction($company))->calcLatestImpot(now()->subDays(7), now()->subDay());
         }
     }
 }

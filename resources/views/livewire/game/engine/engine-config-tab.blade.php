@@ -42,7 +42,7 @@
                 <div class="col-sm-12 col-lg-9 mb-5">
                     <div class="d-flex flex-wrap border border-3 rounded-4 p-5 gap-5">
                         @if($engine->railwayEngine->type_transport->value == 'ter' || $engine->railwayEngine->type_transport->value == 'other')
-                            @for($p = 0; $p <= $engine->railwayEngine->technical->nb_marchandise; $p++)
+                            @for($p = 0; $p <= $engine->siege; $p++)
                                 <span class="bullet bg-color-ter h-10px w-10px"></span>
                             @endfor
                         @else
@@ -60,16 +60,16 @@
                         @if($engine->railwayEngine->type_transport->value == 'ter' || $engine->railwayEngine->type_transport->value == 'other')
                             <div class="d-flex align-items-center">
                                 <span class="bullet bullet-dot bg-color-ter h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Unique"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('second') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P</span>
                             </div>
                         @else
                             <div class="d-flex align-items-center mb-2">
                                 <span class="bullet bullet-dot bg-color-tgv h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Première"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('first') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('first') }} P</span>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <span class="bullet bullet-dot bg-color-ter h-15px w-15px me-2" data-bs-toggle="tooltip" data-bs-title="Seconde"></span>
-                                <span>{{ (new \App\Services\Models\Railway\Engine\RailwayEngineAction($engine->railwayEngine))->getComposition('second') }} P</span>
+                                <span>{{ (new \App\Services\Models\User\Railway\UserRailwayEngineAction($engine))->getComposition('second') }} P</span>
                             </div>
                         @endif
                     </div>

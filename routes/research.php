@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('research')->as('research.')->group(function () {
     Route::get('/', [ResearchController::class, 'index'])->name('index');
     Route::get('/infrastructure', [ResearchController::class, 'infrastructure'])->name('infrastructure');
+    Route::get('/train', [ResearchController::class, 'train'])->name('train');
 });

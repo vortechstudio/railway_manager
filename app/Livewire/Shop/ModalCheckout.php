@@ -29,7 +29,7 @@ class ModalCheckout extends Component
     public function passCheckout(int $item_id): void
     {
         $item = ShopItem::with('packages', 'shopCategory')->find($item_id);
-        match ($item->currency_type) {
+        match ($item->currency_type->value) {
             'argent' => $this->checkoutArgent($item),
             'tpoint' => $this->checkoutTpoint($item),
             'reel' => $this->checkoutReel($item),
@@ -38,7 +38,7 @@ class ModalCheckout extends Component
 
     public function checkoutTpoint(ShopItem $item): void
     {
-        if ($item->section == 'engine') {
+        if ($item->section->value == 'engine') {
             $engine = RailwayEngine::where('name', 'like', '%'.$item->name.'%')->first();
 
             // Ajout du matériel roulant dans le compte client
@@ -59,6 +59,18 @@ class ModalCheckout extends Component
                 $this->alert("Vous n'avez pas assez de Travel Point pour cette achat !");
             }
 
+            $this->dispatch('closeModal', 'modalCheckout');
+            $this->dispatch('showModalPassCheckout', [
+                'id' => 'modalPassCheckout',
+                'item' => $item,
+            ]);
+        }
+        if ($item->section->value == 'research_mat') {
+            if ((new CheckoutAction())->checkoutTpoint($item->price)) {
+                (new ShopFunctionAction())->executeResearchMat($item, $this->user);
+            } else {
+                $this->alert("Vous n'avez pas assez de Travel Point pour cette achat !");
+            }
             $this->dispatch('closeModal', 'modalCheckout');
             $this->dispatch('showModalPassCheckout', [
                 'id' => 'modalPassCheckout',
@@ -92,8 +104,9 @@ class ModalCheckout extends Component
 
     private function checkoutArgent(\Illuminate\Database\Eloquent\Model|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|ShopItem|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_C|\LaravelIdea\Helper\App\Models\Railway\Core\_IH_ShopItem_QB|null $item): void
     {
-        $function = match ($item->section) {
+        $function = match ($item->section->value) {
             'simulation' => (new ShopFunctionAction())->executeSimulation($item, $this->user),
+            'research_mat' => (new ShopFunctionAction())->executeResearchMat($item, $this->user)
         };
 
         if ($function) {
