@@ -106,6 +106,8 @@ class LigneCheckout extends Component
                 user_railway_hub_id: $this->selectedHubValue,
             );
 
+            $min_p = $this->ligne->distance + ($this->ligne->distance * auth()->user()->railway_company->tarification / 100);
+            $max_p_init = $min_p + rand(50,150);
             $userLigne = auth()->user()->userRailwayLigne()->create([
                 'date_achat' => Carbon::now(),
                 'nb_depart_jour' => 0,
@@ -115,8 +117,10 @@ class LigneCheckout extends Component
                 'railway_ligne_id' => $this->railway_ligne_id,
                 'user_railway_engine_id' => null,
                 'user_id' => auth()->user()->id,
+                'min_passengers' => $min_p,
+                'max_passengers' => $max_p_init + ($max_p_init * auth()->user()->railway_company->tarification / 100)
             ]);
-            $userLigne->update(['nb_depart_jour' => rand(4, 9)]);
+            $userLigne->update(['nb_depart_jour' => $this->calculateDailyDeparture($this->ligne->time_min, $this->ligne->type->value)]);
 
             $delivery = auth()->user()->userRailwayDelivery()->create([
                 'type' => 'ligne',
@@ -149,5 +153,28 @@ class LigneCheckout extends Component
             'cancelButtonText' => 'Annuler',
             'cancelButtonColor' => '#ef5350',
         ]);
+    }
+
+    /**
+     * Calculate the number of daily departures based on the minimum time and type of transport.
+     *
+     * @param mixed $timeMin The minimum time in minutes
+     * @param string $type_transport The type of transport
+     * @return int The number of daily departures
+     */
+    private function calculateDailyDeparture(mixed $timeMin, string $type_transport): int
+    {
+        $preparationTime = [
+            'ter' => 0,
+            'tgv' => 30,
+            'intercity' => 30,
+            'tram' => 0,
+            'transilien' => 10,
+            'metro' => 0,
+            'other' => 0
+        ];
+
+        $totalTime = $timeMin + ($timeMin/2) + $preparationTime[$type_transport];
+        return floor(1440 / $totalTime);
     }
 }
