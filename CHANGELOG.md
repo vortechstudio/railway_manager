@@ -1,3 +1,30 @@
+# [0.18.0](https://github.com/vortechstudio/railway_manager/compare/v0.17.0...v0.18.0) (2024-07-01)
+
+
+### Bug Fixes
+
+* **Engine:** Ajout de la méthode getComposition et changement de référence d'objet ([9524ab6](https://github.com/vortechstudio/railway_manager/commit/9524ab6644b2c02748959286dd10d5da9e79a003))
+* **Engine:** Modification de la gestion de demande potentielle ([9af0ffd](https://github.com/vortechstudio/railway_manager/commit/9af0ffd3496a31dbddc8a22a1ee17613834810e6))
+* **Network Planning:** Modifie calcul taxe passage gare et frais autres ([2b82211](https://github.com/vortechstudio/railway_manager/commit/2b82211aced907ee05999f47105798fcbcd7c887))
+* **Network:** Ajout de carte et déplacement de scripts mapLigne ([5dee0f1](https://github.com/vortechstudio/railway_manager/commit/5dee0f1482d993187279cb466bcb44d8f5b394ba))
+* **Network:** Amélioration de l'affichage et mise à jour des dépendances ([414e471](https://github.com/vortechstudio/railway_manager/commit/414e471904ed663a8754186947689a7ddcabe2b7))
+* **Network:** Optimise la gestion des passagers dans le planning ([91e5d4d](https://github.com/vortechstudio/railway_manager/commit/91e5d4d6a6452260e089f9c18f5d8f69efe9b0d5))
+
+
+### Features
+
+* **Engine:** Amélioration du visuel récapitulatif d'achat de matériel ([984b89b](https://github.com/vortechstudio/railway_manager/commit/984b89b5484ba85505b9e4433023d714526ba345))
+* **Finance Comptabilité:** Ajouter calcul des montants Produit et Charge pour chaque période mensuelle ([83c6bc2](https://github.com/vortechstudio/railway_manager/commit/83c6bc209b4bee889067e65b324f823a7535a5aa))
+* **Finance:** Ajout d'emprunt express et modèle d'emprunt utilisateur ([8701e06](https://github.com/vortechstudio/railway_manager/commit/8701e06a2f5e588ee2c00b7231fe3261814c2388))
+* **Finance:** Ajout des fonctions bancaires et des emprunts ([0e32414](https://github.com/vortechstudio/railway_manager/commit/0e324148f9b14b95236b59f48c95d396b2aa859a))
+* **Finance:** Ajout du formulaire de remboursement et fonctions associées ([2770744](https://github.com/vortechstudio/railway_manager/commit/2770744f06f7b6140f7ee4348bd66e367ea8fa08))
+* **Finance:** Ajoute un tableau de suivi financier ([e720d8b](https://github.com/vortechstudio/railway_manager/commit/e720d8bc88ac69e78428c7734c409e96bc974f6f))
+* **LigneCheckout:** Ajoute calcul de passagers et départs quotidiens ([e3d6bd3](https://github.com/vortechstudio/railway_manager/commit/e3d6bd35c8965d3b1c02702efa3fd41cec4fff2b))
+* **R&D:** Ajoute gestion des améliorations pour rames et gestion des points de recherche ([5a0b298](https://github.com/vortechstudio/railway_manager/commit/5a0b298189410e8b3a2bdff41ab0729ae7c5f24c))
+* **Research:** Ajout vue et route pour amélioration du matériel roulant ([aa21cd7](https://github.com/vortechstudio/railway_manager/commit/aa21cd78fe81084e5fe9f5a539333586639a5c23))
+* **Service:** Ajout du module de service ([f4a5b4d](https://github.com/vortechstudio/railway_manager/commit/f4a5b4da6db674d9fbd5c8fd94df01fd02ec6591))
+* Update multiple game features and dependencies ([8849ecb](https://github.com/vortechstudio/railway_manager/commit/8849ecba57b083d6beb36f1cd6864d758e4c8bcc))
+
 # [0.17.0](https://github.com/vortechstudio/railway_manager/compare/v0.16.0...v0.17.0) (2024-06-16)
 
 
