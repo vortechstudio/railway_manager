@@ -367,7 +367,7 @@ class SystemActionCommand extends Command
             $price_parking = RailwaySetting::where('name', 'price_parking')->first()->value;
             $nb_passengers = 0;
 
-            foreach ($hub->plannings()->whereBetween('date_depart', [now()->startOfDay(), now()->endOfDay()])->get() as $planning) {
+            foreach ($hub->plannings()->whereBetween('date_depart', [now()->subDay()->startOfDay(), now()->subDay()->endOfDay()])->get() as $planning) {
                 $nb_passengers += $planning->passengers()->sum('nb_passengers');
             }
             $ca_parking = ($price_parking * 20) * $nb_passengers;
