@@ -196,100 +196,87 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body" x-data="{daySelected: 'today'}">
-                <div class="d-flex">
-                    <div class="form-check form-check-custom form-check-solid form-check-inline">
-                        <input class="form-check-input" x-model="daySelected" name="daySelected" value="today" type="radio" checked/>
-                        <label class="form-check-label" for="today">
-                            Aujourd'hui
-                        </label>
+            <div class="card-body">
+                @if($ligne->railwayLigne->type->value == 'tgv' || $ligne->railwayLigne->type->value == 'intercity')
+                    @php
+                    $first = $ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::today())->where('type_tarif', 'first')->first();
+                    $second = $ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::today())->where('type_tarif', 'second')->first();
+                    @endphp
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6 mb-5">
+                            <div class="d-flex flex-column bg-red-300 text-white border border-2 rounded p-5">
+                                <div class="d-flex flex-row justify-content-between align-items-center p-5">
+                                    <span class="fw-bold fs-3">1ere Classe</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Demande</span>
+                                    <span class="fw-bold">{{ $first->demande }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Offre</span>
+                                    <span class="fw-bold">{{ $first->offre }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Tarif Actuel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($first->price) }}</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>CA Prévisionnel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($first->price * $first->demande) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 mb-5">
+                            <div class="d-flex flex-column bg-green-300 text-white border border-2 rounded p-5">
+                                <div class="d-flex flex-row justify-content-between align-items-center p-5">
+                                    <span class="fw-bold fs-3">2eme Classe</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Demande</span>
+                                    <span class="fw-bold">{{ $second->demande }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Offre</span>
+                                    <span class="fw-bold">{{ $second->offre }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Tarif Actuel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($second->price) }}</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>CA Prévisionnel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($second->price * $second->demande) }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check form-check-custom form-check-solid form-check-inline">
-                        <input class="form-check-input" x-model="daySelected" name="daySelected" value="yesterday" type="radio" />
-                        <label class="form-check-label" for="yesterday">
-                            Hier
-                        </label>
+                @else
+                    @php
+                    $second = $ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::today())->where('type_tarif', 'unique')->first();
+                    @endphp
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6 mb-5">
+                            <div class="d-flex flex-column bg-blue-300 text-white border border-2 rounded p-5">
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Demande</span>
+                                    <span class="fw-bold">{{ $second->demande }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Offre</span>
+                                    <span class="fw-bold">{{ $second->offre }} P</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>Tarif Actuel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($second->price) }}</span>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between align-items-center p-3">
+                                    <span>CA Prévisionnel</span>
+                                    <span class="fw-bold">{{ Helpers::eur($second->price * $second->demande) }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <table class="table table table-row-bordered table-row-gray-800 rounded-4 bg-gray-400 table-striped gap-5 gs-5 gy-5 gx-5 align-middle mb-10">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            @if($ligne->railwayLigne->type->value == 'ter')
-                                <th>Classe Unique</th>
-                            @else
-                                <th>Première Classe</th>
-                                <th>Seconde Classe</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody x-show="daySelected === 'today'">
-                        @foreach($ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::today())->get() as $tarif)
-                            <tr>
-                                <td>Demande</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ $tarif->demande }} P</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->demande : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->demande : '' }}</td>
-                                @endif
-                            </tr>
-                            <tr>
-                                <td>Offre</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ $tarif->offre }} P</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->offre : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->offre : '' }}</td>
-                                @endif
-                            </tr>
-                            <tr>
-                                <td>Prix Moyen</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) }}</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
-                                @endif
-                            </tr>
-                        @endforeach
-                        </tbody>
-                        <tbody x-show="daySelected === 'yesterday'">
-                        @foreach($ligne->tarifs()->whereDate('date_tarif', \Carbon\Carbon::yesterday())->get() as $tarif)
-                            <tr>
-                                <td>Demande</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ $tarif->demande }} P</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->demande : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->demande : '' }}</td>
-                                @endif
-                            </tr>
-                            <tr>
-                                <td>Offre</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ $tarif->offre }} P</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? $tarif->offre : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? $tarif->offre : '' }}</td>
-                                @endif
-                            </tr>
-                            <tr>
-                                <td>Prix Moyen</td>
-                                @if($ligne->railwayLigne->type->value == 'ter')
-                                    <td>{{ \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) }}</td>
-                                @else
-                                    <td>{{ $tarif->type_tarif->value == 'first' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
-                                    <td>{{ $tarif->type_tarif->value == 'second' ? \Vortechstudio\Helpers\Facades\Helpers::eur($tarif->price) : '' }}</td>
-                                @endif
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-
+                @endif
             </div>
         </div>
         <div class="card shadow-sm mb-5">
@@ -302,9 +289,9 @@
                 </div>
                 <div class="card-toolbar">
                     <a href="" class="btn btn-flex bg-orange-600 bg-hover-warning">
-                                            <span class="symbol symbol-35px me-2">
-                                                <img src="{{ Storage::url('icons/railway/accounting.png') }}" alt="">
-                                            </span>
+                        <span class="symbol symbol-35px me-2">
+                            <img src="{{ Storage::url('icons/railway/accounting.png') }}" alt="">
+                        </span>
                         <span class="text-white">Détail comptable</span>
                     </a>
                 </div>
