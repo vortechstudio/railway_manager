@@ -10,7 +10,7 @@ class HubController extends Controller
 {
     public function show(int $hub_id)
     {
-        $hub = UserRailwayHub::find($hub_id);
+        $hub = UserRailwayHub::with('userRailwayLigne', 'userRailwayLigne.railwayLigne', 'userRailwayLigne.railwayLigne.stations', 'userRailwayLigne.railwayLigne.stations.gare')->find($hub_id);
 
         return view('games.network.hub.index', [
             'hub' => $hub,

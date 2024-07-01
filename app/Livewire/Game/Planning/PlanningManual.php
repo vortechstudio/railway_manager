@@ -43,6 +43,19 @@ class PlanningManual extends Component
 
                 if ($heure_depart >= $first->start_at && $heure_depart <= $last->end_at || in_array($this->day, json_decode($first->day_of_week))) {
                     $this->alert('error', 'Le planning est déjà disponible');
+                } else {
+                    RailwayPlanningConstructor::create([
+                        'start_at' => $heure_depart,
+                        'end_at' => $heure_arrive,
+                        'day_of_week' => json_encode($this->day),
+                        'user_id' => auth()->user()->id,
+                        'user_railway_engine_id' => $engine->id,
+                        'repeat' => (bool) $this->repeat,
+                        'repeat_end_at' => $this->calcEndAtFromWeek(),
+                    ]);
+
+                    $this->alert('success', 'Planning enregistré');
+                    $this->dispatch('closeModal', 'newPlanning');
                 }
             } else {
                 RailwayPlanningConstructor::create([

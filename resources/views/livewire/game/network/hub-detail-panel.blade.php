@@ -1,8 +1,5 @@
 <div>
     <div class="row">
-        <div class="col-sm-12 col-lg-9 mb-5">
-            <livewire:game.core.map type="hub" :user_hub_id="$hub->id"/>
-        </div>
         <div class="col-sm-12 col-lg-3 mb-5">
             @php
                 use Illuminate\Database\Eloquent\Builder;$planning = $hub->plannings()

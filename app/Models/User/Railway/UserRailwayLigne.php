@@ -25,6 +25,7 @@ class UserRailwayLigne extends Model
     protected $appends = [
         'ratio_performance',
         'flux_market',
+        'next_departure'
     ];
 
     public function userRailwayHub(): BelongsTo
@@ -70,6 +71,13 @@ class UserRailwayLigne extends Model
     public function getFluxMarketAttribute()
     {
         return (new UserRailwayLigneAction($this))->getActualFluctuation();
+    }
+
+    public function getNextDepartureAttribute()
+    {
+        return $this->plannings()
+            ->where('date_depart', '>', now())
+            ->first();
     }
 
     public function getCA(?Carbon $from = null, ?Carbon $to = null)
