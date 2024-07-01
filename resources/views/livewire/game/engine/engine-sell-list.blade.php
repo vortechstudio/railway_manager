@@ -112,7 +112,7 @@
                                 <div class="col-sm-12 col-lg-6 mb-5">
                                     <div class="d-flex justify-content-between bg-white rounded-2 p-5 mb-1">
                                         <span>Demande Potentiel</span>
-                                        <span>{{ $potentialDemande }} P</span>
+                                        <span>{{ $potentialDemande[0] }} ~ {{ $potentialDemande[1] }} P</span>
                                     </div>
                                     <div class="d-flex justify-content-between bg-white rounded-2 p-5 mb-1">
                                         <span>Distance</span>

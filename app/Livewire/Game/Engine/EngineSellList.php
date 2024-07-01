@@ -48,7 +48,7 @@ class EngineSellList extends Component
     public UserRailwayLigne $userRailwayLigne;
 
     public $price_order;
-    public int $potentialDemande = 0;
+    public array $potentialDemande = [];
 
     public function mount(): void
     {
@@ -97,12 +97,12 @@ class EngineSellList extends Component
         $prix_kilometer = RailwaySetting::where('name', 'price_kilometer')->first()->value;
         $prix_electrique = RailwaySetting::where('name', 'price_electricity')->first()->value;
         $energie =($this->userRailwayLigne->railwayLigne->distance * $prix_kilometer) + ($this->userRailwayLigne->railwayLigne->time_min / 60) * ($prix_electrique) / $this->userRailwayLigne->user->railway_company->frais;
-        $this->potentialDemande = intval(($avgPlace * auth()->user()->railway_company->tarification) * ($energie / 5) / $this->userRailwayLigne->railwayLigne->stations()->count());
+        $this->potentialDemande = [$this->userRailwayLigne->min_passengers, $this->userRailwayLigne->max_passengers];
 
         $this->engines = $this->query()
             ->when($this->user_railway_ligne_id, function (Builder $query) {
                 $query->join('railway_engine_technicals', 'railway_engine_technicals.railway_engine_id', '=', 'railway_engines.id')
-                    ->where('railway_engine_technicals.nb_marchandise', '<=', $this->potentialDemande);
+                    ->whereBetween('railway_engine_technicals.nb_marchandise', [$this->userRailwayLigne->min_passengers, $this->userRailwayLigne->max_passengers]);
             })
             ->get();
     }
