@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e896c0f75ddb0e4e62546e10a2648ec",
+    "content-hash": "3df66fd360e4bae5373351f039b57972",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -2017,25 +2017,25 @@
         },
         {
             "name": "ivanomatteo/laravel-device-tracking",
-            "version": "0.2.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ivanomatteo/laravel-device-tracking.git",
-                "reference": "10c28802956b7ad5b4d98a4ad454007bb2fc2602"
+                "reference": "ecdce9c07846761a4bf360d909868ba43684afdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivanomatteo/laravel-device-tracking/zipball/10c28802956b7ad5b4d98a4ad454007bb2fc2602",
-                "reference": "10c28802956b7ad5b4d98a4ad454007bb2fc2602",
+                "url": "https://api.github.com/repos/ivanomatteo/laravel-device-tracking/zipball/ecdce9c07846761a4bf360d909868ba43684afdb",
+                "reference": "ecdce9c07846761a4bf360d909868ba43684afdb",
                 "shasum": ""
             },
             "require": {
-                "hisorange/browser-detect": "^4.2",
-                "php": ">=7.1"
+                "hisorange/browser-detect": "^4.5",
+                "php": ">=8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^4.0",
-                "phpunit/phpunit": "^8.0"
+                "orchestra/testbench": "^7.15",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "extra": {
@@ -2044,7 +2044,7 @@
                         "IvanoMatteo\\LaravelDeviceTracking\\LaravelDeviceTrackingServiceProvider"
                     ],
                     "aliases": {
-                        "DeviceTracker": "IvanoMatteo\\LaravelDeviceTracking\\LaravelDeviceTrackingFacade"
+                        "DeviceTracker": "IvanoMatteo\\LaravelDeviceTracking\\Facades\\DeviceTracker"
                     }
                 }
             },
@@ -2072,9 +2072,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ivanomatteo/laravel-device-tracking/issues",
-                "source": "https://github.com/ivanomatteo/laravel-device-tracking/tree/0.2.1"
+                "source": "https://github.com/ivanomatteo/laravel-device-tracking/tree/1.0.0"
             },
-            "time": "2022-06-13T10:45:07+00:00"
+            "time": "2024-06-19T15:18:05+00:00"
         },
         {
             "name": "jantinnerezo/livewire-alert",
@@ -4281,16 +4281,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.0.2",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13"
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/139676794dc1e9231bf7bcd123cfc0c99182cb13",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/683130c2ff8c2739f4822ff7ac5c873ec529abd1",
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1",
                 "shasum": ""
             },
             "require": {
@@ -4301,7 +4301,7 @@
             },
             "require-dev": {
                 "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -4333,9 +4333,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.1.0"
             },
-            "time": "2024-03-05T20:51:40+00:00"
+            "time": "2024-07-01T20:03:41+00:00"
         },
         {
             "name": "nunomaduro/termwind",
@@ -8265,16 +8265,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v14.10.0",
+            "version": "v15.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30"
+                "reference": "96f0dbe9c2b5365d716f86d92a27feecca2cbaee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30",
-                "reference": "7e1c4b5d2beadeaeddc42fd1f8a50fdb18b37f30",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/96f0dbe9c2b5365d716f86d92a27feecca2cbaee",
+                "reference": "96f0dbe9c2b5365d716f86d92a27feecca2cbaee",
                 "shasum": ""
             },
             "require": {
@@ -8318,9 +8318,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v14.10.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v15.0.0"
             },
-            "time": "2024-06-13T21:04:47+00:00"
+            "time": "2024-06-24T23:05:11+00:00"
         },
         {
             "name": "symfony/cache",
@@ -11549,7 +11549,7 @@
         },
         {
             "name": "web-token/jwt-key-mgmt",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-key-mgmt.git",
@@ -11604,7 +11604,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-key-mgmt/tree/3.4.4"
+                "source": "https://github.com/web-token/jwt-key-mgmt/tree/4.0.0"
             },
             "funding": [
                 {
@@ -11617,16 +11617,16 @@
         },
         {
             "name": "web-token/jwt-library",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-library.git",
-                "reference": "48cb17a2c3622ffab69f0d48753e132e1cf23ba6"
+                "reference": "f2907a7eed557c7104cf9a04b20a411357471a35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-library/zipball/48cb17a2c3622ffab69f0d48753e132e1cf23ba6",
-                "reference": "48cb17a2c3622ffab69f0d48753e132e1cf23ba6",
+                "url": "https://api.github.com/repos/web-token/jwt-library/zipball/f2907a7eed557c7104cf9a04b20a411357471a35",
+                "reference": "f2907a7eed557c7104cf9a04b20a411357471a35",
                 "shasum": ""
             },
             "require": {
@@ -11699,7 +11699,7 @@
             ],
             "support": {
                 "issues": "https://github.com/web-token/jwt-library/issues",
-                "source": "https://github.com/web-token/jwt-library/tree/3.4.4"
+                "source": "https://github.com/web-token/jwt-library/tree/3.4.5"
             },
             "funding": [
                 {
@@ -11711,11 +11711,11 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-06-24T16:31:57+00:00"
+            "time": "2024-07-02T16:12:18+00:00"
         },
         {
             "name": "web-token/jwt-signature",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature.git",
@@ -11767,7 +11767,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature/tree/3.4.4"
+                "source": "https://github.com/web-token/jwt-signature/tree/4.0.0"
             },
             "funding": [
                 {
@@ -11780,7 +11780,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-ecdsa",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-ecdsa.git",
@@ -11833,7 +11833,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature-algorithm-ecdsa/tree/3.4.4"
+                "source": "https://github.com/web-token/jwt-signature-algorithm-ecdsa/tree/3.4.5"
             },
             "funding": [
                 {
@@ -11846,7 +11846,7 @@
         },
         {
             "name": "web-token/jwt-util-ecc",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-util-ecc.git",
@@ -11899,7 +11899,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-util-ecc/tree/3.4.4"
+                "source": "https://github.com/web-token/jwt-util-ecc/tree/4.0.0"
             },
             "funding": [
                 {
@@ -13173,16 +13173,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.5",
+            "version": "1.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443"
+                "reference": "6ac78f1165346c83b4a753f7e4186d969c6ad0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/490f0ae1c92b082f154681d7849aee776a7c1443",
-                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6ac78f1165346c83b4a753f7e4186d969c6ad0ee",
+                "reference": "6ac78f1165346c83b4a753f7e4186d969c6ad0ee",
                 "shasum": ""
             },
             "require": {
@@ -13227,7 +13227,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-17T15:10:54+00:00"
+            "time": "2024-07-01T15:33:06+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
