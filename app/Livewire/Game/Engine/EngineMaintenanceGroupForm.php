@@ -4,6 +4,7 @@ namespace App\Livewire\Game\Engine;
 
 use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
+use App\Actions\Railway\CheckoutAction;
 use App\Jobs\MaintenanceJob;
 use App\Livewire\Core\Toolbar;
 use App\Services\Models\User\Railway\UserRailwayEngineAction;
@@ -112,33 +113,43 @@ class EngineMaintenanceGroupForm extends Component
                 $eng = auth()->user()->railway_engines()->find($engine);
                 $start_at = now();
                 $end_at = $eng->railwayEngine->duration_maintenance->diffInMinutes(now());
+                $amount_acompte = $this->totalAmount * 30 / 100;
 
-                $tech = $eng->technicentres()->create([
-                    'type' => $this->type,
-                    'start_at' => $start_at,
-                    'end_at' => $start_at->addMinutes($end_at),
-                    'user_railway_engine_id' => $engine,
-                    'user_id' => auth()->id(),
-                    'status' => 'progressed',
-                    'amount_du' => $this->totalAmount * 70 / 100,
-                ]);
+                if(!(new CheckoutAction())->checkoutArgent($amount_acompte)) {
+                    $this->alert('error', 'Argent Insuffisant', [
+                        'title' => 'Argent Insuffisant',
+                        'text' => "Votre Solde ne permet pas le lancement de la maintenance !",
+                        'toast' => false,
+                        'position' => 'center',
+                    ]);
+                } else {
+                    $tech = $eng->technicentres()->create([
+                        'type' => $this->type,
+                        'start_at' => $start_at,
+                        'end_at' => $start_at->addMinutes($end_at),
+                        'user_railway_engine_id' => $engine,
+                        'user_id' => auth()->id(),
+                        'status' => 'progressed',
+                        'amount_du' => $this->totalAmount * 70 / 100,
+                    ]);
 
-                (new Compta())->create(
-                    user: auth()->user(),
-                    title: 'Acompte sur maintenance',
-                    amount: $this->totalAmount * 30 / 100,
-                    type_amount: 'charge',
-                    type_mvm: 'maintenance_engine',
-                    valorisation: false,
-                    user_railway_ligne_id: $eng->userRailwayLigne->id,
-                    user_railway_hub_id: $eng->userRailwayHub->id,
-                );
-                dispatch(new MaintenanceJob($tech, $this->totalAmount * 70 / 100))->delay($start_at->addMinutes($end_at));
-                $this->alert('success', 'La maintenance des rames à bien été programmer');
-                $this->redirectRoute('technicentre.index');
-                $this->dispatch('refreshComponent')->to(EngineMaintenance::class);
-                $this->dispatch('refreshToolbar')->to(Toolbar::class);
-                $this->dispatch('closeModal', 'repair');
+                    (new Compta())->create(
+                        user: auth()->user(),
+                        title: 'Acompte sur maintenance',
+                        amount: $this->totalAmount * 30 / 100,
+                        type_amount: 'charge',
+                        type_mvm: 'maintenance_engine',
+                        valorisation: false,
+                        user_railway_ligne_id: $eng->userRailwayLigne->id,
+                        user_railway_hub_id: $eng->userRailwayHub->id,
+                    );
+                    dispatch(new MaintenanceJob($tech, $this->totalAmount * 70 / 100))->delay($start_at->addMinutes($end_at));
+                    $this->alert('success', 'La maintenance des rames à bien été programmer');
+                    $this->redirectRoute('technicentre.index');
+                    $this->dispatch('refreshComponent')->to(EngineMaintenance::class);
+                    $this->dispatch('refreshToolbar')->to(Toolbar::class);
+                    $this->dispatch('closeModal', 'repair');
+                }
             }
         } catch (\Exception $exception) {
             (new ErrorDispatchHandle())->handle($exception);

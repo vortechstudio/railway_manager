@@ -4,6 +4,7 @@ namespace App\Livewire\Game\Engine;
 
 use App\Actions\Compta;
 use App\Actions\ErrorDispatchHandle;
+use App\Actions\Railway\CheckoutAction;
 use App\Actions\Railway\EngineAction;
 use App\Jobs\DeliveryJob;
 use App\Models\Railway\Config\RailwaySetting;
@@ -155,55 +156,64 @@ class EngineSellList extends Component
     public function confirmed(): void
     {
         try {
-            (new Compta())->create(
-                user: auth()->user(),
-                title: "Achat de matériel roulant: x{$this->qte} {$this->engineData->name}",
-                amount: $this->globalAmount,
-                type_amount: 'charge',
-                type_mvm: 'achat_materiel',
-                user_railway_hub_id: $this->user_railway_hub_id,
-            );
-            $hub = UserRailwayHub::find($this->user_railway_hub_id);
-
-            for ($i = 1; $i <= $this->qte; $i++) {
-                $user_engine = auth()->user()->railway_engines()->create([
-                    'number' => (new EngineAction())->generateMissionCode($this->engineData, $hub),
-                    'max_runtime' => (new RailwayEngineAction($this->engineData))->maxRuntime(),
-                    'available' => true,
-                    'date_achat' => now(),
-                    'user_id' => auth()->user()->id,
-                    'railway_engine_id' => $this->engineData->id,
-                    'user_railway_hub_id' => $this->user_railway_hub_id,
-                    'status' => 'free',
-                    'siege' => $this->engineData->technical->nb_marchandise
+            if(!(new CheckoutAction())->checkoutArgent($this->globalAmount)) {
+                $this->alert('error', 'Argent Insuffisant', [
+                    'title' => 'Argent Insuffisant',
+                    'text' => "Votre Solde ne permet pas l'achat de cette rame !",
+                    'toast' => false,
+                    'position' => 'center',
                 ]);
+            } else {
+                (new Compta())->create(
+                    user: auth()->user(),
+                    title: "Achat de matériel roulant: x{$this->qte} {$this->engineData->name}",
+                    amount: $this->globalAmount,
+                    type_amount: 'charge',
+                    type_mvm: 'achat_materiel',
+                    user_railway_hub_id: $this->user_railway_hub_id,
+                );
+                $hub = UserRailwayHub::find($this->user_railway_hub_id);
 
-                $r = rand(15, 30);
-                $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
+                for ($i = 1; $i <= $this->qte; $i++) {
+                    $user_engine = auth()->user()->railway_engines()->create([
+                        'number' => (new EngineAction())->generateMissionCode($this->engineData, $hub),
+                        'max_runtime' => (new RailwayEngineAction($this->engineData))->maxRuntime(),
+                        'available' => true,
+                        'date_achat' => now(),
+                        'user_id' => auth()->user()->id,
+                        'railway_engine_id' => $this->engineData->id,
+                        'user_railway_hub_id' => $this->user_railway_hub_id,
+                        'status' => 'free',
+                        'siege' => $this->engineData->technical->nb_marchandise
+                    ]);
 
-                $delivery = auth()->user()->userRailwayDelivery()->create([
-                    'type' => 'engine',
-                    'designation' => "Rame: {$this->engineData->name}",
-                    'start_at' => now(),
-                    'end_at' => $end_at,
-                    'user_id' => auth()->id(),
-                    'model' => UserRailwayEngine::class,
-                    'model_id' => $user_engine->id,
+                    $r = rand(15, 30);
+                    $end_at = now()->addMinutes($r - ($r * auth()->user()->railway_company->livraison / 100));
+
+                    $delivery = auth()->user()->userRailwayDelivery()->create([
+                        'type' => 'engine',
+                        'designation' => "Rame: {$this->engineData->name}",
+                        'start_at' => now(),
+                        'end_at' => $end_at,
+                        'user_id' => auth()->id(),
+                        'model' => UserRailwayEngine::class,
+                        'model_id' => $user_engine->id,
+                    ]);
+
+                    dispatch(new DeliveryJob($delivery));
+                }
+
+                $this->dispatch('refreshToolbar');
+                $this->alert('success', "L'achat a bien été effectué.<br />N'oubliez pas d'assigner cette rame à une ligne.", [
+                    'showConfirmButton' => true,
+                    'confirmButtonText' => 'OK',
+                    'onConfirmed' => 'redirect',
+                    'toast' => false,
+                    'allowOutsideClick' => false,
+                    'timer' => null,
+                    'position' => 'center',
                 ]);
-
-                dispatch(new DeliveryJob($delivery));
             }
-
-            $this->dispatch('refreshToolbar');
-            $this->alert('success', "L'achat a bien été effectué.<br />N'oubliez pas d'assigner cette rame à une ligne.", [
-                'showConfirmButton' => true,
-                'confirmButtonText' => 'OK',
-                'onConfirmed' => 'redirect',
-                'toast' => false,
-                'allowOutsideClick' => false,
-                'timer' => null,
-                'position' => 'center',
-            ]);
         } catch (\Exception $e) {
             (new ErrorDispatchHandle())->handle($e);
         }
