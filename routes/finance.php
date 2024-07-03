@@ -17,6 +17,7 @@ Route::prefix('finance')->as('finance.')->group(function () {
     Route::get('/', \App\Http\Controllers\Finance\FinanceController::class)->name('index');
     Route::prefix('bank')->as('bank.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Finance\BanqueController::class, 'index'])->name('index');
+        Route::get('/subscribe', [\App\Http\Controllers\Finance\BanqueController::class, 'subscribe'])->name('subscribe');
         Route::get('/{id}', [\App\Http\Controllers\Finance\BanqueController::class, 'show'])->name('show');
         Route::get('/{id}/emprunt/{emprunt_id}/repay', [\App\Http\Controllers\Finance\BanqueController::class, 'repay'])->name('repay');
     });

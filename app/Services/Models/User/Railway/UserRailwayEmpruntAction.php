@@ -56,4 +56,36 @@ class UserRailwayEmpruntAction
             },
         };
     }
+
+    public function restPendingExpress(int $banque_id)
+    {
+        $banque = RailwayBanque::find($banque_id);
+        $pending = auth()->user()->railway->userRailwayEmprunts
+            ->where('status', 'pending')
+            ->where('type_emprunt', 'express')
+            ->where('railway_banque_id', $banque_id)
+            ->sum('amount_emprunt');
+        $charge = auth()->user()->railway->userRailwayEmprunts
+            ->where('status', 'pending')
+            ->where('type_emprunt', 'express')
+            ->where('railway_banque_id', $banque_id)
+            ->sum('charge');
+        return $banque->express_base - ($pending - $charge);
+    }
+
+    public function restPendingMarket(int $banque_id)
+    {
+        $banque = RailwayBanque::find($banque_id);
+        $pending = auth()->user()->railway->userRailwayEmprunts
+            ->where('status', 'pending')
+            ->where('type_emprunt', 'marche')
+            ->where('railway_banque_id', $banque_id)
+            ->sum('amount_emprunt');
+        $charge = auth()->user()->railway->userRailwayEmprunts
+            ->where('status', 'pending')
+            ->where('type_emprunt', 'marche')
+            ->where('railway_banque_id', $banque_id)
+            ->sum('charge');
+        return $banque->public_base - ($pending - $charge);
+    }
 }
