@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use IvanoMatteo\LaravelDeviceTracking\Traits\UseDevices;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
 use NotificationChannels\WebPush\HasPushSubscriptions;
@@ -36,7 +37,7 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable
 {
-    use AuthenticationLoggable, HasApiTokens, HasFactory, HasPushSubscriptions, Notifiable;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, HasPushSubscriptions, Notifiable, UseDevices;
 
     protected $connection = 'mysql';
 
