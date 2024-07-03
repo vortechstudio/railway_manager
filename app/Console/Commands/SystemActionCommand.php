@@ -141,10 +141,9 @@ class SystemActionCommand extends Command
                                         ]);
                                     } elseif ($station->gare->id == $constructor->userRailwayEngine->userRailwayLigne->railwayLigne->end->id) {
                                         $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
-                                        $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
                                         $planning->stations()->create([
                                             'name' => $station->gare->name,
-                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
+                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + 4),
                                             'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
                                             'railway_planning_id' => $planning->id,
                                             'railway_ligne_station_id' => $station->id,
@@ -154,10 +153,9 @@ class SystemActionCommand extends Command
                                         ]);
                                     } else {
                                         $previous_station = $planning->stations()->orderBy('id', 'desc')->first();
-                                        $arrival_at = (new RailwayLigneStationAction($station))->timeStopStation();
                                         $planning->stations()->create([
                                             'name' => $station->gare->name,
-                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + $arrival_at),
+                                            'departure_at' => $previous_station->arrival_at->addMinutes($station->time + 4),
                                             'arrival_at' => $previous_station->departure_at->addMinutes($station->time),
                                             'railway_planning_id' => $planning->id,
                                             'railway_ligne_station_id' => $station->id,
