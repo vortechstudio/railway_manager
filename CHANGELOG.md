@@ -1,3 +1,13 @@
+## [0.18.1](https://github.com/vortechstudio/railway_manager/compare/v0.18.0...v0.18.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* **Finance:** Restructuration du système bancaire. ([f6db1ec](https://github.com/vortechstudio/railway_manager/commit/f6db1ec0f0ca5c74795cf58f8a521bef669733f9))
+* **General:** Ajout vérification solde pour achat et maintenance ([8a9caf2](https://github.com/vortechstudio/railway_manager/commit/8a9caf2da669d78a195ee4029cd64e16e855a0f4))
+* **General:** Remplace temps d'arrêt par valeur fixe lors de l'élaboration des plannings journaliers ([a40885a](https://github.com/vortechstudio/railway_manager/commit/a40885a1b1171d09aec8154fd6d6348f910c6f08))
+* **Network:** Ajoute condition utilisation à 100% pour engine ([30a1e8d](https://github.com/vortechstudio/railway_manager/commit/30a1e8dfd6f40d7fc6a041d4aa993576eb4b601e))
+
 # [0.18.0](https://github.com/vortechstudio/railway_manager/compare/v0.17.0...v0.18.0) (2024-07-01)
 
 
