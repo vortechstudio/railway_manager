@@ -12,6 +12,11 @@ class BanqueController extends Controller
         return view('games.finance.banque.index');
     }
 
+    public function subscribe()
+    {
+        return view('games.finance.banque.subscribe');
+    }
+
     public function show(int $banque_id)
     {
         $banque = RailwayBanque::with('fluxes', 'userRailwayEmprunts')

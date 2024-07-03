@@ -3,6 +3,7 @@
 namespace App\Livewire\Game\Network;
 
 use App\Actions\Compta;
+use App\Actions\Railway\CheckoutAction;
 use App\Jobs\DeliveryJob;
 use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\Railway\Ligne\RailwayLigne;
@@ -96,6 +97,13 @@ class LigneCheckout extends Component
                 'toast' => false,
                 'position' => 'center',
             ]);
+        } elseif (!(new CheckoutAction())->checkoutArgent($this->amount_paid)) {
+            $this->alert('error', 'Argent Insuffisant', [
+                'title' => 'Argent Insuffisant',
+                'text' => "Votre Solde ne permet pas l'achat de cette ligne !",
+                'toast' => false,
+                'position' => 'center',
+            ]);
         } else {
             (new Compta())->create(
                 user: auth()->user(),
@@ -107,7 +115,7 @@ class LigneCheckout extends Component
             );
 
             $min_p = $this->ligne->distance + ($this->ligne->distance * auth()->user()->railway_company->tarification / 100);
-            $max_p_init = $min_p + rand(50,150);
+            $max_p_init = $min_p + rand(50, 150);
             $userLigne = auth()->user()->userRailwayLigne()->create([
                 'date_achat' => Carbon::now(),
                 'nb_depart_jour' => 0,
@@ -141,7 +149,7 @@ class LigneCheckout extends Component
 
     public function checkout(): void
     {
-        $this->alert('question', 'Etes-vous sur de vouloir acheter cette ligne pour '.Helpers::eur($this->amount_paid).' ?', [
+        $this->alert('question', 'Etes-vous sur de vouloir acheter cette ligne pour ' . Helpers::eur($this->amount_paid) . ' ?', [
             'showConfirmButton' => true,
             'confirmButtonText' => 'Acheter la ligne',
             'onConfirmed' => 'confirmed',
@@ -174,7 +182,7 @@ class LigneCheckout extends Component
             'other' => 0
         ];
 
-        $totalTime = $timeMin + ($timeMin/2) + $preparationTime[$type_transport];
+        $totalTime = $timeMin + ($timeMin / 2) + $preparationTime[$type_transport];
         return floor(1440 / $totalTime);
     }
 }

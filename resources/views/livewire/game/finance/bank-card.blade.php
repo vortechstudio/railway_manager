@@ -11,13 +11,25 @@
                 </div>
                 <div class="col-sm-12 col-lg-10 mb-5">
                     <div class="d-flex flex-column mb-2">
-                        <span class="fw-bolder text-gray-300 fs-3hx">{{ $banque->name }}</span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bolder text-gray-300 fs-3hx">{{ $banque->name }}</span>
+                            @if($banque->is_unlocked)
+                                <div class="gap-2">
+                                    <a href="{{ route('finance.bank.show', $banque->id) }}" class="btn btn-sm btn-warning">
+                                        <i class="fa-solid fa-list-check fs-2 me-2"></i> Détail des Emprunts
+                                    </a>
+                                    <a href="{{ route('finance.bank.subscribe') }}" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-briefcase-clock fs-2 me-2"></i> Nouvelle Emprunt
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                         @if($banque->is_unlocked)
                             <div class="d-flex flex-column mb-5">
                                 <span class="fw-bold">Effectuer une opération</span>
                                 <div class="separator"></div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <a href="{{ route('finance.bank.show', $banque->id) }}" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
+                                    <a href="" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
                                        title="Détail des emprunts"><i class="fa-solid fa-list-check fs-2"></i> </a>
                                     <button  data-id="express" class="btn btn-flush text-hover-primary" data-bs-toggle="tooltip"
                                        title="Emprunt Express"><i class="fa-solid fa-briefcase-clock fs-2"></i> </button>

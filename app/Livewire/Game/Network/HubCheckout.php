@@ -3,6 +3,7 @@
 namespace App\Livewire\Game\Network;
 
 use App\Actions\Compta;
+use App\Actions\Railway\CheckoutAction;
 use App\Jobs\DeliveryJob;
 use App\Models\Railway\Config\RailwayFluxMarket;
 use App\Models\Railway\Gare\RailwayHub;
@@ -70,6 +71,13 @@ class HubCheckout extends Component
         $hub = RailwayHub::find($this->selectedHub);
         if (auth()->user()->userRailwayHub()->where('railway_hub_id', $this->selectedHub)->exists()) {
             $this->alert('warning', 'Vous ne pouvez pas acheter un hub déjà acquis !');
+        } elseif(!(new CheckoutAction())->checkoutArgent($this->amount_paid)) {
+            $this->alert('error', 'Argent Insuffisant', [
+                'title' => 'Argent Insuffisant',
+                'text' => "Votre Solde ne permet pas l'achat de ce hub !",
+                'toast' => false,
+                'position' => 'center',
+            ]);
         } else {
             (new Compta())->create(
                 user: auth()->user(),
