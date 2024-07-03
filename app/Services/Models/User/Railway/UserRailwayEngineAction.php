@@ -102,7 +102,7 @@ class UserRailwayEngineAction
             ->where('status', 'arrival')
             ->sum('kilometer');
 
-        return $calDistanceParcoure >= $this->engine->max_runtime && $this->engine->status == 'free';
+        return $calDistanceParcoure >= $this->engine->max_runtime && $this->engine->status == 'free' && $this->engine->use_percent >= 100;
     }
 
     public function getRentabilityPercent(): float|int
