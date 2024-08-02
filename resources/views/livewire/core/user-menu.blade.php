@@ -147,7 +147,7 @@
                             <a href="{{ route('research.index') }}"
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3">
                                 <span class="symbol symbol-75px">
-                                    <img src="{{ Storage::url('icons/railway/flask.png') }}" class="w-75px" alt>
+                                    <img src="{{ Storage::url('icons/railway/research.png') }}" class="w-75px" alt>
                                 </span>
                                 <span class="fs-semibold fs-3">Compétences</span>
                             </a>
@@ -156,7 +156,7 @@
                             <a
                                class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-gray-200 bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 disabled" role="link" aria-disabled="true">
                                 <span class="symbol symbol-75px">
-                                    <img src="{{ Storage::url('icons/railway/gateway.png') }}" class="w-75px" alt>
+                                    <img src="{{ Storage::url('icons/railway/level-up.png') }}" class="w-75px" alt>
                                 </span>
                                 <span class="fs-semibold fs-3">Services</span>
                             </a>
@@ -192,7 +192,7 @@
                             <button wire:click="readVersion" id="drawer_version_button"
                                     class="d-flex h-150px flex-column flex-center text-center text-gray-800 text-hover-gray-800 bg-primary bg-opacity-75 bg-hover-light-primary rounded-2 p-5 mb-3 me-3 position-relative">
                                 <span class="symbol symbol-75px">
-                                    <img src="{{ Storage::url('icons/railway/soon.png') }}" class="w-50px h-50px" alt>
+                                    <img src="{{ Storage::url('icons/railway/version.png') }}" class="w-50px h-50px" alt>
                                 </span>
                                 <span class="fs-semibold fs-3">Contenue de la version</span>
                                 <span class="noReadVersion"></span>
